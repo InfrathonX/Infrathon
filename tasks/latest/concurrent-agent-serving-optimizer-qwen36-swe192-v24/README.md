@@ -129,6 +129,9 @@ boot needs fresh Direct baselines.
 
 ## Running
 
+Paths in steps 2-5 (`scripts/`, `runtime/`, `oracle/`) are relative to this task directory;
+the `launch/` commands in step 6 run from the repository root.
+
 Host prerequisites: Docker with Compose v2, the repository virtual environment, `jq`,
 `flock`, `tmux` (for `--tmux`), and disk for about 230 GB of SWE-bench images (measured on a
 containerd image store; the images' listed sizes add up to far more because they share
@@ -177,7 +180,9 @@ layers) plus the model (55.6 GB) and the vLLM image (about 30 GB).
    ```
 
    The backend must list the `target-model` alias in `/v1/models`. The model directory
-   must hold real files, not the Hugging Face cache's symbolic links.
+   must hold real files, not the Hugging Face cache's symbolic links. The backend container
+   is named `kvbench-qwen36-27b-backend`; set `KVBENCH_BACKEND_CONTAINER` to use another name.
+   `bash scripts/host_vllm_backend.sh stop` stops it.
 5. Direct baselines: measure one hidden and one public Direct baseline on this backend boot
    with the frozen pair runner
    `runtime/frozen/harbor_run_scripts/concurrent-agent-serving-optimizer-qwen36-27b-swe192-v2.1-gpu45/run-gpu67-v2.1-pair.py`
@@ -220,9 +225,16 @@ layers) plus the model (55.6 GB) and the vLLM image (about 30 GB).
    must be configured too (`SFORGE_LLM_JUDGE_MODE=enforce` and `SFORGE_LLM_JUDGE_MODEL`; see
    `launch/mlsysforge.env.example`): without a reviewer model the Judge does not start. The task's run script
    expects that host proxy at `127.0.0.1:18080` (a fixed value, not a launcher option) and
-   checks that it reaches the model API before starting. A host without one needs a
-   CONNECT-only proxy on that address; it must not close idle tunnels quickly, because the
-   agent client can stay silent for long periods on an open tunnel.
+   checks that it reaches the model API before starting. A host that reaches the internet
+   directly can run the CONNECT-only proxy shipped in the repository, and keep it running
+   for the whole run (for example in tmux):
+
+   ```bash
+   python3 scripts/infrathon/host_connect_proxy.py   # listens on 127.0.0.1:18080
+   ```
+
+   Any other proxy on that address works too if it does not close idle tunnels quickly,
+   because the agent client can stay silent for long periods on an open tunnel.
 
 Replay and single-archive evaluation:
 
@@ -238,7 +250,8 @@ control) set `SFORGE_LLM_JUDGE_MODE=off`. An archive holds the `submission/` dir
 (e.g. `tar -C images/work -czf seed.tar.gz submission`). The Judge keeps benchmark state in
 `~/.cache/harbor-kv-qwen36-swe192-v2-1-gpu67-validation` (a fixed legacy name), which must
 exist; give the baseline runner the same directory if you set `HARBOR_KVBENCH_STATE_ROOT` for
-it. The nested stack's Compose project keeps its volumes after a run; remove them between runs
+it. The nested stack uses one fixed Docker Compose project name, so one Docker daemon hosts
+one deployment of this task at a time. The project keeps its volumes after a run; remove them between runs
 that use different `KV_GPU67_V21_OWNER_TOKEN` values, and run the scripts with standard input
 not attached to a terminal (`</dev/null`), otherwise Compose stops to ask whether to recreate
 them.

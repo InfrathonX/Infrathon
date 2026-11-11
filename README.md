@@ -46,36 +46,36 @@ it. The launchers default to the paper's setup: its budgets, reasoning effort `m
 counts below; [launch/README.md](launch/README.md) lists every default and the flags that change it.
 
 <details>
-<summary><b>All 25 tasks: directories, budgets and GPUs</b></summary>
+<summary><b>All 25 tasks: directories, launchers, budgets and GPUs</b></summary>
 <br>
 
-| Task | Level | Budget | GPUs per run (Work + Judge) |
-|---|---|---|---|
-| [`attn-qat-nvfp4-training-attention-h100-v1-seed`](tasks/latest/attn-qat-nvfp4-training-attention-h100-v1-seed) | training operator | 12 h | 1 + 1 |
-| [`standalone-k-grouped-fp8-wgrad-h100-v2-scratch`](tasks/latest/standalone-k-grouped-fp8-wgrad-h100-v2-scratch) | training operator | 12 h | 1 + 1 |
-| [`standalone-dynamic-grouped-fp8-h100-v3-scratch`](tasks/latest/standalone-dynamic-grouped-fp8-h100-v3-scratch) | inference operator | 12 h | 1 + 1 |
-| [`standalone-sparse-mla-prefill-h100-v2-scratch`](tasks/latest/standalone-sparse-mla-prefill-h100-v2-scratch) | inference operator | 12 h | 1 + 1 |
-| [`standalone-paged-gqa-decode-bf16-h100-v2-scratch`](tasks/latest/standalone-paged-gqa-decode-bf16-h100-v2-scratch) | inference operator | 12 h | 1 + 1 |
-| [`sageattention-quantized-attention-bf16-h100-v2-seed`](tasks/latest/sageattention-quantized-attention-bf16-h100-v2-seed) | inference operator | 12 h | 1 + 1 |
-| [`lmcache-paged-kv-block-transfer-h100-v1-seed`](tasks/latest/lmcache-paged-kv-block-transfer-h100-v1-seed) | inference operator | 12 h | 1 + 1 |
-| [`flash-kmeans-paper-h100-v7-scratch`](tasks/latest/flash-kmeans-paper-h100-v7-scratch) | inference operator | 12 h | 1 + 1 |
-| [`tilelang-mamba2-ssd-forward-h100-v2-seed`](tasks/latest/tilelang-mamba2-ssd-forward-h100-v2-seed) | inference operator | 12 h | 1 + 1 |
-| [`minference-sparse-prefill-h100-v3-seed`](tasks/latest/minference-sparse-prefill-h100-v3-seed) | inference operator | 12 h | 1 + 1 |
-| [`eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed`](tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed) | inference system | 24 h | 1 + 1 |
-| [`llada-h100-decoder-optimization-v2-vanilla-seed`](tasks/latest/llada-h100-decoder-optimization-v2-vanilla-seed) | inference system | 24 h | 1 + 1 |
-| [`qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed`](tasks/latest/qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed) | training module | 24 h | 2 + 2 |
-| [`qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed`](tasks/latest/qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed) | training module | 24 h | 2 + 2 |
-| [`miles-qwen3-opcd-2xh100-v3-seed`](tasks/latest/miles-qwen3-opcd-2xh100-v3-seed) | training system | 24 h | 2 + 2 |
-| [`miles-qwen3-opd-scratch-2xh100-v2-seed`](tasks/latest/miles-qwen3-opd-scratch-2xh100-v2-seed) | training system | 24 h | 2 + 2 |
-| [`miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed`](tasks/latest/miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed) | training system | 24 h | 2 + 2 |
-| [`miles-diffusion-sd35m-mopd-2xh100-v2-seed`](tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed) | training system | 24 h | 2 + 2 |
-| [`miles-diffusion-wan22-dancegrpo-2xh100-v2-seed`](tasks/latest/miles-diffusion-wan22-dancegrpo-2xh100-v2-seed) | training system | 24 h | 2 + 2 |
-| [`streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed`](tasks/latest/streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed) | inference system | 24 h | 2 + 2 |
-| [`flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed`](tasks/latest/flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed) | training operator | 12 h | 8, shared by Work and the Judge |
-| [`concurrent-agent-serving-optimizer-qwen36-swe192-v24`](tasks/latest/concurrent-agent-serving-optimizer-qwen36-swe192-v24) | inference system | 24 h | none (a 2-GPU vLLM backend on the host serves both) |
-| [`quant-videogen-cross-model-kv-codec-h100-v4-scratch`](tasks/latest/quant-videogen-cross-model-kv-codec-h100-v4-scratch) | inference module | 24 h | 1 + 6 |
-| [`kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch`](tasks/latest/kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch) | inference module | 24 h | 1 + 7 |
-| [`kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch`](tasks/latest/kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch) | inference module | 24 h | 1 + 7 |
+| Task | Launcher | Level | Budget | GPUs per run (Work + Judge) |
+|---|---|---|---|---|
+| [`attn-qat-nvfp4-training-attention-h100-v1-seed`](tasks/latest/attn-qat-nvfp4-training-attention-h100-v1-seed) | [`launch/attn-qat-train/`](launch/attn-qat-train) | training operator | 12 h | 1 + 1 |
+| [`standalone-k-grouped-fp8-wgrad-h100-v2-scratch`](tasks/latest/standalone-k-grouped-fp8-wgrad-h100-v2-scratch) | [`launch/standalone-kgrouped-wgrad/`](launch/standalone-kgrouped-wgrad) | training operator | 12 h | 1 + 1 |
+| [`standalone-dynamic-grouped-fp8-h100-v3-scratch`](tasks/latest/standalone-dynamic-grouped-fp8-h100-v3-scratch) | [`launch/standalone-fp8/`](launch/standalone-fp8) | inference operator | 12 h | 1 + 1 |
+| [`standalone-sparse-mla-prefill-h100-v2-scratch`](tasks/latest/standalone-sparse-mla-prefill-h100-v2-scratch) | [`launch/standalone-sparse-mla-v2/`](launch/standalone-sparse-mla-v2) | inference operator | 12 h | 1 + 1 |
+| [`standalone-paged-gqa-decode-bf16-h100-v2-scratch`](tasks/latest/standalone-paged-gqa-decode-bf16-h100-v2-scratch) | [`launch/standalone-paged-gqa-v2/`](launch/standalone-paged-gqa-v2) | inference operator | 12 h | 1 + 1 |
+| [`sageattention-quantized-attention-bf16-h100-v2-seed`](tasks/latest/sageattention-quantized-attention-bf16-h100-v2-seed) | [`launch/sageattention-qattn/`](launch/sageattention-qattn) | inference operator | 12 h | 1 + 1 |
+| [`lmcache-paged-kv-block-transfer-h100-v1-seed`](tasks/latest/lmcache-paged-kv-block-transfer-h100-v1-seed) | [`launch/lmcache-kv-transfer/`](launch/lmcache-kv-transfer) | inference operator | 12 h | 1 + 1 |
+| [`flash-kmeans-paper-h100-v7-scratch`](tasks/latest/flash-kmeans-paper-h100-v7-scratch) | [`launch/flash-kmeans/`](launch/flash-kmeans) | inference operator | 12 h | 1 + 1 |
+| [`tilelang-mamba2-ssd-forward-h100-v2-seed`](tasks/latest/tilelang-mamba2-ssd-forward-h100-v2-seed) | [`launch/tilelang-mamba2-ssd-v2/`](launch/tilelang-mamba2-ssd-v2) | inference operator | 12 h | 1 + 1 |
+| [`minference-sparse-prefill-h100-v3-seed`](tasks/latest/minference-sparse-prefill-h100-v3-seed) | [`launch/minference-v3/`](launch/minference-v3) | inference operator | 12 h | 1 + 1 |
+| [`eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed`](tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed) | [`launch/eagle3-spec-decode/`](launch/eagle3-spec-decode) | inference system | 24 h | 1 + 1 |
+| [`llada-h100-decoder-optimization-v2-vanilla-seed`](tasks/latest/llada-h100-decoder-optimization-v2-vanilla-seed) | [`launch/llada-h100/`](launch/llada-h100) | inference system | 24 h | 1 + 1 |
+| [`qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed`](tasks/latest/qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed) | [`launch/qwen3-orpo/`](launch/qwen3-orpo) | training module | 24 h | 2 + 2 |
+| [`qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed`](tasks/latest/qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed) | [`launch/qwen3-gkd/`](launch/qwen3-gkd) | training module | 24 h | 2 + 2 |
+| [`miles-qwen3-opcd-2xh100-v3-seed`](tasks/latest/miles-qwen3-opcd-2xh100-v3-seed) | [`launch/miles-opcd/`](launch/miles-opcd) | training system | 24 h | 2 + 2 |
+| [`miles-qwen3-opd-scratch-2xh100-v2-seed`](tasks/latest/miles-qwen3-opd-scratch-2xh100-v2-seed) | [`launch/miles-opd/`](launch/miles-opd) | training system | 24 h | 2 + 2 |
+| [`miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed`](tasks/latest/miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed) | [`launch/miles-alfworld/`](launch/miles-alfworld) | training system | 24 h | 2 + 2 |
+| [`miles-diffusion-sd35m-mopd-2xh100-v2-seed`](tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed) | [`launch/miles-diffusion-opd/`](launch/miles-diffusion-opd) | training system | 24 h | 2 + 2 |
+| [`miles-diffusion-wan22-dancegrpo-2xh100-v2-seed`](tasks/latest/miles-diffusion-wan22-dancegrpo-2xh100-v2-seed) | [`launch/miles-diffusion-wan/`](launch/miles-diffusion-wan) | training system | 24 h | 2 + 2 |
+| [`streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed`](tasks/latest/streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed) | [`launch/sdv2-pipeline/`](launch/sdv2-pipeline) | inference system | 24 h | 2 + 2 |
+| [`flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed`](tasks/latest/flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed) | [`launch/flux-moe-ag/`](launch/flux-moe-ag) | training operator | 12 h | 8, shared by Work and the Judge |
+| [`concurrent-agent-serving-optimizer-qwen36-swe192-v24`](tasks/latest/concurrent-agent-serving-optimizer-qwen36-swe192-v24) | [`launch/concurrent-serving/`](launch/concurrent-serving) | inference system | 24 h | none (a 2-GPU vLLM backend on the host serves both) |
+| [`quant-videogen-cross-model-kv-codec-h100-v4-scratch`](tasks/latest/quant-videogen-cross-model-kv-codec-h100-v4-scratch) | [`launch/quant-videogen/`](launch/quant-videogen) | inference module | 24 h | 1 + 6 |
+| [`kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch`](tasks/latest/kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch) | [`launch/kvpress-kv-eviction-scratch/`](launch/kvpress-kv-eviction-scratch) | inference module | 24 h | 1 + 7 |
+| [`kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch`](tasks/latest/kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch) | [`launch/kvzip-kv-scoring/`](launch/kvzip-kv-scoring) | inference module | 24 h | 1 + 7 |
 
 - **Work and the Judge use separate GPUs**, so the Judge measures while Work keeps going. Flux is
   the exception: both use the same eight GPUs of one host (peer access between every pair) and

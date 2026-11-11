@@ -135,3 +135,10 @@ rewrites an image with the same file system and config, its large layers cut
 into parts (the Miles bases are one 50-65 GB layer, fragile to push and pull).
 Member headers are kept; a hard link into an earlier part becomes a copy.
 Compare `docker export` listings of both images before using the result.
+
+## Host proxy
+
+`scripts/infrathon/host_connect_proxy.py [--port 18080]` is a loopback-only
+CONNECT proxy for hosts that reach the internet directly. The concurrent-serving
+task needs one on `127.0.0.1:18080` (see its README); it tunnels CONNECT
+requests, refuses everything else and keeps idle tunnels open.
