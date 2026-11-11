@@ -10,39 +10,44 @@
   <a href="https://github.com/InfrathonX/Infrathon-build"><img src="https://img.shields.io/badge/Build%20tasks-Infrathon--build-24292f?logo=github&logoColor=white" alt="Infrathon-build"></a>
 </p>
 
-<p align="center"><img src="docs/assets/framework.svg" width="92%" alt="Infrathon framework overview"></p>
+<p align="center"><b>25 tasks</b> · <b>12–24 hours</b> per run · <b>6 frontier agents</b> · <b>150 runs, 10,000+ H100 GPU-hours</b></p>
 
-Infrathon is a benchmark of ML-systems engineering tasks for coding agents. Each task puts an
-agent in a GPU workstation container with a real system to build or speed up:
+<p align="center"><img src="docs/assets/overview.svg" width="100%" alt="How a run works: the task gives a workspace, public tests, private tests, resources and a time budget. The agent edits and tests in its Work container and submits; the Controller's LLM integrity review passes or rejects the submission; the Judge runs the held-out workloads on its own GPUs and scores it; the feedback goes back to the agent. The run's result is its best valid score within the budget."></p>
 
-- **GPU kernels**: attention, FP8 GEMMs, KV-cache transfer, k-means, state-space models;
-- **inference engines**: speculative decoding, KV-cache compression, diffusion pipelines,
-  concurrent serving;
-- **training systems**: distillation, preference optimization and reinforcement learning in Miles.
+Infrathon gives a coding agent a GPU workstation, a real ML system and 12 to 24 hours to make it
+better: GPU kernels, inference engines and training systems taken from open-source projects and
+research code. An independent Judge, in its own container on its own GPUs, checks every submission
+for correctness and fidelity on held-out workloads and scores its performance; before that, an LLM
+integrity review rejects submissions that break the task's rules. A run's result is the best valid
+score it reaches within its budget.
 
-An independent Judge, in its own container on its own GPU, checks each submission for correctness
-and fidelity against held-out workloads and scores its performance. The harness, SForge
-(`sforge/`), starts the agent's Work container, relays submissions to the Judge, runs an LLM
-integrity review of submitted source, and evaluates the final workspace once more when the time
-budget ends. A run's result is the best valid score it reaches within the budget.
+## What agents do with 24 hours
 
-| Resource | Where |
-|---|---|
-| Paper | [arXiv:2611.11995](https://arxiv.org/abs/2611.11995) |
-| Website, setup guide and task pages | [infrathonx.github.io](https://infrathonx.github.io) |
-| Task data (gated, request access) | Hugging Face [`Infrathon/Infrathon`](https://huggingface.co/datasets/Infrathon/Infrathon) |
-| Work and public Judge images | Docker Hub [`infrathon/infrathon`](https://hub.docker.com/r/infrathon/infrathon) |
-| Building new tasks | [Infrathon-build](https://github.com/InfrathonX/Infrathon-build) ([below](#building-new-tasks)) |
+<p align="center"><img src="docs/assets/discovery.svg" width="100%" alt="Quant-VideoGen KV codec, 24 hours: Claude Opus 5.5's first five submissions are invalid; it then passes the human codec's score with 4-bit quantization, PCA and entropy coding, quantization-step tuning, trellis quantization, and metadata compression with per-head quantization, ending at a score of 28.45 against the human codec's 6.82. The other five agents end between 5.82 and 11.34."></p>
+
+On the Quant-VideoGen KV codec task, Claude Opus 5.5 starts from a stub and keeps redesigning the
+codec for the whole day. It raises KV-cache compression from the human codec's **6.82× to 19.62×**,
+with higher PSNR and SSIM and lower LPIPS.
+
+<p align="center"><img src="docs/assets/results.svg" width="100%" alt="Best valid score over the budget for six agents on SageAttention, Qwen3 ORPO, Miles Qwen3 OPCD and LLaDA decoding, and the rank score over all 25 tasks: Claude Opus 5.5 91.2 (17 wins), GPT-6 Astra 75.2 (6), GPT-6.1 Sol 54.4 (1), Qwen 3.8 Flash 40.8 (1), DeepSeek V4.1 Flash 30.4 (0), GLM 5.3 Flash 8.0 (0)."></p>
+
+Agents keep finding improvements many hours into a run, and they differ widely. At equal GPU-hours,
+one long run beats the best of two or four shorter runs on module and system tasks, while shorter
+runs stay competitive on operators. Every task's trajectories and scores are on the
+[website](https://infrathonx.github.io); the analysis is in the [paper](https://arxiv.org/abs/2611.11995).
 
 ## Tasks
 
-`seed` tasks start from a working baseline to improve; `scratch` tasks start from a stub.
-Each task directory has its own README: what the agent must do, how it is scored, its hardware,
-and how to run it.
+<p align="center"><img src="docs/assets/tasks.svg" width="100%" alt="The 25 tasks: 11 operators (12 hours each), 5 modules and 9 systems (24 hours each), for training and for inference."></p>
 
-The launchers default to the paper's setup: its budgets (12 hours for operator-level tasks,
-24 hours for module- and system-level tasks), reasoning effort `max`, and the GPU counts below.
-[launch/README.md](launch/README.md) lists every default and the flags that change it.
+`seed` tasks start from a working baseline to improve; `scratch` tasks start from a stub. Each task
+directory has its own README: what the agent must do, how it is scored, its hardware, and how to run
+it. The launchers default to the paper's setup: its budgets, reasoning effort `max`, and the GPU
+counts below; [launch/README.md](launch/README.md) lists every default and the flags that change it.
+
+<details>
+<summary><b>All 25 tasks: directories, budgets and GPUs</b></summary>
+<br>
 
 | Task | Level | Budget | GPUs per run (Work + Judge) |
 |---|---|---|---|
@@ -83,38 +88,21 @@ The launchers default to the paper's setup: its budgets (12 hours for operator-l
 - **Totals.** One run of every task holds 89 GPUs if all 25 run at once, and takes 1,800
   GPU-hours (each run's GPUs for its whole budget, not counting the final evaluation after it).
 
-### Hardware
-
-All 25 tasks run on both NVIDIA H100 NVL 94 GB (`h100-94gb-400w`) and NVIDIA H100 SXM 80 GB
-(`h100-80gb-700w`): reference and oracle submissions were judged valid on both with the current
+**Hardware.** All 25 tasks run on both NVIDIA H100 NVL 94 GB (`h100-94gb-400w`) and NVIDIA H100 SXM
+80 GB (`h100-80gb-700w`): reference and oracle submissions were judged valid on both with the current
 task version. The Docker image tags start with the hardware type (`<hardware>-<task>-work`,
 `<hardware>-<task>-judge`). Today the two tags of a task point at the same image; the prefix is
 there so that images for other GPUs can be added later. On an H100 NVL host Flux moves data
 between its NVLink pairs over PCIe, so its scores are lower there and compare only with other
 H100 NVL runs.
 
-## Requirements
-
-- Linux with Docker, the NVIDIA Container Toolkit and recent NVIDIA drivers; NVIDIA H100 GPUs
-  (2, 4, 7 or 8 per run, see [Tasks](#tasks); each task README gives its memory floor). [docs/HOST_PREREQUISITES.md](docs/HOST_PREREQUISITES.md)
-  lists disk, memory and Docker settings; [docs/NEW_HARDWARE.md](docs/NEW_HARDWARE.md) lists what it takes
-  to qualify the tasks on another GPU.
-- [uv](https://docs.astral.sh/uv/) and Python 3.12 (`pyproject.toml` accepts 3.10-3.13; the release was
-  tested with 3.12). Host-side checks of several tasks import CPU
-  `torch` and `numpy`, which the lock file leaves out; install them into the venv as below.
-- Access to the [Infrathon dataset](https://huggingface.co/datasets/Infrathon/Infrathon) on Hugging
-  Face, which holds the task data and the held-out Judge inputs: request access on the dataset
-  page, then log in with `hf auth login` (the `hf` CLI is listed in
-  [docs/HOST_PREREQUISITES.md](docs/HOST_PREREQUISITES.md)).
-- An agent: Codex (a ChatGPT login `auth.json`, or any model behind `MODEL_API_BASE_URL`) or
-  Claude Code (on the launchers that list `--agent`; see `run.sh --help`). Agent CLIs are mounted
-  into the Work container from a host runtime directory (`launch/build-agent-runtime.sh`).
-- A model for the integrity review: set `SFORGE_LLM_JUDGE_MODE=enforce` and
-  `SFORGE_LLM_JUDGE_MODEL`. The reviewer uses the run's Codex runtime and `auth.json` unless other
-  `SFORGE_LLM_JUDGE_*` settings say otherwise; a Claude Code reviewer needs an API key file (see
-  [docs/LLM_JUDGE.md](docs/LLM_JUDGE.md)).
+</details>
 
 ## Quick start
+
+You need a Linux host with Docker, the NVIDIA Container Toolkit and H100 GPUs, [uv](https://docs.astral.sh/uv/)
+with Python 3.12, access to the gated [Infrathon dataset](https://huggingface.co/datasets/Infrathon/Infrathon)
+(request it on the dataset page), and an agent: Codex or Claude Code.
 
 ```bash
 git clone https://github.com/InfrathonX/Infrathon && cd Infrathon
@@ -136,7 +124,34 @@ launch/lmcache-kv-transfer/run.sh --help
 Each task README gives the exact commands, including evaluation of a single archive without an
 agent run.
 
-## Images, data and hardware types
+<details>
+<summary><b>Requirements in full</b></summary>
+<br>
+
+- Linux with Docker, the NVIDIA Container Toolkit and recent NVIDIA drivers; NVIDIA H100 GPUs
+  (2, 4, 7 or 8 per run, see [Tasks](#tasks); each task README gives its memory floor). [docs/HOST_PREREQUISITES.md](docs/HOST_PREREQUISITES.md)
+  lists disk, memory and Docker settings; [docs/NEW_HARDWARE.md](docs/NEW_HARDWARE.md) lists what it takes
+  to qualify the tasks on another GPU.
+- [uv](https://docs.astral.sh/uv/) and Python 3.12 (`pyproject.toml` accepts 3.10-3.13; the release was
+  tested with 3.12). Host-side checks of several tasks import CPU
+  `torch` and `numpy`, which the lock file leaves out; install them into the venv as above.
+- Access to the [Infrathon dataset](https://huggingface.co/datasets/Infrathon/Infrathon) on Hugging
+  Face, which holds the task data and the held-out Judge inputs: request access on the dataset
+  page, then log in with `hf auth login` (the `hf` CLI is listed in
+  [docs/HOST_PREREQUISITES.md](docs/HOST_PREREQUISITES.md)).
+- An agent: Codex (a ChatGPT login `auth.json`, or any model behind `MODEL_API_BASE_URL`) or
+  Claude Code (on the launchers that list `--agent`; see `run.sh --help`). Agent CLIs are mounted
+  into the Work container from a host runtime directory (`launch/build-agent-runtime.sh`).
+- A model for the integrity review: set `SFORGE_LLM_JUDGE_MODE=enforce` and
+  `SFORGE_LLM_JUDGE_MODEL`. The reviewer uses the run's Codex runtime and `auth.json` unless other
+  `SFORGE_LLM_JUDGE_*` settings say otherwise; a Claude Code reviewer needs an API key file (see
+  [docs/LLM_JUDGE.md](docs/LLM_JUDGE.md)).
+
+</details>
+
+<details>
+<summary><b>Images, data and hardware types</b></summary>
+<br>
 
 - **Images.** Each task publishes a Work image and a public Judge image per supported hardware
   type to Docker Hub ([`infrathon/infrathon`](https://hub.docker.com/r/infrathon/infrathon)`:<hardware>-<task>-{work,judge}`;
@@ -158,7 +173,11 @@ agent run.
 [scripts/infrathon/README.md](scripts/infrathon/README.md) describes images, assets and hardware types in
 detail.
 
-## Repository layout
+</details>
+
+<details>
+<summary><b>Repository layout</b></summary>
+<br>
 
 | Path | Contents |
 |---|---|
@@ -168,8 +187,10 @@ detail.
 | `launch/` | one launcher per task (`launch/<dir>/run.sh`) and shared launcher code |
 | `scripts/infrathon/` | release-wide tools: assets (`assets.py`), image pulling, layer splitting |
 | `scripts/miles_*` | shared code of the Miles tasks and their base-image recipes |
-| `docs/` | integrity review, CPU affinity, host prerequisites, internet and web search, bringing the tasks to new hardware |
+| `docs/` | integrity review, CPU affinity, host prerequisites, internet and web search, bringing the tasks to new hardware; `docs/assets/make_figures.py` draws the figures in this README |
 | `tests/` | harness and tooling tests (`uv run pytest tests`) |
+
+</details>
 
 ## Integrity review
 
@@ -180,7 +201,7 @@ results across calls, no detection of the measurement). Configure it with the
 
 ## Building new tasks
 
-[infrathon-build](https://github.com/InfrathonX/Infrathon-build) turns an expert's task definition
+[Infrathon-build](https://github.com/InfrathonX/Infrathon-build) turns an expert's task definition
 (what the agent optimizes, the public and private test cases, the metric, the checks, the resources
 and the time budget) into a runnable Infrathon task. A builder agent implements the task in an
 Infrathon checkout, using the tasks here as examples; the tool checks it from a clean clone, runs
@@ -209,7 +230,9 @@ as selling it, offering it as a paid service or using it in a commercial product
 license from the authors. This covers the tasks (`tasks/`), their oracles and judges, the scripts,
 the launchers and the documentation.
 
-Exceptions, which keep their own licenses:
+<details>
+<summary>Exceptions, which keep their own licenses</summary>
+<br>
 
 - The SForge harness (`sforge/`, packaged as `sforge`) and its tests (`tests/sforge/`) are under
   the Apache License 2.0 ([sforge/LICENSE](sforge/LICENSE), [sforge/NOTICE](sforge/NOTICE)).
@@ -218,6 +241,8 @@ Exceptions, which keep their own licenses:
   upstream code inside a task directory), keeps that license.
 - Models, datasets and upstream projects that tasks use keep their own licenses; each task README
   lists them.
+
+</details>
 
 ## Acknowledgements
 

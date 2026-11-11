@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500" role="img" aria-label="The 25 Infrathon tasks by level (operators, modules, systems) and stage (training, inference)">
+<title>The 25 Infrathon tasks by level (operators, modules, systems) and stage (training, inference)</title>
+<defs><marker id="head" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill: var(--muted)"/></marker></defs>
+<style>
+  :root {
+    --bg: #ffffff; --card: #f6f8fa; --line: #d0d7de; --text: #1f2328; --muted: #59636e; --faint: #eaeef2;
+    --grid: #eef1f4;
+    --work: #0969da; --ctrl: #bc4c00; --judge: #0a7f73; --ok: #1a7f37; --bad: #cf222e; --human: #9a6700;
+    --work-soft: #ddf4ff; --ctrl-soft: #fff1e5; --judge-soft: #e3f6f3; --bad-soft: #ffebe9;
+    --claude: #c24e22; --sol: #2674cb; --astra: #16845e; --other: #9198a1;
+    --train: #bc4c00; --train-soft: #fff4ec; --infer: #0969da; --infer-soft: #eef6ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117; --card: #161b22; --line: #30363d; --text: #e6edf3; --muted: #9198a1; --faint: #21262d;
+      --grid: #1b2129;
+      --work: #4493f8; --ctrl: #f0883e; --judge: #3fb9a8; --ok: #3fb950; --bad: #f85149; --human: #d29922;
+      --work-soft: #132a45; --ctrl-soft: #3a2414; --judge-soft: #12302d; --bad-soft: #3c1618;
+      --claude: #d95926; --sol: #3987e5; --astra: #199e70; --other: #656c76;
+      --train: #f0883e; --train-soft: #2b1d12; --infer: #4493f8; --infer-soft: #0f2238;
+    }
+  }
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: var(--text); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .muted { fill: var(--muted); }
+  .card { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+  .line { stroke: var(--line); stroke-width: 1.6; fill: none; }
+  .arrow { stroke: var(--muted); stroke-width: 1.6; fill: none; marker-end: url(#head); }
+
+  
+</style>
+<rect x="0.5" y="0.5" width="999" height="499" rx="16" style="fill: var(--bg); stroke: var(--line)"/>
+<text x="24" y="40" style="font-size: 19px; font-weight: 650">25 tasks</text><text x="144" y="40" class="muted" style="font-size: 13.5px">real systems, from GPU kernels to end-to-end training and serving</text>
+<rect x="790" y="28" width="14" height="14" rx="3" style="fill: var(--train-soft); stroke: var(--train)"/><text x="811" y="39.5" style="font-size: 12.5px">training</text>
+<rect x="886" y="28" width="14" height="14" rx="3" style="fill: var(--infer-soft); stroke: var(--infer)"/><text x="907" y="39.5" style="font-size: 12.5px">inference</text>
+<rect x="24" y="60" width="952" height="172" rx="14" class="card"/>
+<text x="42" y="92" style="font-size: 16px; font-weight: 650">Operators</text>
+<text x="42" y="112" style="font-size: 12.5px"><tspan style="font-weight: 700">11</tspan><tspan class="muted"> tasks · 12 h each</tspan></text>
+<text x="42" y="132" class="muted" style="font-size: 11.5px">GPU kernels and</text>
+<text x="42" y="147" class="muted" style="font-size: 11.5px">communication primitives</text>
+<g><rect x="212" y="74" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="219" y="82" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="231" y="93.5" style="font-size: 12.5px">Attn-QAT NVFP4 attention</text></g>
+<g><rect x="468" y="74" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="475" y="82" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="487" y="93.5" style="font-size: 12.5px">K-grouped FP8 Wgrad</text></g>
+<g><rect x="724" y="74" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="731" y="82" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="743" y="93.5" style="font-size: 12.5px">Flux/Comet MoE primitive</text></g>
+<g><rect x="212" y="112" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="219" y="120" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="231" y="131.5" style="font-size: 12.5px">Dynamic grouped FP8 GEMM</text></g>
+<g><rect x="468" y="112" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="475" y="120" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="487" y="131.5" style="font-size: 12.5px">Sparse-MLA prefill</text></g>
+<g><rect x="724" y="112" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="731" y="120" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="743" y="131.5" style="font-size: 12.5px">Paged-GQA decode</text></g>
+<g><rect x="212" y="150" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="219" y="158" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="231" y="169.5" style="font-size: 12.5px">SageAttention</text></g>
+<g><rect x="468" y="150" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="475" y="158" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="487" y="169.5" style="font-size: 12.5px">MInference</text></g>
+<g><rect x="724" y="150" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="731" y="158" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="743" y="169.5" style="font-size: 12.5px">LMCache KV block transfer</text></g>
+<g><rect x="212" y="188" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="219" y="196" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="231" y="207.5" style="font-size: 12.5px">Flash-KMeans</text></g>
+<g><rect x="468" y="188" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="475" y="196" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="487" y="207.5" style="font-size: 12.5px">Mamba-2 SSD forward</text></g>
+<rect x="24" y="242" width="952" height="96" rx="14" class="card"/>
+<text x="42" y="274" style="font-size: 16px; font-weight: 650">Modules</text>
+<text x="42" y="294" style="font-size: 12.5px"><tspan style="font-weight: 700">5</tspan><tspan class="muted"> tasks · 24 h each</tspan></text>
+<text x="42" y="314" class="muted" style="font-size: 11.5px">one part of a training</text>
+<text x="42" y="329" class="muted" style="font-size: 11.5px">or inference stack</text>
+<g><rect x="212" y="256" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="219" y="264" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="231" y="275.5" style="font-size: 12.5px">Qwen3 ORPO</text></g>
+<g><rect x="468" y="256" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="475" y="264" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="487" y="275.5" style="font-size: 12.5px">Qwen3 GKD</text></g>
+<g><rect x="724" y="256" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="731" y="264" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="743" y="275.5" style="font-size: 12.5px">kvpress KV eviction</text></g>
+<g><rect x="212" y="294" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="219" y="302" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="231" y="313.5" style="font-size: 12.5px">KVzip KV scoring</text></g>
+<g><rect x="468" y="294" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="475" y="302" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="487" y="313.5" style="font-size: 12.5px">Quant-VideoGen KV codec</text></g>
+<rect x="24" y="348" width="952" height="134" rx="14" class="card"/>
+<text x="42" y="380" style="font-size: 16px; font-weight: 650">Systems</text>
+<text x="42" y="400" style="font-size: 12.5px"><tspan style="font-weight: 700">9</tspan><tspan class="muted"> tasks · 24 h each</tspan></text>
+<text x="42" y="420" class="muted" style="font-size: 11.5px">end-to-end training</text>
+<text x="42" y="435" class="muted" style="font-size: 11.5px">loops and serving</text>
+<g><rect x="212" y="362" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="219" y="370" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="231" y="381.5" style="font-size: 12.5px">Miles Qwen3 OPCD</text></g>
+<g><rect x="468" y="362" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="475" y="370" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="487" y="381.5" style="font-size: 12.5px">Miles Qwen3 OPD</text></g>
+<g><rect x="724" y="362" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="731" y="370" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="743" y="381.5" style="font-size: 12.5px">Miles ALFWorld RL</text></g>
+<g><rect x="212" y="400" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="219" y="408" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="231" y="419.5" style="font-size: 12.5px">Miles SD3.5-M multi-teacher OPD</text></g>
+<g><rect x="468" y="400" width="248" height="30" rx="8" style="fill: var(--train-soft); stroke: var(--train); stroke-opacity: .35"/><rect x="475" y="408" width="3.5" height="14" rx="1.75" style="fill: var(--train)"/><text x="487" y="419.5" style="font-size: 12.5px">Miles Wan2.2 DanceGRPO</text></g>
+<g><rect x="724" y="400" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="731" y="408" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="743" y="419.5" style="font-size: 12.5px">EAGLE-3 speculative decoding</text></g>
+<g><rect x="212" y="438" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="219" y="446" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="231" y="457.5" style="font-size: 12.5px">LLaDA decoding</text></g>
+<g><rect x="468" y="438" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="475" y="446" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="487" y="457.5" style="font-size: 12.5px">StreamDiffusionV2</text></g>
+<g><rect x="724" y="438" width="248" height="30" rx="8" style="fill: var(--infer-soft); stroke: var(--infer); stroke-opacity: .35"/><rect x="731" y="446" width="3.5" height="14" rx="1.75" style="fill: var(--infer)"/><text x="743" y="457.5" style="font-size: 12.5px">Concurrent agent serving</text></g>
+</svg>

@@ -1,0 +1,263 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 504" width="1000" height="504" role="img" aria-label="How an Infrathon run works: the agent submits from Work, the Controller reviews, the Judge scores, and the run keeps its best valid score within the time budget">
+<title>How an Infrathon run works: the agent submits from Work, the Controller reviews, the Judge scores, and the run keeps its best valid score within the time budget</title>
+<defs><marker id="head" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill: var(--muted)"/></marker></defs>
+<style>
+  :root {
+    --bg: #ffffff; --card: #f6f8fa; --line: #d0d7de; --text: #1f2328; --muted: #59636e; --faint: #eaeef2;
+    --grid: #eef1f4;
+    --work: #0969da; --ctrl: #bc4c00; --judge: #0a7f73; --ok: #1a7f37; --bad: #cf222e; --human: #9a6700;
+    --work-soft: #ddf4ff; --ctrl-soft: #fff1e5; --judge-soft: #e3f6f3; --bad-soft: #ffebe9;
+    --claude: #c24e22; --sol: #2674cb; --astra: #16845e; --other: #9198a1;
+    --train: #bc4c00; --train-soft: #fff4ec; --infer: #0969da; --infer-soft: #eef6ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117; --card: #161b22; --line: #30363d; --text: #e6edf3; --muted: #9198a1; --faint: #21262d;
+      --grid: #1b2129;
+      --work: #4493f8; --ctrl: #f0883e; --judge: #3fb9a8; --ok: #3fb950; --bad: #f85149; --human: #d29922;
+      --work-soft: #132a45; --ctrl-soft: #3a2414; --judge-soft: #12302d; --bad-soft: #3c1618;
+      --claude: #d95926; --sol: #3987e5; --astra: #199e70; --other: #656c76;
+      --train: #f0883e; --train-soft: #2b1d12; --infer: #4493f8; --infer-soft: #0f2238;
+    }
+  }
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: var(--text); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .muted { fill: var(--muted); }
+  .card { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+  .line { stroke: var(--line); stroke-width: 1.6; fill: none; }
+  .arrow { stroke: var(--muted); stroke-width: 1.6; fill: none; marker-end: url(#head); }
+
+  @keyframes o1k { 0.000% { opacity: 0 } 1.660% { opacity: 0 } 2.867% { opacity: 1 } 7.667% { opacity: 1 } 8.867% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o1 { animation: o1k 15.0s linear infinite;  }
+  @keyframes o2k { 0.000% { opacity: 0 } 3.527% { opacity: 0 } 4.733% { opacity: 1 } 9.533% { opacity: 1 } 10.733% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o2 { animation: o2k 15.0s linear infinite;  }
+  @keyframes o3k { 0.000% { opacity: 0 } 5.393% { opacity: 0 } 6.600% { opacity: 1 } 11.400% { opacity: 1 } 12.600% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o3 { animation: o3k 15.0s linear infinite;  }
+  @keyframes o4k { 0.000% { opacity: 0 } 7.260% { opacity: 0 } 8.467% { opacity: 1 } 13.267% { opacity: 1 } 14.467% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o4 { animation: o4k 15.0s linear infinite;  }
+  @keyframes o5k { 0.000% { opacity: 0 } 9.127% { opacity: 0 } 10.333% { opacity: 1 } 15.133% { opacity: 1 } 16.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o5 { animation: o5k 15.0s linear infinite;  }
+  @keyframes o6k { 0.000% { opacity: 0; stroke-dashoffset: 0 } 9.993% { opacity: 0; stroke-dashoffset: 0 } 11.000% { opacity: 1; stroke-dashoffset: -40 } 15.333% { opacity: 1; stroke-dashoffset: -40 } 16.333% { opacity: 0; stroke-dashoffset: 0 } 100.000% { opacity: 0; stroke-dashoffset: 0 } }
+  .o6 { animation: o6k 15.0s linear infinite;  }
+  @keyframes o7k { 0.000% { opacity: 0; stroke-dashoffset: 0 } 9.993% { opacity: 0; stroke-dashoffset: 0 } 11.000% { opacity: 1; stroke-dashoffset: -40 } 15.333% { opacity: 1; stroke-dashoffset: -40 } 16.333% { opacity: 0; stroke-dashoffset: 0 } 100.000% { opacity: 0; stroke-dashoffset: 0 } }
+  .o7 { animation: o7k 15.0s linear infinite;  }
+  @keyframes o8k { 0.000% { opacity: 0 } 13.327% { opacity: 0 } 14.667% { opacity: 1 } 30.000% { opacity: 1 } 31.333% { opacity: 0 } 49.327% { opacity: 0 } 50.667% { opacity: 1 } 59.333% { opacity: 1 } 60.667% { opacity: 0 } 68.660% { opacity: 0 } 70.000% { opacity: 1 } 76.000% { opacity: 1 } 77.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o8 { animation: o8k 15.0s linear infinite;  }
+  @keyframes o9k { 0.000% { opacity: 0 } 30.660% { opacity: 0 } 32.000% { opacity: 1 } 37.333% { opacity: 1 } 38.667% { opacity: 0 } 59.993% { opacity: 0 } 61.333% { opacity: 1 } 66.667% { opacity: 1 } 68.000% { opacity: 0 } 76.660% { opacity: 0 } 78.000% { opacity: 1 } 82.000% { opacity: 1 } 83.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o9 { animation: o9k 15.0s linear infinite;  }
+  @keyframes o10k { 0.000% { opacity: 0 } 37.993% { opacity: 0 } 39.333% { opacity: 1 } 47.333% { opacity: 1 } 48.667% { opacity: 0 } 81.993% { opacity: 0 } 83.333% { opacity: 1 } 90.000% { opacity: 1 } 91.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o10 { animation: o10k 15.0s linear infinite;  }
+  @keyframes o11k { 0.000% { transform: scaleX(0) } 13.667% { transform: scaleX(0) } 15.667% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o11 { animation: o11k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o12k { 0.000% { transform: scaleX(0) } 15.000% { transform: scaleX(0) } 17.000% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o12 { animation: o12k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o13k { 0.000% { transform: scaleX(0) } 16.333% { transform: scaleX(0) } 18.333% { transform: scaleX(1) } 51.000% { transform: scaleX(1) } 51.533% { transform: scaleX(0.1) } 53.333% { transform: scaleX(1) } 70.333% { transform: scaleX(1) } 70.867% { transform: scaleX(0.1) } 72.667% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o13 { animation: o13k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o14k { 0.000% { transform: scaleX(0) } 17.667% { transform: scaleX(0) } 19.667% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o14 { animation: o14k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o15k { 0.000% { transform: scaleX(0) } 19.000% { transform: scaleX(0) } 21.000% { transform: scaleX(1) } 51.667% { transform: scaleX(1) } 52.200% { transform: scaleX(0.1) } 54.000% { transform: scaleX(1) } 71.000% { transform: scaleX(1) } 71.533% { transform: scaleX(0.1) } 73.333% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o15 { animation: o15k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o16k { 0.000% { transform: scaleX(0) } 20.333% { transform: scaleX(0) } 22.333% { transform: scaleX(1) } 97.333% { transform: scaleX(1) } 99.667% { transform: scaleX(0) } 100.000% { transform: scaleX(0) } }
+  .o16 { animation: o16k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o17k { 0.000% { opacity: 0 } 23.993% { opacity: 0 } 24.800% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 53.993% { opacity: 0 } 54.800% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 73.327% { opacity: 0 } 74.133% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o17 { animation: o17k 15.0s linear infinite;  }
+  @keyframes o18k { 0.000% { opacity: 0 } 24.527% { opacity: 0 } 25.333% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 54.527% { opacity: 0 } 55.333% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 73.860% { opacity: 0 } 74.667% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o18 { animation: o18k 15.0s linear infinite;  }
+  @keyframes o19k { 0.000% { opacity: 0 } 25.060% { opacity: 0 } 25.867% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 55.060% { opacity: 0 } 55.867% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 74.393% { opacity: 0 } 75.200% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o19 { animation: o19k 15.0s linear infinite;  }
+  @keyframes o20k { 0.000% { opacity: 0 } 25.593% { opacity: 0 } 26.400% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 55.593% { opacity: 0 } 56.400% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 74.927% { opacity: 0 } 75.733% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o20 { animation: o20k 15.0s linear infinite;  }
+  @keyframes o21k { 0.000% { opacity: 0 } 26.127% { opacity: 0 } 26.933% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 56.127% { opacity: 0 } 56.933% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 75.460% { opacity: 0 } 76.267% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o21 { animation: o21k 15.0s linear infinite;  }
+  @keyframes o22k { 0.000% { opacity: 0 } 26.660% { opacity: 0 } 27.467% { opacity: 1 } 50.667% { opacity: 1 } 51.467% { opacity: 0 } 56.660% { opacity: 0 } 57.467% { opacity: 1 } 70.000% { opacity: 1 } 70.800% { opacity: 0 } 75.993% { opacity: 0 } 76.800% { opacity: 1 } 97.333% { opacity: 1 } 98.133% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o22 { animation: o22k 15.0s linear infinite;  }
+  @keyframes o23k { 0.000% { opacity: 0 } 13.327% { opacity: 0 } 14.000% { opacity: 1 } 23.333% { opacity: 1 } 24.000% { opacity: 0 } 50.660% { opacity: 0 } 51.333% { opacity: 1 } 53.333% { opacity: 1 } 54.000% { opacity: 0 } 69.993% { opacity: 0 } 70.667% { opacity: 1 } 72.667% { opacity: 1 } 73.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o23 { animation: o23k 15.0s linear infinite;  }
+  @keyframes o24k { 0.000% { opacity: 0 } 23.327% { opacity: 0 } 24.000% { opacity: 1 } 28.667% { opacity: 1 } 29.333% { opacity: 0 } 53.327% { opacity: 0 } 54.000% { opacity: 1 } 58.000% { opacity: 1 } 58.667% { opacity: 0 } 72.660% { opacity: 0 } 73.333% { opacity: 1 } 74.667% { opacity: 1 } 75.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o24 { animation: o24k 15.0s linear infinite;  }
+  @keyframes o25k { 0.000% { opacity: 0 } 28.660% { opacity: 0 } 29.333% { opacity: 1 } 32.000% { opacity: 1 } 32.667% { opacity: 0 } 57.993% { opacity: 0 } 58.667% { opacity: 1 } 61.333% { opacity: 1 } 62.000% { opacity: 0 } 74.660% { opacity: 0 } 75.333% { opacity: 1 } 78.000% { opacity: 1 } 78.667% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o25 { animation: o25k 15.0s linear infinite;  }
+  @keyframes o26k { 0.000% { opacity: 0 } 46.660% { opacity: 0 } 47.333% { opacity: 1 } 50.667% { opacity: 1 } 51.333% { opacity: 0 } 66.660% { opacity: 0 } 67.333% { opacity: 1 } 70.000% { opacity: 1 } 70.667% { opacity: 0 } 90.660% { opacity: 0 } 91.333% { opacity: 1 } 97.333% { opacity: 1 } 98.000% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o26 { animation: o26k 15.0s linear infinite;  }
+  @keyframes o27k { 0.000% { opacity: 0; transform: translateY(0) } 31.993% { opacity: 0; transform: translateY(0) } 32.333% { opacity: 1; transform: translateY(0) } 35.667% { opacity: 1; transform: translateY(96px) } 36.000% { opacity: 0; transform: translateY(96px) } 61.327% { opacity: 0; transform: translateY(0) } 61.667% { opacity: 1; transform: translateY(0) } 65.000% { opacity: 1; transform: translateY(96px) } 65.333% { opacity: 0; transform: translateY(96px) } 77.993% { opacity: 0; transform: translateY(0) } 78.333% { opacity: 1; transform: translateY(0) } 80.333% { opacity: 1; transform: translateY(96px) } 80.667% { opacity: 0; transform: translateY(96px) } 100.000% { opacity: 0; transform: translateY(0) } }
+  .o27 { animation: o27k 15.0s linear infinite;  }
+  @keyframes o28k { 0.000% { opacity: 0 } 35.993% { opacity: 0 } 36.667% { opacity: 1 } 42.667% { opacity: 1 } 43.333% { opacity: 0 } 80.660% { opacity: 0 } 81.333% { opacity: 1 } 87.333% { opacity: 1 } 88.000% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o28 { animation: o28k 15.0s linear infinite;  }
+  @keyframes o29k { 0.000% { opacity: 0 } 65.327% { opacity: 0 } 66.000% { opacity: 1 } 73.333% { opacity: 1 } 74.000% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o29 { animation: o29k 15.0s linear infinite;  }
+  @keyframes o30k { 0.000% { opacity: 1 } 65.327% { opacity: 1 } 66.000% { opacity: 0 } 73.333% { opacity: 0 } 74.000% { opacity: 1 } 100.000% { opacity: 1 } }
+  .o30 { animation: o30k 15.0s linear infinite;  }
+  @keyframes o31k { 0.000% { opacity: 0.22 } 39.327% { opacity: 0.22 } 40.000% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 83.327% { opacity: 0.22 } 84.000% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o31 { animation: o31k 15.0s linear infinite;  }
+  @keyframes o32k { 0.000% { opacity: 0.22 } 40.127% { opacity: 0.22 } 40.800% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 84.127% { opacity: 0.22 } 84.800% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o32 { animation: o32k 15.0s linear infinite;  }
+  @keyframes o33k { 0.000% { opacity: 0.22 } 40.927% { opacity: 0.22 } 41.600% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 84.927% { opacity: 0.22 } 85.600% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o33 { animation: o33k 15.0s linear infinite;  }
+  @keyframes o34k { 0.000% { opacity: 0.22 } 41.727% { opacity: 0.22 } 42.400% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 85.727% { opacity: 0.22 } 86.400% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o34 { animation: o34k 15.0s linear infinite;  }
+  @keyframes o35k { 0.000% { opacity: 0.22 } 42.527% { opacity: 0.22 } 43.200% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 86.527% { opacity: 0.22 } 87.200% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o35 { animation: o35k 15.0s linear infinite;  }
+  @keyframes o36k { 0.000% { opacity: 0.22 } 43.327% { opacity: 0.22 } 44.000% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 87.327% { opacity: 0.22 } 88.000% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o36 { animation: o36k 15.0s linear infinite;  }
+  @keyframes o37k { 0.000% { opacity: 0.22 } 44.127% { opacity: 0.22 } 44.800% { opacity: 1 } 46.667% { opacity: 1 } 47.333% { opacity: 0.22 } 88.127% { opacity: 0.22 } 88.800% { opacity: 1 } 89.333% { opacity: 1 } 90.000% { opacity: 0.22 } 100.000% { opacity: 0.22 } }
+  .o37 { animation: o37k 15.0s linear infinite;  }
+  @keyframes o38k { 0.000% { opacity: 0 } 39.993% { opacity: 0 } 40.667% { opacity: 1 } 43.333% { opacity: 1 } 44.000% { opacity: 0 } 83.993% { opacity: 0 } 84.667% { opacity: 1 } 87.333% { opacity: 1 } 88.000% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o38 { animation: o38k 15.0s linear infinite;  }
+  @keyframes o39k { 0.000% { opacity: 0 } 42.327% { opacity: 0 } 43.000% { opacity: 1 } 45.667% { opacity: 1 } 46.333% { opacity: 0 } 86.327% { opacity: 0 } 87.000% { opacity: 1 } 89.667% { opacity: 1 } 90.333% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o39 { animation: o39k 15.0s linear infinite;  }
+  @keyframes o40k { 0.000% { opacity: 0 } 44.660% { opacity: 0 } 45.333% { opacity: 1 } 48.000% { opacity: 1 } 48.667% { opacity: 0 } 88.660% { opacity: 0 } 89.333% { opacity: 1 } 92.000% { opacity: 1 } 92.667% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o40 { animation: o40k 15.0s linear infinite;  }
+  @keyframes o41k { 0.000% { transform: scaleX(0) } 44.000% { transform: scaleX(0) } 46.667% { transform: scaleX(0.38) } 86.667% { transform: scaleX(0.38) } 89.333% { transform: scaleX(0.82) } 97.667% { transform: scaleX(0.82) } 100.000% { transform: scaleX(0) } }
+  .o41 { animation: o41k 15.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes o42k { 0.000% { opacity: 0 } 44.660% { opacity: 0 } 45.333% { opacity: 1 } 62.667% { opacity: 1 } 63.333% { opacity: 0 } 87.327% { opacity: 0 } 88.000% { opacity: 1 } 97.333% { opacity: 1 } 98.000% { opacity: 0 } 100.000% { opacity: 0 } }
+  .o42 { animation: o42k 15.0s linear infinite;  }
+  @keyframes o43k { 0.000% { opacity: 0; transform: scale(0.3) } 46.660% { opacity: 0; transform: scale(0.3) } 48.000% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
+  .o43 { animation: o43k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes o44k { 0.000% { opacity: 0; transform: scale(0.3) } 65.327% { opacity: 0; transform: scale(0.3) } 66.667% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
+  .o44 { animation: o44k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes o45k { 0.000% { opacity: 0; transform: scale(0.3) } 89.327% { opacity: 0; transform: scale(0.3) } 90.667% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
+  .o45 { animation: o45k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
+  @keyframes o46k { 0.000% { opacity: 0.0 } 90.660% { opacity: 0.0 } 92.667% { opacity: 1 } 97.667% { opacity: 1 } 100.000% { opacity: 0.0 } }
+  .o46 { animation: o46k 15.0s linear infinite;  }
+</style>
+<rect x="0.5" y="0.5" width="999" height="503" rx="16" style="fill: var(--bg); stroke: var(--line)"/>
+<circle r="6.5" style="fill: var(--work); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.28653;0.28667;0.32000;0.36000;0.39333;0.39347;1.00000" keyPoints="0.00000;0.00000;0.00000;0.47126;0.47126;1.00000;1.00000;1.00000" path="M336.0 220.0 L500.0 220.0 L500.0 220.0 L684.0 220.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.28653;0.29067;0.38933;0.39333;1.00000" values="0;0;1;1;0;0"/></circle>
+<circle r="6.5" style="fill: var(--judge); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.46653;0.46667;0.47667;0.50000;0.50667;0.50680;1.00000" keyPoints="0.00000;0.00000;0.00000;0.04670;0.95330;1.00000;1.00000;1.00000" path="M800.0 334.0 L800.0 364.0 L217.6 364.0 L217.6 334.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.46653;0.47067;0.50267;0.50667;1.00000" values="0;0;1;1;0;0"/></circle>
+<circle r="6.5" style="fill: var(--work); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.74653;0.74667;0.78000;0.80667;0.83333;0.83347;1.00000" keyPoints="0.00000;0.00000;0.00000;0.47126;0.47126;1.00000;1.00000;1.00000" path="M336.0 220.0 L500.0 220.0 L500.0 220.0 L684.0 220.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.74653;0.75067;0.82933;0.83333;1.00000" values="0;0;1;1;0;0"/></circle>
+<circle r="6.5" style="fill: var(--judge); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.89320;0.89333;0.90333;0.92667;0.93333;0.93347;1.00000" keyPoints="0.00000;0.00000;0.00000;0.04670;0.95330;1.00000;1.00000;1.00000" path="M800.0 334.0 L800.0 364.0 L217.6 364.0 L217.6 334.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.89320;0.89733;0.92933;0.93333;1.00000" values="0;0;1;1;0;0"/></circle>
+<circle r="6.5" style="fill: var(--work); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.57987;0.58000;0.61333;0.61347;1.00000" keyPoints="0.00000;0.00000;0.00000;1.00000;1.00000;1.00000" path="M336.0 220.0 L500.0 220.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.57987;0.58400;0.60933;0.61333;1.00000" values="0;0;1;1;0;0"/></circle>
+<circle r="6.5" style="fill: var(--bad); stroke: var(--bg); stroke-width: 2" opacity="0"><animateMotion dur="15.0s" repeatCount="indefinite" calcMode="linear" keyTimes="0.00000;0.65320;0.65333;0.66133;0.68333;0.69000;0.69013;1.00000" keyPoints="0.00000;0.00000;0.00000;0.08762;0.91238;1.00000;1.00000;1.00000" path="M500.0 334.0 L500.0 364.0 L217.6 364.0 L217.6 334.0"/><animate attributeName="opacity" dur="15.0s" repeatCount="indefinite" keyTimes="0.00000;0.65320;0.65733;0.68600;0.69000;1.00000" values="0;0;1;1;0;0"/></circle>
+<text x="24" y="40" style="font-size: 19px; font-weight: 650">How a run works</text><text x="236" y="40" class="muted" style="font-size: 13.5px">an agent improves a real ML system for 12–24 hours; an independent Judge scores every submission</text>
+<rect x="24" y="58" width="952" height="40" rx="10" class="card"/>
+<text x="40" y="84" style="font-size: 15px; font-style: italic; font-family: Georgia, serif">task τ =</text>
+<rect x="116.0" y="63" width="163.2" height="30" rx="7" class="o1" style="fill: var(--faint)"/>
+<text x="130.0" y="84" style="font-size: 17px; font-style: italic; font-weight: 600; font-family: Georgia, serif; fill: var(--work)">W</text>
+<text x="158.0" y="83" style="font-size: 13.5px; font-weight: 600">Workspace</text>
+<rect x="287.2" y="63" width="163.2" height="30" rx="7" class="o2" style="fill: var(--faint)"/>
+<path d="M283.2 67 V89" class="line" style="stroke-width: 1"/>
+<text x="301.2" y="84" style="font-size: 17px; font-style: italic; font-weight: 600; font-family: Georgia, serif; fill: var(--work)">P</text>
+<text x="329.2" y="83" style="font-size: 13.5px; font-weight: 600">Public tests</text>
+<rect x="458.4" y="63" width="163.2" height="30" rx="7" class="o3" style="fill: var(--faint)"/>
+<path d="M454.4 67 V89" class="line" style="stroke-width: 1"/>
+<text x="472.4" y="84" style="font-size: 17px; font-style: italic; font-weight: 600; font-family: Georgia, serif; fill: var(--judge)">E</text>
+<text x="500.4" y="83" style="font-size: 13.5px; font-weight: 600">Private tests</text>
+<rect x="629.6" y="63" width="163.2" height="30" rx="7" class="o4" style="fill: var(--faint)"/>
+<path d="M625.6 67 V89" class="line" style="stroke-width: 1"/>
+<text x="643.6" y="84" style="font-size: 17px; font-style: italic; font-weight: 600; font-family: Georgia, serif; fill: var(--muted)">R</text>
+<text x="671.6" y="83" style="font-size: 13.5px; font-weight: 600">Resources</text>
+<rect x="800.8" y="63" width="163.2" height="30" rx="7" class="o5" style="fill: var(--faint)"/>
+<path d="M796.8 67 V89" class="line" style="stroke-width: 1"/>
+<text x="814.8" y="84" style="font-size: 17px; font-style: italic; font-weight: 600; font-family: Georgia, serif; fill: var(--text)">T</text>
+<text x="842.8" y="83" style="font-size: 13.5px; font-weight: 600">Time budget</text>
+<path d="M368.8 98 V122" class="arrow"/>
+<path d="M368.8 98 V122" class="o6" style="fill: none; stroke: var(--text); stroke-width: 2; stroke-dasharray: 6 5"/>
+<path d="M540.0 98 V109 H704 V122" class="arrow"/>
+<path d="M540.0 98 V109 H704 V122" class="o7" style="fill: none; stroke: var(--text); stroke-width: 2; stroke-dasharray: 6 5"/>
+<rect x="20" y="120" width="360" height="228" rx="17" class="o8" style="fill: none; stroke: var(--work); stroke-width: 2; stroke-opacity: 0.3"/>
+<rect x="24" y="124" width="352" height="220" rx="14" class="card"/>
+<rect x="24" y="124" width="352" height="220" rx="14" style="fill: none; stroke: var(--work); stroke-opacity: 0.55; stroke-width: 1.4"/>
+<circle cx="42" cy="145" r="5" style="fill: var(--work)"/>
+<text x="54" y="150" style="font-size: 15px; font-weight: 650">Work</text>
+<text x="102" y="150" class="muted" style="font-size: 12px">the agent's container and GPUs</text>
+<rect x="416" y="120" width="168" height="228" rx="17" class="o9" style="fill: none; stroke: var(--ctrl); stroke-width: 2; stroke-opacity: 0.3"/>
+<rect x="420" y="124" width="160" height="220" rx="14" class="card"/>
+<rect x="420" y="124" width="160" height="220" rx="14" style="fill: none; stroke: var(--ctrl); stroke-opacity: 0.55; stroke-width: 1.4"/>
+<circle cx="438" cy="145" r="5" style="fill: var(--ctrl)"/>
+<text x="450" y="150" style="font-size: 15px; font-weight: 650">Controller</text>
+<rect x="620" y="120" width="360" height="228" rx="17" class="o10" style="fill: none; stroke: var(--judge); stroke-width: 2; stroke-opacity: 0.3"/>
+<rect x="624" y="124" width="352" height="220" rx="14" class="card"/>
+<rect x="624" y="124" width="352" height="220" rx="14" style="fill: none; stroke: var(--judge); stroke-opacity: 0.55; stroke-width: 1.4"/>
+<circle cx="642" cy="145" r="5" style="fill: var(--judge)"/>
+<text x="654" y="150" style="font-size: 15px; font-weight: 650">Judge</text>
+<text x="709" y="150" class="muted" style="font-size: 12px">its own container and GPUs</text>
+<rect x="40" y="166" width="214" height="132" rx="9" style="fill: var(--bg); stroke: var(--line)"/>
+<path d="M40 188 H254" class="line" style="stroke-width: 1"/>
+<circle cx="53" cy="177" r="3.5" style="fill: var(--bad); opacity: .7"/>
+<circle cx="64" cy="177" r="3.5" style="fill: var(--ctrl); opacity: .7"/>
+<circle cx="75" cy="177" r="3.5" style="fill: var(--ok); opacity: .7"/>
+<text x="90" y="181.5" class="muted mono" style="font-size: 11px">agent</text>
+<rect x="54" y="202" width="150" height="6" rx="3" class="o11" style="fill: var(--work); opacity: 0.6"/>
+<rect x="54" y="217" width="108" height="6" rx="3" class="o12" style="fill: var(--muted); opacity: 0.6"/>
+<rect x="66" y="232" width="170" height="6" rx="3" class="o13" style="fill: var(--judge); opacity: 0.6"/>
+<rect x="66" y="247" width="90" height="6" rx="3" class="o14" style="fill: var(--muted); opacity: 0.6"/>
+<rect x="54" y="262" width="134" height="6" rx="3" class="o15" style="fill: var(--ctrl); opacity: 0.6"/>
+<rect x="54" y="277" width="62" height="6" rx="3" class="o16" style="fill: var(--muted); opacity: 0.6"/>
+<rect x="266" y="166" width="94" height="132" rx="9" style="fill: var(--bg); stroke: var(--line)"/>
+<text x="313.0" y="183" text-anchor="middle" class="muted" style="font-size: 11.5px">public tests</text>
+<rect x="280.0" y="198" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="280.0" y="198" width="30" height="20" rx="4" class="o17" style="fill: var(--ok); opacity: 0"/>
+<rect x="316.0" y="198" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="316.0" y="198" width="30" height="20" rx="4" class="o18" style="fill: var(--ok); opacity: 0"/>
+<rect x="280.0" y="228" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="280.0" y="228" width="30" height="20" rx="4" class="o19" style="fill: var(--ok); opacity: 0"/>
+<rect x="316.0" y="228" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="316.0" y="228" width="30" height="20" rx="4" class="o20" style="fill: var(--ok); opacity: 0"/>
+<rect x="280.0" y="258" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="280.0" y="258" width="30" height="20" rx="4" class="o21" style="fill: var(--ok); opacity: 0"/>
+<rect x="316.0" y="258" width="30" height="20" rx="4" style="fill: var(--faint)"/>
+<rect x="316.0" y="258" width="30" height="20" rx="4" class="o22" style="fill: var(--ok); opacity: 0"/>
+<g class="o23"><text x="40" y="326" class="mono" style="font-size: 12px; fill: var(--work)">›</text><text x="53" y="326" class="muted mono" style="font-size: 12px">editing the system</text></g>
+<g class="o24"><text x="40" y="326" class="mono" style="font-size: 12px; fill: var(--work)">›</text><text x="53" y="326" class="muted mono" style="font-size: 12px">running the public tests</text></g>
+<g class="o25"><text x="40" y="326" class="mono" style="font-size: 12px; fill: var(--work)">›</text><text x="53" y="326" class="muted mono" style="font-size: 12px">submitting</text></g>
+<g class="o26"><text x="40" y="326" class="mono" style="font-size: 12px; fill: var(--work)">›</text><text x="53" y="326" class="muted mono" style="font-size: 12px">reading the Judge's feedback</text></g>
+<rect x="434" y="164" width="132" height="104" rx="9" style="fill: var(--bg); stroke: var(--line)"/>
+<g transform="translate(487.0,176) scale(1.1)" style="fill:none; stroke: var(--ctrl); stroke-width: 1.64; stroke-linecap: round; stroke-linejoin: round"><path d="M12 2l8 3v6c0 5-3.4 9.4-8 11-4.6-1.6-8-6-8-11V5z"/><path d="M8.5 12l2.5 2.5 4.5-5"/></g>
+<text x="500.0" y="228" text-anchor="middle" style="font-size: 13px; font-weight: 650">integrity review</text>
+<text x="500.0" y="246" text-anchor="middle" class="muted" style="font-size: 11.5px">an LLM reads the code</text>
+<rect x="440" y="168" width="120" height="2.5" rx="1.2" class="o27" style="fill: var(--ctrl)"/>
+<g class="o28"><circle cx="562" cy="168" r="10" style="fill: var(--ok)"/><path d="M557.5 168 l3.3000000000000003 3.3000000000000003 l5.5 -6.5" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
+<g class="o29"><circle cx="562" cy="168" r="10" style="fill: var(--bad)"/><path d="M558.2 164.2 L565.8 171.8 M565.8 164.2 L558.2 171.8" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round"/></g>
+<g class="o30"><text x="500.0" y="294" text-anchor="middle" class="muted" style="font-size: 11.5px">against the task's rules,</text><text x="500.0" y="310" text-anchor="middle" class="muted" style="font-size: 11.5px">before any GPU time</text></g>
+<g class="o29"><text x="500.0" y="294" text-anchor="middle" style="font-size: 11.5px; font-weight: 600; fill: var(--bad)">rejected: caches</text><text x="500.0" y="310" text-anchor="middle" style="font-size: 11.5px; font-weight: 600; fill: var(--bad)">results across calls</text></g>
+<text x="640" y="180" class="muted" style="font-size: 11.5px">private tests</text>
+<rect x="724" y="166" width="24" height="20" rx="4" class="o31" style="fill: var(--judge)"/>
+<rect x="754" y="166" width="24" height="20" rx="4" class="o32" style="fill: var(--judge)"/>
+<rect x="784" y="166" width="24" height="20" rx="4" class="o33" style="fill: var(--judge)"/>
+<rect x="814" y="166" width="24" height="20" rx="4" class="o34" style="fill: var(--judge)"/>
+<rect x="844" y="166" width="24" height="20" rx="4" class="o35" style="fill: var(--judge)"/>
+<rect x="874" y="166" width="24" height="20" rx="4" class="o36" style="fill: var(--judge)"/>
+<rect x="904" y="166" width="24" height="20" rx="4" class="o37" style="fill: var(--judge)"/>
+<text x="938" y="181" style="font-size: 13px; font-style: italic; font-family: Georgia, serif" class="muted">x₁ … xₙ</text>
+<rect x="640" y="206" width="92" height="28" rx="8" style="fill: var(--bg); stroke: var(--line)"/>
+<rect x="640" y="206" width="92" height="28" rx="8" class="o38" style="fill: var(--judge-soft); stroke: var(--judge); stroke-width: 1.5"/>
+<text x="686.0" y="224.5" text-anchor="middle" style="font-size: 12.5px; font-weight: 600">execute</text>
+<rect x="756" y="206" width="92" height="28" rx="8" style="fill: var(--bg); stroke: var(--line)"/>
+<rect x="756" y="206" width="92" height="28" rx="8" class="o39" style="fill: var(--judge-soft); stroke: var(--judge); stroke-width: 1.5"/>
+<text x="802.0" y="224.5" text-anchor="middle" style="font-size: 12.5px; font-weight: 600">validate</text>
+<path d="M735 220 H753" class="arrow"/>
+<rect x="872" y="206" width="92" height="28" rx="8" style="fill: var(--bg); stroke: var(--line)"/>
+<rect x="872" y="206" width="92" height="28" rx="8" class="o40" style="fill: var(--judge-soft); stroke: var(--judge); stroke-width: 1.5"/>
+<text x="918.0" y="224.5" text-anchor="middle" style="font-size: 12.5px; font-weight: 600">score</text>
+<path d="M851 220 H869" class="arrow"/>
+<text x="640" y="260" class="muted" style="font-size: 11.5px">checks correctness and fidelity, then measures</text>
+<text x="640" y="294" style="font-size: 12.5px; font-weight: 600">score</text>
+<rect x="686" y="284" width="238" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="686" y="284" width="238" height="12" rx="6" class="o41" style="fill: var(--judge)"/>
+<g class="o42"><circle cx="950" cy="290" r="9" style="fill: var(--ok)"/><path d="M945.95 290 l2.97 2.97 l4.95 -5.8500000000000005" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
+<text x="640" y="330" class="muted" style="font-size: 11.5px">held-out workloads the agent never sees</text>
+<path d="M378 220 H417" class="arrow"/>
+<text x="398.0" y="212" text-anchor="middle" class="muted" style="font-size: 11.5px">submit</text>
+<path d="M582 220 H621" class="arrow"/>
+<text x="602.0" y="212" text-anchor="middle" class="muted" style="font-size: 11.5px">pass</text>
+<path d="M800.0 346 V364 H217.60000000000002 V348" class="arrow" style="stroke-dasharray: 4 4"/>
+<path d="M500.0 346 V364" class="line" style="stroke-dasharray: 4 4; stroke: var(--muted)"/>
+<text x="500.0" y="381" text-anchor="middle" class="muted" style="font-size: 11.5px">feedback to the agent: the score, or why the submission was rejected</text>
+<g transform="translate(24,424) scale(0.9)" style="fill:none; stroke: var(--muted); stroke-width: 2.00; stroke-linecap: round; stroke-linejoin: round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></g>
+<text x="50" y="440" style="font-size: 13.5px; font-weight: 650">time budget</text>
+<text x="50" y="458" class="muted" style="font-size: 12px">12 or 24 hours</text>
+<path d="M150 474 H952" class="line"/>
+<path d="M150.0 474 V479" class="line"/>
+<path d="M350.5 474 V479" class="line"/>
+<path d="M551.0 474 V479" class="line"/>
+<path d="M751.5 474 V479" class="line"/>
+<path d="M952.0 474 V479" class="line"/>
+<text x="150" y="494" text-anchor="middle" class="muted" style="font-size: 11.5px">0</text>
+<text x="952" y="494" text-anchor="middle" class="muted" style="font-size: 11.5px">T</text>
+<clipPath id="budget"><rect x="150" y="414" height="64" width="0"><animate attributeName="width" dur="15.0s" repeatCount="indefinite" keyTimes="0;0.1333;0.9333;0.9733;1" values="0;0;802;802;0"/></rect></clipPath>
+<g clip-path="url(#budget)"><path d="M150 474 H484.2 V454 H911.9 V428 H952 V474 Z" style="fill: var(--judge); opacity: 0.12"/><path d="M150 474 H484.2 V454 H911.9 V428 H952" style="fill: none; stroke: var(--judge); stroke-width: 2.2; stroke-linejoin: round"/></g>
+<g class="o43"><circle cx="484.1666666666667" cy="454" r="7" style="fill: var(--ok)"/><path d="M481.0166666666667 454 l2.31 2.31 l3.8500000000000005 -4.55" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
+<g class="o44"><circle cx="671.3000000000001" cy="466" r="7" style="fill: var(--bad)"/><path d="M668.6400000000001 463.34 L673.96 468.66 M673.96 463.34 L668.6400000000001 468.66" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round"/></g>
+<g class="o45"><circle cx="911.9000000000001" cy="428" r="7" style="fill: var(--ok)"/><path d="M908.7500000000001 428 l2.31 2.31 l3.8500000000000005 -4.55" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
+<line x1="150" y1="418" x2="150" y2="474" style="stroke: var(--text); stroke-width: 1.4; opacity: .55"><animate attributeName="x1" dur="15.0s" repeatCount="indefinite" keyTimes="0;0.1333;0.9333;1" values="150;150;952;952"/><animate attributeName="x2" dur="15.0s" repeatCount="indefinite" keyTimes="0;0.1333;0.9333;1" values="150;150;952;952"/></line>
+<g class="o46"><text x="952" y="416" text-anchor="end" style="font-size: 12.5px; font-weight: 650; fill: var(--judge)">the run's result: its best valid score</text></g>
+</svg>

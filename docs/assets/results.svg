@@ -1,0 +1,158 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500" role="img" aria-label="Six agents on Infrathon: best valid score over the time budget on four tasks, and the rank score over all 25 tasks">
+<title>Six agents on Infrathon: best valid score over the time budget on four tasks, and the rank score over all 25 tasks</title>
+<defs><marker id="head" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" style="fill: var(--muted)"/></marker></defs>
+<style>
+  :root {
+    --bg: #ffffff; --card: #f6f8fa; --line: #d0d7de; --text: #1f2328; --muted: #59636e; --faint: #eaeef2;
+    --grid: #eef1f4;
+    --work: #0969da; --ctrl: #bc4c00; --judge: #0a7f73; --ok: #1a7f37; --bad: #cf222e; --human: #9a6700;
+    --work-soft: #ddf4ff; --ctrl-soft: #fff1e5; --judge-soft: #e3f6f3; --bad-soft: #ffebe9;
+    --claude: #c24e22; --sol: #2674cb; --astra: #16845e; --other: #9198a1;
+    --train: #bc4c00; --train-soft: #fff4ec; --infer: #0969da; --infer-soft: #eef6ff;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #0d1117; --card: #161b22; --line: #30363d; --text: #e6edf3; --muted: #9198a1; --faint: #21262d;
+      --grid: #1b2129;
+      --work: #4493f8; --ctrl: #f0883e; --judge: #3fb9a8; --ok: #3fb950; --bad: #f85149; --human: #d29922;
+      --work-soft: #132a45; --ctrl-soft: #3a2414; --judge-soft: #12302d; --bad-soft: #3c1618;
+      --claude: #d95926; --sol: #3987e5; --astra: #199e70; --other: #656c76;
+      --train: #f0883e; --train-soft: #2b1d12; --infer: #4493f8; --infer-soft: #0f2238;
+    }
+  }
+  text { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Helvetica Neue', Helvetica, Arial, sans-serif; fill: var(--text); }
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+  .muted { fill: var(--muted); }
+  .card { fill: var(--card); stroke: var(--line); stroke-width: 1.2; }
+  .line { stroke: var(--line); stroke-width: 1.6; fill: none; }
+  .arrow { stroke: var(--muted); stroke-width: 1.6; fill: none; marker-end: url(#head); }
+
+  @keyframes r1k { 0.000% { opacity: 0 } 62.494% { opacity: 0 } 64.375% { opacity: 1 } 97.812% { opacity: 1 } 100.000% { opacity: 0 } }
+  .r1 { animation: r1k 16.0s linear infinite;  }
+  @keyframes r2k { 0.000% { opacity: 0 } 62.494% { opacity: 0 } 64.375% { opacity: 1 } 97.812% { opacity: 1 } 100.000% { opacity: 0 } }
+  .r2 { animation: r2k 16.0s linear infinite;  }
+  @keyframes r3k { 0.000% { opacity: 0 } 62.494% { opacity: 0 } 64.375% { opacity: 1 } 97.812% { opacity: 1 } 100.000% { opacity: 0 } }
+  .r3 { animation: r3k 16.0s linear infinite;  }
+  @keyframes r4k { 0.000% { opacity: 0 } 62.494% { opacity: 0 } 64.375% { opacity: 1 } 97.812% { opacity: 1 } 100.000% { opacity: 0 } }
+  .r4 { animation: r4k 16.0s linear infinite;  }
+  @keyframes r5k { 0.000% { transform: scaleX(0) } 1.250% { transform: scaleX(0) } 7.500% { transform: scaleX(0.9120) } 97.500% { transform: scaleX(0.9120) } 100.000% { transform: scaleX(0) } }
+  .r5 { animation: r5k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes r6k { 0.000% { transform: scaleX(0) } 2.000% { transform: scaleX(0) } 8.250% { transform: scaleX(0.7520) } 97.500% { transform: scaleX(0.7520) } 100.000% { transform: scaleX(0) } }
+  .r6 { animation: r6k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes r7k { 0.000% { transform: scaleX(0) } 2.750% { transform: scaleX(0) } 9.000% { transform: scaleX(0.5440) } 97.500% { transform: scaleX(0.5440) } 100.000% { transform: scaleX(0) } }
+  .r7 { animation: r7k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes r8k { 0.000% { transform: scaleX(0) } 3.500% { transform: scaleX(0) } 9.750% { transform: scaleX(0.4080) } 97.500% { transform: scaleX(0.4080) } 100.000% { transform: scaleX(0) } }
+  .r8 { animation: r8k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes r9k { 0.000% { transform: scaleX(0) } 4.250% { transform: scaleX(0) } 10.500% { transform: scaleX(0.3040) } 97.500% { transform: scaleX(0.3040) } 100.000% { transform: scaleX(0) } }
+  .r9 { animation: r9k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+  @keyframes r10k { 0.000% { transform: scaleX(0) } 5.000% { transform: scaleX(0) } 11.250% { transform: scaleX(0.0800) } 97.500% { transform: scaleX(0.0800) } 100.000% { transform: scaleX(0) } }
+  .r10 { animation: r10k 16.0s linear infinite; transform-box: fill-box; transform-origin: left center; }
+</style>
+<rect x="0.5" y="0.5" width="999" height="499" rx="16" style="fill: var(--bg); stroke: var(--line)"/>
+<text x="24" y="40" style="font-size: 19px; font-weight: 650">Six agents, 25 tasks</text><text x="281" y="40" class="muted" style="font-size: 13.5px">best valid score as the time budget runs out, on four of the tasks; rank score over all 25</text>
+<path d="M24 66 h18" style="stroke: var(--claude); stroke-width: 3; stroke-linecap: round"/><text x="49" y="70.5" style="font-size: 12.5px">Claude Opus 5.5</text>
+<path d="M171.75 66 h18" style="stroke: var(--astra); stroke-width: 3; stroke-linecap: round"/><text x="196.75" y="70.5" style="font-size: 12.5px">GPT-6 Astra</text>
+<path d="M302.5 66 h18" style="stroke: var(--sol); stroke-width: 3; stroke-linecap: round"/><text x="327.5" y="70.5" style="font-size: 12.5px">GPT-6.1 Sol</text>
+<path d="M427.75 66 h18" style="stroke: var(--other); stroke-width: 2; stroke-linecap: round"/><text x="452.75" y="70.5" class="muted" style="font-size: 12.5px">Qwen 3.8 Flash, DeepSeek V4.1 Flash, GLM 5.3 Flash</text>
+<rect x="24" y="88" width="296" height="192" rx="12" class="card"/>
+<text x="38" y="111" style="font-size: 13.5px; font-weight: 650">SageAttention</text>
+<text x="38" y="128" class="muted" style="font-size: 11.5px">inference · operator · TFLOP/s</text>
+<path d="M72 237.4 H270" style="stroke: var(--grid); stroke-width: 1"/><text x="64" y="241.4" text-anchor="end" class="muted" style="font-size: 11.5px">250</text>
+<path d="M72 199.9 H270" style="stroke: var(--grid); stroke-width: 1"/><text x="64" y="203.9" text-anchor="end" class="muted" style="font-size: 11.5px">500</text>
+<path d="M72 162.4 H270" style="stroke: var(--grid); stroke-width: 1"/><text x="64" y="166.4" text-anchor="end" class="muted" style="font-size: 11.5px">750</text>
+<text x="72.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">0 h</text>
+<text x="171.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">6 h</text>
+<text x="270.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">12 h</text>
+<clipPath id="clip0"><rect x="68" y="134" height="126" width="0"><animate attributeName="width" dur="16.0s" repeatCount="indefinite" keyTimes="0;0.06;0.6250;0.9750;1" values="0;0;206;206;0"/></rect></clipPath>
+<g clip-path="url(#clip0)">
+<path d="M106.6 223.0 H149.0 V220.1 H158.3 V220.1 H167.4 V206.5 H176.7 V201.4 H185.9 V198.0 H195.0 V197.3 H204.1 V196.0 H213.5 V195.8 H222.5 V194.5 H242.4 V193.5 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M94.1 195.5 H130.9 V194.7 H152.8 V194.0 H178.2 V193.9 H215.3 V193.8 H233.7 V193.8 H253.5 V193.8 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M142.3 238.1 H180.7 V235.7 H192.5 V233.5 H200.8 V232.0 H210.3 V230.2 H218.7 V228.0 H249.8 V221.3 H263.6 V220.0 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M72.7 222.7 H81.9 V196.9 H91.0 V195.5 H100.0 V192.0 H108.9 V188.4 H117.9 V182.1 H126.9 V173.3 H145.1 V171.7 H183.3 V169.3 H231.5 V168.3 H257.1 V168.0 H270.0" style="fill: none; stroke: var(--sol); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M74.3 242.7 H82.8 V229.8 H92.2 V229.4 H100.8 V226.2 H109.1 V221.9 H159.7 V214.7 H270.0" style="fill: none; stroke: var(--astra); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M81.5 186.7 H93.5 V185.7 H101.7 V178.9 H110.4 V175.0 H118.9 V173.2 H127.4 V169.3 H141.5 V168.6 H149.8 V165.1 H158.2 V160.3 H174.8 V159.5 H189.6 V159.2 H198.3 V158.7 H208.9 V156.3 H217.3 V155.6 H234.1 V155.3 H242.4 V155.2 H250.8 V153.1 H259.2 V151.3 H270.0" style="fill: none; stroke: var(--claude); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+</g>
+<g class="r1"><circle cx="270" cy="151.3" r="4" style="fill: var(--claude)"/><text x="278" y="155.3" style="font-size: 12px; font-weight: 700">824</text></g>
+<rect x="336" y="88" width="296" height="192" rx="12" class="card"/>
+<text x="350" y="111" style="font-size: 13.5px; font-weight: 650">Qwen3 ORPO</text>
+<text x="350" y="128" class="muted" style="font-size: 11.5px">training · module · score</text>
+<path d="M384 231.2 H582" style="stroke: var(--grid); stroke-width: 1"/><text x="376" y="235.2" text-anchor="end" class="muted" style="font-size: 11.5px">125</text>
+<path d="M384 189.7 H582" style="stroke: var(--grid); stroke-width: 1"/><text x="376" y="193.7" text-anchor="end" class="muted" style="font-size: 11.5px">150</text>
+<path d="M384 148.3 H582" style="stroke: var(--grid); stroke-width: 1"/><text x="376" y="152.3" text-anchor="end" class="muted" style="font-size: 11.5px">175</text>
+<text x="384.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">0 h</text>
+<text x="483.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">12 h</text>
+<text x="582.0" y="268" text-anchor="middle" class="muted" style="font-size: 11.5px">24 h</text>
+<clipPath id="clip1"><rect x="380" y="134" height="126" width="0"><animate attributeName="width" dur="16.0s" repeatCount="indefinite" keyTimes="0;0.06;0.6250;0.9750;1" values="0;0;206;206;0"/></rect></clipPath>
+<g clip-path="url(#clip1)">
+<path d="M388.1 242.7 H390.8 V237.9 H393.7 V225.6 H402.2 V224.3 H411.8 V223.8 H450.9 V212.0 H459.3 V211.1 H556.1 V209.0 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M394.1 224.7 H401.1 V224.5 H410.7 V214.8 H436.1 V213.4 H441.0 V212.5 H476.1 V212.0 H519.2 V211.1 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M399.7 216.1 H409.4 V214.8 H423.0 V209.2 H437.5 V205.6 H448.5 V203.4 H461.8 V199.7 H522.7 V196.5 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M386.3 228.5 H389.7 V221.2 H404.2 V193.9 H425.7 V189.2 H494.8 V187.6 H547.3 V187.1 H582.0" style="fill: none; stroke: var(--sol); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M385.2 216.1 H387.7 V214.0 H397.4 V212.0 H399.9 V207.2 H416.7 V191.6 H420.3 V165.6 H440.7 V151.3 H582.0" style="fill: none; stroke: var(--astra); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M396.3 212.0 H402.7 V199.9 H467.7 V198.5 H471.6 V190.6 H540.1 V180.4 H582.0" style="fill: none; stroke: var(--claude); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+</g>
+<g class="r2"><circle cx="582" cy="151.3" r="4" style="fill: var(--astra)"/><text x="590" y="155.3" style="font-size: 12px; font-weight: 700">173</text></g>
+<rect x="24" y="294" width="296" height="192" rx="12" class="card"/>
+<text x="38" y="317" style="font-size: 13.5px; font-weight: 650">Miles Qwen3 OPCD</text>
+<text x="38" y="334" class="muted" style="font-size: 11.5px">training · system · score</text>
+<path d="M72 403.5 H270" style="stroke: var(--grid); stroke-width: 1"/><text x="64" y="407.5" text-anchor="end" class="muted" style="font-size: 11.5px">200</text>
+<text x="72.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">0 h</text>
+<text x="171.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">12 h</text>
+<text x="270.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">24 h</text>
+<clipPath id="clip2"><rect x="68" y="340" height="126" width="0"><animate attributeName="width" dur="16.0s" repeatCount="indefinite" keyTimes="0;0.06;0.6250;0.9750;1" values="0;0;206;206;0"/></rect></clipPath>
+<g clip-path="url(#clip2)">
+<path d="M120.8 448.7 H152.1 V443.2 H208.4 V441.0 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M121.9 437.9 H163.4 V427.2 H182.7 V417.3 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M160.3 425.1 H194.3 V405.4 H210.3 V402.8 H219.6 V401.7 H254.4 V396.9 H260.3 V393.2 H270.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M76.9 427.6 H83.8 V423.5 H104.5 V411.3 H113.1 V399.9 H119.9 V397.1 H177.4 V393.9 H194.2 V389.7 H242.7 V383.0 H270.0" style="fill: none; stroke: var(--sol); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M76.3 433.9 H88.1 V410.5 H95.6 V393.6 H108.6 V390.9 H115.0 V389.5 H124.4 V373.0 H210.6 V370.4 H270.0" style="fill: none; stroke: var(--astra); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M80.0 429.5 H93.3 V392.4 H108.7 V381.7 H128.6 V362.3 H158.9 V357.3 H270.0" style="fill: none; stroke: var(--claude); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+</g>
+<g class="r3"><circle cx="270" cy="357.3" r="4" style="fill: var(--claude)"/><text x="278" y="361.3" style="font-size: 12px; font-weight: 700">343</text></g>
+<rect x="336" y="294" width="296" height="192" rx="12" class="card"/>
+<text x="350" y="317" style="font-size: 13.5px; font-weight: 650">LLaDA decoding</text>
+<text x="350" y="334" class="muted" style="font-size: 11.5px">inference · system · tokens/s</text>
+<path d="M384 420.0 H582" style="stroke: var(--grid); stroke-width: 1"/><text x="376" y="424.0" text-anchor="end" class="muted" style="font-size: 11.5px">250</text>
+<path d="M384 381.1 H582" style="stroke: var(--grid); stroke-width: 1"/><text x="376" y="385.1" text-anchor="end" class="muted" style="font-size: 11.5px">500</text>
+<text x="384.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">0 h</text>
+<text x="483.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">12 h</text>
+<text x="582.0" y="474" text-anchor="middle" class="muted" style="font-size: 11.5px">24 h</text>
+<clipPath id="clip3"><rect x="380" y="340" height="126" width="0"><animate attributeName="width" dur="16.0s" repeatCount="indefinite" keyTimes="0;0.06;0.6250;0.9750;1" values="0;0;206;206;0"/></rect></clipPath>
+<g clip-path="url(#clip3)">
+<path d="M415.1 447.5 H420.7 V446.3 H425.1 V445.0 H429.1 V443.7 H436.6 V443.2 H446.6 V443.2 H467.2 V442.9 H470.9 V442.6 H474.5 V442.5 H482.3 V442.5 H506.2 V442.3 H510.2 V442.3 H513.8 V442.0 H579.4 V442.0 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M394.7 446.2 H409.5 V433.0 H419.6 V432.3 H434.5 V431.4 H440.4 V430.1 H453.9 V425.7 H457.8 V425.2 H462.1 V423.5 H476.4 V421.9 H487.4 V421.8 H494.6 V421.5 H499.0 V420.9 H505.5 V420.2 H509.2 V420.0 H514.8 V419.5 H518.1 V419.3 H524.4 V416.6 H527.6 V415.8 H535.4 V413.9 H558.7 V413.9 H563.0 V413.8 H578.9 V413.5 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M425.5 447.5 H443.8 V447.5 H525.7 V447.5 H531.5 V447.5 H562.2 V447.4 H571.3 V447.4 H582.0" style="fill: none; stroke: var(--other); stroke-width: 1.5; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M387.5 448.7 H394.4 V434.3 H416.4 V429.6 H428.8 V428.0 H432.6 V423.4 H440.9 V422.5 H453.7 V421.8 H460.1 V421.8 H466.2 V421.7 H475.4 V421.6 H478.9 V421.5 H501.0 V421.0 H504.8 V420.9 H508.5 V420.8 H512.2 V420.6 H520.6 V420.6 H524.1 V420.5 H532.1 V420.5 H536.4 V420.5 H540.4 V420.4 H559.5 V420.3 H562.5 V420.2 H566.8 V420.1 H582.0" style="fill: none; stroke: var(--sol); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M385.3 436.4 H389.1 V427.6 H392.6 V420.6 H397.6 V419.4 H401.6 V417.7 H408.9 V417.4 H413.3 V415.9 H417.5 V415.8 H420.2 V414.8 H423.1 V412.6 H441.2 V409.9 H448.3 V409.2 H464.8 V408.9 H467.4 V408.9 H473.4 V408.7 H475.2 V407.8 H479.0 V407.7 H488.0 V407.5 H490.8 V406.9 H512.9 V406.7 H515.2 V406.7 H521.2 V406.7 H525.2 V406.5 H536.8 V406.5 H546.8 V406.4 H553.2 V406.2 H570.1 V406.0 H574.9 V406.0 H582.0" style="fill: none; stroke: var(--astra); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+<path d="M387.0 437.0 H395.1 V414.2 H401.3 V403.9 H403.7 V402.7 H407.0 V402.7 H410.4 V396.2 H413.3 V394.2 H416.7 V393.2 H418.4 V392.9 H421.2 V390.6 H426.2 V383.6 H428.4 V382.7 H431.9 V381.1 H434.1 V379.3 H436.8 V378.3 H438.5 V376.6 H440.5 V374.8 H442.3 V373.1 H444.8 V370.5 H447.2 V369.8 H449.2 V369.8 H450.8 V367.6 H461.2 V361.7 H472.5 V361.7 H474.8 V361.5 H484.2 V360.8 H488.5 V360.2 H502.9 V360.0 H527.6 V358.8 H531.6 V358.0 H554.1 V357.9 H560.7 V357.5 H572.9 V357.3 H582.0" style="fill: none; stroke: var(--claude); stroke-width: 2.6; stroke-linejoin: round; stroke-linecap: round"/>
+</g>
+<g class="r4"><circle cx="582" cy="357.3" r="4" style="fill: var(--claude)"/><text x="590" y="361.3" style="font-size: 12px; font-weight: 700">653</text></g>
+<text x="660" y="106" style="font-size: 13.5px; font-weight: 650">rank score over 25 tasks</text>
+<text x="660" y="124" class="muted" style="font-size: 12px">100 = first on every task, 0 = last on every task</text>
+<text x="660" y="158" style="font-size: 12.5px">Claude Opus 5.5</text>
+<text x="976" y="158" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">91.2</tspan><tspan class="muted"> · 17 wins</tspan></text>
+<rect x="660" y="166" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="166" width="316" height="12" rx="6" class="r5" style="fill: var(--claude)"/>
+<text x="660" y="210" style="font-size: 12.5px">GPT-6 Astra</text>
+<text x="976" y="210" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">75.2</tspan><tspan class="muted"> · 6 wins</tspan></text>
+<rect x="660" y="218" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="218" width="316" height="12" rx="6" class="r6" style="fill: var(--astra)"/>
+<text x="660" y="262" style="font-size: 12.5px">GPT-6.1 Sol</text>
+<text x="976" y="262" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">54.4</tspan><tspan class="muted"> · 1 win</tspan></text>
+<rect x="660" y="270" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="270" width="316" height="12" rx="6" class="r7" style="fill: var(--sol)"/>
+<text x="660" y="314" style="font-size: 12.5px">Qwen 3.8 Flash</text>
+<text x="976" y="314" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">40.8</tspan><tspan class="muted"> · 1 win</tspan></text>
+<rect x="660" y="322" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="322" width="316" height="12" rx="6" class="r8" style="fill: var(--other)"/>
+<text x="660" y="366" style="font-size: 12.5px">DeepSeek V4.1 Flash</text>
+<text x="976" y="366" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">30.4</tspan><tspan class="muted"> · 0 wins</tspan></text>
+<rect x="660" y="374" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="374" width="316" height="12" rx="6" class="r9" style="fill: var(--other)"/>
+<text x="660" y="418" style="font-size: 12.5px">GLM 5.3 Flash</text>
+<text x="976" y="418" text-anchor="end" style="font-size: 12.5px"><tspan style="font-weight: 700">8.0</tspan><tspan class="muted"> · 0 wins</tspan></text>
+<rect x="660" y="426" width="316" height="12" rx="6" style="fill: var(--faint)"/>
+<rect x="660" y="426" width="316" height="12" rx="6" class="r10" style="fill: var(--other)"/>
+<text x="660" y="472" class="muted" style="font-size: 12px">150 runs, one per agent and task · 2,969 submissions</text>
+<text x="660" y="490" class="muted" style="font-size: 12px">10,000+ GPU-hours on H100s</text>
+</svg>

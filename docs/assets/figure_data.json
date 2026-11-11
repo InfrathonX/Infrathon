@@ -1,0 +1,2253 @@
+{
+ "source": "InfrathonX.github.io data/infrathon.js (snapshot 2026-10-25, dashboard-latest-results-20261025.zip) and data/raw/runs.json; regenerate figures with make_figures.py",
+ "summary": {
+  "runs": 150,
+  "submissions": 2969,
+  "tasks": 25,
+  "gpu_hours": "10,000+"
+ },
+ "models": [
+  {
+   "key": "sol",
+   "name": "GPT-6.1 Sol",
+   "rank_score": 54.4,
+   "wins": 1
+  },
+  {
+   "key": "claude",
+   "name": "Claude Opus 5.5",
+   "rank_score": 91.2,
+   "wins": 17
+  },
+  {
+   "key": "qwen",
+   "name": "Qwen 3.8 Flash",
+   "rank_score": 40.8,
+   "wins": 1
+  },
+  {
+   "key": "deepseek",
+   "name": "DeepSeek V4.1 Flash",
+   "rank_score": 30.4,
+   "wins": 0
+  },
+  {
+   "key": "glm",
+   "name": "GLM 5.3 Flash",
+   "rank_score": 8,
+   "wins": 0
+  },
+  {
+   "key": "astra",
+   "name": "GPT-6 Astra",
+   "rank_score": 75.2,
+   "wins": 6
+  }
+ ],
+ "tasks": [
+  {
+   "key": "attn-qat",
+   "name": "Attn-QAT NVFP4 attention",
+   "stage": "training",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Quantized attention forward and backward",
+   "winner": "claude",
+   "dir": "attn-qat-nvfp4-training-attention-h100-v1-seed"
+  },
+  {
+   "key": "wgrad",
+   "name": "K-grouped FP8 Wgrad",
+   "stage": "training",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "scratch",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Expert-grouped weight-gradient GEMM",
+   "winner": "claude",
+   "dir": "standalone-k-grouped-fp8-wgrad-h100-v2-scratch"
+  },
+  {
+   "key": "flux-moe",
+   "name": "Flux/Comet MoE primitive",
+   "stage": "training",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "8×H100 (shared with Judge)",
+   "metric": "TFLOPS",
+   "target": "All-gather, token scatter and grouped GEMM",
+   "winner": "astra",
+   "dir": "flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed"
+  },
+  {
+   "key": "orpo",
+   "name": "Qwen3 ORPO",
+   "stage": "training",
+   "level": "module",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 + Judge",
+   "metric": "Speedup",
+   "target": "Vocabulary projection and ORPO loss",
+   "winner": "astra",
+   "dir": "qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed",
+   "traj": {
+    "astra": [
+     [
+      0.142,
+      134.064
+     ],
+     [
+      0.454,
+      135.345
+     ],
+     [
+      1.62,
+      136.577
+     ],
+     [
+      1.932,
+      139.461
+     ],
+     [
+      3.959,
+      148.847
+     ],
+     [
+      4.394,
+      164.548
+     ],
+     [
+      6.874,
+      173.159
+     ]
+    ],
+    "sol": [
+     [
+      0.273,
+      126.612
+     ],
+     [
+      0.687,
+      130.98
+     ],
+     [
+      2.444,
+      147.447
+     ],
+     [
+      5.056,
+      150.308
+     ],
+     [
+      13.429,
+      151.255
+     ],
+     [
+      19.791,
+      151.556
+     ]
+    ],
+    "claude": [
+     [
+      1.49,
+      136.571
+     ],
+     [
+      2.27,
+      143.829
+     ],
+     [
+      10.149,
+      144.72
+     ],
+     [
+      10.62,
+      149.443
+     ],
+     [
+      18.923,
+      155.609
+     ]
+    ],
+    "qwen": [
+     [
+      1.906,
+      134.073
+     ],
+     [
+      3.08,
+      134.89
+     ],
+     [
+      4.725,
+      138.223
+     ],
+     [
+      6.487,
+      140.391
+     ],
+     [
+      7.823,
+      141.766
+     ],
+     [
+      9.425,
+      143.987
+     ],
+     [
+      16.815,
+      145.922
+     ]
+    ],
+    "deepseek": [
+     [
+      1.222,
+      128.863
+     ],
+     [
+      2.069,
+      129.039
+     ],
+     [
+      3.242,
+      134.882
+     ],
+     [
+      6.319,
+      135.681
+     ],
+     [
+      6.905,
+      136.237
+     ],
+     [
+      11.169,
+      136.553
+     ],
+     [
+      16.393,
+      137.069
+     ]
+    ],
+    "glm": [
+     [
+      0.498,
+      118.042
+     ],
+     [
+      0.819,
+      120.952
+     ],
+     [
+      1.178,
+      128.34
+     ],
+     [
+      2.208,
+      129.105
+     ],
+     [
+      3.371,
+      129.456
+     ],
+     [
+      8.11,
+      136.55
+     ],
+     [
+      9.13,
+      137.087
+     ],
+     [
+      20.856,
+      138.339
+     ]
+    ]
+   }
+  },
+  {
+   "key": "gkd",
+   "name": "Qwen3 GKD",
+   "stage": "training",
+   "level": "module",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 + Judge",
+   "metric": "Speedup",
+   "target": "Teacher/student projection and distillation loss",
+   "winner": "claude",
+   "dir": "qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed"
+  },
+  {
+   "key": "opcd",
+   "name": "Miles Qwen3 OPCD",
+   "stage": "training",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (NVLink) + Judge",
+   "metric": "Accuracy gain / training hour",
+   "target": "Context-conditioned online distillation loop",
+   "winner": "claude",
+   "dir": "miles-qwen3-opcd-2xh100-v3-seed",
+   "traj": {
+    "astra": [
+     [
+      0.525,
+      106.137
+     ],
+     [
+      1.953,
+      178.289
+     ],
+     [
+      2.858,
+      230.796
+     ],
+     [
+      4.437,
+      239.173
+     ],
+     [
+      5.208,
+      243.527
+     ],
+     [
+      6.351,
+      294.416
+     ],
+     [
+      16.803,
+      302.389
+     ]
+    ],
+    "sol": [
+     [
+      0.591,
+      125.506
+     ],
+     [
+      1.435,
+      138.22
+     ],
+     [
+      3.935,
+      175.817
+     ],
+     [
+      4.986,
+      211.252
+     ],
+     [
+      5.805,
+      220.001
+     ],
+     [
+      12.771,
+      229.784
+     ],
+     [
+      14.815,
+      242.729
+     ],
+     [
+      20.695,
+      263.611
+     ]
+    ],
+    "claude": [
+     [
+      0.968,
+      119.73
+     ],
+     [
+      2.579,
+      234.334
+     ],
+     [
+      4.449,
+      267.687
+     ],
+     [
+      6.856,
+      327.659
+     ],
+     [
+      10.532,
+      343.017
+     ]
+    ],
+    "qwen": [
+     [
+      10.709,
+      133.191
+     ],
+     [
+      14.819,
+      194.261
+     ],
+     [
+      16.761,
+      202.275
+     ],
+     [
+      17.889,
+      205.578
+     ],
+     [
+      22.114,
+      220.474
+     ],
+     [
+      22.819,
+      231.932
+     ]
+    ],
+    "deepseek": [
+     [
+      6.045,
+      93.772
+     ],
+     [
+      11.078,
+      126.874
+     ],
+     [
+      13.418,
+      157.337
+     ]
+    ],
+    "glm": [
+     [
+      5.915,
+      60.254
+     ],
+     [
+      9.707,
+      77.311
+     ],
+     [
+      16.535,
+      83.993
+     ]
+    ]
+   }
+  },
+  {
+   "key": "opd",
+   "name": "Miles Qwen3 OPD",
+   "stage": "training",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (NVLink) + Judge",
+   "metric": "Accuracy gain / training hour",
+   "target": "Online distillation integration and execution",
+   "winner": "claude",
+   "dir": "miles-qwen3-opd-scratch-2xh100-v2-seed"
+  },
+  {
+   "key": "alfworld",
+   "name": "Miles ALFWorld RL",
+   "stage": "training",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (NVLink) + Judge",
+   "metric": "Success gain / training hour",
+   "target": "Environment rollouts, GRPO updates and publication",
+   "winner": "claude",
+   "dir": "miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed"
+  },
+  {
+   "key": "sd35",
+   "name": "Miles SD3.5-M multi-teacher OPD",
+   "stage": "training",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (NVLink) + Judge",
+   "metric": "Gap closure / replay hour",
+   "target": "Teacher routing, training and student publication",
+   "winner": "claude",
+   "dir": "miles-diffusion-sd35m-mopd-2xh100-v2-seed"
+  },
+  {
+   "key": "wan22",
+   "name": "Miles Wan2.2 DanceGRPO",
+   "stage": "training",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (NVLink) + Judge",
+   "metric": "Replays / hour",
+   "target": "Video rewards, policy updates and publication",
+   "winner": "astra",
+   "dir": "miles-diffusion-wan22-dancegrpo-2xh100-v2-seed"
+  },
+  {
+   "key": "grouped-fp8",
+   "name": "Dynamic grouped FP8 GEMM",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "scratch",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Dynamic grouping and GEMM scheduling",
+   "winner": "claude",
+   "dir": "standalone-dynamic-grouped-fp8-h100-v3-scratch"
+  },
+  {
+   "key": "sparse-mla",
+   "name": "Sparse-MLA prefill",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "scratch",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Sparse attention with prescribed indices",
+   "winner": "claude",
+   "dir": "standalone-sparse-mla-prefill-h100-v2-scratch"
+  },
+  {
+   "key": "paged-gqa",
+   "name": "Paged-GQA decode",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "scratch",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Decode attention over paged KV caches",
+   "winner": "claude",
+   "dir": "standalone-paged-gqa-decode-bf16-h100-v2-scratch"
+  },
+  {
+   "key": "sageattention",
+   "name": "SageAttention",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Quantized attention forward",
+   "winner": "claude",
+   "dir": "sageattention-quantized-attention-bf16-h100-v2-seed",
+   "traj": {
+    "astra": [
+     [
+      0.138,
+      214.897
+     ],
+     [
+      0.654,
+      300.883
+     ],
+     [
+      1.223,
+      303.639
+     ],
+     [
+      1.745,
+      324.568
+     ],
+     [
+      2.248,
+      353.39
+     ],
+     [
+      5.313,
+      401.128
+     ]
+    ],
+    "claude": [
+     [
+      0.574,
+      587.575
+     ],
+     [
+      1.302,
+      594.321
+     ],
+     [
+      1.803,
+      639.473
+     ],
+     [
+      2.327,
+      665.512
+     ],
+     [
+      2.842,
+      677.448
+     ],
+     [
+      3.36,
+      703.705
+     ],
+     [
+      4.214,
+      708.092
+     ],
+     [
+      4.718,
+      731.407
+     ],
+     [
+      5.222,
+      763.883
+     ],
+     [
+      6.233,
+      768.797
+     ],
+     [
+      7.129,
+      771.053
+     ],
+     [
+      7.653,
+      774.181
+     ],
+     [
+      8.299,
+      790.247
+     ],
+     [
+      8.807,
+      794.823
+     ],
+     [
+      9.823,
+      796.879
+     ],
+     [
+      10.33,
+      797.732
+     ],
+     [
+      10.838,
+      811.424
+     ],
+     [
+      11.343,
+      823.552
+     ]
+    ],
+    "sol": [
+     [
+      0.043,
+      347.716
+     ],
+     [
+      0.598,
+      520.1
+     ],
+     [
+      1.153,
+      529.315
+     ],
+     [
+      1.699,
+      552.781
+     ],
+     [
+      2.237,
+      576.309
+     ],
+     [
+      2.783,
+      618.45
+     ],
+     [
+      3.329,
+      677.16
+     ],
+     [
+      4.43,
+      687.516
+     ],
+     [
+      6.746,
+      703.504
+     ],
+     [
+      9.668,
+      710.326
+     ],
+     [
+      11.219,
+      712.131
+     ]
+    ],
+    "deepseek": [
+     [
+      1.342,
+      529.408
+     ],
+     [
+      3.571,
+      534.831
+     ],
+     [
+      4.898,
+      539.459
+     ],
+     [
+      6.434,
+      540.043
+     ],
+     [
+      8.683,
+      540.226
+     ],
+     [
+      9.803,
+      540.622
+     ],
+     [
+      10.998,
+      540.798
+     ]
+    ],
+    "glm": [
+     [
+      2.096,
+      345.843
+     ],
+     [
+      4.669,
+      365.237
+     ],
+     [
+      5.228,
+      365.433
+     ],
+     [
+      5.781,
+      456.032
+     ],
+     [
+      6.346,
+      489.767
+     ],
+     [
+      6.905,
+      512.854
+     ],
+     [
+      7.456,
+      517.014
+     ],
+     [
+      8.008,
+      525.942
+     ],
+     [
+      8.574,
+      527.141
+     ],
+     [
+      9.122,
+      535.971
+     ],
+     [
+      10.325,
+      542.277
+     ]
+    ],
+    "qwen": [
+     [
+      4.259,
+      245.149
+     ],
+     [
+      6.59,
+      261.574
+     ],
+     [
+      7.303,
+      276.187
+     ],
+     [
+      7.809,
+      286.134
+     ],
+     [
+      8.384,
+      297.941
+     ],
+     [
+      8.89,
+      312.967
+     ],
+     [
+      10.775,
+      357.496
+     ],
+     [
+      11.61,
+      365.781
+     ]
+    ]
+   }
+  },
+  {
+   "key": "minference",
+   "name": "MInference",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "1×H100 + Judge",
+   "metric": "TFLOPS",
+   "target": "Long-context sparse prefill attention",
+   "winner": "claude",
+   "dir": "minference-sparse-prefill-h100-v3-seed"
+  },
+  {
+   "key": "lmcache",
+   "name": "LMCache KV block transfer",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "GB/s",
+   "target": "KV block movement and layout conversion",
+   "winner": "astra",
+   "dir": "lmcache-paged-kv-block-transfer-h100-v1-seed"
+  },
+  {
+   "key": "flash-kmeans",
+   "name": "Flash-KMeans",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "scratch",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Cluster assignment and center-update primitives",
+   "winner": "claude",
+   "dir": "flash-kmeans-paper-h100-v7-scratch"
+  },
+  {
+   "key": "mamba2",
+   "name": "Mamba-2 SSD forward",
+   "stage": "inference",
+   "level": "operator",
+   "budget_h": 12,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "TFLOPS",
+   "target": "Sequence-level SSD forward computation",
+   "winner": "claude",
+   "dir": "tilelang-mamba2-ssd-forward-h100-v2-seed"
+  },
+  {
+   "key": "kvpress",
+   "name": "kvpress KV eviction",
+   "stage": "inference",
+   "level": "module",
+   "budget_h": 24,
+   "start": "scratch",
+   "gpus": "1×H100 + Judge",
+   "metric": "Fidelity",
+   "target": "Per-layer token retention and cache budgets",
+   "winner": "sol",
+   "dir": "kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch"
+  },
+  {
+   "key": "kvzip",
+   "name": "KVzip KV scoring",
+   "stage": "inference",
+   "level": "module",
+   "budget_h": 24,
+   "start": "scratch",
+   "gpus": "1×H100 + Judge",
+   "metric": "Quality retained (%)",
+   "target": "Query-agnostic KV importance scoring",
+   "winner": "astra",
+   "dir": "kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch"
+  },
+  {
+   "key": "qvg",
+   "name": "Quant-VideoGen KV codec",
+   "stage": "inference",
+   "level": "module",
+   "budget_h": 24,
+   "start": "scratch",
+   "gpus": "1×H100 + Judge",
+   "metric": "Quality-weighted score",
+   "target": "Persistent KV cache encoding and decoding",
+   "winner": "claude",
+   "dir": "quant-videogen-cross-model-kv-codec-h100-v4-scratch",
+   "traj": {
+    "sol": [
+     [
+      0.245,
+      6.07
+     ],
+     [
+      1.074,
+      6.14
+     ],
+     [
+      2.984,
+      6.25
+     ],
+     [
+      3.85,
+      6.26
+     ],
+     [
+      4.744,
+      6.4
+     ],
+     [
+      6.447,
+      6.46
+     ],
+     [
+      7.714,
+      6.58
+     ],
+     [
+      9.524,
+      6.74
+     ],
+     [
+      10.963,
+      6.76
+     ],
+     [
+      11.964,
+      6.84
+     ],
+     [
+      16.211,
+      6.85
+     ],
+     [
+      17.135,
+      6.96
+     ],
+     [
+      18.538,
+      7
+     ],
+     [
+      19.413,
+      7.04
+     ],
+     [
+      20.295,
+      7.05
+     ],
+     [
+      21.554,
+      7.08
+     ],
+     [
+      23.672,
+      7.13
+     ]
+    ],
+    "qwen": [
+     [
+      10.191,
+      6.05
+     ],
+     [
+      16.971,
+      8.58
+     ],
+     [
+      18.151,
+      10.17
+     ],
+     [
+      19.407,
+      10.61
+     ],
+     [
+      20.596,
+      10.93
+     ],
+     [
+      21.89,
+      11.28
+     ]
+    ],
+    "deepseek": [
+     [
+      5.698,
+      6.41
+     ],
+     [
+      8.856,
+      7
+     ],
+     [
+      10.055,
+      8.05
+     ],
+     [
+      11.121,
+      8.4
+     ],
+     [
+      14.447,
+      8.63
+     ],
+     [
+      15.635,
+      8.83
+     ]
+    ],
+    "claude": [
+     [
+      6.859,
+      5.8
+     ],
+     [
+      8.184,
+      14.07
+     ],
+     [
+      9.349,
+      17.66
+     ],
+     [
+      11.027,
+      18.72
+     ],
+     [
+      16.64,
+      20.71
+     ],
+     [
+      17.596,
+      21.9
+     ],
+     [
+      19.605,
+      22.11
+     ],
+     [
+      20.561,
+      22.42
+     ],
+     [
+      21.824,
+      25.98
+     ],
+     [
+      22.807,
+      26.09
+     ],
+     [
+      23.81,
+      28.45
+     ]
+    ],
+    "astra": [
+     [
+      0.261,
+      7.33
+     ],
+     [
+      1.299,
+      9.38
+     ],
+     [
+      2.441,
+      9.81
+     ],
+     [
+      3.641,
+      9.98
+     ],
+     [
+      8.864,
+      10.21
+     ],
+     [
+      16.3,
+      10.84
+     ],
+     [
+      17.231,
+      10.91
+     ],
+     [
+      18.362,
+      11.09
+     ],
+     [
+      19.278,
+      11.11
+     ],
+     [
+      20.212,
+      11.27
+     ],
+     [
+      22.359,
+      11.31
+     ],
+     [
+      23.287,
+      11.34
+     ]
+    ],
+    "glm": [
+     [
+      5.001,
+      3.31
+     ],
+     [
+      9.42,
+      5.36
+     ],
+     [
+      11.454,
+      5.78
+     ],
+     [
+      19.536,
+      5.82
+     ]
+    ]
+   }
+  },
+  {
+   "key": "eagle3",
+   "name": "EAGLE-3 speculative decoding",
+   "stage": "inference",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "tokens/s",
+   "target": "Draft, verification, acceptance and KV rollback",
+   "winner": "claude",
+   "dir": "eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed",
+   "traj": {
+    "astra": [
+     [
+      0.182,
+      229.223
+     ],
+     [
+      0.793,
+      403.992
+     ],
+     [
+      1.427,
+      442.044
+     ],
+     [
+      2.742,
+      501.034
+     ],
+     [
+      3.505,
+      517.986
+     ],
+     [
+      4.207,
+      527.333
+     ],
+     [
+      4.889,
+      559.725
+     ],
+     [
+      5.686,
+      585.033
+     ],
+     [
+      6.205,
+      592.793
+     ],
+     [
+      6.875,
+      624.695
+     ],
+     [
+      7.468,
+      634.604
+     ],
+     [
+      8.566,
+      648.884
+     ],
+     [
+      9.223,
+      663.831
+     ],
+     [
+      10.899,
+      670.292
+     ],
+     [
+      11.513,
+      678.082
+     ],
+     [
+      21.886,
+      739.771
+     ],
+     [
+      22.747,
+      745.856
+     ],
+     [
+      23.458,
+      749.152
+     ]
+    ],
+    "claude": [
+     [
+      0.819,
+      448.463
+     ],
+     [
+      1.388,
+      563.389
+     ],
+     [
+      2.354,
+      604.743
+     ],
+     [
+      2.853,
+      665.249
+     ],
+     [
+      3.366,
+      687.562
+     ],
+     [
+      3.867,
+      695.091
+     ],
+     [
+      4.391,
+      725.462
+     ],
+     [
+      5.557,
+      738.842
+     ],
+     [
+      6.227,
+      755.42
+     ],
+     [
+      7.361,
+      770.563
+     ],
+     [
+      8.679,
+      773.71
+     ],
+     [
+      9.189,
+      775.786
+     ],
+     [
+      9.691,
+      776.322
+     ],
+     [
+      10.275,
+      776.356
+     ],
+     [
+      10.784,
+      777.124
+     ],
+     [
+      13.772,
+      784.74
+     ],
+     [
+      15.009,
+      790.932
+     ],
+     [
+      16.361,
+      799.43
+     ],
+     [
+      17.215,
+      804.744
+     ],
+     [
+      17.904,
+      811.831
+     ],
+     [
+      18.914,
+      813.281
+     ],
+     [
+      19.604,
+      822.943
+     ],
+     [
+      20.177,
+      826.784
+     ],
+     [
+      20.77,
+      840.563
+     ],
+     [
+      21.284,
+      841.881
+     ],
+     [
+      21.799,
+      842.643
+     ],
+     [
+      22.509,
+      845.048
+     ],
+     [
+      23.025,
+      845.984
+     ]
+    ],
+    "qwen": [
+     [
+      6.172,
+      436.739
+     ],
+     [
+      7.431,
+      456.783
+     ],
+     [
+      8.962,
+      537.843
+     ],
+     [
+      9.484,
+      548.765
+     ],
+     [
+      10.863,
+      570.303
+     ],
+     [
+      12.188,
+      594.758
+     ],
+     [
+      14.643,
+      618.563
+     ],
+     [
+      15.731,
+      629.176
+     ],
+     [
+      18.697,
+      631.709
+     ],
+     [
+      22.808,
+      631.976
+     ]
+    ],
+    "sol": [
+     [
+      0.204,
+      222.593
+     ],
+     [
+      1.033,
+      327.858
+     ],
+     [
+      2.343,
+      381.357
+     ],
+     [
+      2.943,
+      419.898
+     ],
+     [
+      3.761,
+      436.588
+     ],
+     [
+      4.811,
+      452.148
+     ],
+     [
+      5.433,
+      462.484
+     ],
+     [
+      6.034,
+      474.763
+     ],
+     [
+      6.76,
+      480.299
+     ],
+     [
+      7.285,
+      498.213
+     ],
+     [
+      7.915,
+      508.072
+     ],
+     [
+      8.997,
+      514.862
+     ],
+     [
+      9.552,
+      558.678
+     ],
+     [
+      10.08,
+      576.962
+     ],
+     [
+      10.882,
+      592.009
+     ],
+     [
+      11.41,
+      604.296
+     ],
+     [
+      11.914,
+      605.863
+     ],
+     [
+      12.546,
+      607.032
+     ],
+     [
+      13.79,
+      611.2
+     ],
+     [
+      15.183,
+      617.389
+     ],
+     [
+      16.139,
+      624.64
+     ],
+     [
+      16.64,
+      625.654
+     ],
+     [
+      19.025,
+      628.682
+     ],
+     [
+      19.527,
+      639.291
+     ],
+     [
+      21.126,
+      640.491
+     ]
+    ],
+    "deepseek": [
+     [
+      5.891,
+      238.849
+     ],
+     [
+      6.529,
+      276.581
+     ],
+     [
+      8.367,
+      278.554
+     ],
+     [
+      8.885,
+      361.862
+     ],
+     [
+      9.5,
+      385.242
+     ],
+     [
+      11.171,
+      402.149
+     ],
+     [
+      11.772,
+      410.244
+     ],
+     [
+      12.375,
+      415.947
+     ],
+     [
+      12.974,
+      417.991
+     ],
+     [
+      21.508,
+      436.557
+     ]
+    ],
+    "glm": [
+     [
+      4.64,
+      179.882
+     ],
+     [
+      5.864,
+      180.124
+     ],
+     [
+      6.833,
+      180.15
+     ],
+     [
+      8.434,
+      190.953
+     ],
+     [
+      9.419,
+      192.087
+     ],
+     [
+      10.003,
+      209.242
+     ],
+     [
+      10.807,
+      216.676
+     ],
+     [
+      11.822,
+      240.474
+     ],
+     [
+      14.556,
+      241.064
+     ],
+     [
+      15.445,
+      241.754
+     ],
+     [
+      16.06,
+      242.764
+     ],
+     [
+      21.959,
+      245.233
+     ],
+     [
+      23.01,
+      245.531
+     ],
+     [
+      23.53,
+      245.761
+     ]
+    ]
+   }
+  },
+  {
+   "key": "llada",
+   "name": "LLaDA decoding",
+   "stage": "inference",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "1×H100",
+   "metric": "tokens/s",
+   "target": "Iterative denoising and cache reuse",
+   "winner": "claude",
+   "dir": "llada-h100-decoder-optimization-v2-vanilla-seed",
+   "traj": {
+    "astra": [
+     [
+      0.159,
+      143.913
+     ],
+     [
+      0.62,
+      200.888
+     ],
+     [
+      1.047,
+      246.04
+     ],
+     [
+      1.653,
+      253.347
+     ],
+     [
+      2.131,
+      264.685
+     ],
+     [
+      3.02,
+      266.249
+     ],
+     [
+      3.553,
+      276.158
+     ],
+     [
+      4.058,
+      276.691
+     ],
+     [
+      4.392,
+      282.951
+     ],
+     [
+      4.734,
+      297.54
+     ],
+     [
+      6.935,
+      314.579
+     ],
+     [
+      7.788,
+      319.316
+     ],
+     [
+      9.788,
+      321.079
+     ],
+     [
+      10.115,
+      321.338
+     ],
+     [
+      10.833,
+      322.281
+     ],
+     [
+      11.057,
+      328.307
+     ],
+     [
+      11.514,
+      328.999
+     ],
+     [
+      12.605,
+      330.347
+     ],
+     [
+      12.94,
+      333.759
+     ],
+     [
+      15.623,
+      335.127
+     ],
+     [
+      15.898,
+      335.328
+     ],
+     [
+      16.625,
+      335.348
+     ],
+     [
+      17.118,
+      336.518
+     ],
+     [
+      18.523,
+      336.657
+     ],
+     [
+      19.728,
+      337.183
+     ],
+     [
+      20.508,
+      338.286
+     ],
+     [
+      22.563,
+      339.658
+     ],
+     [
+      23.137,
+      340.068
+     ]
+    ],
+    "claude": [
+     [
+      0.36,
+      140.433
+     ],
+     [
+      1.344,
+      286.751
+     ],
+     [
+      2.096,
+      353.666
+     ],
+     [
+      2.388,
+      360.79
+     ],
+     [
+      2.792,
+      361.142
+     ],
+     [
+      3.201,
+      403.247
+     ],
+     [
+      3.556,
+      415.686
+     ],
+     [
+      3.962,
+      422.331
+     ],
+     [
+      4.167,
+      424.246
+     ],
+     [
+      4.515,
+      438.993
+     ],
+     [
+      5.11,
+      484.272
+     ],
+     [
+      5.386,
+      489.769
+     ],
+     [
+      5.8,
+      499.911
+     ],
+     [
+      6.077,
+      511.662
+     ],
+     [
+      6.402,
+      518.351
+     ],
+     [
+      6.603,
+      529.077
+     ],
+     [
+      6.851,
+      540.529
+     ],
+     [
+      7.07,
+      551.438
+     ],
+     [
+      7.367,
+      568.54
+     ],
+     [
+      7.662,
+      572.9
+     ],
+     [
+      7.901,
+      573.2
+     ],
+     [
+      8.1,
+      587.133
+     ],
+     [
+      9.36,
+      625.062
+     ],
+     [
+      10.722,
+      625.216
+     ],
+     [
+      11,
+      626.285
+     ],
+     [
+      12.151,
+      630.839
+     ],
+     [
+      12.663,
+      634.594
+     ],
+     [
+      14.414,
+      636.311
+     ],
+     [
+      17.404,
+      644.102
+     ],
+     [
+      17.893,
+      649.244
+     ],
+     [
+      20.615,
+      649.434
+     ],
+     [
+      21.423,
+      652.462
+     ],
+     [
+      22.9,
+      653.414
+     ]
+    ],
+    "sol": [
+     [
+      0.419,
+      64.932
+     ],
+     [
+      1.266,
+      157.334
+     ],
+     [
+      3.933,
+      187.81
+     ],
+     [
+      5.427,
+      197.904
+     ],
+     [
+      5.887,
+      228.099
+     ],
+     [
+      6.898,
+      233.595
+     ],
+     [
+      8.449,
+      238.065
+     ],
+     [
+      9.222,
+      238.175
+     ],
+     [
+      9.958,
+      238.819
+     ],
+     [
+      11.081,
+      239.685
+     ],
+     [
+      11.508,
+      240.079
+     ],
+     [
+      14.184,
+      243.277
+     ],
+     [
+      14.637,
+      243.666
+     ],
+     [
+      15.089,
+      244.23
+     ],
+     [
+      15.543,
+      245.657
+     ],
+     [
+      16.553,
+      245.797
+     ],
+     [
+      16.98,
+      246.244
+     ],
+     [
+      17.957,
+      246.28
+     ],
+     [
+      18.476,
+      246.64
+     ],
+     [
+      18.953,
+      246.935
+     ],
+     [
+      21.269,
+      247.725
+     ],
+     [
+      21.636,
+      248.141
+     ],
+     [
+      22.152,
+      248.839
+     ]
+    ],
+    "deepseek": [
+     [
+      1.3,
+      80.708
+     ],
+     [
+      3.09,
+      165.783
+     ],
+     [
+      4.317,
+      170.681
+     ],
+     [
+      6.119,
+      176.203
+     ],
+     [
+      6.84,
+      184.463
+     ],
+     [
+      8.47,
+      212.702
+     ],
+     [
+      8.943,
+      216.151
+     ],
+     [
+      9.467,
+      227.114
+     ],
+     [
+      11.2,
+      237.257
+     ],
+     [
+      12.534,
+      238.112
+     ],
+     [
+      13.406,
+      240.046
+     ],
+     [
+      13.938,
+      243.595
+     ],
+     [
+      14.727,
+      248.657
+     ],
+     [
+      15.181,
+      249.899
+     ],
+     [
+      15.855,
+      252.746
+     ],
+     [
+      16.25,
+      254.177
+     ],
+     [
+      17.023,
+      271.299
+     ],
+     [
+      17.411,
+      276.659
+     ],
+     [
+      18.353,
+      288.849
+     ],
+     [
+      21.175,
+      289.229
+     ],
+     [
+      21.697,
+      289.776
+     ],
+     [
+      23.623,
+      291.718
+     ]
+    ],
+    "glm": [
+     [
+      3.771,
+      72.447
+     ],
+     [
+      4.446,
+      80.448
+     ],
+     [
+      4.98,
+      89.009
+     ],
+     [
+      5.464,
+      97.188
+     ],
+     [
+      6.379,
+      100.126
+     ],
+     [
+      7.586,
+      100.143
+     ],
+     [
+      10.089,
+      101.976
+     ],
+     [
+      10.536,
+      104.423
+     ],
+     [
+      10.968,
+      104.888
+     ],
+     [
+      11.914,
+      104.916
+     ],
+     [
+      14.818,
+      106.05
+     ],
+     [
+      15.299,
+      106.084
+     ],
+     [
+      15.735,
+      107.966
+     ],
+     [
+      23.68,
+      108.091
+     ]
+    ],
+    "qwen": [
+     [
+      5.034,
+      72.793
+     ],
+     [
+      7.252,
+      72.816
+     ],
+     [
+      17.174,
+      72.877
+     ],
+     [
+      17.877,
+      72.911
+     ],
+     [
+      21.606,
+      72.956
+     ],
+     [
+      22.708,
+      73.046
+     ]
+    ]
+   }
+  },
+  {
+   "key": "sdv2",
+   "name": "StreamDiffusionV2",
+   "stage": "inference",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 + Judge",
+   "metric": "Latency-weighted FPS",
+   "target": "Multi-GPU video-pipeline orchestration",
+   "winner": "astra",
+   "dir": "streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed"
+  },
+  {
+   "key": "serving",
+   "name": "Concurrent agent serving",
+   "stage": "inference",
+   "level": "system",
+   "budget_h": 24,
+   "start": "seed",
+   "gpus": "2×H100 (vLLM)",
+   "metric": "Valid steps/min",
+   "target": "Admission, scheduling and workflow progress",
+   "winner": "qwen",
+   "dir": "concurrent-agent-serving-optimizer-qwen36-swe192-v24"
+  }
+ ],
+ "qvg_claude": {
+  "run": "qvg-v4-claude-opus-5-5-max-24h-20261016-221803",
+  "submissions": [
+   [
+    1.976,
+    null,
+    "invalid"
+   ],
+   [
+    2.779,
+    null,
+    "invalid"
+   ],
+   [
+    3.641,
+    null,
+    "invalid"
+   ],
+   [
+    4.95,
+    null,
+    "invalid"
+   ],
+   [
+    5.931,
+    null,
+    "invalid"
+   ],
+   [
+    6.859,
+    3.556,
+    "valid"
+   ],
+   [
+    8.184,
+    8.865,
+    "valid"
+   ],
+   [
+    9.349,
+    12.234,
+    "valid"
+   ],
+   [
+    11.027,
+    12.956,
+    "valid"
+   ],
+   [
+    11.904,
+    13.695,
+    "valid"
+   ],
+   [
+    12.779,
+    14.841,
+    "valid"
+   ],
+   [
+    13.659,
+    null,
+    "invalid"
+   ],
+   [
+    14.587,
+    14.841,
+    "valid"
+   ],
+   [
+    15.538,
+    null,
+    "invalid"
+   ],
+   [
+    16.64,
+    16.197,
+    "valid"
+   ],
+   [
+    17.596,
+    17.169,
+    "valid"
+   ],
+   [
+    18.65,
+    null,
+    "invalid"
+   ],
+   [
+    19.605,
+    17.332,
+    "valid"
+   ],
+   [
+    20.561,
+    17.578,
+    "valid"
+   ],
+   [
+    21.824,
+    18.184,
+    "valid"
+   ],
+   [
+    22.807,
+    18.66,
+    "valid"
+   ],
+   [
+    23.81,
+    19.624,
+    "valid"
+   ]
+  ]
+ }
+}
