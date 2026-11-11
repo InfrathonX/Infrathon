@@ -509,8 +509,8 @@ def step_points(points: list[list[float]], end_h: float, fx, fy) -> list[tuple[f
 
 
 def discovery() -> str:
-    W, H, T = 1000, 486, 21.0
-    play = 15.0                                   # seconds for the 24 hours
+    W, H, T = 1000, 500, 19.0
+    play = 14.0                                   # seconds for the 24 hours
     tl = Timeline(T, "d")
     qvg = task("qvg")
     human = 6.82                                  # the human codec's task score
@@ -522,7 +522,17 @@ def discovery() -> str:
     out.append(header("24 hours on one task", "Quant-VideoGen KV codec: compress the KV cache of two video models "
                                               "without hurting the video"))
 
-    px0, px1, py0, py1, vmax = 72, 704, 420, 92, 30.0
+    # Legend: three agents have a hue, the other three share gray.
+    lx = 24
+    for key in ("claude", "astra", "sol"):
+        out.append(f'<path d="M{lx} 66 h18" style="stroke: var({agent_color(key)}); stroke-width: 3; stroke-linecap: round"/>'
+                   f'<text x="{lx + 25}" y="70.5" style="font-size: 12.5px">{model_name(key)}</text>')
+        lx += 25 + text_width(model_name(key), 12.5) + 22
+    out.append(f'<path d="M{lx} 66 h18" style="stroke: var(--other); stroke-width: 2; stroke-linecap: round"/>'
+               f'<text x="{lx + 25}" y="70.5" class="muted" style="font-size: 12.5px">Qwen 3.8 Flash, DeepSeek V4.1 Flash, '
+               f'GLM 5.3 Flash</text>')
+
+    px0, px1, py0, py1, vmax = 72, 900, 428, 116, 30.0
 
     def fx(h: float) -> float:
         return px0 + (px1 - px0) * h / 24.0
@@ -546,7 +556,7 @@ def discovery() -> str:
     out.append(f'<text x="{px0 - 10}" y="{fy(human) + 4:.1f}" text-anchor="end" style="font-size: 11.5px; font-weight: 650; '
                f'fill: var(--human)">human</text>')
 
-    # Every agent's best score so far, drawn as the playhead passes.
+    # Every agent's best score so far, drawn as the playhead passes; the final score at the line's end.
     order = ["glm", "deepseek", "qwen", "sol", "astra", "claude"]
     for key in order:
         pts = qvg["traj"][key]
@@ -554,6 +564,11 @@ def discovery() -> str:
         out.append(drawn_path(tl, step_points(pts, 24, fx, fy), px0, px1, 0.0, play,
                               f"fill: none; stroke: var({agent_color(key)}); stroke-width: {width}; "
                               f"stroke-linejoin: round; stroke-linecap: round"))
+    # Final scores of the two lines that end apart from the rest (the other four end too close to label).
+    end = tl.anim(hold_from(tl, play, "opacity: 1", "opacity: 0", 0.3))
+    out.append(f'<g class="{end}">' + "".join(
+        f'<text x="{px1 + 8}" y="{fy(qvg["traj"][k][-1][1]) + 4:.1f}" style="font-size: 12.5px; font-weight: 700">'
+        f'{qvg["traj"][k][-1][1]:.2f}</text>' for k in ("claude", "astra")) + '</g>')
 
     # Claude's submissions the Judge found invalid, as small crosses on the time axis.
     bad = [h for h, v, status in DATA["qvg_claude"]["submissions"] if status != "valid"]
@@ -567,34 +582,34 @@ def discovery() -> str:
                f'{len(first_bad)} invalid tries first</text>')
 
     # Claude's milestones (paper Figure 1): what changed, and the compression it reached.
-    steps = [(6.86, "4-bit quantization", "3.56×"), (8.18, "PCA + entropy coding", "8.87×"),
-             (9.35, "quantization-step tuning", "12.23×"), (17.6, "trellis quantization", "17.17×"),
-             (23.81, "metadata compression", "19.62×", "+ per-head quantization")]
+    # Each box's top-left is in (hour, score); the leader leaves the box's right side, or its bottom edge.
+    steps = [(6.859, ["4-bit quantization"], "3.56×", (0.6, 17.0), "right"),
+             (8.184, ["PCA + entropy coding"], "8.87×", (0.6, 24.2), "right"),
+             (9.349, ["quantization-step tuning"], "12.23×", (6.6, 31.0), "below"),
+             (17.596, ["trellis quantization"], "17.17×", (12.0, 16.4), "right"),
+             (23.81, ["metadata compression", "+ per-head quantization"], "19.62×", (17.4, 18.6), "right")]
     claude = qvg["traj"]["claude"]
 
     def score_at(hour: float) -> float:
         return max(v for h, v in claude if h <= hour + 1e-6)
 
-    boxes = [(88, 262), (88, 206), (88, 150), (384, 234), (418, 98)]      # top-left of each callout
-    for n, (step_, (bx, by)) in enumerate(zip(steps, boxes), start=1):
-        hour, what, ratio = step_[0], step_[1], step_[2]
-        extra = step_[3] if len(step_) > 3 else ""
+    for n, (hour, lines, ratio, (bh_, bv), side) in enumerate(steps, start=1):
         mx, my = fx(hour), fy(score_at(hour))
-        bw = max(text_width(what, 12.5, True), text_width(extra, 12.5, True)) + 26
-        bh = 44 if not extra else 60
+        bx, by = fx(bh_), fy(bv)
+        bw = max(text_width(t, 12.5, True) for t in lines) + 26
+        bh = 26 + 16 * len(lines)
+        leader = (f"M{bx + bw:.1f} {by + 18:.1f} H{mx:.1f} V{my:.1f}" if side == "right"
+                  else f"M{mx:.1f} {by + bh:.1f} V{my:.1f}")
         cls = tl.anim(hold_from(tl, at(hour), "opacity: 1; transform: translateY(0)", "opacity: 0; transform: translateY(4px)",
                                 0.3), "transform-box: fill-box;")
-        anchor_x = bx + bw if mx > bx + bw else mx
-        anchor_y = by + bh / 2 if mx > bx + bw else by if my < by else by + bh
         out.append(f'<g class="{cls}">')
-        out.append(f'<path d="M{mx:.1f} {my:.1f} L{anchor_x:.1f} {anchor_y:.1f}" style="stroke: var(--claude); '
-                   f'stroke-width: 1.1; stroke-dasharray: 3 3; fill: none"/>')
-        out.append(f'<rect x="{bx}" y="{by}" width="{bw:.0f}" height="{bh}" rx="8" style="fill: var(--bg); '
+        out.append(f'<path d="{leader}" style="stroke: var(--claude); stroke-width: 1.1; stroke-dasharray: 3 3; fill: none"/>')
+        out.append(f'<rect x="{bx:.1f}" y="{by:.1f}" width="{bw:.0f}" height="{bh}" rx="8" style="fill: var(--bg); '
                    f'stroke: var(--line)"/>')
-        out.append(f'<text x="{bx + 12}" y="{by + 18}" style="font-size: 12.5px; font-weight: 600">{esc(what)}</text>')
-        if extra:
-            out.append(f'<text x="{bx + 12}" y="{by + 34}" style="font-size: 12.5px; font-weight: 600">{esc(extra)}</text>')
-        out.append(f'<text x="{bx + 12}" y="{by + bh - 10}" class="muted" style="font-size: 12px">'
+        for k, t in enumerate(lines):
+            out.append(f'<text x="{bx + 12:.1f}" y="{by + 18 + 16 * k:.1f}" style="font-size: 12.5px; font-weight: 600">'
+                       f'{esc(t)}</text>')
+        out.append(f'<text x="{bx + 12:.1f}" y="{by + bh - 10:.1f}" class="muted" style="font-size: 12px">'
                    f'<tspan style="font-weight: 700; fill: var(--text)">{ratio}</tspan> compression</text>')
         out.append(f'<circle cx="{mx:.1f}" cy="{my:.1f}" r="9" style="fill: var(--claude); stroke: var(--bg); stroke-width: 2"/>'
                    f'<text x="{mx:.1f}" y="{my + 4:.1f}" text-anchor="middle" style="font-size: 11px; font-weight: 700; '
@@ -610,48 +625,8 @@ def discovery() -> str:
         out.append(f'<text x="{px1}" y="{py1 - 14}" text-anchor="end" class="{cls}" style="font-size: 12.5px">'
                    f'<tspan style="font-weight: 700">{h} h</tspan><tspan class="muted"> of 24</tspan></text>')
 
-    # Scoreboard: every agent's best score so far, bars that follow the playhead.
-    sx, sw = 752, 216
-    out.append(f'<text x="{sx}" y="{py1 - 14}" style="font-size: 13px; font-weight: 650">best score so far</text>')
-    final = sorted(qvg["traj"], key=lambda k: -qvg["traj"][k][-1][1])
-    row_h = 42
-    for i, key in enumerate(final):
-        y = py1 + 6 + row_h * i
-        pts = qvg["traj"][key]
-        out.append(f'<text x="{sx}" y="{y + 12}" style="font-size: 12.5px">{model_name(key)}</text>')
-        out.append(f'<rect x="{sx}" y="{y + 20}" width="{sw}" height="10" rx="5" style="fill: var(--faint)"/>')
-        frames = [(0.0, "transform: scaleX(0)")]
-        prev = 0.0
-        for h, v in pts:
-            frames += [(at(h) - 0.001, f"transform: scaleX({prev / vmax:.4f})"), (at(h) + 0.12, f"transform: scaleX({v / vmax:.4f})")]
-            prev = v
-        frames += [(T - 0.4, f"transform: scaleX({prev / vmax:.4f})"), (T, "transform: scaleX(0)")]
-        cls = tl.anim(frames, "transform-box: fill-box; transform-origin: left center;")
-        out.append(f'<rect x="{sx}" y="{y + 20}" width="{sw}" height="10" rx="5" class="{cls}" '
-                   f'style="fill: var({agent_color(key)})"/>')
-        val = tl.anim(hold_from(tl, play, "opacity: 1", "opacity: 0", 0.3))
-        out.append(f'<text x="{sx + sw}" y="{y + 12}" text-anchor="end" class="{val}" style="font-size: 12.5px; '
-                   f'font-weight: 700">{pts[-1][1]:.2f}</text>')
-    hx = sx + sw * human / vmax
-    for i in range(len(final)):
-        y = py1 + 6 + row_h * i
-        out.append(f'<path d="M{hx:.1f} {y + 16} V{y + 34}" style="stroke: var(--human); stroke-width: 1.6; '
-                   f'stroke-dasharray: 3 2"/>')
-    out.append(f'<text x="{hx:.1f}" y="{py1 + 6 + row_h * len(final) + 10}" text-anchor="middle" style="font-size: 11.5px; '
-               f'font-weight: 650; fill: var(--human)">human codec {human}</text>')
-
-    # The outcome, once the 24 hours are up.
-    done = tl.anim(hold_from(tl, play + 0.3, "opacity: 1; transform: translateY(0)", "opacity: 0; transform: translateY(6px)",
-                             0.4), "transform-box: fill-box;")
-    oy = py1 + 6 + row_h * len(final) + 30
-    out.append(f'<g class="{done}"><rect x="{sx - 8}" y="{oy}" width="{sw + 16}" height="64" rx="10" '
-               f'style="fill: var(--card); stroke: var(--claude); stroke-opacity: .6"/>'
-               f'<text x="{sx + 4}" y="{oy + 22}" style="font-size: 13px; font-weight: 700">2.9× the human codec\'s</text>'
-               f'<text x="{sx + 4}" y="{oy + 38}" style="font-size: 13px; font-weight: 700">compression, with better</text>'
-               f'<text x="{sx + 4}" y="{oy + 54}" class="muted" style="font-size: 12px">PSNR, SSIM and LPIPS</text></g>')
-
-    out.append(f'<text x="{px0}" y="{H - 16}" class="muted" style="font-size: 11.5px">One 24-hour run per agent. '
-               f'Callouts follow paper Figure 1 (Claude Opus 5.5); × marks its submissions the Judge rejected as invalid.</text>')
+    out.append(f'<text x="{px0}" y="{H - 16}" class="muted" style="font-size: 11.5px">One 24-hour run per agent, best '
+               f'valid score so far. Callouts follow paper Figure 1; × marks Claude\'s submissions the Judge rejected.</text>')
     return svg(W, H, "24 hours on the Quant-VideoGen KV codec task: six agents' best scores over time, and the steps by "
                      "which Claude Opus 5.5 overtook the human codec", tl.css(), "\n".join(out))
 
@@ -811,8 +786,26 @@ def tasks_map() -> str:
                "", "\n".join(out))
 
 
+def light_only(text: str) -> str:
+    """The same figure without its dark-mode rules, for pages that are always light."""
+    start = text.index("  @media (prefers-color-scheme: dark)")
+    depth, i = 0, text.index("{", start)
+    while True:
+        depth += {"{": 1, "}": -1}.get(text[i], 0)
+        if depth == 0:
+            return text[:start] + text[i + 1:]
+        i += 1
+
+
 if __name__ == "__main__":
+    import sys
+    # python3 make_figures.py [--light-only DIR]: also write light-only copies of the figures into DIR
+    light_dir = Path(sys.argv[sys.argv.index("--light-only") + 1]) if "--light-only" in sys.argv else None
     for name, make in (("overview.svg", overview), ("discovery.svg", discovery), ("results.svg", results),
                        ("tasks.svg", tasks_map)):
-        (HERE / name).write_text(make(), encoding="utf-8")
+        text = make()
+        (HERE / name).write_text(text, encoding="utf-8")
         print(f"wrote {HERE / name}")
+        if light_dir:
+            (light_dir / name).write_text(light_only(text), encoding="utf-8")
+            print(f"wrote {light_dir / name}")
