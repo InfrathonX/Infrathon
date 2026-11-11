@@ -6,8 +6,10 @@
     docs/assets/results.svg     six agents: best score over the budget on four tasks, rank score over 25
     docs/assets/tasks.svg       the 25 tasks by level and stage (static)
 
-Plain SVG with CSS keyframes and SMIL motion: GitHub plays them in an <img>, needs no script, and
-the files follow the viewer's light or dark theme. The numbers come from figure_data.json, an
+Plain SVG with CSS keyframes only: GitHub plays them in an <img>, needs no script, and the files
+follow the viewer's light or dark theme. Everything moves on CSS animations, never SMIL: browsers run
+the two on separate clocks that drift apart when the image is scrolled out of view, so a mix of the
+two falls out of step. The numbers come from figure_data.json, an
 extract of the website's results snapshot (https://infrathonx.github.io). Run this again after
 changing the data or the design:
 
@@ -137,28 +139,56 @@ def text_width(text: str, size: float, bold: bool = False) -> float:
     return units * size * (1.12 if bold else 1.0)
 
 
-def moving_dot(points: list[tuple[float, float]], times: list[float], cycle: float, color: str, r: float = 6.5) -> str:
+def moving_dot(tl: Timeline, points: list[tuple[float, float]], times: list[float], color: str, r: float = 6.5) -> str:
     """A dot that travels the polyline `points`, reaching each vertex at the matching time; hidden otherwise."""
-    lengths = [math.dist(a, b) for a, b in zip(points, points[1:])]
-    total = sum(lengths) or 1.0
-    fractions, run = [0.0], 0.0
-    for length in lengths:
-        run += length
-        fractions.append(run / total)
+    cycle = tl.cycle
     first, last = times[0], times[-1]
-    frames = [(0.0, 0.0), (first - 0.002, 0.0)] + list(zip(times, fractions)) + [(last + 0.002, 1.0), (cycle, 1.0)]
-    frames = [(max(0.0, min(cycle, t)), p) for t, p in frames]
-    key_times = ";".join(f"{t / cycle:.5f}" for t, _ in frames)
-    key_points = ";".join(f"{p:.5f}" for _, p in frames)
-    path = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in points)
-    vis = [(0, 0), (first - 0.002, 0), (first + 0.06, 1), (last - 0.06, 1), (last, 0), (cycle, 0)]
-    vis_times = ";".join(f"{max(0.0, min(1.0, t / cycle)):.5f}" for t, _ in vis)
-    vis_values = ";".join(str(v) for _, v in vis)
-    return (f'<circle r="{r}" style="fill: var({color}); stroke: var(--bg); stroke-width: 2" opacity="0">'
-            f'<animateMotion dur="{cycle}s" repeatCount="indefinite" calcMode="linear" keyTimes="{key_times}" '
-            f'keyPoints="{key_points}" path="{path}"/>'
-            f'<animate attributeName="opacity" dur="{cycle}s" repeatCount="indefinite" keyTimes="{vis_times}" '
-            f'values="{vis_values}"/></circle>')
+
+    def at(p: tuple[float, float]) -> str:
+        return f"transform: translate({p[0]:.1f}px, {p[1]:.1f}px)"
+
+    move = [(0.0, at(points[0])), (max(0.0, first - 0.002), at(points[0]))]
+    move += [(t, at(p)) for t, p in zip(times, points)]
+    move += [(min(cycle, last + 0.002), at(points[-1])), (cycle, at(points[-1]))]
+    vis = tl.anim([(0, "opacity: 0"), (max(0.0, first - 0.002), "opacity: 0"), (first + 0.06, "opacity: 1"),
+                   (last - 0.06, "opacity: 1"), (last, "opacity: 0"), (cycle, "opacity: 0")])
+    pos = tl.anim(move)
+    return (f'<g class="{vis}"><circle r="{r}" class="{pos}" style="fill: var({color}); stroke: var(--bg); '
+            f'stroke-width: 2"/></g>')
+
+
+def playhead(tl: Timeline, x0: float, x1: float, y0: float, y1: float, t0: float, t1: float, opacity: float) -> str:
+    """A vertical line that sweeps from x0 at t0 to x1 at t1, then waits at x1 until the cycle ends."""
+    cls = tl.anim([(0, "transform: translateX(0px)"), (t0, "transform: translateX(0px)"),
+                   (t1, f"transform: translateX({x1 - x0:.1f}px)"), (tl.cycle, f"transform: translateX({x1 - x0:.1f}px)")])
+    return (f'<line x1="{x0}" y1="{y0}" x2="{x0}" y2="{y1}" class="{cls}" style="stroke: var(--text); '
+            f'stroke-width: 1.3; opacity: {opacity}"/>')
+
+
+def drawn_path(tl: Timeline, points: list[tuple[float, float]], x0: float, x1: float, t0: float, t1: float,
+               style: str) -> str:
+    """A polyline drawn in step with a playhead that sweeps x0..x1 over t0..t1 (x never decreases along it).
+    It stays drawn until just before the cycle loops."""
+    lengths = [0.0]
+    for a, b in zip(points, points[1:]):
+        lengths.append(lengths[-1] + math.dist(a, b))
+    total = lengths[-1] or 1.0
+
+    def when(x: float) -> float:
+        return t0 + (t1 - t0) * (x - x0) / (x1 - x0)
+
+    frames, last_t = [(0.0, total)], 0.0
+    for (x, _), run in zip(points, lengths):
+        t = max(when(x), last_t + 0.01)          # vertical segments: drawn in 10 ms
+        frames.append((t, total - run))
+        last_t = t
+    frames += [(tl.cycle - 0.4, 0.0), (tl.cycle - 0.05, total), (tl.cycle, total)]
+    cls = tl.anim([(t, f"stroke-dashoffset: {off:.1f}") for t, off in frames])
+    vis = tl.anim([(0, "opacity: 0"), (max(0.0, when(points[0][0]) - 0.001), "opacity: 0"),
+                   (when(points[0][0]) + 0.05, "opacity: 1"), (tl.cycle - 0.05, "opacity: 1"), (tl.cycle, "opacity: 0")])
+    d = "M" + " L".join(f"{x:.1f} {y:.1f}" for x, y in points)
+    return (f'<g class="{vis}"><path d="{d}" class="{cls}" style="{style}; stroke-dasharray: {total + 2:.1f} '
+            f'{total + 2:.1f}"/></g>')
 
 
 # ---- icons (24 x 24, drawn around 0,0 as the top-left) ------------------------------------------
@@ -191,7 +221,7 @@ def cross_mark(cx: float, cy: float, color: str, r: float = 10) -> str:
 # ---- 1. how a run works ----------------------------------------------------------------------------
 
 def overview() -> str:
-    W, H, T = 1000, 504, 15.0
+    W, H, T = 1000, 548, 15.0
     tl = Timeline(T, "o")
     out: list[str] = []
     under: list[str] = []          # drawn below the panels: the moving dots show only in the gaps
@@ -341,7 +371,7 @@ def overview() -> str:
 
     # Judge: held-out workloads, then execute, validate, score.
     out.append(f'<text x="{jx + 16}" y="{top + 56}" class="muted" style="font-size: 11.5px">private tests</text>')
-    n_cells = 7
+    n_cells = 6
     for k in range(n_cells):
         x = jx + 100 + 30 * k
         spans = [(s + 0.12 * k, e) for s, e in judge_on]
@@ -371,8 +401,8 @@ def overview() -> str:
     mx0, mw = jx + 62, jw - 62 - 52
     out.append(f'<rect x="{mx0}" y="{my}" width="{mw}" height="12" rx="6" style="fill: var(--faint)"/>')
     meter = tl.anim([(0, "transform: scaleX(0)"), (result[0] - 0.4, "transform: scaleX(0)"),
-                     (result[0], "transform: scaleX(0.38)"), (result[2] - 0.4, "transform: scaleX(0.38)"),
-                     (result[2], "transform: scaleX(0.82)"), (T - 0.35, "transform: scaleX(0.82)"),
+                     (result[0], "transform: scaleX(0.42)"), (result[2] - 0.4, "transform: scaleX(0.42)"),
+                     (result[2], "transform: scaleX(0.9)"), (T - 0.35, "transform: scaleX(0.9)"),
                      (T, "transform: scaleX(0)")], "transform-box: fill-box; transform-origin: left center;")
     out.append(f'<rect x="{mx0}" y="{my}" width="{mw}" height="12" rx="6" class="{meter}" style="fill: var(--judge)"/>')
     valid = tl.anim(windows(tl, [(result[0] - 0.3, 9.4), (result[2] - 0.3, T - 0.4)], "opacity: 1", "opacity: 0", 0.1))
@@ -400,54 +430,58 @@ def overview() -> str:
         s = submit[n]
         r0, r1 = review[n]
         j0 = judge_on[0 if n == 0 else 1][0]
-        under.append(moving_dot([(wx + ww - 40, mid), (cx + cw / 2, mid), (cx + cw / 2, mid), (jx + 60, mid)],
-                                [s, r0, r1, j0], T, "--work"))
+        under.append(moving_dot(tl, [(wx + ww - 40, mid), (cx + cw / 2, mid), (cx + cw / 2, mid), (jx + 60, mid)],
+                                [s, r0, r1, j0], "--work"))
         back = result[n]
-        under.append(moving_dot([(jx + jw * 0.5, top + ph - 10), (jx + jw * 0.5, lane), (fb_x, lane), (fb_x, top + ph - 10)],
-                                [back, back + 0.15, back + 0.5, back + 0.6], T, "--judge"))
+        under.append(moving_dot(tl, [(jx + jw * 0.5, top + ph - 10), (jx + jw * 0.5, lane), (fb_x, lane),
+                                     (fb_x, top + ph - 10)], [back, back + 0.15, back + 0.5, back + 0.6], "--judge"))
     s = submit[1]
     r0, r1 = review[1]
-    under.append(moving_dot([(wx + ww - 40, mid), (cx + cw / 2, mid)], [s, r0], T, "--work"))
-    under.append(moving_dot([(cx + cw / 2, top + ph - 10), (cx + cw / 2, lane), (fb_x, lane), (fb_x, top + ph - 10)],
-                            [r1, r1 + 0.12, r1 + 0.45, r1 + 0.55], T, "--bad"))
+    under.append(moving_dot(tl, [(wx + ww - 40, mid), (cx + cw / 2, mid)], [s, r0], "--work"))
+    under.append(moving_dot(tl, [(cx + cw / 2, top + ph - 10), (cx + cw / 2, lane), (fb_x, lane), (fb_x, top + ph - 10)],
+                            [r1, r1 + 0.12, r1 + 0.45, r1 + 0.55], "--bad"))
 
     # The time budget: a playhead, each result as it comes back, and the best valid score so far.
-    by0, by1 = 418, 474                       # band top, axis
-    ax0, ax1 = 150, 952
+    by0, by1 = 414, 518                       # band top, axis
+    ax0, ax1 = 236, 952
     p0, p1 = 2.0, 14.0
 
     def at(t: float) -> float:
         return ax0 + (ax1 - ax0) * max(0.0, min(1.0, (t - p0) / (p1 - p0)))
 
-    out.append(icon("clock", 24, by0 + 6, "--muted", 0.9))
-    out.append(f'<text x="50" y="{by0 + 22}" style="font-size: 13.5px; font-weight: 650">time budget</text>')
-    out.append(f'<text x="50" y="{by0 + 40}" class="muted" style="font-size: 12px">12 or 24 hours</text>')
-    out.append(f'<path d="M{ax0} {by1} H{ax1}" class="line"/>')
+    out.append(icon("clock", 24, by0 + 26, "--muted", 0.9))
+    out.append(f'<text x="50" y="{by0 + 42}" style="font-size: 13.5px; font-weight: 650">time budget</text>')
+    out.append(f'<text x="50" y="{by0 + 60}" class="muted" style="font-size: 12px">12 or 24 hours</text>')
+    out.append(f'<text x="50" y="{by0 + 78}" class="muted" style="font-size: 12px">best valid score so far</text>')
     for q in range(5):
         x = ax0 + (ax1 - ax0) * q / 4
         out.append(f'<path d="M{x:.1f} {by1} V{by1 + 5}" class="line"/>')
     out.append(f'<text x="{ax0}" y="{by1 + 20}" text-anchor="middle" class="muted" style="font-size: 11.5px">0</text>')
     out.append(f'<text x="{ax1}" y="{by1 + 20}" text-anchor="middle" class="muted" style="font-size: 11.5px">T</text>')
-    lv1, lv3 = by1 - 20, by1 - 46
-    step = (f"M{ax0} {by1} H{at(result[0]):.1f} V{lv1} H{at(result[2]):.1f} V{lv3} H{ax1}")
-    out.append(f'<clipPath id="budget"><rect x="{ax0}" y="{by0 - 4}" height="{by1 - by0 + 8}" width="0">'
-               f'<animate attributeName="width" dur="{T}s" repeatCount="indefinite" '
-               f'keyTimes="0;{p0 / T:.4f};{p1 / T:.4f};{(T - 0.4) / T:.4f};1" '
-               f'values="0;0;{ax1 - ax0};{ax1 - ax0};0"/></rect></clipPath>')
-    out.append(f'<g clip-path="url(#budget)"><path d="{step} V{by1} Z" style="fill: var(--judge); opacity: 0.12"/>'
-               f'<path d="{step}" style="fill: none; stroke: var(--judge); stroke-width: 2.2; stroke-linejoin: round"/></g>')
-    for t, y, good in ((result[0], lv1, True), (result[1], by1 - 8, False), (result[2], lv3, True)):
+    # The two valid results, at the heights of the Judge's score meter (0.42 and 0.9 of the band).
+    band = by1 - by0 - 12
+    lv1, lv3 = by1 - 0.42 * band, by1 - 0.9 * band
+    step = [(ax0, by1), (at(result[0]), by1), (at(result[0]), lv1), (at(result[2]), lv1), (at(result[2]), lv3), (ax1, lv3)]
+    # The shaded area under the step, shown in pieces as the playhead reaches each result.
+    for (xa, ya), xb, t in ((step[2], at(result[2]), result[0]), (step[4], ax1, result[2])):
+        cls = tl.anim([(0, "opacity: 0; transform: scaleX(0)"), (t - 0.001, "opacity: 0; transform: scaleX(0)"),
+                       (t + 0.05, "opacity: 1; transform: scaleX(0)"),
+                       (t + (p1 - p0) * (xb - xa) / (ax1 - ax0), "opacity: 1; transform: scaleX(1)"),
+                       (T - 0.35, "opacity: 1; transform: scaleX(1)"), (T, "opacity: 0; transform: scaleX(1)")],
+                      "transform-box: fill-box; transform-origin: left center;")
+        out.append(f'<rect x="{xa:.1f}" y="{ya:.1f}" width="{xb - xa:.1f}" height="{by1 - ya:.1f}" class="{cls}" '
+                   f'style="fill: var(--judge); opacity: 0; fill-opacity: 0.12"/>')
+    out.append(drawn_path(tl, step, ax0, ax1, p0, p1, "fill: none; stroke: var(--judge); stroke-width: 2.4; "
+                                                    "stroke-linejoin: round"))
+    out.append(f'<path d="M{ax0} {by1} H{ax1}" class="line"/>')
+    for t, y, good in ((result[0], lv1, True), (result[1], by1 - 10, False), (result[2], lv3, True)):
         cls = tl.anim(hold_from(tl, t, "opacity: 1; transform: scale(1)", "opacity: 0; transform: scale(0.3)", 0.2),
                       "transform-box: fill-box; transform-origin: center;")
-        mark = check_mark(at(t), y, "--ok", 7) if good else cross_mark(at(t), y, "--bad", 7)
+        mark = check_mark(at(t), y, "--ok", 8) if good else cross_mark(at(t), y, "--bad", 8)
         out.append(f'<g class="{cls}">{mark}</g>')
-    out.append(f'<line x1="{ax0}" y1="{by0}" x2="{ax0}" y2="{by1}" style="stroke: var(--text); stroke-width: 1.4; '
-               f'opacity: .55"><animate attributeName="x1" dur="{T}s" repeatCount="indefinite" '
-               f'keyTimes="0;{p0 / T:.4f};{p1 / T:.4f};1" values="{ax0};{ax0};{ax1};{ax1}"/>'
-               f'<animate attributeName="x2" dur="{T}s" repeatCount="indefinite" '
-               f'keyTimes="0;{p0 / T:.4f};{p1 / T:.4f};1" values="{ax0};{ax0};{ax1};{ax1}"/></line>')
+    out.append(playhead(tl, ax0, ax1, by0 - 6, by1, p0, p1, 0.55))
     best = tl.anim(hold_from(tl, 13.6, "opacity: 1", "opacity: 0.0", 0.3))
-    out.append(f'<g class="{best}"><text x="{ax1}" y="{lv3 - 12}" text-anchor="end" style="font-size: 12.5px; '
+    out.append(f'<g class="{best}"><text x="{ax1 - 14}" y="{lv3 - 12:.1f}" text-anchor="end" style="font-size: 12.5px; '
                f'font-weight: 650; fill: var(--judge)">the run\'s result: its best valid score</text></g>')
 
     out[0:0] = under
@@ -466,12 +500,12 @@ def model_name(key: str) -> str:
     return next(m["name"] for m in DATA["models"] if m["key"] == key)
 
 
-def step_path(points: list[list[float]], end_h: float, fx, fy) -> str:
+def step_points(points: list[list[float]], end_h: float, fx, fy) -> list[tuple[float, float]]:
     """Best score so far as a step line: flat until the next better submission, then up."""
-    d = f"M{fx(points[0][0]):.1f} {fy(points[0][1]):.1f}"
+    out = [(fx(points[0][0]), fy(points[0][1]))]
     for (h, v) in points[1:]:
-        d += f" H{fx(h):.1f} V{fy(v):.1f}"
-    return d + f" H{fx(end_h):.1f}"
+        out += [(fx(h), out[-1][1]), (fx(h), fy(v))]
+    return out + [(fx(end_h), out[-1][1])]
 
 
 def discovery() -> str:
@@ -512,19 +546,14 @@ def discovery() -> str:
     out.append(f'<text x="{px0 - 10}" y="{fy(human) + 4:.1f}" text-anchor="end" style="font-size: 11.5px; font-weight: 650; '
                f'fill: var(--human)">human</text>')
 
-    # Every agent's best score so far, revealed by a clip that follows the playhead.
-    out.append(f'<clipPath id="reveal"><rect x="{px0 - 4}" y="{py1 - 30}" height="{py0 - py1 + 40}" width="0">'
-               f'<animate attributeName="width" dur="{T}s" repeatCount="indefinite" '
-               f'keyTimes="0;{play / T:.4f};{(T - 0.4) / T:.4f};1" values="0;{px1 - px0 + 8};{px1 - px0 + 8};0"/>'
-               f'</rect></clipPath>')
+    # Every agent's best score so far, drawn as the playhead passes.
     order = ["glm", "deepseek", "qwen", "sol", "astra", "claude"]
-    out.append('<g clip-path="url(#reveal)">')
     for key in order:
         pts = qvg["traj"][key]
         width = 2.8 if key == "claude" else 1.9 if key in AGENT_COLOR else 1.5
-        out.append(f'<path d="{step_path(pts, 24, fx, fy)}" style="fill: none; stroke: var({agent_color(key)}); '
-                   f'stroke-width: {width}; stroke-linejoin: round; stroke-linecap: round"/>')
-    out.append('</g>')
+        out.append(drawn_path(tl, step_points(pts, 24, fx, fy), px0, px1, 0.0, play,
+                              f"fill: none; stroke: var({agent_color(key)}); stroke-width: {width}; "
+                              f"stroke-linejoin: round; stroke-linecap: round"))
 
     # Claude's submissions the Judge found invalid, as small crosses on the time axis.
     bad = [h for h, v, status in DATA["qvg_claude"]["submissions"] if status != "valid"]
@@ -573,10 +602,7 @@ def discovery() -> str:
         out.append('</g>')
 
     # Playhead and clock.
-    out.append(f'<line x1="{px0}" y1="{py1 - 4}" x2="{px0}" y2="{py0}" style="stroke: var(--text); stroke-width: 1.3; '
-               f'opacity: .45"><animate attributeName="x1" dur="{T}s" repeatCount="indefinite" '
-               f'keyTimes="0;{play / T:.4f};1" values="{px0};{px1};{px1}"/><animate attributeName="x2" dur="{T}s" '
-               f'repeatCount="indefinite" keyTimes="0;{play / T:.4f};1" values="{px0};{px1};{px1}"/></line>')
+    out.append(playhead(tl, px0, px1, py1 - 4, py0, 0.0, play, 0.45))
     for h in range(25):
         s0, s1 = at(h), (at(h + 1) if h < 24 else T - 0.4)
         cls = tl.anim([(0, "opacity: 0"), (max(0, s0 - 0.001), "opacity: 0"), (s0 + 0.001, "opacity: 1"),
@@ -698,18 +724,12 @@ def results() -> str:
         for h in (0, budget // 2, budget):
             out.append(f'<text x="{fx(h):.1f}" y="{gy0 + 18}" text-anchor="middle" class="muted" style="font-size: 11.5px">'
                        f'{h} h</text>')
-        cid = f"clip{n}"
-        out.append(f'<clipPath id="{cid}"><rect x="{gx0 - 4}" y="{gy1 - 10}" height="{gy0 - gy1 + 20}" width="0">'
-                   f'<animate attributeName="width" dur="{T}s" repeatCount="indefinite" '
-                   f'keyTimes="0;0.06;{play / T:.4f};{(T - 0.4) / T:.4f};1" '
-                   f'values="0;0;{gx1 - gx0 + 8};{gx1 - gx0 + 8};0"/></rect></clipPath>')
-        out.append(f'<g clip-path="url(#{cid})">')
         for key_ in ("glm", "deepseek", "qwen", "sol", "astra", "claude"):
             pts = t["traj"][key_]
             width = 2.6 if key_ in AGENT_COLOR else 1.5
-            out.append(f'<path d="{step_path(pts, budget, fx, fy)}" style="fill: none; stroke: var({agent_color(key_)}); '
-                       f'stroke-width: {width}; stroke-linejoin: round; stroke-linecap: round"/>')
-        out.append('</g>')
+            out.append(drawn_path(tl, step_points(pts, budget, fx, fy), gx0, gx1, play * 0.06, play,
+                                  f"fill: none; stroke: var({agent_color(key_)}); stroke-width: {width}; "
+                                  f"stroke-linejoin: round; stroke-linecap: round"))
         winner = max(t["traj"], key=lambda k: t["traj"][k][-1][1])
         best = t["traj"][winner][-1][1]
         lab = tl.anim(hold_from(tl, play * 0.06 + (play - play * 0.06), "opacity: 1", "opacity: 0", 0.3))
