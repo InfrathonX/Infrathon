@@ -1,0 +1,88 @@
+{
+  "case_counts": {
+    "scored_performance": 12,
+    "total": 12,
+    "zero_weight_hard_gate": 0
+  },
+  "cases": [
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table1_gsm8k_5shot_g256", "fewshot": 5, "gen_length": 256, "generations": 39, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 9984, "role": "performance", "row_id": "table1_gsm8k_5shot_g256", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table1_gsm8k_5shot_g512", "fewshot": 5, "gen_length": 512, "generations": 39, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 19968, "role": "performance", "row_id": "table1_gsm8k_5shot_g512", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "math", "block_length": 32, "case_id": "final-table1_math_4shot_g256", "fewshot": 4, "gen_length": 256, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 16640, "role": "performance", "row_id": "table1_math_4shot_g256", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "math", "block_length": 32, "case_id": "final-table1_math_4shot_g512", "fewshot": 4, "gen_length": 512, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 33280, "role": "performance", "row_id": "table1_math_4shot_g512", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "humaneval", "block_length": 32, "case_id": "final-table1_humaneval_0shot_g256", "fewshot": 0, "gen_length": 256, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 16640, "role": "performance", "row_id": "table1_humaneval_0shot_g256", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "humaneval", "block_length": 32, "case_id": "final-table1_humaneval_0shot_g512", "fewshot": 0, "gen_length": 512, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 33280, "role": "performance", "row_id": "table1_humaneval_0shot_g512", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "mbpp", "block_length": 32, "case_id": "final-table1_mbpp_3shot_g256", "fewshot": 3, "gen_length": 256, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 16640, "role": "performance", "row_id": "table1_mbpp_3shot_g256", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "mbpp", "block_length": 32, "case_id": "final-table1_mbpp_3shot_g512", "fewshot": 3, "gen_length": 512, "generations": 65, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 33280, "role": "performance", "row_id": "table1_mbpp_3shot_g512", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table4_gsm8k_5shot_g1024", "fewshot": 5, "gen_length": 1024, "generations": 13, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 13312, "role": "performance", "row_id": "table4_gsm8k_5shot_g1024", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table5_gsm8k_8shot_g256", "fewshot": 8, "gen_length": 256, "generations": 13, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 3328, "role": "performance", "row_id": "table5_gsm8k_8shot_g256", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table5_gsm8k_8shot_g512", "fewshot": 8, "gen_length": 512, "generations": 13, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 6656, "role": "performance", "row_id": "table5_gsm8k_8shot_g512", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"},
+    {"benchmark": "gsm8k", "block_length": 32, "case_id": "final-table5_gsm8k_8shot_g1024", "fewshot": 8, "gen_length": 1024, "generations": 13, "measurement_mode": "sum_useful_tokens_over_sum_controller_timed_seconds", "prompt_visibility": "hidden_committed", "requested_slots": 13312, "role": "performance", "row_id": "table5_gsm8k_8shot_g1024", "weight": {"denominator": 12, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the twelve rows"}
+  ],
+  "category_counts": {
+    "gsm8k": 130,
+    "humaneval": 130,
+    "math": 130,
+    "mbpp": 130
+  },
+  "context_exclusions": [
+    "mbpp:test:482/task:493"
+  ],
+  "dataset_manifest_sha256": "46922f33faaf00a9a40242fab1478602902c95b2719b78d47fd01af552380ab3",
+  "generations": {
+    "table1_gsm8k_5shot_g256": 39,
+    "table1_gsm8k_5shot_g512": 39,
+    "table1_humaneval_0shot_g256": 65,
+    "table1_humaneval_0shot_g512": 65,
+    "table1_math_4shot_g256": 65,
+    "table1_math_4shot_g512": 65,
+    "table1_mbpp_3shot_g256": 65,
+    "table1_mbpp_3shot_g512": 65,
+    "table4_gsm8k_5shot_g1024": 13,
+    "table5_gsm8k_8shot_g1024": 13,
+    "table5_gsm8k_8shot_g256": 13,
+    "table5_gsm8k_8shot_g512": 13
+  },
+  "hidden_cases_sha256": "d0c4084b570d27ba0318fed1d66732f27c4a60a434095506015e2a8029fda64e",
+  "orchestration_timeouts": {
+    "standalone_final_evaluation_seconds": 7200
+  },
+  "quality_reference": {
+    "calibrated": true,
+    "policy": "producer_reference_regenerated_per_measurement_profile",
+    "selection": "scripts/select_reference_profile.py --check before Work; verify_decoder.py refuses a reference from another measurement profile",
+    "status": "CALIBRATED_STRATIFIED520"
+  },
+  "role": "interactive",
+  "row_atomic": {
+    "checkpoint_mount": "/logs/verifier/checkpoints",
+    "commitment": "run-deadline.json binds run id, archive digest, image ids, model validation, runtime entry, source digest, policies, runtime provenance and the Judge invariant core",
+    "ownership": "root:root-0700",
+    "policy": "row_atomic_persistent_outer_deadline"
+  },
+  "run_gates": [
+    "source_ok",
+    "integrity_ok",
+    "performance_ok",
+    "memory_leak_free",
+    "quality_ok",
+    "quality_hard_gate"
+  ],
+  "schema_version": 1,
+  "selection_semantics": "Every trusted agent-N round selects all 520 frozen generations, exactly the same ordered cohort and twelve rows as terminal evaluation. Original agent identity and FINAL_VERSION selection are retained; candidate-version overrides are forbidden. Full quality/memory gates and row-atomic deadlines are identical. Each submitted archive has a separate root-only checkpoint scope.",
+  "suite_gate_timeouts": {
+    "case_seconds": 420,
+    "row_seconds": 900,
+    "inner_seconds": 3600,
+    "outer_seconds": 3900,
+    "wrapper_margin_seconds": 300,
+    "max_infrastructure_retries_per_row": 1
+  },
+  "suite_id": "llada-decoder-final-v2",
+  "timeout_semantics": "Interactive and terminal evaluation use the same frozen final case/row/inner/outer deadlines. null means unqualified and ordinary scoring fails closed; bootstrap/qualification use explicit non-release operator limits. The coordinator ceiling is 7200 seconds for either phase.",
+  "total_generations": 520,
+  "total_requested_slots": 216320,
+  "workload_profile": "fast_dllm_v1_llada_12row_stratified520_batch1",
+  "qualification_status": "QUALIFIED",
+  "quality_role": "same_as_final",
+  "request_identity": "original agent-N and host submission_id; not rewritten as manual"
+}

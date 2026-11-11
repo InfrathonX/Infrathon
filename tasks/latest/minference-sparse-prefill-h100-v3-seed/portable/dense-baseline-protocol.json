@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "protocol_id": "pinned-fa3-public-paired-author-baseline-v3",
+  "source_commit": "060c9188beec3a8b62b33a3bfa6d5d2d44975fab",
+  "source_identity": "references/flash_attention_3/BUILD.json",
+  "script": "scripts/benchmark_dense_v3.py",
+  "input": "complete authenticated public grid48x3; real N, native GQA",
+  "clock": "same trusted wholeABI+snapshot measure_call max(host,event)",
+  "reference": "512 uniform+64tailFP32rows and full-outputfinite/input-immutable",
+  "aggregation": "groupmedian then equalweightgeomean; speedupbycontextbudget",
+  "campaign_policy": "measure once per frozen source/image/input campaign; any relevant change requires new baseline",
+  "interpretation": "report dense speed ratio beside raw score; baseline itself does not satisfy terminal QA"
+}

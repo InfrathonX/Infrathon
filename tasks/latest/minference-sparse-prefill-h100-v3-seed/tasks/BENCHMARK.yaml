@@ -1,0 +1,14 @@
+name: minference_sparse_prefill
+base_images:
+  pytorch280_cu129:
+    official_image: pytorch/pytorch@sha256:cf5aa3f7045a68c10d80f546746591c5ccae6a33729e5e32625ff76bd2c036fe
+    dockerfile: images/work/Dockerfile
+    extra_packages:
+      - build-essential
+      - ca-certificates
+      - curl
+      - git
+      - jq
+      - python3
+      - ripgrep
+      - xz-utils

@@ -1,0 +1,580 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_opd_scratch_2xh100_v2",
+  "status": "QUALIFIED on H100 NVL NVLink pairs, 2026-10-20, with the served-step rule of 2026-10-10 (4 copies in the first two thirds, fail when more than half miss grad_limits), on the release images (Work sha256:d492d914b999, Judge sha256:99da59ce004c): three reference Judges (GPU 0/1) passed all 13 checks and the 1.6-point gate (gains +2.27 / +2.87 / +2.82, T 1706.3 / 1707.6 / 1718.3 s, scores 4.78 / 6.04 / 5.90); the starter and ctl-adv-sign rejected by the probe, ctl-stale by provenance M3 and audit W5; the correct variants var-mtpg and var-teacher-triton passed (scores 5.61 / 6.70); rule probes (not required to fail): probe-rollout-lp and probe-async-rollout-lp rejected by audit W6 (old log-probs bit-identical to the engine's), probe-teacher-fp8 exited in the probe after 46 s (its teacher server was killed), so the numeric checks never saw an FP8 teacher; POLICY.md rejects it regardless (nvl_requalification). Quality gate 1.6: the user's decision of 2026-10-10 for both profiles (quality_gate_decision). Before: PENDING (v2_qualification).",
+  "execution_profile_id": "dual-cuda-sm90-nccl",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind:undersize=allow",
+    "note": "SFORGE_CPUSET=auto, as v1. The S0 pilots ran on GPU 4/5 pinned to 16-23,48-55 (node 1); the qualification records the pair it ran on."
+  },
+  "metric": {
+    "version": 2,
+    "formula": "quality_score * 3600 / T if correct and quality_score >= 1.6 else 0",
+    "score_scale_seconds": 3600,
+    "quality_repeats": 3,
+    "quality_protocol": {
+      "eval": "eval_math.py (Judge copy public/eval_math.py; command opd_checks.eval_math_cmd) on the Judge's scored_model: the non-weight files of the pinned Qwen3-1.7B snapshot plus the candidate's final_hf safetensors and index; prompts rendered with the pinned tokenizer; MATH-500 evaluated in the same engines and reported only",
+      "questions": "private/eval.jsonl: the 2000 hidden DAPO-Math-17k problems (sha256 a58761eee4ee6d2c3d317615fc94462df99a9a0a1cb26cb5cbf381434faa423c), the last 2000 rows of upstream Miles' split permutation (dedup on prompt text, random.Random(42)); each answered once per repeat; correct = upstream Miles' held-out DAPO scorer (rm.py _is_correct: last \\\\boxed{} via grade_answer_verl or last 'Answer:' line via math_dapo compute_score), math_grader/",
+      "decoding": "sampled with the training contract: temperature 1.0, top_p 1.0, no top-k, max_new_tokens 4096 (the contract's max_response_len), chat template with enable_thinking=false",
+      "engine": "two SGLang offline engines (--dp 2, one per GPU; row i on engine i mod 2): tp 1, mem_fraction_static 0.7, random_seed 0, enable_deterministic_inference=True; radix cache flushed between passes",
+      "repeat": "repeat r in 0, 1, 2 sends problem i with sampling_seed = r * 1000003 + i (global row index); quality of a repeat = 100 x correct / 2000. The base below was measured once with one engine (S0a, GPU 4) and again with --dp 2 on GPU 4/5: every per-problem result bit-identical"
+    },
+    "quality_unit": "accuracy points",
+    "quality_gate_min": 1.6,
+    "quality_gate_source": "PROVISIONAL (S0): half the mean gain of the two 32-step reference measurements, S0b A (+3.25, Judge-style run with hooks, T 1695.8 s) and S0c at step 32 (+3.10). The gain plateaus by step 16 (S0c/S0d: +3.08 / +3.10 / +2.33 / +2.82 / +2.87 / +3.62 / +3.25 at steps 16 / 32 / 48 / 64 / 40 / 80 / 120). Reset from the three reference Judges.",
+    "base_quality_per_repeat": [
+      25.55,
+      25.85,
+      26.400000000000002
+    ],
+    "base_quality": 25.933333333333337,
+    "base_quality_source": "Original Qwen3-1.7B snapshot 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e with eval_math.py and the flags of quality_protocol, image miles-model-dependencies-flat:local (the v2 images' base), 2026-10-07 (S0a, one engine, GPU 4) and 2026-10-08 (--dp 2, GPU 4/5): correct per repeat [511, 517, 528] of 2000, correct_sha256 ['ffd222bae7e4', '77de17243746', '2302566c2061']..., identical in both. Raw: $OPD_V2_S0/s0a/student-4096.json and $OPD_ASSETS_V2/../base-r1/base.json. MATH-500 base [70.4, 71.8, 71.2] (reported only)."
+  },
+  "timeouts": {
+    "probe": 1800,
+    "run": 5400,
+    "_source": "S0b reference run (task_entry run, start to exit) 2034 s at 32 x 128 x 4096 (T 1695.8 s); probes as v1 (8 trajectories, <= 1024 response tokens)"
+  },
+  "step_oracle_limits": {
+    "student_lp_err": 0.05,
+    "teacher_lp_err": 0.05,
+    "loss_abs": 0.02,
+    "_source": "unchanged from v1; S0b (32 x 256 x 4096) reference: step 0 student / teacher log-prob error 0.0077 / 0.0078, loss error 1.4e-5; served step 17 0.0083 / 0.0085; teacher steps 5, 11 0.0098 / 0.0081"
+  },
+  "grad_limits": {
+    "cos_min": 0.93,
+    "slice_ratio": [
+      0.75,
+      1.35
+    ],
+    "norm_ratio": [
+      0.75,
+      1.35
+    ],
+    "_source": "unchanged from v1; S0b reference served step 17: cosine 0.975, embedding-row ratio 1.022, grad-norm ratio 1.007; step 0 (with the initial student) 0.993 / 1.000 / 1.002. v2's oracle recomputes the student's layers in the gradient backward (bit-identical to v1's code, peak 36 vs 88 GiB)"
+  },
+  "v2_qualification": {
+    "reference_judges": {
+      "opdv2-ref-01": {
+        "date": "2026-10-08",
+        "gpus": "4,5 (NVLink pair), Judge pinned 16-23,48-55 mems 1",
+        "images": {
+          "work": "sha256:2dfe808e7583",
+          "judge": "sha256:bd129a60c95d"
+        },
+        "valid": true,
+        "correctness_checks": "12/12 passed",
+        "quality_gate_passed": true,
+        "T_seconds": 1689.824010848999,
+        "excluded_seconds": 11.863780498504639,
+        "final_quality_per_repeat": [
+          28.45,
+          28.85,
+          29.45
+        ],
+        "quality_score": 2.9833333333333307,
+        "score": 6.355691439491391,
+        "math500_accuracy_per_repeat": [
+          71.8,
+          75.0,
+          72.8
+        ],
+        "mean_completion_tokens": 2015.6,
+        "truncated_rate": 0.1055,
+        "probe": {
+          "reference_delta_cos_top": 0.99988,
+          "reference_sign_agreement_top": 0.99993,
+          "student_lp_mean_err": 0.0091,
+          "teacher_lp_mean_err": 0.0095
+        },
+        "oracles": {
+          "step0": [
+            0.0077,
+            0.0079
+          ],
+          "served16": {
+            "cos": 0.9728,
+            "slice_ratio": 1.0043,
+            "norm_ratio": 1.0037
+          },
+          "served18": {
+            "cos": 0.9667,
+            "slice_ratio": 0.9974,
+            "norm_ratio": 1.0066
+          },
+          "teacher5": 0.0094,
+          "teacher20": 0.0083
+        },
+        "judge_wall_minutes": 64.5,
+        "raw": "$MILES_SCRATCH_ROOT/miles-qwen3-opd-scratch-2xh100-v2-seed/runs/opdv2-ref-01/"
+      },
+      "opdv2-ref-02": {
+        "valid": true,
+        "correctness_checks": "12/12 passed",
+        "T_seconds": 1699.1708843708038,
+        "final_quality_per_repeat": [
+          29.05,
+          28.65,
+          29.5
+        ],
+        "quality_score": 3.1333333333333258,
+        "score": 6.63853182970288,
+        "oracles": {
+          "served2": {
+            "cos": 0.9827,
+            "slice_ratio": 0.934,
+            "norm_ratio": 0.9351
+          },
+          "served18": {
+            "cos": 0.9651,
+            "slice_ratio": 1.0112,
+            "norm_ratio": 1.0039
+          }
+        }
+      },
+      "opdv2-ref-03": {
+        "valid": true,
+        "correctness_checks": "11/12: oracle_served_steps failed",
+        "score": 0.0,
+        "oracles": {
+          "served20": {
+            "cos": 0.9532,
+            "slice_ratio": 0.9954,
+            "norm_ratio": 0.9889
+          },
+          "served21": {
+            "cos": 0.9261,
+            "slice_ratio": 0.9719,
+            "norm_ratio": 0.9753
+          }
+        },
+        "note": "a false rejection of the reference: the 0.93 cosine limit is v1's (min 0.9899 there); v2 served-step cosines so far 0.926-0.983"
+      }
+    },
+    "negative_controls": {
+      "starter": "score 0: probe (no step dump, the probe checker produced no report)",
+      "ctl-adv-sign": "score 0: probe (P4/P5)",
+      "ctl-teacher-self": "score 0: probe (teacher log-probs)",
+      "ctl-wrong-lr": "score 0: probe_provenance M2 (lr 0.002 != 0.001)",
+      "not_run": [
+        "ctl-stale",
+        "probe-rollout-lp",
+        "probe-async-rollout-lp",
+        "probe-teacher-fp8",
+        "var-mtpg",
+        "var-teacher-triton"
+      ],
+      "not_run_reason": "scratch disk under MILES_SCRATCH_ROOT fell below the 200 GiB qualify.py requires (195 GiB free on /data)"
+    }
+  },
+  "quality_gate_decision": "2026-10-10, user decision: keep the 1.6-point gate on both profiles. It is half the mean gain of the early S0 runs (+3.25, +3.10 -> 1.59) and lies between half the NVL reference mean (3.06 -> 1.53) and half the SXM reference mean (+3.25 / +3.73 / +3.27 = 3.42 -> 1.71). One gate for both profiles keeps the metric the Judge image carries (runtime/qualification.json) unchanged, so no Judge rebuild; its 'PROVISIONAL (S0)' wording in metric.quality_gate_source stays until the next Judge rebuild.",
+  "nvl_requalification": {
+    "date": "2026-10-20",
+    "host": "8x H100 NVL 94 GB (NVLink pairs 0/1, 2/3, 4/5, 6/7; 400 W), 95830 MiB per card, driver 615.71.09",
+    "images": {
+      "work": "sha256:d492d914b999",
+      "judge": "sha256:99da59ce004c",
+      "judge_public": "sha256:6b3cc8d21eb3",
+      "note": "the release build (built from the exported public tree; the Judge is the public Judge plus the host-built holdout layer), loaded with docker save | docker load (same image IDs); Judges started with scripts/qualify.py judge from the public tree, SFORGE_CPUSET=auto (each run's CPU slice in judge_cpuset)"
+    },
+    "archives": {
+      "note": "the qualify.py trees archives of 2026-10-08 (the same files the 80 GB profile was qualified with); the reference's task_entry.py equals reference/task_entry.py and the starter's members equal the Work lab's",
+      "reference": "sha256:31ce567a0e47d035c0ba48647efd41171918e480adb2bbc7388ac7ce6cc993b7",
+      "starter": "sha256:da0b7839cbcda8c3ca077b0c195490df13678b65dd3aa71f97a35ed54d0b369a",
+      "ctl-adv-sign": "sha256:89d66de6acaa332c8c81ff95ba7c0effbab5f30e5752fcefe863e84bb0ea391f",
+      "ctl-stale": "sha256:60f929dff019f5dedc012d5d2226eba81cb84dae815817842542b5b12f33e1e3",
+      "var-mtpg": "sha256:32fa8f1bd00376522f7b26716853cbddfc2cb6631afdd99e5099be3ef0ec9e3e",
+      "var-teacher-triton": "sha256:fec98fa3600038462251a7b1d427221c85b016fcd775d9ac031a2c0b7fd1f36f",
+      "probe-rollout-lp": "sha256:9c1fed40c5755f5edc551841e32b0caafe52806bc5653e4d0450f110bc3e5966",
+      "probe-async-rollout-lp": "sha256:7e284c7dfc938c72842cc1bbe9224356a9e898e6976634b4562512ac78fadd37",
+      "probe-teacher-fp8": "sha256:2518acf8031d5219e3a02d1034ec842feb8887d2c09c15ab89a9273d746ee131"
+    },
+    "runs": {
+      "nvl-opd-ref-01": {
+        "archive": "reference",
+        "valid": true,
+        "score": 4.78227329291028,
+        "checks": "13/13 passed",
+        "T_seconds": 1706.3014805316925,
+        "excluded_seconds": 18.526582956314087,
+        "final_quality_per_repeat": [
+          28.4,
+          28.95,
+          27.250000000000004
+        ],
+        "quality_score": 2.266666666666662,
+        "math500_accuracy_per_repeat": [
+          0.728,
+          0.73,
+          0.73
+        ],
+        "served_steps": {
+          "passed": true,
+          "steps": [
+            4,
+            12,
+            13,
+            16
+          ],
+          "oracles": {
+            "4": {
+              "cos": 0.988,
+              "slice_ratio": 0.9969,
+              "norm_ratio": 1.008
+            },
+            "12": {
+              "cos": 0.9402,
+              "slice_ratio": 1.2646,
+              "norm_ratio": 1.4347
+            },
+            "13": {
+              "cos": 0.9826,
+              "slice_ratio": 1.0203,
+              "norm_ratio": 1.1049
+            },
+            "16": {
+              "cos": 0.9693,
+              "slice_ratio": 1.0107,
+              "norm_ratio": 0.9951
+            }
+          },
+          "reasons": {
+            "12": [
+              "gradient norm (reported 2.5255661244788246, recomputed 1.7603968619899113): grad_norm_ratio 1.434657252015312 (limits [0.75, 1.35])"
+            ]
+          }
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 76530,
+          "GPU1": 84493
+        },
+        "judge_runtime_seconds": 4080.8550938639964
+      },
+      "nvl-opd-ref-02": {
+        "archive": "reference",
+        "valid": true,
+        "score": 6.043684404810143,
+        "checks": "13/13 passed",
+        "T_seconds": 1707.5676538944244,
+        "excluded_seconds": 19.798466682434082,
+        "final_quality_per_repeat": [
+          29.15,
+          28.549999999999997,
+          28.7
+        ],
+        "quality_score": 2.86666666666666,
+        "math500_accuracy_per_repeat": [
+          0.714,
+          0.742,
+          0.704
+        ],
+        "served_steps": {
+          "passed": true,
+          "steps": [
+            5,
+            7,
+            12,
+            16
+          ],
+          "oracles": {
+            "5": {
+              "cos": 0.9703,
+              "slice_ratio": 0.9454,
+              "norm_ratio": 0.984
+            },
+            "7": {
+              "cos": 0.9879,
+              "slice_ratio": 1.0051,
+              "norm_ratio": 0.9968
+            },
+            "12": {
+              "cos": 0.9585,
+              "slice_ratio": 0.9881,
+              "norm_ratio": 0.9938
+            },
+            "16": {
+              "cos": 0.9886,
+              "slice_ratio": 1.0011,
+              "norm_ratio": 1.0227
+            }
+          }
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 76498,
+          "GPU1": 79007
+        },
+        "judge_runtime_seconds": 4138.618354578008
+      },
+      "nvl-opd-ref-03": {
+        "archive": "reference",
+        "valid": true,
+        "score": 5.901263343354661,
+        "checks": "13/13 passed",
+        "T_seconds": 1718.2761402130127,
+        "excluded_seconds": 19.032235622406006,
+        "final_quality_per_repeat": [
+          28.999999999999996,
+          28.7,
+          28.549999999999997
+        ],
+        "quality_score": 2.816666666666663,
+        "math500_accuracy_per_repeat": [
+          0.728,
+          0.734,
+          0.736
+        ],
+        "served_steps": {
+          "passed": true,
+          "steps": [
+            9,
+            10,
+            19,
+            20
+          ],
+          "oracles": {
+            "9": {
+              "cos": 0.9885,
+              "slice_ratio": 0.9778,
+              "norm_ratio": 0.9758
+            },
+            "10": {
+              "cos": 0.9877,
+              "slice_ratio": 1.0042,
+              "norm_ratio": 1.0067
+            },
+            "19": {
+              "cos": 0.8363,
+              "slice_ratio": 0.7854,
+              "norm_ratio": 0.8814
+            },
+            "20": {
+              "cos": 0.9574,
+              "slice_ratio": 1.0743,
+              "norm_ratio": 1.012
+            }
+          },
+          "reasons": {
+            "19": [
+              "gradient direction: cosine 0.8363224925217858 with the recomputed OPD gradient (limit 0.93)"
+            ]
+          }
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 74264,
+          "GPU1": 78999
+        },
+        "judge_runtime_seconds": 4021.186913385027
+      },
+      "nvl-opd-starter-01": {
+        "archive": "starter",
+        "valid": true,
+        "score": 0.0,
+        "checks": "2/3 passed; failed: probe",
+        "failure": {
+          "probe": "{\"passed\": false, \"error\": \"probe checker produced no report\"}"
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 38058,
+          "GPU1": 21152
+        },
+        "judge_runtime_seconds": 470.8257681429968
+      },
+      "nvl-opd-ctl-adv-sign": {
+        "archive": "ctl-adv-sign",
+        "valid": true,
+        "score": 0.0,
+        "checks": "2/3 passed; failed: probe",
+        "failure": {
+          "probe": "{\"thresholds\": {\"adv_abs\": 0.0001, \"self_rel\": 0.001, \"student_lp_err\": 0.05, \"teacher_lp_err\": 0.05, \"oracle_abs\": 0.02, \"sign_agree\": 0.9, \"moved_frac\": 0.05, \"ref_cos_top\": 0.9, \"ref_sign_agree_top\": 0.95}, \"logged_loss\": 0.13841348234564066, \"self_consistent_loss\": 0.1384134859202421, \"advantage_max_err\": 4.76837158203125e-07, \"oracle_loss\": 0.13859656314851193, \"student_lp_mean_err\": 0.009057"
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 51994,
+          "GPU1": 21152
+        },
+        "judge_runtime_seconds": 560.835144777986
+      },
+      "nvl-opd-ctl-stale": {
+        "archive": "ctl-stale",
+        "valid": true,
+        "score": 0.0,
+        "checks": "6/8 passed; failed: provenance, audit",
+        "failure": {
+          "provenance": "{\"mode\": \"run\", \"training_processes\": 1, \"publications_checked\": 32, \"trainer_digest_checked\": true, \"final_digest_engines\": 1, \"issues\": {\"M3\": [\"engine 20682: publication 2 served weights that are not Megatron's weights after step 1\"]}, \"issue_counts\": {\"M3\": 1}, \"passed\": false}",
+          "audit": "{\"passed\": false, \"issues\": {\"W5\": [\"student engine 20620:15000: 31 publications after the first training generation; need exactly 32 (one per step)\"]}, \"issue_counts\": {\"W5\": 1}, \"student_generations\": 4096, \"teacher_requests\": 4098, \"initial_push_calls\": {\"20620:15000\": 7}, \"publications\": {\"20620:15000\": 31}, \"calls_per_publication\": [7], \"trained_samples\": 4096, \"rows_used\": 4096, \"lag_histogr"
+        },
+        "judge_cpuset": "0-7,32-39 mems 0",
+        "peak_mib": {
+          "GPU0": 81200,
+          "GPU1": 77435
+        },
+        "judge_runtime_seconds": 2634.5720288129814
+      },
+      "nvl-opd-var-mtpg": {
+        "archive": "var-mtpg",
+        "valid": true,
+        "score": 5.610616007773739,
+        "checks": "13/13 passed",
+        "T_seconds": 2053.250478029251,
+        "excluded_seconds": 18.80616521835327,
+        "final_quality_per_repeat": [
+          29.849999999999998,
+          28.1,
+          29.45
+        ],
+        "quality_score": 3.1999999999999993,
+        "math500_accuracy_per_repeat": [
+          0.736,
+          0.718,
+          0.734
+        ],
+        "served_steps": {
+          "passed": true,
+          "steps": [
+            3,
+            9,
+            11,
+            18
+          ],
+          "oracles": {
+            "3": {
+              "cos": 0.9725,
+              "slice_ratio": 1.0246,
+              "norm_ratio": 1.0166
+            },
+            "9": {
+              "cos": 0.9889,
+              "slice_ratio": 0.9837,
+              "norm_ratio": 0.9763
+            },
+            "11": {
+              "cos": 0.9452,
+              "slice_ratio": 0.9867,
+              "norm_ratio": 0.9946
+            },
+            "18": {
+              "cos": 0.9754,
+              "slice_ratio": 0.9839,
+              "norm_ratio": 0.983
+            }
+          }
+        },
+        "judge_cpuset": "24-31,56-63 mems 1",
+        "peak_mib": {
+          "GPU6": 71358,
+          "GPU7": 80809
+        },
+        "judge_runtime_seconds": 4400.557791553001
+      },
+      "nvl-opd-var-teacher-triton": {
+        "archive": "var-teacher-triton",
+        "valid": true,
+        "score": 6.6989644229078085,
+        "checks": "13/13 passed",
+        "T_seconds": 1737.5820000171661,
+        "excluded_seconds": 18.795196533203125,
+        "final_quality_per_repeat": [
+          29.4,
+          28.999999999999996,
+          29.099999999999998
+        ],
+        "quality_score": 3.2333333333333307,
+        "math500_accuracy_per_repeat": [
+          0.734,
+          0.742,
+          0.742
+        ],
+        "served_steps": {
+          "passed": true,
+          "steps": [
+            5,
+            6,
+            7,
+            8
+          ],
+          "oracles": {
+            "5": {
+              "cos": 0.9921,
+              "slice_ratio": 1.0113,
+              "norm_ratio": 1.0013
+            },
+            "6": {
+              "cos": 0.9934,
+              "slice_ratio": 1.0051,
+              "norm_ratio": 0.9975
+            },
+            "7": {
+              "cos": 0.9876,
+              "slice_ratio": 1.011,
+              "norm_ratio": 0.9852
+            },
+            "8": {
+              "cos": 0.9863,
+              "slice_ratio": 1.0123,
+              "norm_ratio": 0.9985
+            }
+          }
+        },
+        "judge_cpuset": "24-31,56-63 mems 1",
+        "peak_mib": {
+          "GPU6": 76526,
+          "GPU7": 74513
+        },
+        "judge_runtime_seconds": 4207.471978126006
+      },
+      "nvl-opd-probe-rollout-lp": {
+        "archive": "probe-rollout-lp",
+        "valid": true,
+        "score": 0.0,
+        "checks": "7/8 passed; failed: audit",
+        "failure": {
+          "audit": "{\"passed\": false, \"issues\": {\"W6\": [\"100.0% of 84788 compared old_logprobs are bit-identical to the log-probs the sampling engine returned: old log-probs must come from a training-side forward\"]}, \"issue_counts\": {\"W6\": 1}, \"student_generations\": 4096, \"teacher_requests\": 4098, \"initial_push_calls\": {\"20622:15000\": 7}, \"publications\": {\"20622:15000\": 32}, \"calls_per_publication\": [7], \"trained_sam"
+        },
+        "judge_cpuset": "8-15,40-47 mems 0",
+        "peak_mib": {
+          "GPU2": 86808,
+          "GPU3": 81711
+        },
+        "judge_runtime_seconds": 2512.1072048030037
+      },
+      "nvl-opd-probe-async-rollout-lp": {
+        "archive": "probe-async-rollout-lp",
+        "valid": true,
+        "score": 0.0,
+        "checks": "7/8 passed; failed: audit",
+        "failure": {
+          "audit": "{\"passed\": false, \"issues\": {\"W6\": [\"100.0% of 83892 compared old_logprobs are bit-identical to the log-probs the sampling engine returned: old log-probs must come from a training-side forward\"]}, \"issue_counts\": {\"W6\": 1}, \"student_generations\": 4096, \"teacher_requests\": 4098, \"initial_push_calls\": {\"20615:15000\": 7}, \"publications\": {\"20615:15000\": 32}, \"calls_per_publication\": [7], \"trained_sam"
+        },
+        "judge_cpuset": "8-15,40-47 mems 0",
+        "peak_mib": {
+          "GPU2": 72974,
+          "GPU3": 94971
+        },
+        "judge_runtime_seconds": 2065.6487069200084
+      },
+      "nvl-opd-probe-teacher-fp8": {
+        "archive": "probe-teacher-fp8",
+        "valid": true,
+        "score": 0.0,
+        "checks": "0/1 passed; failed: probe_exit",
+        "failure": {
+          "probe_exit": "{\"passed\": false, \"code\": 1, \"seconds\": 46.4}"
+        },
+        "judge_cpuset": "8-15,40-47 mems 0",
+        "peak_mib": {
+          "GPU2": 38058,
+          "GPU3": 21152
+        },
+        "judge_runtime_seconds": 330.7201713779941,
+        "note": "the probe's task_entry.log ends in RuntimeError: teacher server exited with -9 (the FP8 teacher server was killed), so the numeric checks never saw an FP8 teacher"
+      }
+    },
+    "memory": "reference Judges 74264-84493 MiB per card (nvidia-smi, 1 s samples); the engines' KV pools are a fixed fraction of the card, so the 94 GB card's peaks are higher than the 80 GB card's",
+    "concurrency": "Judges ran on three NVLink pairs at once (references and controls on 0/1, rule probes on 2/3, variants on 6/7, next to other tasks' Judges); every Judge had its own CPU slice",
+    "context": "2026-10-10 Judge change (served-step recomputation: 4 copied steps in the first two thirds, fail only when more than half miss grad_limits) and the quality gate decision (1.6 on both profiles); 2026-10-20 NVL re-qualification on the release images (nvl_requalification): references 4.78 / 6.04 / 5.90, controls and probes rejected, variants passed"
+  }
+}

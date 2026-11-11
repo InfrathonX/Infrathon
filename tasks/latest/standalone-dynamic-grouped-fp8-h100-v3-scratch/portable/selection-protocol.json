@@ -1,0 +1,73 @@
+{
+  "case_statistic": "median_trial_tflops; sequence: median_round_tflops",
+  "evaluation_policy": "full-final-shared-v4",
+  "final": {
+    "case_count": 1000,
+    "edge_case_count": 188,
+    "edge_suite_id": "edge-holdout-v4",
+    "hard_gate_case_count": 188,
+    "hard_gate_policy": "every edge case and every scored case is a correctness and memory-safety gate; the sanitizer subset of the edge cases also runs under compute-sanitizer memcheck",
+    "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+    "scored_case_count": 1000,
+    "sequence_rounds": 3,
+    "suite_id": "final-holdout-v4",
+    "trials": 5,
+    "warmups": 1
+  },
+  "interactive": {
+    "case_count": 1000,
+    "edge_case_count": 188,
+    "edge_suite_id": "edge-holdout-v4",
+    "hard_gate_case_count": 188,
+    "hard_gate_policy": "identical to final",
+    "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only; candidate_version override forbidden",
+    "scored_case_count": 1000,
+    "sequence_rounds": 3,
+    "suite_id": "final-holdout-v4",
+    "trials": 5,
+    "warmups": 1
+  },
+  "protocol_id": "dynamic-grouped-fp8-shared-final-v4",
+  "public": {
+    "edge": {
+      "case_count": 32,
+      "suite_id": "edge-public-v4"
+    },
+    "family": {
+      "case_ids": "public_cases_of_the_named_family",
+      "sequence_rounds": 1,
+      "trials": 3,
+      "warmups": 1
+    },
+    "full": {
+      "case_count": 60,
+      "case_ids": "all_public_cases",
+      "sequence_rounds": 1,
+      "trials": 3,
+      "warmups": 1
+    },
+    "one": {
+      "case_count": 1,
+      "case_ids": [
+        "public-08-decode"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "quick": {
+      "case_count": 2,
+      "case_ids": [
+        "public-08-decode",
+        "public-40-prefill"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "sanitize": {
+      "case_count": 4,
+      "suite_id": "edge-public-v4"
+    }
+  },
+  "schema_version": 1,
+  "score": "geometric mean of the prefill, decode, latency and sequence family geometric means"
+}

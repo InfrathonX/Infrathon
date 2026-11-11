@@ -1,0 +1,3578 @@
+From 492637298fd04172f8c3db8573fe2bf85959e5ca Mon Sep 17 00:00:00 2001
+From: Infrathon <infrathon@users.noreply.github.com>
+Date: Fri, 25 Sep 2026 12:26:52 +0000
+Subject: [PATCH] Wan2.2-TI2V-5B DanceGRPO + HPSv3 reference (qualified tree)
+
+Reference port of the verl-omni Wan2.2 DanceGRPO default CUDA recipe onto miles_diffusion 29fde6ee:
+Dance-SDE log-prob and training path, seed groups with the canonical RNG, the official HPSv3 video reward,
+task_entry.py (score / run / serve) and a copy of the engine overlay. This tree is the one the mlsys_forge task
+miles_diffusion_wan22_dancegrpo_2xh100_v1 qualified: reference Judges at 0.984 / 0.994, T_ref frozen at 112.44 s.
+
+---
+ .../configs/post_training/rl_rollout.py       |  121 ++
+ .../configs/sample/sampling_params.py         | 1564 +++++++++++++++++
+ .../runtime/post_training/rl_dataclasses.py   |   69 +
+ .../post_training/scheduler_rl_mixin.py       |  349 ++++
+ miles/backends/fsdp_utils/actor.py            |   58 +
+ .../configs/train_pipeline_config.py          |    9 +-
+ .../fsdp_utils/configs/wan2_2_ti2v.py         |   31 +
+ .../backends/fsdp_utils/loss_hub/flow_grpo.py |   21 +
+ miles/backends/fsdp_utils/loss_hub/types.py   |    1 +
+ .../models/diffusers/wan2_2_ti2v/__init__.py  |    1 +
+ .../diffusers/wan2_2_ti2v/parallel_plan.py    |    2 +
+ miles/backends/fsdp_utils/sde_step_backend.py |   34 +
+ .../sglang_diffusion_engine.py                |   22 +
+ miles/ray/actor_group.py                      |   12 +
+ miles/ray/data_conversion_hub/flow_grpo.py    |    8 +
+ miles/ray/rollout.py                          |   12 +
+ miles/rollout/canonical_rng.py                |   39 +
+ miles/rollout/replay_rollout.py               |   98 ++
+ miles/rollout/rm_hub/__init__.py              |   12 +
+ miles/rollout/rm_hub/hpsv3.py                 |  291 +++
+ miles/rollout/sglang_diffusion_rollout.py     |   53 +-
+ miles/utils/arguments.py                      |   41 +
+ miles/utils/pair_log.py                       |   42 +
+ task_entry.py                                 |  322 ++++
+ 24 files changed, 3209 insertions(+), 3 deletions(-)
+ create mode 100644 engine_overlay/configs/post_training/rl_rollout.py
+ create mode 100644 engine_overlay/configs/sample/sampling_params.py
+ create mode 100644 engine_overlay/runtime/post_training/rl_dataclasses.py
+ create mode 100644 engine_overlay/runtime/post_training/scheduler_rl_mixin.py
+ create mode 100644 miles/backends/fsdp_utils/configs/wan2_2_ti2v.py
+ create mode 100644 miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/__init__.py
+ create mode 100644 miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/parallel_plan.py
+ create mode 100644 miles/rollout/canonical_rng.py
+ create mode 100644 miles/rollout/replay_rollout.py
+ create mode 100644 miles/rollout/rm_hub/hpsv3.py
+ create mode 100644 miles/utils/pair_log.py
+ create mode 100644 task_entry.py
+
+diff --git a/engine_overlay/configs/post_training/rl_rollout.py b/engine_overlay/configs/post_training/rl_rollout.py
+new file mode 100644
+index 0000000..15737cc
+--- /dev/null
++++ b/engine_overlay/configs/post_training/rl_rollout.py
+@@ -0,0 +1,121 @@
++# SPDX-License-Identifier: Apache-2.0
++
++"""CLI- and API-facing configuration for diffusion post-training / rollout paths."""
++
++from __future__ import annotations
++
++import argparse
++import math
++from dataclasses import dataclass
++from typing import Any, Callable
++
++from sglang.multimodal_gen.utils import StoreBoolean
++
++_VALID_ROLLOUT_SDE_TYPES = ("sde", "cps", "ode", "dance")
++
++
++@dataclass
++class RLRolloutArgs:
++    """Rollout (log-prob trajectory) options used by SamplingParams and APIs."""
++
++    rollout: bool = False
++    rollout_sde_type: str = "sde"
++    rollout_noise_level: float = 0.7
++    rollout_log_prob_no_const: bool = False
++    rollout_debug_mode: bool = False
++
++    def validate(self) -> None:
++        noise = self.rollout_noise_level
++        if isinstance(noise, bool) or not isinstance(noise, (int, float)):
++            raise ValueError(f"rollout_noise_level must be a number, got {noise!r}")
++        if not math.isfinite(float(noise)):
++            raise ValueError(f"rollout_noise_level must be finite, got {noise!r}")
++        if float(noise) < 0.0:
++            raise ValueError(f"rollout_noise_level must be non-negative, got {noise!r}")
++
++        if self.rollout_sde_type not in _VALID_ROLLOUT_SDE_TYPES:
++            raise ValueError(
++                f"rollout_sde_type must be one of {_VALID_ROLLOUT_SDE_TYPES}, "
++                f"got {self.rollout_sde_type!r}"
++            )
++
++    @classmethod
++    def validate_sampling_params(cls, params: Any) -> None:
++        """Validate rollout fields on a duck-typed object (e.g. ``SamplingParams``).
++
++        Mirrors how ``ServerArgs`` runs ``NunchakuSVDQuantArgs.validate()`` from
++        ``_adjust_quant_config`` instead of inlining checks in a large validator.
++        """
++        cls(
++            rollout=params.rollout,
++            rollout_sde_type=params.rollout_sde_type,
++            rollout_noise_level=params.rollout_noise_level,
++            rollout_log_prob_no_const=params.rollout_log_prob_no_const,
++            rollout_debug_mode=params.rollout_debug_mode,
++        ).validate()
++
++    @staticmethod
++    def add_cli_args(
++        parser: Any,
++        add_argument: Callable[..., Any] | None = None,
++    ) -> None:
++        """Register rollout-related CLI flags on ``parser``.
++
++        If ``add_argument`` is provided (e.g. SamplingParams' wrapper with
++        ``default=argparse.SUPPRESS``), it is used; otherwise a local wrapper
++        is applied.
++        """
++
++        if add_argument is None:
++
++            def _add(*name_or_flags: Any, **kwargs: Any):
++                kwargs.setdefault("default", argparse.SUPPRESS)
++                return parser.add_argument(*name_or_flags, **kwargs)
++
++            add_argument = _add
++
++        add_argument(
++            "--rollout",
++            action="store_true",
++            help="Enable rollout mode and return per-step log_prob trajectory",
++        )
++        add_argument(
++            "--rollout-sde-type",
++            type=str,
++            choices=list(_VALID_ROLLOUT_SDE_TYPES),
++            help="Rollout step objective type used in log-prob computation.",
++        )
++        add_argument(
++            "--rollout-noise-level",
++            type=float,
++            help="Noise level used by rollout SDE/CPS step objective.",
++        )
++        add_argument(
++            "--rollout-log-prob-no-const",
++            action=StoreBoolean,
++            help="If true, return rollout log-prob without constant terms.",
++        )
++        add_argument(
++            "--rollout-debug-mode",
++            action=StoreBoolean,
++            help=(
++                "If true, return rollout debug tensors "
++                "(variance noise, mean, std, model output)."
++            ),
++        )
++
++    @classmethod
++    def from_dict(cls, kwargs: dict[str, Any]) -> RLRolloutArgs:
++        return cls(
++            rollout=bool(kwargs.get("rollout", cls.rollout)),
++            rollout_sde_type=str(kwargs.get("rollout_sde_type", cls.rollout_sde_type)),
++            rollout_noise_level=float(
++                kwargs.get("rollout_noise_level", cls.rollout_noise_level)
++            ),
++            rollout_log_prob_no_const=bool(
++                kwargs.get("rollout_log_prob_no_const", cls.rollout_log_prob_no_const)
++            ),
++            rollout_debug_mode=bool(
++                kwargs.get("rollout_debug_mode", cls.rollout_debug_mode)
++            ),
++        )
+diff --git a/engine_overlay/configs/sample/sampling_params.py b/engine_overlay/configs/sample/sampling_params.py
+new file mode 100644
+index 0000000..5ad9217
+--- /dev/null
++++ b/engine_overlay/configs/sample/sampling_params.py
+@@ -0,0 +1,1564 @@
++# Copied and adapted from: https://github.com/hao-ai-lab/FastVideo
++
++# SPDX-License-Identifier: Apache-2.0
++import argparse
++import dataclasses
++import hashlib
++import json
++import math
++import os
++import os.path
++import re
++import time
++import unicodedata
++import uuid
++from dataclasses import dataclass, field
++from enum import Enum, auto
++from typing import TYPE_CHECKING, Any, ClassVar
++
++from sglang.multimodal_gen.configs.post_training import RLRolloutArgs
++from sglang.multimodal_gen.runtime.utils.logging_utils import init_logger
++from sglang.multimodal_gen.utils import StoreBoolean, expand_path_fields
++
++logger = init_logger(__name__)
++
++if TYPE_CHECKING:
++    from sglang.multimodal_gen.runtime.server_args import ServerArgs
++
++
++def _json_safe(obj: Any):
++    """
++    Recursively convert objects to JSON-serializable forms.
++    - Enums -> their name
++    - Callables -> stable module-qualified name
++    - Sets/Tuples -> lists
++    - Dicts/Lists -> recursively processed
++    """
++    if isinstance(obj, Enum):
++        return obj.name
++    if callable(obj):
++        module = getattr(obj, "__module__", None)
++        qualname = getattr(obj, "__qualname__", getattr(obj, "__name__", repr(obj)))
++        return f"{module}.{qualname}" if module else qualname
++    if isinstance(obj, dict):
++        return {k: _json_safe(v) for k, v in obj.items()}
++    if isinstance(obj, (list, tuple, set)):
++        return [_json_safe(v) for v in obj]
++    return obj
++
++
++def generate_request_id() -> str:
++    return str(uuid.uuid4())
++
++
++# Validated request-level quality levels. "lossless" is the exact reference
++# path (bit-exact against the CI golden outputs); "high" opts into validated
++# accelerated paths whose quality is guaranteed but not bit-exact.
++QUALITY_LEVELS: tuple[str, ...] = ("lossless", "high")
++
++
++def _sanitize_filename(name: str, replacement: str = "_", max_length: int = 150) -> str:
++    """Create a filesystem- and ffmpeg-friendly filename.
++
++    - Normalize to ASCII (drop accents and unsupported chars)
++    - Replace spaces with underscores
++    - Replace any char not in [A-Za-z0-9_.-] with replacement
++    - Collapse multiple underscores
++    - Trim leading/trailing dots/underscores and limit length
++    """
++    normalized = unicodedata.normalize("NFKD", name)
++    ascii_name = normalized.encode("ascii", "ignore").decode("ascii")
++    ascii_name = ascii_name.replace(" ", "_")
++    ascii_name = re.sub(r"[^A-Za-z0-9._-]", replacement, ascii_name)
++    ascii_name = re.sub(r"_+", "_", ascii_name).strip("._")
++    if not ascii_name:
++        ascii_name = "output"
++    if max_length and len(ascii_name) > max_length:
++        ascii_name = ascii_name[:max_length]
++    return ascii_name
++
++
++class DataType(Enum):
++    IMAGE = auto()
++    VIDEO = auto()
++    MESH = auto()
++    ACTION = auto()
++
++    def get_default_extension(self) -> str:
++        if self == DataType.IMAGE:
++            return "png"
++        if self == DataType.VIDEO:
++            return "mp4"
++        if self == DataType.ACTION:
++            return "json"
++        return "glb"
++
++
++@dataclass
++class SamplingParams:
++    """
++    Sampling parameters for generation.
++
++    Dynamic batching compares these fields for compatibility, except fields
++    marked with `batch_sig_exclude`.
++    """
++
++    data_type: DataType = DataType.VIDEO
++
++    request_id: str | None = field(default=None, metadata={"batch_sig_exclude": True})
++
++    # All fields below are copied from ForwardBatch
++
++    # Image inputs
++    image_path: str | list[str] | None = None
++
++    # Video inputs (video-to-video conditioning)
++    video_path: str | list[str] | None = None
++
++    # Text inputs
++    prompt: str | list[str] | None = field(
++        default=None, metadata={"batch_sig_exclude": True}
++    )
++    negative_prompt: str = (
++        "Bright tones, overexposed, static, blurred details, subtitles, style, works, paintings, images, static, overall gray, worst quality, low quality, JPEG compression residue, ugly, incomplete, extra fingers, poorly drawn hands, poorly drawn faces, deformed, disfigured, misshapen limbs, fused fingers, still picture, messy background, three legs, many people in the background, walking backwards"
++    )
++    prompt_path: str | None = field(default=None, metadata={"batch_sig_exclude": True})
++    output_path: str | None = field(default=None, metadata={"batch_sig_exclude": True})
++    output_file_name: str | None = field(
++        default=None, metadata={"batch_sig_exclude": True}
++    )
++    output_quality: str | None = "default"
++    output_compression: int | None = None
++    # Model-owned, request-scoped quality level.
++    #
++    # - "lossless" (default): the exact reference path. Output is expected to
++    #   be bit-identical to the HF reference implementation and to pass the
++    #   CI golden/ground-truth comparisons.
++    # - "high": opt into validated accelerated paths. Quality stays
++    #   guaranteed (the intent is to back every such path with mathematical
++    #   acceptance thresholds, e.g. PSNR > 25 against the reference), but
++    #   the output is no longer bit-exact versus the HF reference or the CI
++    #   ground truth.
++    #
++    # Models that support "high" must validate the deployment and workload
++    # explicitly. It intentionally participates in the dynamic-batch
++    # signature.
++    quality: str = "lossless"
++
++    # Frame interpolation
++    enable_frame_interpolation: bool = False
++    frame_interpolation_exp: int = 1  # 1=2x, 2=4x
++    frame_interpolation_scale: float = 1.0  # RIFE inference scale (0.5 for high-res)
++    frame_interpolation_model_path: str | None = (
++        None  # local dir or HF repo ID with flownet.pkl (default: elfgum/RIFE-4.22.lite)
++    )
++
++    # Upscaling
++    enable_upscaling: bool = False
++    upscaling_model_path: str | None = (
++        None  # local .pth, HF repo ID, or repo_id:filename (default: ai-forever/Real-ESRGAN)
++    )
++    upscaling_scale: int = 4
++
++    # Batch info
++    num_outputs_per_prompt: int = 1
++    seed: int | list[int] = field(default=42, metadata={"batch_sig_exclude": True})
++    generator_device: str | None = None  # None means use the pipeline/model default
++
++    # Original dimensions (before VAE scaling)
++    num_frames: int = 1  # Default for image models
++    num_frames_round_down: bool = (
++        False  # Whether to round down num_frames if it's not divisible by num_gpus
++    )
++
++    # Subclasses can set these to provide model-specific default resolutions.
++    # The base __post_init__ will apply them when height/width are not provided.
++    _default_height: ClassVar[int | None] = None
++    _default_width: ClassVar[int | None] = None
++
++    height: int | None = None
++    width: int | None = None
++    fps: int = 24
++
++    # LTX-2.5 duration head. Ignored by other models, so the flags stay
++    # universally accepted.
++    # Decode with the diffusion decoder instead of the VAE one. Ignored by
++    # models that ship no such decoder.
++    use_diffusion_decoder: bool = False
++
++    auto_duration: bool = False
++    auto_duration_min_seconds: float = 1.0
++    auto_duration_max_seconds: float = 20.0
++
++    # Resolution validation
++    supported_resolutions: list[tuple[int, int]] | None = field(
++        default=None, metadata={"batch_sig_exclude": True}
++    )  # None means all resolutions allowed
++
++    # Output audio duration in seconds (models without an audio modality ignore this).
++    sound_duration: float = 0.0
++
++    # Denoising parameters
++    num_inference_steps: int = None
++    guidance_scale: float = 1.0
++    guidance_scale_2: float = None
++    true_cfg_scale: float = None  # for CFG vs guidance distillation (e.g., QwenImage)
++    guidance_rescale: float = 0.0
++    cfg_normalization: float | bool = 0.0
++    boundary_ratio: float | None = None
++    # CFG gating (lossy): reuse the cached cond-uncond residual after this
++    # fraction of the steps. None = follow the SGLANG_DIFFUSION_CFG_GATE_STEP
++    # server default; 1.0 = off for this request.
++    cfg_gate_step: float | None = None
++
++    progressive_mode: str = "fullres"
++    progressive_levels: int = 1
++    progressive_delta: float = 0.01
++
++    # LongCat-Image parameters
++    enable_cfg_renorm: bool = False
++    cfg_renorm_min: float = 0.0
++    enable_prompt_rewrite: bool = False
++
++    # TeaCache parameters
++    enable_teacache: bool = False
++    teacache_params: Any = (
++        None  # TeaCacheParams or WanTeaCacheParams, set by model-specific subclass
++    )
++
++    # Cache-DiT (lossy). None = follow the SGLANG_CACHE_DIT_ENABLED server
++    # default; True/False = explicit per-request opt-in/out.
++    enable_cache_dit: bool | None = None
++    # Per-request knob overrides on top of the SGLANG_CACHE_DIT_* defaults.
++    # Valid keys: CACHE_DIT_REQUEST_PARAM_KEYS in cache_dit_integration.py.
++    cache_dit_params: dict[str, Any] | None = None
++
++    # Per-request DiT attention backend ("fa", "torch_sdpa", "sage_attn",
++    # "sage_attn_3"; sage is lossy). Incompatible server settings reject the
++    # request; see DenoisingStage._maybe_override_attention_backend.
++    attention_backend_override: str | None = None
++
++    # Spectrum parameters
++    enable_spectrum: bool = False
++    spectrum_params: Any = None  # SpectrumParams
++
++    # Profiling
++    profile: bool = field(default=False, metadata={"batch_sig_exclude": True})
++    num_profiled_timesteps: int = field(default=5, metadata={"batch_sig_exclude": True})
++    profile_all_stages: bool = field(
++        default=False, metadata={"batch_sig_exclude": True}
++    )
++
++    # Debugging
++    debug: bool = field(default=False, metadata={"batch_sig_exclude": True})
++    perf_dump_path: str | None = field(
++        default=None, metadata={"batch_sig_exclude": True}
++    )
++
++    # Misc
++    save_output: bool = True
++    return_frames: bool = field(default=False, metadata={"batch_sig_exclude": True})
++    rollout: bool = False
++    rollout_sde_type: str = "sde"
++    rollout_noise_level: float = 0.7
++    rollout_log_prob_no_const: bool = False  # exclude constants in rollout logprob
++    rollout_debug_mode: bool = (
++        False  # return rollout debug tensors (intermediate states)
++    )
++    return_trajectory_latents: bool = False  # returns all latents for each timestep
++    return_trajectory_decoded: bool = False  # returns decoded latents for each timestep
++    rollout_return_denoising_env: bool = (
++        False  # populate ``denoising_env`` (image/pos/neg kwargs, guidance) for RL replay
++    )
++    rollout_return_dit_trajectory: bool = (
++        False  # per-step noisy latents + final latent + timesteps (RolloutDitTrajectory)
++    )
++    # 0-indexed denoising-loop step filters; None = all steps.
++    rollout_sde_step_indices: list[int] | None = None
++    rollout_return_step_indices: list[int] | None = None
++    # Canonical per-request SDE noise key: when set, SDE-step noise is drawn from a dedicated CPU generator seeded
++    # with this value (one (1, ...) fp32 draw per SDE step, in step order), independent of the initial-latent
++    # generator. Requires num_outputs_per_prompt == 1. None keeps the legacy behaviour (batch.generator).
++    rollout_sde_noise_seed: int | None = field(default=None, metadata={"batch_sig_exclude": True})
++    # if True, disallow user params to override subclass-defined protected fields
++    no_override_protected_fields: bool = field(
++        default=False, metadata={"batch_sig_exclude": True}
++    )
++    # whether to adjust num_frames for multi-GPU friendly splitting (default: True)
++    adjust_frames: bool = True
++    # if True, suppress verbose logging for this request
++    suppress_logs: bool = field(default=False, metadata={"batch_sig_exclude": True})
++
++    # return output file paths directly to client
++    return_file_paths_only: bool = True
++    enable_sequence_shard: bool | None = None
++    diffusers_kwargs: dict | None = None
++    max_sequence_length: int | None = None
++    flow_shift: float | None = None
++
++    # cosmos-related
++    use_duration_template: bool | None = None
++    use_resolution_template: bool | None = None
++    use_system_prompt: bool | None = None
++    use_guardrails: bool | None = None
++    condition_inputs: dict[str, Any] = field(default_factory=dict)
++    realtime_chunk_size: int | None = None
++
++    # Prompt enhancement (ErnieImage)
++    use_pe: bool | None = None
++
++    def _set_output_file_ext(self):
++        # add extension if needed
++        output_extensions = (".mp4", ".jpg", ".png", ".webp", ".obj", ".glb", ".json")
++        if not any(self.output_file_name.endswith(ext) for ext in output_extensions):
++            self.output_file_name = (
++                f"{self.output_file_name}.{self.data_type.get_default_extension()}"
++            )
++
++    def _set_output_file_name(self):
++        # settle output_file_name
++        if (
++            self.output_file_name is None
++            and self.prompt
++            and isinstance(self.prompt, str)
++        ):
++            # generate a random filename
++            # get a hash of current params
++            params_dict = dataclasses.asdict(self)
++            # Avoid recursion
++            params_dict["output_file_name"] = ""
++
++            # Convert to a stable JSON string
++            params_str = json.dumps(_json_safe(params_dict), sort_keys=True)
++            # Create a hash
++            hasher = hashlib.sha256()
++            hasher.update(params_str.encode("utf-8"))
++            param_hash = hasher.hexdigest()[:8]
++
++            timestamp = time.strftime("%Y%m%d-%H%M%S")
++            base = f"{self.prompt[:100]}_{timestamp}_{param_hash}"
++            self.output_file_name = base
++
++        if self.output_file_name is None:
++            timestamp = time.strftime("%Y%m%d-%H%M%S")
++            self.output_file_name = f"output_{timestamp}"
++
++        self.output_file_name = _sanitize_filename(self.output_file_name)
++
++        # Ensure a proper extension is present
++        self._set_output_file_ext()
++
++    def __post_init__(self) -> None:
++        assert self.num_frames >= 1
++
++        if self.width is None and self._default_width is not None:
++            self.width = self._default_width
++        if self.height is None and self._default_height is not None:
++            self.height = self._default_height
++
++        # Handle output_quality to output_compression conversion
++        if self.output_compression is None and self.output_quality is not None:
++            self.output_compression = self._adjust_output_quality(
++                self.output_quality, self.data_type
++            )
++
++        self._validate()
++
++        # Allow env var to override num_inference_steps (for faster CI testing on AMD)
++        env_steps = os.environ.get("SGLANG_TEST_NUM_INFERENCE_STEPS")
++        if env_steps is not None and self.num_inference_steps is not None:
++            self.num_inference_steps = int(env_steps)
++
++        if self.enable_spectrum and isinstance(self.spectrum_params, dict):
++            from sglang.multimodal_gen.configs.sample.spectrum import SpectrumParams
++
++            self.spectrum_params = SpectrumParams(**self.spectrum_params)
++
++        if self.enable_spectrum and self.spectrum_params is None:
++            from sglang.multimodal_gen.configs.sample.spectrum import SpectrumParams
++
++            self.spectrum_params = SpectrumParams()
++
++    def build_request_extra(self) -> dict[str, Any]:
++        """Return optional request-scoped extras for downstream pipeline stages."""
++        extra = {}
++        diffusers_kwargs = getattr(self, "diffusers_kwargs", None)
++        if diffusers_kwargs:
++            extra["diffusers_kwargs"] = diffusers_kwargs
++        explicit_fields = getattr(self, "_explicit_fields", None)
++        if explicit_fields is not None:
++            extra["explicit_fields"] = sorted(explicit_fields)
++        return extra
++
++    def apply_request_extra(self, req: Any) -> None:
++        """Merge request extras (model specific, e.g., LTX2.3) into an already-created pipeline request."""
++        req.extra.update(self.build_request_extra())
++        if self.condition_inputs:
++            req.condition_inputs.update(self.condition_inputs)
++        if self.realtime_chunk_size is not None:
++            req.realtime_chunk_size = self.realtime_chunk_size
++
++    @classmethod
++    def video_request_extra_fields(cls) -> frozenset[str]:
++        """Declare model-specific multipart video fields accepted by this type."""
++
++        return frozenset()
++
++    @classmethod
++    def lower_video_request_kwargs(
++        cls,
++        request: Any,
++        kwargs: dict[str, Any],
++    ) -> dict[str, Any]:
++        """Adapt generic video-API kwargs before constructing this params type."""
++        del request
++        return kwargs
++
++    def prepare_video_request_for_queue(self, req: Any) -> None:
++        """Resolve model-specific admission facts before a video job is queued."""
++        del req
++
++    def expand_video_request_outputs_for_queue(self, req: Any) -> list[Any] | None:
++        """Return per-output requests when a model owns grouped execution.
++
++        ``None`` preserves the default model-native ``num_outputs`` handling.
++        Models that need the framework's independent-seed request expansion
++        can opt in after their shared pre-queue work has completed.
++        """
++        del req
++        return None
++
++    def prepare_synthetic_warmup_request_for_queue(
++        self, req: Any, server_args: Any
++    ) -> None:
++        """Resolve model-specific facts for one synthetic warmup request."""
++        del req, server_args
++
++    def project_video_queued_job_fields(self, req: Any) -> dict[str, str]:
++        """Return model-resolved fields to publish with the queued video job."""
++        del req
++        return {}
++
++    def validate_video_final_outputs(
++        self,
++        output_paths: list[str],
++        req: Any,
++    ) -> dict[str, str]:
++        """Validate final files and return truthful completion metadata."""
++        del output_paths, req
++        return {}
++
++    def cleanup_video_request(self, req: Any) -> None:
++        """Release request-scoped resources owned by the model integration."""
++        del req
++
++    def refresh_request_extra_after_output_expansion(self, req: Any) -> None:
++        """Refresh request identity after assigning a per-output seed."""
++        del req
++
++    def _adjust_output_quality(self, output_quality: str, data_type: DataType) -> int:
++        """Convert output_quality string to compression level."""
++        if data_type == DataType.ACTION:
++            return 0
++        output_quality_mapper = {"maximum": 100, "high": 90, "medium": 55, "low": 35}
++        if output_quality == "default":
++            return 50 if data_type == DataType.VIDEO else 75
++        return output_quality_mapper.get(output_quality)
++
++    def _validate(self):
++        """
++        check if the sampling params is correct by itself
++        """
++        if self.prompt_path and not self.prompt_path.endswith(".txt"):
++            raise ValueError(
++                f"prompt_path must be a txt file, got {self.prompt_path!r}"
++            )
++
++        if self.quality not in QUALITY_LEVELS:
++            raise ValueError(
++                f"quality must be one of {list(QUALITY_LEVELS)}, "
++                f"got {self.quality!r}"
++            )
++
++        # These are always required to be sane regardless of pipeline.
++        if (
++            not isinstance(self.num_outputs_per_prompt, int)
++            or self.num_outputs_per_prompt <= 0
++        ):
++            raise ValueError(
++                f"num_outputs_per_prompt must be a positive int, got {self.num_outputs_per_prompt!r}"
++            )
++
++        if isinstance(self.seed, list):
++            if not self.seed:
++                raise ValueError("seed list must not be empty")
++            for seed in self.seed:
++                if isinstance(seed, bool) or not isinstance(seed, int) or seed < 0:
++                    raise ValueError(
++                        f"seed list must contain non-negative ints, got {self.seed!r}"
++                    )
++        elif (
++            isinstance(self.seed, bool)
++            or not isinstance(self.seed, int)
++            or self.seed < 0
++        ):
++            raise ValueError(
++                f"seed must be a non-negative int or list of ints, got {self.seed!r}"
++            )
++
++        if self.rollout_sde_noise_seed is not None:
++            if (
++                isinstance(self.rollout_sde_noise_seed, bool)
++                or not isinstance(self.rollout_sde_noise_seed, int)
++                or not 0 <= self.rollout_sde_noise_seed < 2**63
++            ):
++                raise ValueError(
++                    f"rollout_sde_noise_seed must be an int in [0, 2**63), got {self.rollout_sde_noise_seed!r}"
++                )
++
++        # Used by seconds() and video writer; fps <= 0 is always invalid.
++        if not isinstance(self.fps, int) or self.fps <= 0:
++            raise ValueError(f"fps must be a positive int, got {self.fps!r}")
++
++        # num_frames is already asserted in __post_init__, but keep a friendly error here too
++        # (e.g., when validation is triggered from other code paths).
++        if not isinstance(self.num_frames, int) or self.num_frames <= 0:
++            raise ValueError(
++                f"num_frames must be a positive int, got {self.num_frames!r}"
++            )
++
++        if self.num_inference_steps is not None:
++            if (
++                not isinstance(self.num_inference_steps, int)
++                or self.num_inference_steps <= 0
++            ):
++                raise ValueError(
++                    f"num_inference_steps must be a positive int, got {self.num_inference_steps!r}"
++                )
++
++        if self.progressive_mode not in ("fullres", "dct", "dct_rewind"):
++            raise ValueError(
++                "progressive_mode must be one of 'fullres', 'dct', or "
++                f"'dct_rewind', got {self.progressive_mode!r}"
++            )
++        if (
++            isinstance(self.progressive_levels, bool)
++            or not isinstance(self.progressive_levels, int)
++            or self.progressive_levels <= 0
++        ):
++            raise ValueError(
++                f"progressive_levels must be a positive int, got {self.progressive_levels!r}"
++            )
++        if (
++            isinstance(self.progressive_delta, bool)
++            or not isinstance(self.progressive_delta, (int, float))
++            or not 0 < float(self.progressive_delta) < 1
++        ):
++            raise ValueError(
++                f"progressive_delta must be in (0, 1), got {self.progressive_delta!r}"
++            )
++
++        # Numeric hyperparams should not be NaN/Inf and should be within basic ranges.
++        # Note: bool is a subclass of int; reject it explicitly to avoid silent surprises.
++        def _finite_non_negative_float(
++            name: str, value: Any, allow_none: bool = True
++        ) -> None:
++            if value is None and allow_none:
++                return
++            if isinstance(value, bool) or not isinstance(value, (int, float)):
++                raise ValueError(f"{name} must be a number, got {value!r}")
++            if not math.isfinite(float(value)):
++                raise ValueError(f"{name} must be finite, got {value!r}")
++            if float(value) < 0.0:
++                raise ValueError(f"{name} must be non-negative, got {value!r}")
++
++        _finite_non_negative_float(
++            "guidance_scale", self.guidance_scale, allow_none=True
++        )
++        _finite_non_negative_float(
++            "guidance_scale_2", self.guidance_scale_2, allow_none=True
++        )
++        _finite_non_negative_float(
++            "true_cfg_scale", self.true_cfg_scale, allow_none=True
++        )
++        _finite_non_negative_float(
++            "guidance_rescale", self.guidance_rescale, allow_none=False
++        )
++
++        if self.cfg_normalization is None:
++            self.cfg_normalization = 0.0
++        elif isinstance(self.cfg_normalization, bool):
++            self.cfg_normalization = 1.0 if self.cfg_normalization else 0.0
++
++        if self.boundary_ratio is not None:
++            if isinstance(self.boundary_ratio, bool) or not isinstance(
++                self.boundary_ratio, (int, float)
++            ):
++                raise ValueError(
++                    f"boundary_ratio must be a number, got {self.boundary_ratio!r}"
++                )
++            if not math.isfinite(float(self.boundary_ratio)):
++                raise ValueError(
++                    f"boundary_ratio must be finite, got {self.boundary_ratio!r}"
++                )
++            if not (0.0 <= float(self.boundary_ratio) <= 1.0):
++                raise ValueError(
++                    f"boundary_ratio must be within [0, 1], got {self.boundary_ratio!r}"
++                )
++
++        if self.enable_teacache and self.enable_spectrum:
++            raise ValueError(
++                "enable_teacache and enable_spectrum are mutually exclusive; enable only one."
++            )
++
++        RLRolloutArgs.validate_sampling_params(self)
++
++    def check_sampling_param(self):
++        # Keep backward-compatibility for old call sites.
++        self._validate()
++
++    def _validate_with_pipeline_config(self, pipeline_config):
++        """
++        check if the sampling params is compatible and valid with server_args
++        """
++        task_type = pipeline_config.task_type
++        if task_type.is_action_gen():
++            return
++
++        if task_type.requires_image_input():
++            # requires image input
++            if self.image_path is None:
++                raise ValueError(
++                    f"Served model with task type '{task_type.name}' requires an 'image_path' input, but none was provided"
++                )
++
++        if not task_type.accepts_image_input():
++            # does not support image input
++            if self.image_path is not None:
++                raise ValueError(
++                    f"input_reference is not supported for {task_type.name} models."
++                )
++
++    def _adjust(
++        self,
++        server_args,
++    ):
++        """
++        final adjustment, called after merged with user params
++        """
++        expand_path_fields(self)
++
++        # TODO: SamplingParams should not rely on ServerArgs
++        pipeline_config = server_args.pipeline_config
++        task_type = pipeline_config.task_type
++        self.data_type = task_type.data_type()
++
++        self._adjust_output_path(server_args)
++        if task_type.is_action_gen():
++            self._adjust_action_fields(server_args)
++            return
++
++        if task_type.is_mesh_gen():
++            self._adjust_mesh_fields(server_args, pipeline_config)
++            return
++
++        if task_type.is_visual_gen():
++            self._adjust_visual_fields(server_args, pipeline_config)
++
++    def _adjust_output_path(self, server_args):
++        if self.output_path is None:
++            if server_args.output_path is not None:
++                self.output_path = server_args.output_path
++                logger.debug(
++                    f"Overriding output_path with server configuration: {self.output_path}"
++                )
++            else:
++                self.save_output = False
++
++    def _adjust_action_fields(self, server_args):
++        self.return_file_paths_only = False
++        self.num_frames = 1
++        self.adjust_frames = False
++        if self.save_output and not server_args.comfyui_mode:
++            self._set_output_file_name()
++
++    def _adjust_mesh_fields(self, server_args, pipeline_config):
++        if self.guidance_scale is None:
++            try:
++                from sglang.multimodal_gen.configs.pipeline_configs.hunyuan3d import (
++                    Hunyuan3D2PipelineConfig,
++                )
++
++                if isinstance(pipeline_config, Hunyuan3D2PipelineConfig):
++                    self.guidance_scale = pipeline_config.guidance_scale
++                else:
++                    self.guidance_scale = 1.0
++            except ImportError:
++                self.guidance_scale = 1.0
++        self.return_frames = False
++        self.return_video = False
++        self.num_frames = 1
++        self.adjust_frames = False
++        if self.save_output and not server_args.comfyui_mode:
++            self._set_output_file_name()
++
++    def _adjust_visual_fields(self, server_args, pipeline_config):
++        if self.guidance_scale is None:
++            self.guidance_scale = 1.0
++
++        # Process negative prompt
++        if self.negative_prompt is not None and not self.negative_prompt.isspace():
++            # avoid stripping default negative prompt: ' ' for qwen-image
++            self.negative_prompt = self.negative_prompt.strip()
++
++        # Validate dimensions
++        if self.num_frames <= 0:
++            raise ValueError(
++                f"height, width, and num_frames must be positive integers, got "
++                f"height={self.height}, width={self.width}, "
++                f"num_frames={self.num_frames}"
++            )
++
++        # Validate resolution against pipeline-specific supported resolutions
++        if self.height is None and self.width is None:
++            if self.supported_resolutions is not None:
++                self.width, self.height = self.supported_resolutions[0]
++                logger.info(
++                    f"Resolution unspecified, using default: {self.supported_resolutions[0]}"
++                )
++
++        if self.height is not None and self.width is not None:
++            if self.supported_resolutions is not None:
++                if (self.width, self.height) not in self.supported_resolutions:
++                    supported_str = ", ".join(
++                        [f"{w}x{h}" for w, h in self.supported_resolutions]
++                    )
++                    error_msg = (
++                        f"Unsupported resolution: {self.width}x{self.height}, output quality may suffer. "
++                        f"Supported resolutions: {supported_str}"
++                    )
++                    logger.warning(error_msg)
++
++        pipeline_name_lower = server_args.pipeline_config.__class__.__name__.lower()
++
++        if (
++            "wan" in pipeline_name_lower
++            or "helios" in pipeline_name_lower
++            or "joy" in pipeline_name_lower
++            or "cosmos3" in pipeline_name_lower
++        ) and (self.enable_sequence_shard is None or self.enable_sequence_shard):
++            self.enable_sequence_shard = True
++            logger.debug("Automatically enabled enable_sequence_shard")
++        else:
++            self.enable_sequence_shard = False
++
++        if self.enable_sequence_shard:
++            self.adjust_frames = False
++            logger.info(
++                "Sequence dimension shard is enabled, disabling frame adjustment for better performance"
++            )
++
++        if pipeline_config.task_type.is_image_gen():
++            # settle num_frames
++            if not server_args.pipeline_config.allow_set_num_frames():
++                logger.debug("Setting `num_frames` to 1 for image generation model")
++                self.num_frames = 1
++        else:
++            # mandatory frame adjusting logic, mod
++            # NOTE: We must apply adjust_num_frames BEFORE the SP alignment logic below.
++            # If we apply it after, adjust_num_frames might modify the frame count
++            # and break the divisibility constraint (alignment) required by num_gpus.
++            original_num_frames = self.num_frames
++            self.num_frames = server_args.pipeline_config.adjust_num_frames(
++                original_num_frames
++            )
++            logger.info(
++                "Adjusting number of frames from %s to %s based on model",
++                original_num_frames,
++                self.num_frames,
++            )
++
++            if self.adjust_frames:
++                # Adjust number of frames based on number of GPUs for video task
++                use_temporal_scaling_frames = (
++                    pipeline_config.vae_config.use_temporal_scaling_frames
++                )
++                num_frames = self.num_frames
++                num_gpus = server_args.num_gpus
++                temporal_scale_factor = (
++                    pipeline_config.vae_config.arch_config.temporal_compression_ratio
++                )
++
++                if use_temporal_scaling_frames:
++                    orig_latent_num_frames = (
++                        num_frames - 1
++                    ) // temporal_scale_factor + 1
++                else:
++                    orig_latent_num_frames = num_frames
++
++                if orig_latent_num_frames % server_args.num_gpus != 0:
++                    # Adjust latent frames to be divisible by number of GPUs
++                    if self.num_frames_round_down:
++                        # Ensure we have at least 1 batch per GPU
++                        new_latent_num_frames = (
++                            max(1, (orig_latent_num_frames // num_gpus)) * num_gpus
++                        )
++                    else:
++                        new_latent_num_frames = (
++                            math.ceil(orig_latent_num_frames / num_gpus) * num_gpus
++                        )
++
++                    if use_temporal_scaling_frames:
++                        # Convert back to number of frames, ensuring num_frames-1 is a multiple of temporal_scale_factor
++                        new_num_frames = (
++                            new_latent_num_frames - 1
++                        ) * temporal_scale_factor + 1
++                    else:
++                        new_num_frames = new_latent_num_frames
++
++                    logger.info(
++                        "Adjusting number of frames from %s to %s based on number of GPUs (%s)",
++                        self.num_frames,
++                        new_num_frames,
++                        server_args.num_gpus,
++                    )
++                    self.num_frames = new_num_frames
++
++        if not server_args.comfyui_mode:
++            self._set_output_file_name()
++
++    @classmethod
++    def from_pretrained(cls, model_path: str, **kwargs) -> "SamplingParams":
++        from sglang.multimodal_gen.registry import get_model_info
++
++        backend = kwargs.pop("backend", None)
++        model_id = kwargs.pop("model_id", None)
++        model_info = get_model_info(model_path, backend=backend, model_id=model_id)
++        sampling_params: SamplingParams = model_info.sampling_param_cls(**kwargs)
++        return sampling_params
++
++    @staticmethod
++    def from_user_sampling_params_args(
++        model_path: str, server_args: "ServerArgs", *args, **kwargs
++    ):
++        pipeline_class_name = getattr(server_args, "pipeline_class_name", None)
++        try:
++            sampling_params = None
++            if pipeline_class_name:
++                from sglang.multimodal_gen.registry import get_pipeline_config_classes
++
++                config_classes = get_pipeline_config_classes(pipeline_class_name)
++                if config_classes is not None:
++                    _, sampling_params_cls = config_classes
++                    sampling_params = sampling_params_cls()
++
++            if sampling_params is None:
++                sampling_params = SamplingParams.from_pretrained(
++                    model_path,
++                    backend=server_args.backend,
++                    model_id=server_args.model_id,
++                )
++        except (AttributeError, ValueError):
++            # Handle safetensors files or other cases where model_index.json is not available
++            # Use appropriate SamplingParams based on pipeline_class_name from registry
++            if os.path.isfile(model_path) and model_path.endswith(".safetensors"):
++                # Determine which sampling params to use based on pipeline_class_name
++                from sglang.multimodal_gen.registry import get_pipeline_config_classes
++
++                config_classes = (
++                    get_pipeline_config_classes(pipeline_class_name)
++                    if pipeline_class_name
++                    else None
++                )
++
++                if config_classes is not None:
++                    _, sampling_params_cls = config_classes
++                    try:
++                        sampling_params = sampling_params_cls()
++                        logger.info(
++                            f"Using {sampling_params_cls.__name__} for {pipeline_class_name} safetensors file (no model_index.json): %s",
++                            model_path,
++                        )
++                    except Exception as import_error:
++                        logger.warning(
++                            f"Failed to instantiate {sampling_params_cls.__name__}: {import_error}. "
++                            "Using default SamplingParams"
++                        )
++                        sampling_params = SamplingParams()
++                else:
++                    raise ValueError(
++                        f"Could not get pipeline config classes for {pipeline_class_name}"
++                    )
++            else:
++                # Re-raise if it's not a safetensors file issue
++                raise
++
++        user_kwargs = dict(kwargs)
++        diffusers_kwargs = user_kwargs.pop("diffusers_kwargs", None)
++
++        user_sampling_params = type(sampling_params)(*args, **user_kwargs)
++        # TODO: refactor
++        sampling_params._merge_with_user_params(
++            user_sampling_params, explicit_fields=set(user_kwargs.keys())
++        )
++        sampling_params._explicit_fields = set(user_kwargs.keys())
++        if diffusers_kwargs is not None:
++            sampling_params.diffusers_kwargs = diffusers_kwargs
++        sampling_params._adjust(server_args)
++
++        sampling_params._validate_with_pipeline_config(server_args.pipeline_config)
++
++        return sampling_params
++
++    def output_size_str(self) -> str:
++        return f"{self.width}x{self.height}"
++
++    def seconds(self) -> float:
++        return self.num_frames / self.fps
++
++    @staticmethod
++    def add_cli_args(parser: Any) -> Any:
++        """Add CLI arguments for SamplingParam fields"""
++
++        def add_argument(*name_or_flags, **kwargs):
++            kwargs.setdefault("default", argparse.SUPPRESS)
++            return parser.add_argument(*name_or_flags, **kwargs)
++
++        add_argument("--data-type", type=str, nargs="+")
++        # Predict the shot length from the caption, overriding `--num-frames`.
++        add_argument("--use-diffusion-decoder", action="store_true")
++        add_argument("--auto-duration", action="store_true")
++        add_argument("--auto-duration-min-seconds", type=float)
++        add_argument("--auto-duration-max-seconds", type=float)
++        add_argument(
++            "--num-frames-round-down",
++            action="store_true",
++        )
++        add_argument(
++            "--enable-teacache",
++            action="store_true",
++        )
++        add_argument(
++            "--enable-cache-dit",
++            action=StoreBoolean,
++        )
++        add_argument(
++            "--cache-dit-params",
++            type=json.loads,
++        )
++        add_argument(
++            "--cfg-gate-step",
++            type=float,
++        )
++        add_argument(
++            "--attention-backend-override",
++            type=str,
++        )
++        add_argument(
++            "--enable-spectrum",
++            action="store_true",
++        )
++        add_argument("--w", type=float)
++        add_argument(
++            "--taylor-order",
++            "--taylor_order",
++            dest="taylor_order",
++            type=int,
++        )
++        add_argument(
++            "--history-size",
++            "--history_size",
++            dest="history_size",
++            type=int,
++        )
++        add_argument(
++            "--spectrum-window-size",
++            "--spectrum_window_size",
++            "--window-size",
++            "--window_size",
++            dest="spectrum_window_size",
++            type=float,
++            help="Spectrum initial skip window size.",
++        )
++        add_argument(
++            "--spectrum-flex-window",
++            "--spectrum_flex_window",
++            "--flex-window",
++            "--flex_window",
++            dest="spectrum_flex_window",
++            type=float,
++            help="Spectrum adaptive window growth slope.",
++        )
++        add_argument(
++            "--spectrum-warmup-steps",
++            "--spectrum_warmup_steps",
++            dest="spectrum_warmup_steps",
++            type=int,
++            help="Spectrum warmup denoising steps before caching.",
++        )
++        add_argument(
++            "--spectrum-m",
++            "--spectrum_m",
++            dest="spectrum_m",
++            type=int,
++            help="Spectrum Chebyshev polynomial degree (M).",
++        )
++        add_argument(
++            "--spectrum-lam",
++            "--spectrum_lam",
++            dest="spectrum_lam",
++            type=float,
++            help="Spectrum ridge regularization strength.",
++        )
++        add_argument(
++            "--spectrum-tau-num-steps",
++            "--spectrum_tau_num_steps",
++            dest="spectrum_tau_num_steps",
++            type=int,
++            help="Spectrum tau normalization horizon.",
++        )
++
++        # LongCat-Image parameters
++        add_argument(
++            "--enable-cfg-renorm",
++            action=StoreBoolean,
++            help="Enable CFG renormalization for LongCat-Image (default: false).",
++        )
++        add_argument(
++            "--cfg-renorm-min",
++            type=float,
++            help="Minimum CFG renorm scale for LongCat-Image (default: 0.0).",
++        )
++        add_argument(
++            "--enable-prompt-rewrite",
++            action=StoreBoolean,
++            help="Enable prompt rewriting via Qwen2.5-VL before encoding for LongCat-Image (default: false).",
++        )
++
++        # profiling
++        add_argument(
++            "--profile",
++            action="store_true",
++            help="Enable torch profiler for denoising stage",
++        )
++        add_argument(
++            "--num-profiled-timesteps",
++            type=int,
++            help="Number of timesteps to profile after warmup",
++        )
++        add_argument(
++            "--profile-all-stages",
++            action="store_true",
++            dest="profile_all_stages",
++            help="Used with --profile, profile all pipeline stages",
++        )
++
++        add_argument(
++            "--debug",
++            action="store_true",
++            help="",
++        )
++
++        # Progressive resolution growing (DCT spectral upsampling)
++        add_argument(
++            "--progressive-mode",
++            type=str,
++            dest="progressive_mode",
++            choices=["fullres", "dct", "dct_rewind"],
++            help="Progressive resolution mode. 'fullres' disables (default). "
++            "'dct_rewind' uses DCT-II upsample + scheduler sigma rewind (recommended).",
++        )
++        add_argument(
++            "--progressive-levels",
++            type=int,
++            dest="progressive_levels",
++            help="Number of resolution halvings for progressive generation (default: 1).",
++        )
++        add_argument(
++            "--progressive-delta",
++            type=float,
++            dest="progressive_delta",
++            help="Noise-dominated tolerance δ for stage-transition thresholds (default: 0.01).",
++        )
++
++        add_argument(
++            "--prompt",
++            type=str,
++            nargs="+",
++            help="Text prompt(s) for generation. Use space-separated values for multiple prompts, e.g., --prompt 'prompt 1' 'prompt 2'",
++        )
++        add_argument(
++            "--negative-prompt",
++            type=str,
++            help="Negative text prompt for generation",
++        )
++        add_argument(
++            "--prompt-path",
++            type=str,
++            help="Path to a text file containing prompts (one per line)",
++        )
++        add_argument(
++            "--output-file-name",
++            type=str,
++            help="Name of the output file",
++        )
++        add_argument(
++            "--output-quality",
++            type=str,
++            help="Output quality setting (default, low, medium, high, maximum)",
++        )
++        add_argument(
++            "--output-compression",
++            type=int,
++            help="Output compression level (0-100, higher means better quality but larger file size)",
++        )
++        add_argument(
++            "--quality",
++            type=str,
++            choices=list(QUALITY_LEVELS),
++            help=(
++                "Request-level quality: 'lossless' (default) keeps the exact "
++                "reference path, bit-exact against the reference "
++                "implementation; 'high' opts into the model-owned validated "
++                "accelerated path, whose quality stays guaranteed but is not "
++                "bit-exact. Support and validated deployment constraints are "
++                "model-specific."
++            ),
++        )
++        add_argument(
++            "--num-outputs-per-prompt",
++            "--num-outputs",
++            dest="num_outputs_per_prompt",
++            type=int,
++            help="Number of outputs to generate per prompt (alias: --num-outputs)",
++        )
++        add_argument(
++            "--seed",
++            type=int,
++            nargs="+",
++            help="Random seed for generation",
++        )
++        add_argument(
++            "--generator-device",
++            type=str,
++            choices=["cuda", "musa", "cpu"],
++            help="Device for random generator (cuda, musa or cpu). Default: use the model-specific setting.",
++        )
++        add_argument(
++            "--num-frames",
++            type=int,
++            help="Number of frames to generate",
++        )
++        add_argument(
++            "--sound-duration",
++            type=float,
++            help="Duration of generated audio in seconds; 0 disables audio output (audio-capable models only)",
++        )
++        add_argument(
++            "--height",
++            type=int,
++            help="Height of generated output",
++        )
++        add_argument(
++            "--width",
++            type=int,
++            help="Width of generated output",
++        )
++        # resolution shortcuts
++        add_argument(
++            "--4k",
++            action="store_true",
++            dest="resolution_4k",
++            help="Set resolution to 4K (3840x2160)",
++        )
++        add_argument(
++            "--2k",
++            action="store_true",
++            dest="resolution_2k",
++            help="Set resolution to 2K (2560x1440)",
++        )
++        add_argument(
++            "--1080p",
++            action="store_true",
++            dest="resolution_1080p",
++            help="Set resolution to 1080p (1920x1080)",
++        )
++        add_argument(
++            "--720p",
++            action="store_true",
++            dest="resolution_720p",
++            help="Set resolution to 720p (1280x720)",
++        )
++
++        add_argument(
++            "--fps",
++            type=int,
++            help="Frames per second for saved output",
++        )
++        add_argument(
++            "--num-inference-steps",
++            type=int,
++            help="Number of denoising steps",
++        )
++        add_argument(
++            "--guidance-scale",
++            type=float,
++            help="Classifier-free guidance scale",
++        )
++        add_argument(
++            "--guidance-scale-2",
++            type=float,
++            dest="guidance_scale_2",
++            help="Secondary guidance scale for dual-guidance models (e.g., Wan low-noise expert)",
++        )
++        add_argument(
++            "--true-cfg-scale",
++            type=float,
++            dest="true_cfg_scale",
++            help="True CFG scale for models that distinguish distilled guidance from standard CFG (e.g., Qwen-Image)",
++        )
++        add_argument(
++            "--guidance-rescale",
++            type=float,
++            help="Guidance rescale factor",
++        )
++        add_argument(
++            "--cfg-normalization",
++            type=float,
++            dest="cfg_normalization",
++            help="CFG renormalization factor (for Z-Image). ",
++        )
++        add_argument(
++            "--boundary-ratio",
++            type=float,
++            help="Boundary timestep ratio",
++        )
++        add_argument(
++            "--save-output",
++            action="store_true",
++            help="Whether to save the output to disk",
++        )
++        add_argument(
++            "--no-save-output",
++            action="store_false",
++            dest="save_output",
++            help="Don't save the output to disk",
++        )
++        add_argument(
++            "--return-frames",
++            action="store_true",
++            help="Whether to return the raw frames",
++        )
++        add_argument(
++            "--image-path",
++            "--image-paths",
++            type=str,
++            nargs="+",
++            help=(
++                "Path(s) to input image(s) for image-to-image / image-to-video "
++                "generation. For multiple images, pass them space-separated "
++                "(alias: --image-paths), e.g.: "
++                '--image-paths "img1.png" "img2.png"'
++            ),
++        )
++        add_argument(
++            "--action",
++            type=str,
++            help=(
++                "Action input. SANA-WM uses a WASD/IJKL DSL, e.g. "
++                "'w-80,jw-40,w-40,lw-60,w-100'. Cosmos3 uses a JSON array of "
++                "shape [T, D], e.g. '[[0.1, 0.2, ...], ...]'. Model-specific "
++                "fields are ignored by other pipelines."
++            ),
++        )
++        add_argument(
++            "--translation-speed",
++            "--translation_speed",
++            type=float,
++            dest="translation_speed",
++            help="SANA-WM action DSL per-frame translation speed.",
++        )
++        add_argument(
++            "--rotation-speed-deg",
++            "--rotation_speed_deg",
++            type=float,
++            dest="rotation_speed_deg",
++            help="SANA-WM action DSL per-frame rotation speed in degrees.",
++        )
++        add_argument(
++            "--pitch-limit-deg",
++            "--pitch_limit_deg",
++            type=float,
++            dest="pitch_limit_deg",
++            help="SANA-WM action DSL absolute pitch clamp in degrees.",
++        )
++        add_argument(
++            "--video-path",
++            type=str,
++            nargs="+",
++            help=(
++                "Path(s) to input video(s) for video-to-video generation. "
++                "The first/last frames of the video become the conditioning "
++                "frames for the generated output."
++            ),
++        )
++        add_argument(
++            "--action-mode",
++            type=str,
++            dest="action_mode",
++            help=(
++                "Cosmos3 action mode: 'forward_dynamics' (predict next frame "
++                "from action), 'policy' (predict action from frame), or "
++                "'inverse_dynamics' (predict action from two frames)."
++            ),
++        )
++        add_argument(
++            "--domain-id",
++            type=int,
++            dest="domain_id",
++            help="Action embodiment domain ID (integer). Overrides --domain-name.",
++        )
++        add_argument(
++            "--domain-name",
++            type=str,
++            dest="domain_name",
++            help="Action embodiment domain name (e.g. 'av', 'camera_pose', 'umi').",
++        )
++        add_argument(
++            "--raw-action-dim",
++            type=int,
++            dest="raw_action_dim",
++            help=(
++                "Number of active action dimensions to predict; remaining "
++                "dimensions are zero-padded. Required for 'policy' and "
++                "'inverse_dynamics' modes."
++            ),
++        )
++        add_argument(
++            "--action-fps",
++            type=float,
++            dest="action_fps",
++            help=(
++                "Frame rate used for action token temporal mRoPE positions. "
++                "Defaults to the video fps when not set."
++            ),
++        )
++        add_argument(
++            "--moba-config-path",
++            type=str,
++            help="Path to a JSON file containing V-MoBA specific configurations.",
++        )
++        add_argument(
++            "--return-trajectory-latents",
++            action="store_true",
++            help="Whether to return the trajectory",
++        )
++
++        # Rollout arguments
++        RLRolloutArgs.add_cli_args(parser, add_argument=add_argument)
++
++        add_argument(
++            "--return-trajectory-decoded",
++            action="store_true",
++            help="Whether to return the decoded trajectory",
++        )
++        add_argument(
++            "--diffusers-kwargs",
++            type=str,
++            help="JSON string of extra kwargs to pass to diffusers pipeline. "
++            'Example: \'{"output_type": "latent", "clip_skip": 2}\'',
++        )
++        add_argument(
++            "--no-override-protected-fields",
++            action="store_true",
++            help=(
++                "If set, disallow user params to override fields defined in subclasses."
++            ),
++        )
++        add_argument(
++            "--adjust-frames",
++            action=StoreBoolean,
++            help=(
++                "Enable/disable adjusting num_frames to evenly split latent frames across GPUs "
++                "and satisfy model temporal constraints. If disabled, tokens might be padded for SP."
++                "Default: true. Examples: --adjust-frames, --adjust-frames true, --adjust-frames false."
++            ),
++        )
++        add_argument(
++            "--return-file-paths-only",
++            action=StoreBoolean,
++            help="If set, output file will be saved early to get a performance boost, while output tensors will not be returned.",
++        )
++        add_argument(
++            "--enable-sequence-shard",
++            action=StoreBoolean,
++            help="Enable sequence dimension shard with sequence parallelism.",
++        )
++        add_argument(
++            "--enable-frame-interpolation",
++            action="store_true",
++            help="Enable post-generation frame interpolation using RIFE 4.22.lite.",
++        )
++        add_argument(
++            "--frame-interpolation-exp",
++            type=int,
++            help="Frame interpolation exponent: 1=2x, 2=4x (default: 1).",
++        )
++        add_argument(
++            "--frame-interpolation-scale",
++            type=float,
++            help="RIFE inference scale factor (default: 1.0; use 0.5 for high-res).",
++        )
++        add_argument(
++            "--frame-interpolation-model-path",
++            type=str,
++            help="Local directory or HuggingFace repo ID containing RIFE flownet.pkl weights "
++            "(default: elfgum/RIFE-4.22.lite, downloaded automatically). "
++            "Only RIFE 4.22.lite architecture is supported; other RIFE versions or "
++            "frame interpolation models are not compatible.",
++        )
++        add_argument(
++            "--enable-upscaling",
++            action="store_true",
++            help="Enable post-generation upscaling using Real-ESRGAN.",
++        )
++        add_argument(
++            "--upscaling-model-path",
++            type=str,
++            help="Local .pth file, HuggingFace repo ID, or repo_id:filename for Real-ESRGAN weights "
++            "(default: ai-forever/Real-ESRGAN with RealESRGAN_x4.pth). "
++            "Only RRDBNet (e.g. RealESRGAN_x4plus) and SRVGGNetCompact (e.g. realesr-animevideov3) "
++            "architectures are supported; other super-resolution models are not compatible. "
++            "Use 'repo_id:filename' to specify a custom weight file from a HF repo.",
++        )
++        add_argument(
++            "--upscaling-scale",
++            type=int,
++            help="Upscaling factor (default: 4).",
++        )
++        return parser
++
++    @classmethod
++    def get_cli_args(cls, args: argparse.Namespace):
++        # handle resolution shortcuts
++        if hasattr(args, "resolution_4k") and args.resolution_4k:
++            args.width = 3840
++            args.height = 2160
++        elif hasattr(args, "resolution_2k") and args.resolution_2k:
++            args.width = 2560
++            args.height = 1440
++        elif hasattr(args, "resolution_1080p") and args.resolution_1080p:
++            args.width = 1920
++            args.height = 1080
++        elif hasattr(args, "resolution_720p") and args.resolution_720p:
++            args.width = 1280
++            args.height = 720
++
++        sampling_params_fields = {attr.name for attr in dataclasses.fields(cls)}
++        args_attrs = set(vars(args).keys())
++        attrs = sampling_params_fields & args_attrs
++        cli_args = {
++            attr: getattr(args, attr)
++            for attr in attrs
++            if hasattr(args, attr) and getattr(args, attr) is not None
++        }
++        if isinstance(cli_args.get("seed"), list) and len(cli_args["seed"]) == 1:
++            cli_args["seed"] = cli_args["seed"][0]
++
++        spectrum_overrides = {}
++        spectrum_flag_map = {
++            "w": "w",
++            "taylor_order": "taylor_order",
++            "window_size": "spectrum_window_size",
++            "flex_window": "spectrum_flex_window",
++            "history_size": "history_size",
++            "warmup_steps": "spectrum_warmup_steps",
++            "m": "spectrum_m",
++            "lam": "spectrum_lam",
++            "tau_num_steps": "spectrum_tau_num_steps",
++        }
++        for field_name, arg_name in spectrum_flag_map.items():
++            if hasattr(args, arg_name) and getattr(args, arg_name) is not None:
++                spectrum_overrides[field_name] = getattr(args, arg_name)
++        if spectrum_overrides:
++            if not cli_args.get("enable_spectrum", False):
++                logger.info(
++                    "Spectrum override flags were provided without --enable-spectrum; "
++                    "auto-enabling Spectrum caching."
++                )
++                cli_args["enable_spectrum"] = True
++            existing_spectrum_params = cli_args.get("spectrum_params")
++            if isinstance(existing_spectrum_params, dict):
++                spectrum_overrides = {**existing_spectrum_params, **spectrum_overrides}
++            cli_args["spectrum_params"] = spectrum_overrides
++
++        return cli_args
++
++    def output_file_path(self):
++        if self.output_path is None:
++            return None
++        return os.path.join(self.output_path, self.output_file_name)
++
++    def _merge_with_user_params(
++        self,
++        user_params: "SamplingParams",
++        explicit_fields: set[str] | None = None,
++    ):
++        """
++        Merges parameters from a user-provided SamplingParams object.
++
++        Args:
++            explicit_fields: field names explicitly set by the user (e.g. from
++                CLI kwargs). These are always treated as user-modified even when
++                their value matches the base-class default.
++        """
++        if user_params is None:
++            return
++
++        predefined_fields = set(type(self).__annotations__.keys())
++
++        # global switch: if True, allow overriding protected fields
++        allow_override_protected = not user_params.no_override_protected_fields
++        for field_info in dataclasses.fields(user_params):
++            field_name = field_info.name
++            user_value = getattr(user_params, field_name)
++            if hasattr(SamplingParams, field_name):
++                default_class_value = getattr(SamplingParams, field_name)
++            elif field_info.default is not dataclasses.MISSING:
++                default_class_value = field_info.default
++            elif field_info.default_factory is not dataclasses.MISSING:
++                default_class_value = field_info.default_factory()
++            else:
++                default_class_value = dataclasses.MISSING
++
++            if explicit_fields is not None:
++                is_user_modified = field_name in explicit_fields
++            else:
++                is_user_modified = user_value != default_class_value
++            is_protected_field = field_name in predefined_fields
++            if is_user_modified and (
++                allow_override_protected or not is_protected_field
++            ):
++                setattr(self, field_name, user_value)
++        if explicit_fields is not None:
++            self._explicit_fields = set(explicit_fields)
++        self.__post_init__()
++
++    @property
++    def n_tokens(self) -> int:
++        # Calculate latent sizes
++        if self.height and self.width:
++            latents_size = [
++                (self.num_frames - 1) // 4 + 1,
++                self.height // 8,
++                self.width // 8,
++            ]
++            n_tokens = latents_size[0] * latents_size[1] * latents_size[2]
++        else:
++            n_tokens = -1
++        return n_tokens
++
++
++@dataclass
++class CacheParams:
++    cache_type: str = "none"
+diff --git a/engine_overlay/runtime/post_training/rl_dataclasses.py b/engine_overlay/runtime/post_training/rl_dataclasses.py
+new file mode 100644
+index 0000000..51965d6
+--- /dev/null
++++ b/engine_overlay/runtime/post_training/rl_dataclasses.py
+@@ -0,0 +1,69 @@
++# SPDX-License-Identifier: Apache-2.0
++"""RL-specific dataclasses used by post-training and rollout paths."""
++
++from dataclasses import dataclass, field
++from typing import Any
++
++import torch
++
++
++@dataclass
++class RolloutSessionData:
++    """Per-batch rollout state created by prepare_rollout(), lives on the batch object.
++
++    Cleared by setting ``batch._rollout_session_data = None``.
++    """
++
++    pipeline_config: Any = None
++    sigma_max: float = 0.0
++    latents_shape: tuple | None = None
++    noise_buffer: torch.Tensor | None = None
++    # dedicated SDE-noise generator (CPU) when the request carries rollout_sde_noise_seed
++    sde_noise_generator: torch.Generator | None = None
++
++    local_log_prob_sum: list[torch.Tensor] = field(default_factory=list)
++    local_log_prob_count: list[torch.Tensor] = field(default_factory=list)
++
++    local_variance_noises: list[torch.Tensor] = field(default_factory=list)
++    local_prev_sample_means: list[torch.Tensor] = field(default_factory=list)
++    local_noise_std_devs: list[torch.Tensor] = field(default_factory=list)
++    local_model_outputs: list[torch.Tensor] = field(default_factory=list)
++
++
++@dataclass
++class RolloutDebugTensors:
++    """Container for rollout debug tensors collected during denoising."""
++
++    rollout_variance_noises: torch.Tensor | None = None
++    rollout_prev_sample_means: torch.Tensor | None = None
++    rollout_noise_std_devs: torch.Tensor | None = None
++    rollout_model_outputs: torch.Tensor | None = None
++
++
++@dataclass
++class RolloutDenoisingEnv:
++    image_kwargs: dict[str, Any] | None = None
++    pos_cond_kwargs: dict[str, Any] | None = None
++    neg_cond_kwargs: dict[str, Any] | None = None
++    guidance: torch.Tensor | None = None
++
++
++@dataclass
++class RolloutDitTrajectory:
++    # [B, T+1, ...]: per-step noisy latents x_{t_0..t_{T-1}} followed by the
++    # final denoised latent x_{t_T} (last scheduler.step output).
++    latents: torch.Tensor | None = None
++    timesteps: torch.Tensor | None = None  # [T+1], includes the terminal timestep
++    # [T+1] scheduler.sigmas snapshot (post-shift, includes terminal 0).
++    sigmas: torch.Tensor | None = None
++    # [K] original step index of each kept latent (0..T); None means the full
++    # 0..T trajectory. Set whenever rollout_return_step_indices filtered it.
++    latent_step_indices: torch.Tensor | None = None
++
++
++@dataclass
++class RolloutTrajectoryData:
++    rollout_log_probs: torch.Tensor | None = None
++    rollout_debug_tensors: RolloutDebugTensors | None = None
++    denoising_env: RolloutDenoisingEnv | None = None
++    dit_trajectory: RolloutDitTrajectory | None = None
+diff --git a/engine_overlay/runtime/post_training/scheduler_rl_mixin.py b/engine_overlay/runtime/post_training/scheduler_rl_mixin.py
+new file mode 100644
+index 0000000..ad3e0ab
+--- /dev/null
++++ b/engine_overlay/runtime/post_training/scheduler_rl_mixin.py
+@@ -0,0 +1,349 @@
++# SPDX-License-Identifier: Apache-2.0
++"""Flow-matching rollout step utilities for log-prob computation."""
++
++import math
++from typing import Any, Union
++
++import torch
++
++from sglang.multimodal_gen.runtime.distributed import (
++    get_sp_world_size,
++)
++from sglang.multimodal_gen.runtime.pipelines_core.schedule_batch import Req
++from sglang.multimodal_gen.runtime.post_training.rl_dataclasses import (
++    RolloutSessionData,
++)
++from sglang.multimodal_gen.runtime.post_training.scheduler_rl_debug_mixin import (
++    SchedulerRLDebugMixin,
++)
++
++_LOG_SQRT_2PI = math.log(math.sqrt(2 * math.pi))
++
++
++class SchedulerRLMixin(SchedulerRLDebugMixin):
++    @staticmethod
++    def _get_rollout_session_data(batch) -> RolloutSessionData:
++        """Return the RolloutSessionData attached to *batch*, or raise if not prepared."""
++        rollout_session_data = getattr(batch, "_rollout_session_data", None)
++        if rollout_session_data is None:
++            raise RuntimeError("prepare_rollout() not called before rollout")
++        return rollout_session_data
++
++    def release_rollout_resources(self, batch) -> None:
++        """Release rollout-owned resources. Call when denoising ends or before a new rollout."""
++        batch._rollout_session_data = None
++
++    def prepare_rollout(self, batch: Req, pipeline_config: Any = None) -> None:
++        """Enable rollout and set SDE/CPS params. Call once before the denoising loop."""
++        if get_sp_world_size() > 1 and pipeline_config is None:
++            raise RuntimeError(
++                "SP rollout requires pipeline_config to be passed to prepare_rollout()."
++            )
++        batch._rollout_session_data = RolloutSessionData(
++            pipeline_config=pipeline_config,
++            sigma_max=self.sigmas[min(1, len(self.sigmas) - 1)].item(),
++            latents_shape=(
++                tuple(batch.latents.shape) if batch.latents is not None else None
++            ),
++        )
++        sde_noise_seed = getattr(batch, "rollout_sde_noise_seed", None)
++        if sde_noise_seed is not None:
++            latents_shape = batch._rollout_session_data.latents_shape
++            if latents_shape is None or latents_shape[0] != 1:
++                raise ValueError(
++                    "rollout_sde_noise_seed requires exactly one output per request, "
++                    f"got latents shape {latents_shape}"
++                )
++            batch._rollout_session_data.sde_noise_generator = torch.Generator(
++                device="cpu"
++            ).manual_seed(int(sde_noise_seed))
++
++    def already_prepared_rollout(self, batch) -> bool:
++        return getattr(batch, "_rollout_session_data", None) is not None
++
++    def _get_or_create_rollout_noise_buffer(
++        self,
++        rollout_session_data: RolloutSessionData,
++        full_shape: tuple,
++        device: torch.device,
++        dtype: torch.dtype,
++    ) -> torch.Tensor:
++        """Get or create the reusable noise buffer (local or full shape) for rollout."""
++        buffer = rollout_session_data.noise_buffer
++        if (
++            buffer is None
++            or buffer.shape != full_shape
++            or buffer.dtype != dtype
++            or buffer.device != device
++        ):
++            buffer = torch.empty(full_shape, device=device, dtype=dtype)
++            rollout_session_data.noise_buffer = buffer
++        return buffer
++
++    def _rollout_variance_noise(
++        self,
++        batch,
++        model_output: torch.FloatTensor,
++        generator: Union[torch.Generator, list[torch.Generator]],
++    ) -> torch.FloatTensor:
++        """Generate variance noise for rollout. If generator is a list, use generator[i] for the i-th batch item."""
++        assert generator is not None, "Generator must be provided"
++
++        rollout_session_data = self._get_rollout_session_data(batch)
++        device = model_output.device
++        dtype = model_output.dtype
++        local_shape = tuple(model_output.shape)
++
++        B = local_shape[0]
++        if isinstance(generator, torch.Generator):
++            assert B == 1, "Generator must be a list if batch size is not 1"
++            generator = [generator]
++        else:
++            assert (
++                len(generator) == B
++            ), "Generator list must have the same length as batch size"
++
++        buffer = self._get_or_create_rollout_noise_buffer(
++            rollout_session_data, rollout_session_data.latents_shape, device, dtype
++        )
++        if rollout_session_data.sde_noise_generator is not None:
++            # Canonical key: one fp32 (1, ...) CPU draw per SDE step, independent of the init-latent generator.
++            noise = torch.randn(
++                rollout_session_data.latents_shape,
++                generator=rollout_session_data.sde_noise_generator,
++                dtype=torch.float32,
++                device="cpu",
++            )
++            buffer.copy_(noise.to(device=device, dtype=dtype))
++            sharded_noise, _ = rollout_session_data.pipeline_config.shard_latents_for_sp(
++                batch=batch, latents=buffer
++            )
++            if tuple(sharded_noise.shape) != local_shape:
++                raise ValueError(
++                    "Rollout SP noise shape mismatch after shard. "
++                    f"Expected local_shape={local_shape}, got {tuple(sharded_noise.shape)}."
++                )
++            return sharded_noise
++        for i in range(B):
++            torch.randn(
++                rollout_session_data.latents_shape,
++                out=buffer[i : i + 1],
++                generator=generator[i],
++            )
++
++        sharded_noise, _ = rollout_session_data.pipeline_config.shard_latents_for_sp(
++            batch=batch, latents=buffer
++        )
++        if tuple(sharded_noise.shape) != local_shape:
++            raise ValueError(
++                "Rollout SP noise shape mismatch after shard. "
++                f"Expected local_shape={local_shape}, got {tuple(sharded_noise.shape)}."
++            )
++        return sharded_noise
++
++    def flow_sde_sampling(
++        self,
++        batch,
++        model_output: torch.FloatTensor,
++        sample: torch.FloatTensor,
++        current_sigma: torch.FloatTensor,
++        next_sigma: torch.FloatTensor,
++        generator: torch.Generator,
++    ) -> torch.Tensor:
++        """Flow rollout step for log-prob / sampling (see FlowGRPO-style references).
++
++        ``rollout_sde_type`` (from batch SamplingParams):
++
++        1. ``"sde"``: Standard stochastic differential equation transition (Gaussian).
++        2. ``"cps"``: Coupled Particle Sampling.
++        3. ``"ode"``: Deterministic ODE step (no diffusion noise).
++        4. ``"dance"``: DanceGRPO SDE (std = eta*sqrt(sigma - sigma_next)).
++        """
++        rollout_session_data = self._get_rollout_session_data(batch)
++        sde_type = batch.rollout_sde_type
++        noise_level = float(batch.rollout_noise_level)
++        log_prob_no_const = batch.rollout_log_prob_no_const
++        debug_mode = bool(getattr(batch, "rollout_debug_mode", False))
++
++        if not log_prob_no_const and sde_type != "ode":
++            assert (
++                noise_level > 0
++            ), "True log-probability computation requires a non-zero noise level."
++
++        dt = next_sigma - current_sigma
++
++        # step_index comes from the denoising-loop counter stashed by
++        # DenoisingStage — scheduler._step_index would differ when
++        # _begin_index != 0 (e.g. partial denoising).
++        sde_step_indices = getattr(batch, "rollout_sde_step_indices", None)
++        loop_step_index = getattr(batch, "_rollout_loop_step_index", None)
++        if (
++            sde_type != "ode"
++            and sde_step_indices is not None
++            and loop_step_index is not None
++            and loop_step_index not in sde_step_indices
++        ):
++            effective_sde_type = "ode"
++        else:
++            effective_sde_type = sde_type
++
++        # sde/cps: cast to fp32 to match flowGRPO semantics and avoid the
++        # 0-dim-fp32 wrapped-scalar promotion demoting log-prob to bf16.
++        # ode: keep dtypes unchanged so rollout(ode) stays bit-exact with
++        # rollout=False (scheduling_flow_match_euler_discrete.step()).
++        # log_prob is computed on the full pre-shard noise buffer so SP ranks
++        # produce identical sums — see collect_rollout_log_probs().
++        if effective_sde_type == "sde":
++            model_output = model_output.float()
++            sample = sample.float()
++            variance_noise = self._rollout_variance_noise(
++                batch, model_output, generator
++            )
++            full_variance_noise = rollout_session_data.noise_buffer
++            std_dev_t = (
++                torch.sqrt(
++                    current_sigma
++                    / (
++                        1
++                        - torch.where(
++                            torch.isclose(current_sigma, current_sigma.new_tensor(1.0)),
++                            rollout_session_data.sigma_max,
++                            current_sigma,
++                        )
++                    )
++                )
++                * noise_level
++            )
++            noise_std_dev = std_dev_t * torch.sqrt(-1 * dt)
++            prev_sample_mean = (
++                sample * (1 + std_dev_t**2 / (2 * current_sigma) * dt)
++                + model_output
++                * (1 + std_dev_t**2 * (1 - current_sigma) / (2 * current_sigma))
++                * dt
++            )
++
++            weighted_variance_noise = variance_noise * noise_std_dev
++            prev_sample = prev_sample_mean + weighted_variance_noise
++            log_prob_no_const_val = -((full_variance_noise * noise_std_dev) ** 2)
++
++        elif effective_sde_type == "cps":
++            model_output = model_output.float()
++            sample = sample.float()
++            variance_noise = self._rollout_variance_noise(
++                batch, model_output, generator
++            )
++            full_variance_noise = rollout_session_data.noise_buffer
++            std_dev_t = next_sigma * math.sin(noise_level * math.pi / 2)
++            noise_std_dev = std_dev_t
++            pred_original_sample = sample - current_sigma * model_output
++            noise_estimate = sample + model_output * (1 - current_sigma)
++            prev_sample_mean = pred_original_sample * (
++                1 - next_sigma
++            ) + noise_estimate * torch.sqrt(next_sigma**2 - std_dev_t**2)
++
++            weighted_variance_noise = variance_noise * noise_std_dev
++            prev_sample = prev_sample_mean + weighted_variance_noise
++            log_prob_no_const_val = -((full_variance_noise * noise_std_dev) ** 2)
++
++        elif effective_sde_type == "dance":
++            # DanceGRPO transition (XueZeyue/DanceGRPO flux_step; verl-omni dance_sde):
++            #   x0 = x - sigma*v;  mu = x + dt*v + 0.5*eta^2*(x - x0*(1-sigma))/sigma^2*dt;  std = eta*sqrt(-dt)
++            # No sigma/(1-sigma) factor, so sigma == 1 needs no guard.
++            model_output = model_output.float()
++            sample = sample.float()
++            variance_noise = self._rollout_variance_noise(
++                batch, model_output, generator
++            )
++            full_variance_noise = rollout_session_data.noise_buffer
++            noise_std_dev = noise_level * torch.sqrt(-1 * dt)
++            pred_original_sample = sample - current_sigma * model_output
++            score_term = (
++                0.5
++                * noise_level**2
++                * (sample - pred_original_sample * (1 - current_sigma))
++                / current_sigma**2
++            )
++            prev_sample_mean = sample + dt * model_output + score_term * dt
++
++            weighted_variance_noise = variance_noise * noise_std_dev
++            prev_sample = prev_sample_mean + weighted_variance_noise
++            log_prob_no_const_val = -((full_variance_noise * noise_std_dev) ** 2)
++
++        elif effective_sde_type == "ode":
++            prev_sample = sample + dt * model_output
++            prev_sample_mean = prev_sample
++            variance_noise = torch.zeros_like(model_output)
++            noise_std_dev = torch.zeros(
++                (), device=model_output.device, dtype=model_output.dtype
++            )
++            log_prob_no_const_val = torch.zeros(
++                rollout_session_data.latents_shape,
++                device=model_output.device,
++                dtype=torch.float32,
++            )
++            # Only enforce the "no full log-prob with ODE" constraint when the
++            # user explicitly chose ODE globally.
++            if sde_type == "ode":
++                assert (
++                    log_prob_no_const
++                ), "p_ode is always 0, true log_prob is meaningless, set rollout_log_prob_no_const to True to enable log_prob computation"
++
++        else:
++            raise ValueError(f"Unsupported sde_type: {sde_type}")
++
++        reduce_dims = list(range(1, len(log_prob_no_const_val.shape)))
++        local_elem_count = log_prob_no_const_val.new_full(
++            (log_prob_no_const_val.shape[0],),
++            float(math.prod(log_prob_no_const_val.shape[1:])),
++        )
++
++        if log_prob_no_const or effective_sde_type == "ode":
++            log_prob_local_sum = log_prob_no_const_val.sum(dim=reduce_dims)
++        else:
++            log_prob_local_sum = (
++                log_prob_no_const_val / (2 * (noise_std_dev**2))
++                - torch.log(noise_std_dev)
++                - _LOG_SQRT_2PI
++            ).sum(dim=list(range(1, len(log_prob_no_const_val.shape))))
++
++        if debug_mode:
++            self.append_local_rollout_debug_tensors(
++                batch,
++                variance_noise=variance_noise,
++                prev_sample_mean=prev_sample_mean,
++                noise_std_dev=noise_std_dev,
++                model_output=model_output,
++            )
++
++        self.append_local_rollout_log_probs(batch, log_prob_local_sum, local_elem_count)
++
++        return prev_sample
++
++    def append_local_rollout_log_probs(
++        self, batch, log_prob_sum: torch.Tensor, log_prob_count: torch.Tensor
++    ) -> None:
++        rollout_session_data = self._get_rollout_session_data(batch)
++        rollout_session_data.local_log_prob_sum.append(log_prob_sum)
++        rollout_session_data.local_log_prob_count.append(log_prob_count)
++
++    def consume_local_rollout_log_probs(
++        self, batch
++    ) -> tuple[torch.Tensor, torch.Tensor]:
++        rollout_session_data = self._get_rollout_session_data(batch)
++        # [B, T]: batch dim 0, denoising step dim 1
++        values_sum = torch.stack(rollout_session_data.local_log_prob_sum, dim=1)
++        values_count = torch.stack(rollout_session_data.local_log_prob_count, dim=1)
++        rollout_session_data.local_log_prob_sum = []
++        rollout_session_data.local_log_prob_count = []
++        return values_sum, values_count
++
++    def collect_rollout_log_probs(self, batch: Req) -> torch.Tensor | None:
++        """Per-step sums are already computed on the full pre-shard noise
++        buffer inside flow_sde_sampling, so every SP rank holds identical
++        values here and no all-reduce is needed."""
++
++        trajectory_log_prob_sum, trajectory_log_prob_count = (
++            self.consume_local_rollout_log_probs(batch)
++        )
++        rollout_log_probs_tensor = trajectory_log_prob_sum / trajectory_log_prob_count
++        return rollout_log_probs_tensor.cpu()
+diff --git a/miles/backends/fsdp_utils/actor.py b/miles/backends/fsdp_utils/actor.py
+index f3eab36..7014126 100644
+--- a/miles/backends/fsdp_utils/actor.py
++++ b/miles/backends/fsdp_utils/actor.py
+@@ -1,4 +1,5 @@
+ import logging
++import os
+ import warnings
+ from argparse import Namespace
+ from contextlib import contextmanager, nullcontext
+@@ -280,6 +281,58 @@ class FSDPTrainRayActor(TrainRayActor):
+         dist.barrier(group=get_gloo_group())
+         print_memory("after wake_up DiT")
+ 
++    # ------------- fixed-replay / audit helpers (task_entry serve & run) -------------
++    def update_args(self, fields: dict) -> None:
++        for k, v in fields.items():
++            setattr(self.args, k, v)
++
++    def snapshot_base(self) -> None:
++        """Keep a CPU copy of this rank's parameter shards so reset_to_base() can restore theta_0."""
++        self._base_shards = {
++            n: (p._local_tensor if isinstance(p, DTensor) else p).detach().to("cpu", copy=True)
++            for n, p in self.model.named_parameters()
++        }
++
++    def reset_to_base(self) -> None:
++        """Restore theta_0 and a fresh AdamW/LR/step state (untimed reset between replays)."""
++        with torch.no_grad():
++            for n, p in self.model.named_parameters():
++                (p._local_tensor if isinstance(p, DTensor) else p).copy_(self._base_shards[n])
++        self.optimizer.zero_grad(set_to_none=True)
++        self.optimizer = torch.optim.AdamW(
++            (p for p in self.model.parameters() if p.requires_grad),
++            lr=self.args.lr,
++            betas=(self.args.adam_beta1, self.args.adam_beta2),
++            eps=self.args.adam_eps,
++            weight_decay=self.args.weight_decay,
++        )
++        self.lr_scheduler = get_lr_scheduler(self.args, self.optimizer)
++        self.global_step = 0
++        clear_memory()
++        dist.barrier(group=get_gloo_group())
++
++    def export_full_state(self, fp32_path: str | None = None, bf16_path: str | None = None) -> None:
++        """Gather full parameters; rank 0 writes fp32 master and/or its RNE-bf16 cast (= what the engine holds
++        after a publication) as safetensors keyed by the diffusers parameter names."""
++        from safetensors.torch import save_file
++
++        full = {}
++        for n, p in self.model.named_parameters():
++            t = p.full_tensor() if isinstance(p, DTensor) else p.detach()
++            if dist.get_rank() == 0:
++                full[n] = t.detach().to("cpu", dtype=torch.float32, copy=True).contiguous()
++            del t
++        if dist.get_rank() == 0:
++            if fp32_path:
++                os.makedirs(os.path.dirname(fp32_path) or ".", exist_ok=True)
++                save_file(full, fp32_path)
++            if bf16_path:
++                os.makedirs(os.path.dirname(bf16_path) or ".", exist_ok=True)
++                save_file({n: t.to(torch.bfloat16) for n, t in full.items()}, bf16_path)
++        del full
++        clear_memory()
++        dist.barrier(group=get_gloo_group())
++
+     def save_model(self, rollout_id: int, force_sync: bool = False) -> None:  # type: ignore[override]
+         if self.args.save is None:
+             return
+@@ -446,6 +499,7 @@ class FSDPTrainRayActor(TrainRayActor):
+                 self.optimizer.zero_grad(set_to_none=True)
+ 
+                 old_log_prob_from_new = self.args.diffusion_recompute_old_log_prob and optim_step_idx == 0
++                loss_ctx.optim_step_idx = optim_step_idx
+ 
+                 num_local_pairs = sum(pair_hi - pair_lo for pair_lo, pair_hi in microbatch_ranges)
+ 
+@@ -493,6 +547,10 @@ class FSDPTrainRayActor(TrainRayActor):
+                 reduced = {f"train/{key}": value for key, value in metrics.reduce().items()}
+                 self._log_metrics(rollout_id, reduced, step=self.global_step)
+ 
++        from miles.utils import pair_log
++
++        pair_log.flush(self.args, rollout_id, dist.get_rank())
++
+     def _maybe_legacy_window_pad_len(self, train_pairs: list, microbatch_ranges: list) -> int | None:
+         """LEGACY 2D parity: the whole-window max cond seq_len (like the legacy tile path), or
+         None unless the legacy --micro-batch-size-sample>1 path is active. TODO: remove with it."""
+diff --git a/miles/backends/fsdp_utils/configs/train_pipeline_config.py b/miles/backends/fsdp_utils/configs/train_pipeline_config.py
+index 56420a6..7cb78e5 100644
+--- a/miles/backends/fsdp_utils/configs/train_pipeline_config.py
++++ b/miles/backends/fsdp_utils/configs/train_pipeline_config.py
+@@ -53,9 +53,14 @@ def resolve_diffusion_model_family(model_ref: str) -> str:
+ 
+     _populate_registry()
+     ref = str(model_ref).lower()
++    # Most specific (longest) matching pattern wins, e.g. "wan2.2-ti2v" over "wan2.2".
++    best, best_len = None, -1
+     for family, config_cls in _REGISTRY.items():
+-        if any(pattern in ref for pattern in config_cls.hf_ckpt_name_patterns):
+-            return family
++        for pattern in config_cls.hf_ckpt_name_patterns:
++            if pattern in ref and len(pattern) > best_len:
++                best, best_len = family, len(pattern)
++    if best is not None:
++        return best
+     raise ValueError(
+         f"Cannot resolve diffusion model family for '{model_ref}' "
+         f"(known families: {list(_REGISTRY)}). "
+diff --git a/miles/backends/fsdp_utils/configs/wan2_2_ti2v.py b/miles/backends/fsdp_utils/configs/wan2_2_ti2v.py
+new file mode 100644
+index 0000000..d5990f3
+--- /dev/null
++++ b/miles/backends/fsdp_utils/configs/wan2_2_ti2v.py
+@@ -0,0 +1,31 @@
++"""Wan2.2-TI2V-5B training pipeline config (single expert, T2V mode).
++
++TI2V-5B ships one ``transformer`` (model_index ``transformer_2: [null, null]``, ``boundary_ratio: null``), so there
++is no high/low-noise expert switch and no ``guidance_scale_2``. Otherwise it shares the Wan2.2 DiT interface
++(T5 ``encoder_hidden_states``, sequential CFG, GEMM patchify parity hook).
++"""
++
++from __future__ import annotations
++
++from .train_pipeline_config import register_train_pipeline_config
++from .wan2_2 import Wan2_2TrainPipelineConfig
++
++
++@register_train_pipeline_config("wan2_2_ti2v")
++class Wan2_2TI2VTrainPipelineConfig(Wan2_2TrainPipelineConfig):
++    hf_ckpt_name_patterns = ("wan2.2-ti2v", "wan-2.2-ti2v")
++    boundary_ratio = None
++
++    def component_for_timestep(self, timestep: float, num_train_timesteps: int) -> str:
++        return "transformer"
++
++    def select_guidance_scale(
++        self,
++        timestep: float,
++        num_train_timesteps: int,
++        guidance_scale: float,
++        guidance_scale_2: float | None,
++    ) -> float:
++        if guidance_scale_2 is not None:
++            raise ValueError("Wan2.2-TI2V-5B has a single expert; --diffusion-guidance-scale-2 does not apply")
++        return guidance_scale
+diff --git a/miles/backends/fsdp_utils/loss_hub/flow_grpo.py b/miles/backends/fsdp_utils/loss_hub/flow_grpo.py
+index ee49bbd..e31494e 100644
+--- a/miles/backends/fsdp_utils/loss_hub/flow_grpo.py
++++ b/miles/backends/fsdp_utils/loss_hub/flow_grpo.py
+@@ -6,6 +6,7 @@ import torch
+ 
+ from miles.backends.fsdp_utils.loss_hub.types import DiffusionLossContext, PreparedBatch
+ from miles.backends.fsdp_utils.metrics import record_rollout_train_abs_diff
++from miles.utils import pair_log
+ from miles.utils.metric_buffer import MetricBuffer
+ from miles.utils.train_data_utils import stack_train_pair_rollout_debug
+ 
+@@ -136,6 +137,9 @@ def flow_grpo_loss_formula(
+     if write_old_log_prob:
+         for pair, log_prob in zip(batch, log_prob_new, strict=True):
+             pair["log_prob_old"] = log_prob.cpu()
++            if pair_log.enabled(args):
++                pair_log.record({"kind": "pi_old", "rollout": ctx.rollout_id, **pair_log.pair_id(pair),
++                                 "lp_old": float(log_prob)})
+         return None
+ 
+     log_prob_old = log_prob_new.detach() if old_log_prob_from_new else log_prob_old_rollout
+@@ -144,6 +148,23 @@ def flow_grpo_loss_formula(
+     clipped = -prepared.advantage * torch.clamp(ratio, 1.0 - clip_range, 1.0 + clip_range)
+     per_pair_loss = torch.maximum(unclipped, clipped)
+     loss_sum = per_pair_loss.sum()
++    if pair_log.enabled(args):
++        with torch.no_grad():
++            adv = prepared.advantage.reshape(-1).double().cpu().tolist()
++            lpo = log_prob_old.reshape(-1).double().cpu().tolist()
++            lpn = log_prob_new.detach().reshape(-1).double().cpu().tolist()
++            rat = ratio.detach().reshape(-1).double().cpu().tolist()
++            msk = (torch.abs(ratio.detach() - 1.0) > clip_range).reshape(-1).cpu().tolist()
++            los = per_pair_loss.detach().reshape(-1).double().cpu().tolist()
++        for i, pair in enumerate(batch):
++            ev = {"kind": "step", "rollout": ctx.rollout_id, "optim_step": getattr(ctx, "optim_step_idx", None),
++                  **pair_log.pair_id(pair), "adv": adv[i], "raw_reward": pair.get("raw_reward"),
++                  "lp_old": lpo[i], "lp_new": lpn[i], "ratio": rat[i], "clipped": bool(msk[i]), "loss": los[i]}
++            if old_log_prob_from_new:
++                ev["pi_old_from_new"] = True
++            if pair.get("frame_mu") is not None:
++                ev["frame_mu"] = pair["frame_mu"]
++            pair_log.record(ev)
+     bsz = len(batch)
+ 
+     kl_sum = loss_sum.new_zeros(())
+diff --git a/miles/backends/fsdp_utils/loss_hub/types.py b/miles/backends/fsdp_utils/loss_hub/types.py
+index 74d252b..5d3e560 100644
+--- a/miles/backends/fsdp_utils/loss_hub/types.py
++++ b/miles/backends/fsdp_utils/loss_hub/types.py
+@@ -24,6 +24,7 @@ class DiffusionLossContext:
+     rollout_id: int = 0
+     microbatch_id: int = 0
+     dp_rank: int = 0
++    optim_step_idx: int | None = None
+ 
+ 
+ @dataclass
+diff --git a/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/__init__.py b/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/__init__.py
+new file mode 100644
+index 0000000..8b13789
+--- /dev/null
++++ b/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/__init__.py
+@@ -0,0 +1 @@
++
+diff --git a/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/parallel_plan.py b/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/parallel_plan.py
+new file mode 100644
+index 0000000..b18b19e
+--- /dev/null
++++ b/miles/backends/fsdp_utils/models/diffusers/wan2_2_ti2v/parallel_plan.py
+@@ -0,0 +1,2 @@
++# Wan2.2-TI2V-5B is the same WanTransformer3DModel as the Wan2.2 experts: same FSDP precision plan.
++from miles.backends.fsdp_utils.models.diffusers.wan2_2.parallel_plan import FSDP_PARALLEL_PLAN  # noqa: F401
+diff --git a/miles/backends/fsdp_utils/sde_step_backend.py b/miles/backends/fsdp_utils/sde_step_backend.py
+index 7a66758..339e80f 100644
+--- a/miles/backends/fsdp_utils/sde_step_backend.py
++++ b/miles/backends/fsdp_utils/sde_step_backend.py
+@@ -161,3 +161,37 @@ class CpsSdeStepBackend(SdeStepBackend):
+         # Drops constants — pairs with rollout_log_prob_no_const=True on the engine side.
+         log_prob = -((prev_sample.detach() - prev_mean) ** 2)
+         return log_prob.mean(dim=tuple(range(1, log_prob.ndim)))
++
++
++class DanceSdeStepBackend(DiffusersSdeStepBackend):
++    """DanceGRPO dynamics (sgl-d ``rollout_sde_type="dance"``; XueZeyue/DanceGRPO ``flux_step``, verl-omni ``dance_sde``).
++
++    x0 = x - sigma*v;  mean = x + dt*v + 0.5*eta^2*(x - x0*(1-sigma))/sigma^2*dt;  std = eta*sqrt(sigma - sigma_next).
++    Unlike flow-SDE there is no sigma/(1-sigma) factor, so the sigma == 1 step needs no guard. The log-prob drops the
++    Gaussian constants (they cancel in the PPO ratio): mean over elements of -(x' - mean)^2 / (2 std^2).
++    """
++
++    def prev_sample_mean_and_std(
++        self,
++        model_output: torch.Tensor,
++        sample: torch.Tensor,
++        sigma: torch.Tensor,
++        sigma_prev: torch.Tensor,
++        *,
++        noise_level: float,
++    ) -> tuple[torch.Tensor, torch.Tensor, torch.Tensor]:
++        dt = sigma_prev - sigma
++        pred_original = sample - sigma * model_output
++        score_term = 0.5 * noise_level**2 * (sample - pred_original * (1 - sigma)) / sigma**2
++        prev_mean = sample + dt * model_output + score_term * dt
++        noise_std = noise_level * torch.sqrt(-1 * dt)
++        return prev_mean, noise_std, noise_std
++
++    def log_prob(
++        self,
++        prev_sample: torch.Tensor,
++        prev_mean: torch.Tensor,
++        noise_std: torch.Tensor,
++    ) -> torch.Tensor:
++        log_prob = -((prev_sample.detach() - prev_mean) ** 2) / (2 * noise_std**2)
++        return log_prob.mean(dim=tuple(range(1, log_prob.ndim)))
+diff --git a/miles/backends/sglang_diffusion_utils/sglang_diffusion_engine.py b/miles/backends/sglang_diffusion_utils/sglang_diffusion_engine.py
+index 2f9cdcb..827977d 100644
+--- a/miles/backends/sglang_diffusion_utils/sglang_diffusion_engine.py
++++ b/miles/backends/sglang_diffusion_utils/sglang_diffusion_engine.py
+@@ -143,6 +143,22 @@ class SGLangDiffusionEngine(RayActor):
+ 
+         self._init_normal(server_args_dict)
+ 
++    def init_external(self, url: str) -> None:
++        """Attach to an engine someone else launched (e.g. a fixed-replay Judge): no server launch, no router
++        registration, no memory release/resume; only HTTP calls such as update_weights_from_tensor."""
++        from urllib.parse import urlparse
++
++        u = urlparse(url)
++        self.external = True
++        self.router_ip = self.args.sglang_router_ip
++        self.router_port = self.args.sglang_router_port
++        self.node_rank = 0
++        self.server_host = u.hostname
++        self.server_port = u.port
++        self.process = None
++        self._pin_to_assigned_gpu()
++        logger.info(f"Attached to external sglang-d engine rank={self.rank} at {url}")
++
+     def _init_normal(self, server_args_dict):
+         from sglang.multimodal_gen.runtime.server_args import ServerArgs
+ 
+@@ -280,6 +296,8 @@ class SGLangDiffusionEngine(RayActor):
+         )
+ 
+     def shutdown(self):
++        if getattr(self, "external", False):
++            return
+         logger.info(f"Shutdown engine {self.server_host}:{self.server_port}...")
+         if self.node_rank == 0:
+             worker_url = f"http://{self.server_host}:{self.server_port}"
+@@ -295,9 +313,13 @@ class SGLangDiffusionEngine(RayActor):
+         kill_process_tree(self.process.pid)
+ 
+     def release_memory_occupation(self):
++        if getattr(self, "external", False):
++            return None
+         return self._make_request("release_memory_occupation")
+ 
+     def resume_memory_occupation(self, tags: list[str] | None = None):
++        if getattr(self, "external", False):
++            return None
+         return self._make_request("resume_memory_occupation")
+ 
+     def simulate_crash(self):
+diff --git a/miles/ray/actor_group.py b/miles/ray/actor_group.py
+index 8ce4c31..35e059c 100644
+--- a/miles/ray/actor_group.py
++++ b/miles/ray/actor_group.py
+@@ -121,5 +121,17 @@ class RayTrainGroup:
+     def clear_memory(self):
+         return ray.get([actor.clear_memory.remote() for actor in self._actor_handlers])
+ 
++    def update_args(self, fields: dict):
++        return ray.get([actor.update_args.remote(fields) for actor in self._actor_handlers])
++
++    def snapshot_base(self):
++        return ray.get([actor.snapshot_base.remote() for actor in self._actor_handlers])
++
++    def reset_to_base(self):
++        return ray.get([actor.reset_to_base.remote() for actor in self._actor_handlers])
++
++    def export_full_state(self, fp32_path=None, bf16_path=None):
++        return ray.get([actor.export_full_state.remote(fp32_path, bf16_path) for actor in self._actor_handlers])
++
+     def set_rollout_manager(self, rollout_manager):
+         return ray.get([actor.set_rollout_manager.remote(rollout_manager) for actor in self._actor_handlers])
+diff --git a/miles/ray/data_conversion_hub/flow_grpo.py b/miles/ray/data_conversion_hub/flow_grpo.py
+index 03bad45..c627130 100644
+--- a/miles/ray/data_conversion_hub/flow_grpo.py
++++ b/miles/ray/data_conversion_hub/flow_grpo.py
+@@ -55,6 +55,7 @@ def _expand_samples_to_train_pairs(
+                 **per_sample_features,
+                 **{key: tensor[t].detach().cpu() for key, tensor in per_timestep_features.items()},
+             }
++            pair["sde_step"] = int(idx[t])
+             if pair_debug_steps is not None:
+                 pair["rollout_debug_tensors"] = pair_debug_steps[t]
+             train_data.append(pair)
+@@ -88,9 +89,16 @@ def _build_per_sample_features(
+         "sample_index": sample.index,
+         "prompt": sample.prompt,
+         "raw_reward": float(raw_reward),
++        "canonical": _metadata(sample).get("canonical_rng"),
++        "frame_mu": _metadata(sample).get("hpsv3_frame_mu"),
+     }
+ 
+ 
++def _metadata(sample) -> dict:
++    md = getattr(sample, "metadata", None)
++    return md if isinstance(md, dict) else {}
++
++
+ def _build_per_timestep_features(
+     sample: Sample,
+     *,
+diff --git a/miles/ray/rollout.py b/miles/ray/rollout.py
+index 7125fcb..48621a1 100644
+--- a/miles/ray/rollout.py
++++ b/miles/ray/rollout.py
+@@ -163,6 +163,11 @@ class RolloutManager:
+     def get_rollout_engines_and_lock(self):
+         return self.rollout_engines, self.rollout_engine_lock, self.num_new_engines
+ 
++    def update_args(self, fields: dict) -> None:
++        """Mutate run-time knobs (fixed-replay serve: replay dump path, per-go batch sizes)."""
++        for k, v in fields.items():
++            setattr(self.args, k, v)
++
+     def get_num_rollout_per_epoch(self):
+         assert self.args.rollout_global_dataset
+         return len(self.data_source.dataset) // self.args.rollout_batch_size
+@@ -553,6 +558,13 @@ def init_rollout_engines(args, pg, all_rollout_engines):
+     if num_new_engines == 0:
+         return num_new_engines
+ 
++    external = [u for u in (getattr(args, "rollout_external_engine_urls", None) or "").split(",") if u]
++    if external:
++        if len(external) != num_engines:
++            raise ValueError(f"--rollout-external-engine-urls has {len(external)} urls for {num_engines} engines")
++        ray.get([engine.init_external.remote(external[rank]) for rank, engine in rollout_engines])
++        return num_new_engines
++
+     addr_and_ports = _allocate_rollout_engine_addr_and_ports_normal(
+         args=args, num_engines=num_engines, rollout_engines=rollout_engines
+     )
+diff --git a/miles/rollout/canonical_rng.py b/miles/rollout/canonical_rng.py
+new file mode 100644
+index 0000000..a35b4fd
+--- /dev/null
++++ b/miles/rollout/canonical_rng.py
+@@ -0,0 +1,39 @@
++"""Canonical RNG keys for seed-group rollouts (DanceGRPO ``init_same_noise``; verl-omni per-sample windows).
++
++Group g = (run_seed, round, prompt_row); sample j in [0, n):
++  - initial noise x_T: CPU generator seeded with H("init|g"), shared by the whole group;
++  - SDE window start: H("win|g|j") mod window_starts, window = {w, w+1, ...};
++  - SDE noise: CPU generator seeded with H("sde|g|j"), one draw per window step in step order.
++H(s) = first 8 bytes of sha256(s), big-endian, mod 2**63.
++"""
++
++from __future__ import annotations
++
++import hashlib
++
++_MOD = 1 << 63
++
++
++def canonical_key(s: str) -> int:
++    return int.from_bytes(hashlib.sha256(s.encode("utf-8")).digest()[:8], "big") % _MOD
++
++
++def group_base(run_seed: int, round_id: int, prompt_row: int) -> str:
++    return f"{run_seed}|{round_id}|{prompt_row}"
++
++
++def init_seed(base: str) -> int:
++    return canonical_key(f"init|{base}")
++
++
++def sde_noise_seed(base: str, j: int) -> int:
++    return canonical_key(f"sde|{base}|{j}")
++
++
++def window(base: str, j: int, window_size: int, lo: int, hi: int) -> list[int]:
++    """Window of `window_size` consecutive steps, start in [lo, hi - window_size] (sde_window semantics)."""
++    n_starts = hi - window_size + 1 - lo
++    if n_starts <= 0:
++        raise ValueError(f"empty window range lo={lo} hi={hi} size={window_size}")
++    start = lo + canonical_key(f"win|{base}|{j}") % n_starts
++    return list(range(start, start + window_size))
+diff --git a/miles/rollout/replay_rollout.py b/miles/rollout/replay_rollout.py
+new file mode 100644
+index 0000000..9981f21
+--- /dev/null
++++ b/miles/rollout/replay_rollout.py
+@@ -0,0 +1,98 @@
++"""Fixed-replay rollout: training samples come from a frozen dump instead of the engine.
++
++Dump layout (a directory, written by the replay owner; ``args.replay_dump_path`` points at it):
++
++- ``meta.json``: ``{"run_seed", "round", "rows": [P], "prompts": [P], "n", "windows": [[P][n] start],
++  "timesteps": [T+1], "sigmas": [T+1]}``;
++- ``frames.npy``: uint8 ``[P, n, F, H, W, 3]`` decoded videos (the engine's uint8 output);
++- ``latents.safetensors``: ``x`` ``[P, n, 3, C, F', H', W']`` = x_w, x_{w+1}, x_{w+2} as the engine stored them;
++- ``cond.safetensors``: ``pos`` / ``neg`` ``[P, L, D]`` text conditioning captured from the engine.
++
++There are no engine log-probs: old log-probs are recomputed by the trainer (``--diffusion-recompute-old-log-prob``).
++Rewards are computed here with the configured reward model; the rest of the pipeline (advantages, train pairs,
++optimizer steps, publication) is the normal one.
++"""
++
++from __future__ import annotations
++
++import json
++import os
++from argparse import Namespace
++from typing import Any
++
++import numpy as np
++import torch
++from safetensors.torch import load_file
++
++from miles.rollout import canonical_rng as crng
++from miles.rollout.base_types import RolloutFnTrainOutput
++from miles.rollout.rm_hub import batched_async_rm
++from miles.utils.async_utils import run
++from miles.utils.types import CondKwargs, DenoisingEnv, DiTTrajectory, Sample
++
++
++def load_replay_samples(dump_dir: str, window_size: int) -> list[list[Sample]]:
++    meta = json.load(open(os.path.join(dump_dir, "meta.json")))
++    frames = np.load(os.path.join(dump_dir, "frames.npy"), mmap_mode="r")
++    lat = load_file(os.path.join(dump_dir, "latents.safetensors"))["x"]
++    cond = load_file(os.path.join(dump_dir, "cond.safetensors"))
++    timesteps = torch.tensor(meta["timesteps"], dtype=torch.float32)
++    sigmas = torch.tensor(meta["sigmas"], dtype=torch.float32)
++    n_steps = len(meta["timesteps"]) - 1
++    groups = []
++    idx = 0
++    for g, (row, prompt) in enumerate(zip(meta["rows"], meta["prompts"], strict=True)):
++        base = crng.group_base(int(meta["run_seed"]), int(meta["round"]), int(row))
++        pos, neg = cond["pos"][g].clone(), cond["neg"][g].clone()
++        group = []
++        for j in range(int(meta["n"])):
++            w = int(meta["windows"][g][j])
++            win = list(range(w, w + window_size))
++            s = Sample(prompt=prompt, index=idx, group_index=g)
++            idx += 1
++            s.generated_output = torch.from_numpy(np.ascontiguousarray(frames[g, j])).permute(3, 0, 1, 2).contiguous()
++            # .clone(): a view would drag the whole dump tensor's storage into every pickled pair (Ray spills GBs)
++            s.dit_trajectory = DiTTrajectory(
++                latents=lat[g, j].clone(),
++                timesteps=timesteps,
++                sigmas=sigmas,
++                latent_step_indices=torch.tensor(win + [win[-1] + 1], dtype=torch.long),
++            )
++            s.rollout_log_probs = torch.zeros(n_steps, dtype=torch.float32)  # unused: old log-probs are recomputed
++            s.denoising_env = DenoisingEnv(
++                pos_cond_kwargs=CondKwargs(encoder_hidden_states=[pos]),
++                neg_cond_kwargs=CondKwargs(encoder_hidden_states=[neg]),
++            )
++            s.train_metadata = {"sde_step_indices": win}
++            s.metadata = {"round": int(meta["round"]), "row": int(row),
++                          "canonical_rng": {"group": base, "j": j, "window": win}}
++            group.append(s)
++        groups.append(group)
++    return groups
++
++
++def contract_group_order(num_prompts: int, num_steps: int, dp_size: int) -> list[int]:
++    """Replay contract: optimizer step k trains the pairs of prompts [k*P/S, (k+1)*P/S). Miles splits the flat sample
++    list contiguously across DP ranks and each rank walks its shard in ``num_steps`` chunks, so emit the groups in the
++    order that makes (rank d, local step k) receive prompts k*P/S + d*P/(S*D) + [0, P/(S*D))."""
++    if num_steps == 1:
++        return list(range(num_prompts))  # a single optimizer step: composition is fixed regardless of the split
++    per_step = num_prompts // num_steps
++    per_rank_step = per_step // dp_size
++    if per_step * num_steps != num_prompts or per_rank_step * dp_size != per_step:
++        raise ValueError(f"{num_prompts} prompts do not split into {num_steps} steps x {dp_size} ranks")
++    return [k * per_step + d * per_rank_step + i
++            for d in range(dp_size) for k in range(num_steps) for i in range(per_rank_step)]
++
++
++def generate_replay(args: Namespace, rollout_id: int, data_source: Any, evaluation: bool = False):
++    if evaluation:
++        raise NotImplementedError("fixed replay has no evaluation rollout")
++    groups = load_replay_samples(args.replay_dump_path, int(args.diffusion_num_sde_steps))
++    dp_size = int(args.actor_num_nodes) * int(args.actor_num_gpus_per_node)
++    groups = [groups[i] for i in contract_group_order(len(groups), int(args.num_steps_per_rollout), dp_size)]
++    flat = [s for g in groups for s in g]
++    rewards = run(batched_async_rm(args, flat))
++    for s, r in zip(flat, rewards, strict=True):
++        s.reward = r
++    return RolloutFnTrainOutput(samples=groups, metrics={})
+diff --git a/miles/rollout/rm_hub/__init__.py b/miles/rollout/rm_hub/__init__.py
+index d347783..d93f165 100644
+--- a/miles/rollout/rm_hub/__init__.py
++++ b/miles/rollout/rm_hub/__init__.py
+@@ -24,6 +24,10 @@ async def async_rm(args, sample: Sample, **kwargs):
+         from .hps import hps_rm
+ 
+         return (await hps_rm(args, [sample]))[0]
++    elif rm_type == "hpsv3":
++        from .hpsv3 import hpsv3_rm
++
++        return (await hpsv3_rm(args, [sample]))[0]
+     else:
+         raise NotImplementedError(f"Rule-based RM for {rm_type!r} is not implemented.")
+ 
+@@ -39,6 +43,10 @@ def create_colocated_reward_pools(args, placement_group, slots) -> list:
+         from .hps import AsyncHPSPool
+ 
+         pools.append(AsyncHPSPool(args, placement_group=placement_group, slots=slots))
++    if getattr(args, "hpsv3_reward_colocate", False):
++        from .hpsv3 import AsyncHPSv3Pool
++
++        pools.append(AsyncHPSv3Pool(args, placement_group=placement_group, slots=slots))
+     return pools
+ 
+ 
+@@ -61,6 +69,10 @@ async def batched_async_rm(
+             from .hps import hps_rm
+ 
+             return await hps_rm(args, samples)
++        if all(rm_type == "hpsv3" for rm_type in rm_types):
++            from .hpsv3 import hpsv3_rm
++
++            return await hpsv3_rm(args, samples)
+         if all(rm_type == "ocr" for rm_type in rm_types):
+             from .ocr import ocr_rm
+ 
+diff --git a/miles/rollout/rm_hub/hpsv3.py b/miles/rollout/rm_hub/hpsv3.py
+new file mode 100644
+index 0000000..16f138d
+--- /dev/null
++++ b/miles/rollout/rm_hub/hpsv3.py
+@@ -0,0 +1,291 @@
++"""HPSv3 video reward (MizzenAI/HPSv3, Qwen2-VL-7B reward model) as a colocated Ray actor pool.
++
++Reward definition (verl-omni ``hpsv3_reward.py`` / official MizzenAI inferencer): frames 0, 4, 8 of the engine's
++uint8 video; each frame PIL-bicubic resized to smart_resize(h, w, 28, 256*28*28); one chat turn
++[image, instruction(prompt) + "<|Reward|>"]; mu = rm_head(hidden at <|Reward|>)[:, 0]; reward = 0.1 * mean(mu).
++The model is built from the Qwen2-VL-7B-Instruct config/processor (the HPSv3 repo's config.json names
++Qwen2.5-VL, which does not match the weights) and loaded strictly.
++Per-frame mu is kept on ``sample.metadata["hpsv3_frame_mu"]``.
++"""
++
++from __future__ import annotations
++
++import math
++from collections.abc import Sequence
++
++import numpy as np
++import ray
++import torch
++import torch.nn as nn
++from PIL import Image
++
++from miles.utils.misc import SingletonMeta
++from miles.utils.types import Sample
++
++from .core import AsyncRewardActorPool, record_reward_queue_depth
++
++INSTRUCTION = (
++    "\nYou are tasked with evaluating a generated image based on Visual Quality and Text"
++    " Alignment and give a overall score to estimate the human preference. Please provide"
++    " a rating from 0 to 10, with 0 being the worst and 10 being the best. \n"
++    "\n"
++    "**Visual Quality:**  \n"
++    "Evaluate the overall visual quality of the image. The following sub-dimensions should be considered:\n"
++    "- **Reasonableness:** The image should not contain any significant biological or logical errors,"
++    " such as abnormal body structures or nonsensical environmental setups.\n"
++    "- **Clarity:** Evaluate the sharpness and visibility of the image. The image should be clear and"
++    " easy to interpret, with no blurring or indistinct areas.\n"
++    "- **Detail Richness:** Consider the level of detail in textures, materials, lighting, and other"
++    " visual elements (e.g., hair, clothing, shadows).\n"
++    "- **Aesthetic and Creativity:** Assess the artistic aspects of the image, including the color"
++    " scheme, composition, atmosphere, depth of field, and the overall creative appeal. The scene should"
++    " convey a sense of harmony and balance.\n"
++    "- **Safety:** The image should not contain harmful or inappropriate content, such as political,"
++    " violent, or adult material. If such content is present, the image quality and satisfaction score"
++    " should be the lowest possible. \n"
++    "\n"
++    "**Text Alignment:**  \n"
++    "Assess how well the image matches the textual prompt across the following sub-dimensions:\n"
++    "- **Subject Relevance** Evaluate how accurately the subject(s) in the image (e.g., person, animal,"
++    " object) align with the textual description. The subject should match the description in terms of"
++    " number, appearance, and behavior.\n"
++    "- **Style Relevance:** If the prompt specifies a particular artistic or stylistic style, evaluate"
++    " how well the image adheres to this style.\n"
++    "- **Contextual Consistency**: Assess whether the background, setting, and surrounding elements in"
++    " the image logically fit the scenario described in the prompt. The environment should support and"
++    " enhance the subject without contradictions.\n"
++    "- **Attribute Fidelity**: Check if specific attributes mentioned in the prompt (e.g., colors,"
++    " clothing, accessories, expressions, actions) are faithfully represented in the image. Minor"
++    " deviations may be acceptable, but critical attributes should be preserved.\n"
++    "- **Semantic Coherence**: Evaluate whether the overall meaning and intent of the prompt are"
++    " captured in the image. The generated content should not introduce elements that conflict with or"
++    " distort the original description.\n"
++    "Textual prompt - {text_prompt}\n"
++    "\n\n"
++)
++PROMPT_WITH_SPECIAL_TOKEN = """
++Please provide the overall ratings of this image: <|Reward|>
++
++END
++"""
++REWARD_TOKEN = "<|Reward|>"
++IMAGE_FACTOR = 28
++PIXELS = 256 * 28 * 28
++FRAME_INDICES = (0, 4, 8)
++REWARD_SCALE = 0.1
++
++
++def smart_resize(height: int, width: int, factor: int = IMAGE_FACTOR, min_pixels: int = PIXELS, max_pixels: int = PIXELS):
++    if max(height, width) / min(height, width) > 200:
++        raise ValueError("aspect ratio > 200")
++    h_bar = max(factor, round(height / factor) * factor)
++    w_bar = max(factor, round(width / factor) * factor)
++    if h_bar * w_bar > max_pixels:
++        beta = math.sqrt((height * width) / max_pixels)
++        h_bar = math.floor(height / beta / factor) * factor
++        w_bar = math.floor(width / beta / factor) * factor
++    elif h_bar * w_bar < min_pixels:
++        beta = math.sqrt(min_pixels / (height * width))
++        h_bar = math.ceil(height * beta / factor) * factor
++        w_bar = math.ceil(width * beta / factor) * factor
++    return h_bar, w_bar
++
++
++def resize_frame(frame_hwc_uint8: np.ndarray) -> Image.Image:
++    if frame_hwc_uint8.dtype != np.uint8 or frame_hwc_uint8.ndim != 3 or frame_hwc_uint8.shape[-1] != 3:
++        raise ValueError(f"expected HxWx3 uint8 RGB, got {frame_hwc_uint8.dtype} {frame_hwc_uint8.shape}")
++    img = Image.fromarray(frame_hwc_uint8).convert("RGB")
++    w, h = img.size
++    rh, rw = smart_resize(h, w)
++    return img.resize((rw, rh), Image.BICUBIC)
++
++
++def build_messages(images: Sequence[Image.Image], prompts: Sequence[str]):
++    return [
++        [
++            {
++                "role": "user",
++                "content": [
++                    {"type": "image", "image": img, "min_pixels": PIXELS, "max_pixels": PIXELS},
++                    {"type": "text", "text": INSTRUCTION.format(text_prompt=p) + PROMPT_WITH_SPECIAL_TOKEN},
++                ],
++            }
++        ]
++        for img, p in zip(images, prompts, strict=True)
++    ]
++
++
++def load_processor(base_dir: str):
++    from transformers import AutoProcessor
++
++    processor = AutoProcessor.from_pretrained(base_dir, padding_side="right")
++    processor.tokenizer.add_special_tokens({"additional_special_tokens": [REWARD_TOKEN]})
++    return processor
++
++
++def processor_inputs(processor, images: Sequence[Image.Image], prompts: Sequence[str]):
++    msgs = build_messages(images, prompts)
++    text = processor.apply_chat_template(msgs, tokenize=False, add_generation_prompt=True)
++    # Images are already resized to the contract size; the processor's own smart_resize is then the identity.
++    return processor(text=text, images=list(images), padding=True, return_tensors="pt")
++
++
++def _remap_state_dict(state_dict, model_keys):
++    if any("model.language_model" in k for k in model_keys) and not any("language_model" in k for k in state_dict):
++        out = {}
++        for key, value in state_dict.items():
++            if key.startswith("visual."):
++                out["model." + key] = value
++            elif key.startswith("model."):
++                out["model.language_model." + key[len("model.") :]] = value
++            else:
++                out[key] = value
++        return out
++    return state_dict
++
++
++def build_model(checkpoint: str, base_dir: str, reward_token_id: int, vocab_size: int, device="cpu",
++                backbone_dtype=torch.bfloat16, attn_implementation: str = "sdpa"):
++    from safetensors.torch import load_file
++    from transformers import AutoConfig, Qwen2VLForConditionalGeneration
++
++    config = AutoConfig.from_pretrained(base_dir)
++    config._attn_implementation = attn_implementation
++
++    class HPSv3RewardModel(Qwen2VLForConditionalGeneration):
++        def __init__(self, cfg):
++            super().__init__(cfg)
++            hidden = cfg.text_config.hidden_size if hasattr(cfg, "text_config") else cfg.hidden_size
++            self.rm_head = nn.Sequential(
++                nn.Linear(hidden, 1024), nn.ReLU(), nn.Dropout(0.05), nn.Linear(1024, 16), nn.ReLU(), nn.Linear(16, 2)
++            )
++
++        def reward(self, input_ids, attention_mask, pixel_values, image_grid_thw, mm_token_type_ids=None):
++            # Official HPSv3 semantics (MizzenAI inferencer, transformers 4.45.2): the text decoder is called with
++            # position_ids=None, i.e. sequential 1-D positions for every token (no M-RoPE). transformers>=5 would
++            # otherwise compute M-RoPE positions for the image tokens, which is a different function (S3c).
++            bsz, seqlen = input_ids.shape
++            position_ids = torch.arange(seqlen, device=input_ids.device).view(1, 1, seqlen).expand(3, bsz, seqlen)
++            out = self.model(
++                input_ids=input_ids,
++                attention_mask=attention_mask,
++                position_ids=position_ids,
++                pixel_values=pixel_values,
++                image_grid_thw=image_grid_thw,
++                mm_token_type_ids=mm_token_type_ids,
++                use_cache=False,
++            )
++            h = out.last_hidden_state
++            mask = input_ids == reward_token_id
++            if not bool((mask.sum(dim=1) == 1).all()):
++                raise RuntimeError("expected exactly one reward token per sequence")
++            pooled = h[mask].float()  # [B, hidden], one position per row (row-major order)
++            return self.rm_head(pooled)  # [B, 2] fp32
++
++    # Same construction order as verl-omni: build (fp32) -> resize embeddings -> .to(bf16) (this also casts the
++    # rotary inv_freq buffers) -> rm_head back to fp32 -> strict load of the bf16 checkpoint.
++    with torch.device(device):
++        model = HPSv3RewardModel(config)
++    model.resize_token_embeddings(vocab_size)
++    model.to(backbone_dtype)
++    model.rm_head.to(torch.float32)
++    sd = load_file(checkpoint, device="cpu")
++    sd = _remap_state_dict(sd, model.state_dict().keys())
++    model.load_state_dict(sd, strict=True)
++    del sd
++    model.eval().requires_grad_(False)
++    return model
++
++
++
++def _video_to_fhwc_uint8(output: torch.Tensor) -> np.ndarray:
++    """generated_output [C, F, H, W] (uint8 from --rollout-video-dtype uint8) -> [F, H, W, C] uint8."""
++    if output.dtype != torch.uint8:
++        raise ValueError("HPSv3 reward expects the engine's uint8 frames (--rollout-video-dtype uint8)")
++    return np.ascontiguousarray(output.permute(1, 2, 3, 0).cpu().numpy())
++
++
++class HPSv3RewardActor:
++    def __init__(self, *, checkpoint_path: str, base_config_path: str, frame_batch_size: int = 16) -> None:
++        use_cuda = bool(ray.get_gpu_ids()) and torch.cuda.is_available()
++        device = "cuda" if use_cuda else "cpu"
++        if use_cuda:
++            torch.cuda.set_device(0)
++        self.processor = load_processor(base_config_path)
++        rid = self.processor.tokenizer.convert_tokens_to_ids(REWARD_TOKEN)
++        self.device = device
++        self.frame_batch_size = frame_batch_size
++        self.model = build_model(checkpoint_path, base_config_path, rid, len(self.processor.tokenizer), device)
++
++    @torch.no_grad()
++    def score_batch(self, outputs: list[torch.Tensor], prompts: list[str]) -> list[list[float]]:
++        frames, fprompts = [], []
++        for output, prompt in zip(outputs, prompts, strict=True):
++            video = _video_to_fhwc_uint8(output)
++            for f in FRAME_INDICES:
++                frames.append(resize_frame(video[f]))
++                fprompts.append(prompt)
++        mus = []
++        for s in range(0, len(frames), self.frame_batch_size):
++            inp = processor_inputs(self.processor, frames[s : s + self.frame_batch_size], fprompts[s : s + self.frame_batch_size])
++            inp = {k: v.to(self.device) for k, v in inp.items()}
++            logits = self.model.reward(
++                inp["input_ids"], inp["attention_mask"], inp["pixel_values"], inp["image_grid_thw"],
++                inp.get("mm_token_type_ids"),
++            )
++            mus.extend(logits[:, 0].float().cpu().tolist())
++        n = len(FRAME_INDICES)
++        return [mus[i * n : (i + 1) * n] for i in range(len(outputs))]
++
++
++class AsyncHPSv3Pool(AsyncRewardActorPool, metaclass=SingletonMeta):
++    def __init__(self, args, placement_group=None, slots=None) -> None:
++        super().__init__(
++            actor_cls=HPSv3RewardActor,
++            actor_kwargs={
++                "checkpoint_path": args.hpsv3_checkpoint_path,
++                "base_config_path": args.hpsv3_base_config_path,
++                "frame_batch_size": args.hpsv3_frame_batch_size,
++            },
++            num_workers=args.hpsv3_num_workers,
++            batch_size=args.hpsv3_batch_size,
++            num_gpus_per_worker=args.hpsv3_num_gpus_per_worker,
++            colocate=args.hpsv3_reward_colocate,
++            name="hpsv3",
++            placement_group=placement_group,
++            slots=slots,
++        )
++
++
++    async def score(self, outputs: list, prompts: list[str]) -> tuple[list[list[float]], int]:
++        """Like the base pool but returns the per-frame mus of each video (the base casts each item to float)."""
++        import asyncio
++
++        refs, idxs, max_queue_depth = [], [], 0
++        for start in range(0, len(outputs), self._batch_size):
++            i = self._next_actor_idx()
++            max_queue_depth = max(max_queue_depth, self._inflight[i])
++            self._inflight[i] += 1
++            idxs.append(i)
++            refs.append(self._actors[i].score_batch.remote(outputs[start : start + self._batch_size],
++                                                           prompts[start : start + self._batch_size]))
++        loop = asyncio.get_running_loop()
++        try:
++            chunks = await loop.run_in_executor(None, ray.get, refs)
++        finally:
++            for i in idxs:
++                self._inflight[i] -= 1
++        return [mus for chunk in chunks for mus in chunk], max_queue_depth
++
++
++async def hpsv3_rm(args, samples: Sequence[Sample]) -> list[float]:
++    pool = AsyncHPSv3Pool(args)
++    frame_mus, max_queue_depth = await pool.score([s.generated_output for s in samples], [s.prompt for s in samples])
++    record_reward_queue_depth(samples, "hpsv3", max_queue_depth)
++    rewards = []
++    for sample, mus in zip(samples, frame_mus, strict=True):
++        md = sample.metadata if isinstance(sample.metadata, dict) else {}
++        md["hpsv3_frame_mu"] = [float(m) for m in mus]
++        sample.metadata = md
++        rewards.append(REWARD_SCALE * (sum(mus) / len(mus)))
++    return rewards
+diff --git a/miles/rollout/sglang_diffusion_rollout.py b/miles/rollout/sglang_diffusion_rollout.py
+index b8ef435..c617a9e 100644
+--- a/miles/rollout/sglang_diffusion_rollout.py
++++ b/miles/rollout/sglang_diffusion_rollout.py
+@@ -174,7 +174,12 @@ async def generate_microgroup(
+     # Prepare payload for sglang-diffusion server
+     # SGL-D TODO: support seed list for multiple samples in one request
+     # currently only support assigning the first seed, SGL-D generates samples with seed, seed+1, seed+2, ...
+-    if not evaluation and state.step_strategy_fn is not None:
++    if not evaluation and sampling_params.get("rollout_sde_step_indices") is not None:
++        # canonical-RNG path: the window was fixed per sample in generate_and_rm_group
++        sde_indices = list(sampling_params["rollout_sde_step_indices"])
++        if args.rollout_return_full_trajectory:
++            sampling_params["rollout_return_step_indices"] = None
++    elif not evaluation and state.step_strategy_fn is not None:
+         sde_indices, return_indices = state.step_strategy_fn(
+             args,
+             microgroup[0],
+@@ -286,6 +291,9 @@ async def generate_and_rm_group(
+     group_index = int(group[0].group_index or 0)
+     seed_base = (args.rollout_seed + group_index * n_per_prompt) % (2**31)
+ 
++    if getattr(args, "diffusion_canonical_rng", False) and not evaluation:
++        return await _generate_and_rm_group_canonical(args, group, sampling_params)
++
+     tasks = []
+     for idx in range(0, len(group), args.rollout_microgroup_size):
+         microgroup = group[idx : min(idx + args.rollout_microgroup_size, len(group))]
+@@ -525,3 +533,46 @@ def generate_rollout(
+     output = run(generate_rollout_async(args, rollout_id, data_source.get_samples))
+     # data_source.add_samples(aborted_samples)
+     return output
++
++
++async def _generate_and_rm_group_canonical(
++    args: Namespace, group: list[Sample], sampling_params: dict[str, Any]
++) -> list[Sample]:
++    """One request per sample with canonical seed-group keys (see miles.rollout.canonical_rng)."""
++    from miles.rollout import canonical_rng as crng
++
++    md = group[0].metadata if isinstance(group[0].metadata, dict) else {}
++    if "round" not in md or "row" not in md:
++        raise ValueError("--diffusion-canonical-rng needs sample.metadata['round'] and ['row']")
++    base = crng.group_base(int(args.rollout_seed), int(md["round"]), int(md["row"]))
++    lo, hi = _parse_window_range(args, int(sampling_params["num_inference_steps"]))
++    tasks = []
++    for j, sample in enumerate(group):
++        params = sampling_params.copy()
++        params["seed"] = crng.init_seed(base)
++        params["generator_device"] = "cpu"
++        extra = dict(params.get("extra_sampling_params") or {})
++        extra["rollout_sde_noise_seed"] = crng.sde_noise_seed(base, j)
++        params["extra_sampling_params"] = extra
++        win = crng.window(base, j, int(args.diffusion_num_sde_steps), lo, hi)
++        params["rollout_sde_step_indices"] = win
++        params["rollout_return_step_indices"] = win + [win[-1] + 1]
++        smd = dict(sample.metadata) if isinstance(sample.metadata, dict) else {}
++        smd["canonical_rng"] = {"group": base, "j": j, "window": win}
++        sample.metadata = smd
++        tasks.append(asyncio.create_task(generate_and_rm_microgroup(args, [sample], params)))
++    microgroups = await asyncio.gather(*tasks)
++    group = [s for mg in microgroups for s in mg]
++    if args.group_rm:
++        rewards = await batched_async_rm(args, group)
++        for sample, reward in zip(group, rewards, strict=True):
++            sample.reward = reward
++    return group
++
++
++def _parse_window_range(args: Namespace, num_steps: int) -> tuple[int, int]:
++    if args.diffusion_sde_window_range:
++        lo, hi = (int(x) for x in args.diffusion_sde_window_range.split(","))
++    else:
++        lo, hi = 0, num_steps
++    return lo, hi
+diff --git a/miles/utils/arguments.py b/miles/utils/arguments.py
+index 071d685..2b4d686 100644
+--- a/miles/utils/arguments.py
++++ b/miles/utils/arguments.py
+@@ -378,6 +378,35 @@ def get_miles_extra_args_provider(add_custom_arguments=None):
+                 help="'lo,hi' bounds for the SDE window start (inclusive, exclusive). "
+                 "Defaults to [0, num_inference_steps].",
+             )
++            parser.add_argument(
++                "--rollout-external-engine-urls",
++                type=str,
++                default=None,
++                help="Comma-separated URLs of already-running sglang-d engines, one per rollout engine in rank "
++                "order (same GPUs as the placement). Miles attaches to them for weight publication instead of "
++                "launching its own; nothing is released/resumed on them.",
++            )
++            parser.add_argument(
++                "--replay-dump-path",
++                type=str,
++                default=None,
++                help="Fixed-replay dump directory read by miles.rollout.replay_rollout.generate_replay.",
++            )
++            parser.add_argument(
++                "--pair-log-dir",
++                type=str,
++                default=None,
++                help="Write the per-pair training audit log (pi_old, per-step pi_new/ratio/clip/loss) here.",
++            )
++            parser.add_argument(
++                "--diffusion-canonical-rng",
++                action="store_true",
++                default=False,
++                help="Seed-group rollouts with canonical keys (miles.rollout.canonical_rng): one request per "
++                "sample, x_T shared per prompt group (CPU generator, H(init|g)), independent per-sample SDE noise "
++                "(rollout_sde_noise_seed=H(sde|g|j)) and per-sample SDE window (H(win|g|j)). The group key "
++                "g=(rollout_seed, round, row) is read from sample.metadata['round'/'row'].",
++            )
+             parser.add_argument(
+                 "--diffusion-sde-candidate-steps",
+                 type=str,
+@@ -1371,6 +1400,16 @@ def get_miles_extra_args_provider(add_custom_arguments=None):
+                 default=None,
+                 help="Optional local HPS checkpoint path; otherwise download it from Hugging Face.",
+             )
++            parser.add_argument("--hpsv3-checkpoint-path", type=str, default=None,
++                                help="HPSv3.safetensors (MizzenAI/HPSv3). Required when --rm-type hpsv3.")
++            parser.add_argument("--hpsv3-base-config-path", type=str, default=None,
++                                help="Qwen2-VL-7B-Instruct config/processor dir used to build the HPSv3 model.")
++            parser.add_argument("--hpsv3-num-workers", type=int, default=1)
++            parser.add_argument("--hpsv3-num-gpus-per-worker", type=float, default=1.0)
++            parser.add_argument("--hpsv3-reward-colocate", action="store_true", default=False,
++                                help="Seat HPSv3 actors on the rollout GPUs, one per placement-group bundle.")
++            parser.add_argument("--hpsv3-batch-size", type=int, default=4, help="Videos per HPSv3 actor call.")
++            parser.add_argument("--hpsv3-frame-batch-size", type=int, default=16, help="Frames per HPSv3 forward.")
+ 
+             parser.add_argument(
+                 "--rm-url",
+@@ -1809,6 +1848,7 @@ def miles_validate_args(args):
+         for name, colocate, num_workers in (
+             ("pickscore", args.pickscore_reward_colocate, args.pickscore_num_workers),
+             ("hps", args.hps_reward_colocate, args.hps_num_workers),
++            ("hpsv3", getattr(args, "hpsv3_reward_colocate", False), getattr(args, "hpsv3_num_workers", 0)),
+         )
+         if colocate
+     }
+@@ -1842,6 +1882,7 @@ def miles_validate_args(args):
+         sde_step_backends = {
+             "sde": "miles.backends.fsdp_utils.sde_step_backend.DiffusersSdeStepBackend",
+             "cps": "miles.backends.fsdp_utils.sde_step_backend.CpsSdeStepBackend",
++            "dance": "miles.backends.fsdp_utils.sde_step_backend.DanceSdeStepBackend",
+             # NFT does not use the placeholder backend.
+             "ode": "miles.backends.fsdp_utils.sde_step_backend.DiffusersSdeStepBackend",
+         }
+diff --git a/miles/utils/pair_log.py b/miles/utils/pair_log.py
+new file mode 100644
+index 0000000..4e4865b
+--- /dev/null
++++ b/miles/utils/pair_log.py
+@@ -0,0 +1,42 @@
++"""Per-pair training log (audit trail): one JSON line per (pair, event) written by each train rank.
++
++Events: ``pi_old`` (the recomputed old log-prob of a pair) and ``step`` (one optimizer-step contribution: clipped
++advantage, pi_old, pi_new, ratio, clip mask, per-pair loss). Pairs are identified by the canonical seed-group key
++(``group``, ``j``) and the absolute denoising step ``k``. Enabled by ``--pair-log-dir``.
++"""
++
++from __future__ import annotations
++
++import json
++import os
++
++_buffer: list[dict] = []
++
++
++def enabled(args) -> bool:
++    return bool(getattr(args, "pair_log_dir", None))
++
++
++def pair_id(pair: dict) -> dict:
++    can = pair.get("canonical") or {}
++    return {"group": can.get("group"), "j": can.get("j"), "k": pair.get("sde_step"), "sample_index": pair.get("sample_index")}
++
++
++def record(event: dict) -> None:
++    _buffer.append(event)
++
++
++def flush(args, rollout_id: int, rank: int) -> str | None:
++    """Write and fsync this rank's buffered events for ``rollout_id``; returns the file path."""
++    if not enabled(args):
++        _buffer.clear()
++        return None
++    os.makedirs(args.pair_log_dir, exist_ok=True)
++    path = os.path.join(args.pair_log_dir, f"rollout{rollout_id:03d}_rank{rank}.jsonl")
++    with open(path, "w") as f:
++        for ev in _buffer:
++            f.write(json.dumps(ev, separators=(",", ":")) + "\n")
++        f.flush()
++        os.fsync(f.fileno())
++    _buffer.clear()
++    return path
+diff --git a/task_entry.py b/task_entry.py
+new file mode 100644
+index 0000000..676d91c
+--- /dev/null
++++ b/task_entry.py
+@@ -0,0 +1,322 @@
++"""Task entry points for the Wan2.2-TI2V-5B DanceGRPO + HPSv3 task (reference implementation).
++
++  python task_entry.py score --videos V.npz --prompts P.jsonl --out O
++  python task_entry.py run   --contract C.json --out O
++  python task_entry.py serve --contract C.json --ctl CTL_FIFO --events EV_FIFO --out O
++
++``run`` is the audited real RL (R rounds x P prompts x n samples, one publication per round).
++``serve`` is the long-lived fixed-replay trainer: it attaches to externally launched engines and answers
++``probe`` / ``replay`` / ``dump_master`` / ``reset`` / ``stop`` messages (one JSON object per line on CTL_FIFO,
++answers on EV_FIFO).
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++import os
++import shutil
++import subprocess
++import sys
++import time
++from pathlib import Path
++
++REPO = Path(__file__).resolve().parent
++CLEAN_ENGINE = os.environ.get("WAN_CLEAN_ENGINE_PYTHON", "/sgl-workspace/sglang/python")
++
++
++# ------------------------------------------------------------------------------------------------ helpers
++
++
++def _log(msg: str) -> None:
++    print(f"[task_entry {time.strftime('%H:%M:%S')}] {msg}", flush=True)
++
++
++def merged_engine_python(contract: dict, scratch: Path) -> str:
++    """Engine source = clean sglang + repo/engine_overlay (whitelisted files). The Judge may pass a prebuilt path."""
++    if contract.get("engine_python_path"):
++        return contract["engine_python_path"]
++    dst = scratch / "engine_python"
++    if not dst.exists():
++        shutil.copytree(CLEAN_ENGINE, dst, symlinks=True)
++        overlay = REPO / "engine_overlay"
++        if overlay.exists():
++            for f in overlay.rglob("*.py"):
++                rel = f.relative_to(overlay)
++                target = dst / "sglang" / "multimodal_gen" / rel
++                target.parent.mkdir(parents=True, exist_ok=True)
++                shutil.copy2(f, target)
++    return str(dst)
++
++
++def start_ray(num_gpus: int = 2) -> None:
++    subprocess.run("ray stop --force >/dev/null 2>&1; true", shell=True)
++    subprocess.run(
++        ["ray", "start", "--head", "--node-ip-address", "127.0.0.1", f"--num-gpus={num_gpus}",
++         "--disable-usage-stats", "--include-dashboard=false", f"--object-store-memory={32 * 2**30}"],
++        check=True,
++    )
++
++
++def common_md_args(c: dict) -> list[str]:
++    s, o = c["sampling"], c["optim"]
++    return [
++        "--hf-checkpoint", c["model"],
++        "--train-backend", "fsdp", "--fsdp-master-dtype", "fp32", "--fsdp-reduce-dtype", "fp32",
++        "--diffusion-forward-dtype", "bf16", "--update-weight-target-module", "transformer",
++        "--diffusion-num-steps", str(s["steps"]), "--diffusion-guidance-scale", str(s["guidance"]),
++        "--diffusion-true-cfg-scale", str(s["guidance"]), "--diffusion-negative-prompt", s["negative_prompt"],
++        "--diffusion-height", str(s["height"]), "--diffusion-width", str(s["width"]),
++        "--diffusion-output-num-frames", str(s["num_frames"]), "--diffusion-flow-shift", str(s["flow_shift"]),
++        "--diffusion-noise-level", str(s["eta"]), "--diffusion-sde-type", "dance",
++        "--diffusion-num-sde-steps", str(s["window_size"]),
++        "--diffusion-sde-window-range", f"{s['window_range'][0]},{s['window_range'][1]}",
++        "--diffusion-recompute-old-log-prob",
++        "--advantage-estimator", "grpo", "--globalize-reward-std",
++        "--diffusion-clip-range", str(o["clip_range"]), "--diffusion-adv-clip-max", str(o["adv_clip"]),
++        "--diffusion-kl-beta", "0.0",
++        "--lr", str(o["lr"]), "--weight-decay", str(o["weight_decay"]),
++        "--adam-beta1", str(o["betas"][0]), "--adam-beta2", str(o["betas"][1]), "--adam-eps", str(o["eps"]),
++        "--clip-grad", str(o["grad_clip"]),
++        "--rm-type", "hpsv3", "--hpsv3-checkpoint-path", c["hpsv3_checkpoint"],
++        "--hpsv3-base-config-path", c["hpsv3_base"], "--hpsv3-reward-colocate", "--hpsv3-num-workers", "2",
++        "--hpsv3-batch-size", "4", "--hpsv3-frame-batch-size", "16",
++        "--rollout-video-dtype", "uint8",
++        "--rollout-microgroup-size", "1", "--micro-batch-size-sample", "1", "--micro-batch-size-tstep", "1",
++        "--diffusion-train-iter-order", "sample_major",
++        "--update-weight-buffer-size", str(4 * 2**30),
++        "--actor-num-nodes", "1", "--actor-num-gpus-per-node", "2", "--rollout-num-gpus", "2",
++        "--rollout-num-gpus-per-engine", "1", "--num-gpus-per-node", "2", "--colocate",
++        "--use-miles-router", "--sglang-server-concurrency", "2",
++        "--rollout-health-check-interval", "60", "--miles-router-health-check-failure-threshold", "30",
++    ] + variant_md_args()
++
++
++def variant_md_args() -> list[str]:
++    """Authoring-only: honest calibration variants are copies of this repo with a `variant_md_args.json` (a list of
++    extra MD flags appended last, so they override the defaults above). The reference has no such file."""
++    f = REPO / "variant_md_args.json"
++    return [str(x) for x in json.loads(f.read_text())] if f.exists() else []
++
++
++def ray_env(engine_python: str | None) -> dict:
++    pp = [str(REPO)]
++    if engine_python:
++        pp.insert(0, engine_python)
++    if os.environ.get("PYTHONPATH"):
++        pp.append(os.environ["PYTHONPATH"])
++    return {
++        "PYTHONPATH": os.pathsep.join(pp), "PYTHONUNBUFFERED": "1", "HF_HUB_OFFLINE": "1", "WANDB_MODE": "disabled",
++        # CUDA-IPC weight publication needs legacy cudaIpc handles (pidfd_getfd is not permitted here)
++        "PYTORCH_CUDA_ALLOC_CONF": "expandable_segments:False", "no_proxy": "127.0.0.1", "MASTER_ADDR": "127.0.0.1",
++    }
++
++
++def build_md(argv: list[str]):
++    sys.argv = ["task_entry"] + argv
++    from miles.utils.arguments import parse_args
++
++    return parse_args()
++
++
++# ------------------------------------------------------------------------------------------------ score
++
++
++def cmd_score(a) -> None:
++    import numpy as np
++    import torch
++
++    from miles.rollout.rm_hub import hpsv3 as H
++
++    z = np.load(a.videos)
++    videos = z["videos"]  # [N, F, H, W, 3] uint8
++    prompts = [json.loads(line)["prompt"] for line in open(a.prompts)]
++    contract = json.load(open(a.contract)) if a.contract else {}
++    base = contract.get("hpsv3_base", "/models/Qwen2-VL-7B-Instruct")
++    ckpt = contract.get("hpsv3_checkpoint", "/models/HPSv3/HPSv3.safetensors")
++    proc = H.load_processor(base)
++    rid = proc.tokenizer.convert_tokens_to_ids(H.REWARD_TOKEN)
++    model = H.build_model(ckpt, base, rid, len(proc.tokenizer), "cuda")
++    frames, fprompts = [], []
++    for v, p in zip(videos, prompts, strict=True):
++        for f in H.FRAME_INDICES:
++            frames.append(H.resize_frame(np.ascontiguousarray(v[f])))
++            fprompts.append(p)
++    mus = []
++    with torch.no_grad():
++        for s in range(0, len(frames), 16):
++            inp = H.processor_inputs(proc, frames[s:s + 16], fprompts[s:s + 16])
++            inp = {k: t.to("cuda") for k, t in inp.items()}
++            logits = model.reward(inp["input_ids"], inp["attention_mask"], inp["pixel_values"], inp["image_grid_thw"],
++                                  inp.get("mm_token_type_ids"))
++            mus.extend(logits[:, 0].float().cpu().tolist())
++    k = len(H.FRAME_INDICES)
++    frame_mu = [mus[i * k:(i + 1) * k] for i in range(len(prompts))]
++    out = Path(a.out)
++    out.mkdir(parents=True, exist_ok=True)
++    (out / "scores.json").write_text(json.dumps(
++        {"frame_mu": frame_mu, "reward": [H.REWARD_SCALE * sum(m) / k for m in frame_mu]}))
++
++
++# ------------------------------------------------------------------------------------------------ run
++
++
++def cmd_run(a) -> None:
++    import ray
++
++    c = json.load(open(a.contract))
++    out = Path(a.out)
++    scratch = Path(c.get("scratch", "/tmp/wan_scratch"))
++    scratch.mkdir(parents=True, exist_ok=True)
++    out.mkdir(parents=True, exist_ok=True)
++    r = c["run"]
++    rows = [json.loads(line) for line in open(r["prompts"])]
++    R, P = int(r["rounds"]), int(r["prompts_per_round"])
++    data = scratch / "run_prompts.jsonl"
++    with open(data, "w") as f:
++        for i in range(R * P):
++            f.write(json.dumps({"input": rows[i]["prompt"], "metadata": {"round": i // P, "row": rows[i]["row"]}}) + "\n")
++    engine_python = merged_engine_python(c, scratch)
++    argv = common_md_args(c) + [
++        "--rollout-function-path", "miles.rollout.sglang_diffusion_rollout.generate_rollout",
++        "--prompt-data", str(data), "--input-key", "input", "--metadata-key", "metadata",
++        "--rollout-batch-size", str(P), "--n-samples-per-prompt", str(r["n"]),
++        "--num-steps-per-rollout", str(r["optimizer_steps_per_round"]), "--num-rollout", str(R),
++        "--rollout-seed", str(r["run_seed"]), "--diffusion-canonical-rng",
++        "--pair-log-dir", str(out / "pairs"),
++    ]
++    start_ray()
++    ray.init(address="auto", runtime_env={"env_vars": ray_env(engine_python)})
++    args = build_md(argv)
++    from miles.ray.placement_group import create_placement_groups, create_rollout_manager, create_training_models
++
++    pgs = create_placement_groups(args)
++    rm, _ = create_rollout_manager(args, pgs["rollout"])
++    actor = create_training_models(args, pgs, rm)
++    if args.offload_rollout:
++        ray.get(rm.onload_weights.remote())
++    actor.update_weights()
++    for rid in range(R):
++        _log(f"round {rid}: rollout")
++        data_ref = ray.get(rm.generate.remote(rid))
++        if args.offload_rollout:
++            ray.get(rm.offload.remote())
++        _log(f"round {rid}: train")
++        ray.get(actor.async_train(rid, data_ref))
++        if rid == R - 1:
++            actor.export_full_state(str(out / "final" / "master_fp32.safetensors"),
++                                    str(out / "final" / "published_bf16.safetensors"))
++        if args.offload_train:
++            actor.offload()
++        else:
++            actor.clear_memory()
++        if args.offload_rollout:
++            ray.get(rm.onload_weights.remote())
++        _log(f"round {rid}: publish")
++        actor.update_weights()
++    ray.get(rm.dispose.remote())
++    _log("run done")
++
++
++# ------------------------------------------------------------------------------------------------ serve
++
++
++def cmd_serve(a) -> None:
++    import ray
++
++    c = json.load(open(a.contract))
++    out = Path(a.out)
++    out.mkdir(parents=True, exist_ok=True)
++    rp = c["replay"]
++    events = open(a.events, "w", buffering=1)
++
++    def emit(obj):
++        events.write(json.dumps(obj) + "\n")
++        events.flush()
++
++    # The Judge launches its engines before this process starts and lists their URLs in the contract.
++    scratch = Path(c.get("scratch", "/tmp/wan_scratch"))
++    scratch.mkdir(parents=True, exist_ok=True)
++    placeholder = scratch / "replay_placeholder.jsonl"  # the data source is unused by the replay rollout
++    placeholder.write_text(json.dumps({"input": "replay"}) + "\n")
++    argv = common_md_args(c) + [
++        "--rollout-function-path", "miles.rollout.replay_rollout.generate_replay",
++        "--prompt-data", str(placeholder), "--input-key", "input",
++        "--rollout-batch-size", str(rp["prompts_per_dump"]), "--n-samples-per-prompt", str(rp["n"]),
++        "--num-steps-per-rollout", str(rp["optimizer_steps"]), "--num-rollout", "1000000",
++        "--rollout-external-engine-urls", ",".join(c["replay"]["engine_urls"]),
++        "--no-offload-train", "--no-offload-rollout",
++        "--pair-log-dir", str(out / "pairs"),
++    ]
++    start_ray()
++    ray.init(address="auto", runtime_env={"env_vars": ray_env(None)})
++    args = build_md(argv)
++    from miles.ray.placement_group import create_placement_groups, create_rollout_manager, create_training_models
++
++    pgs = create_placement_groups(args)
++    rm, _ = create_rollout_manager(args, pgs["rollout"])
++    actor = create_training_models(args, pgs, rm)
++    actor.snapshot_base()
++    emit({"event": "ready"})
++    rid = 0
++    with open(a.ctl) as ctl:
++        for line in ctl:
++            if not line.strip():
++                continue
++            msg = json.loads(line)
++            cmd = msg["cmd"]
++            if cmd == "stop":
++                emit({"event": "stopped"})
++                break
++            if cmd in ("probe", "replay"):
++                steps = int(rp["probe_optimizer_steps"] if cmd == "probe" else rp["optimizer_steps"])
++                prompts = int(msg.get("prompts", rp["prompts_per_dump"]))
++                fields = {"replay_dump_path": msg["dump"], "num_steps_per_rollout": steps,
++                          "rollout_batch_size": prompts,
++                          "global_batch_size": prompts * int(rp["n"]) // steps,
++                          "pair_log_dir": str(out / "pairs" / f"{cmd}{rid:02d}")}
++                ray.get(rm.update_args.remote(fields))
++                actor.update_args(fields)
++                data_ref = ray.get(rm.generate.remote(rid))
++                ray.get(actor.async_train(rid, data_ref))
++                del data_ref  # free the train shards from the object store before the next go
++                emit({"event": "log_complete", "id": msg.get("id"), "pair_log": fields["pair_log_dir"]})
++                if cmd == "probe":
++                    actor.export_full_state(msg["theta1_path"], None)
++                else:
++                    actor.update_weights()
++                emit({"event": "done", "id": msg.get("id")})
++                rid += 1
++            elif cmd == "dump_master":
++                actor.export_full_state(msg["path"], msg.get("bf16_path"))
++                emit({"event": "done", "id": msg.get("id")})
++            elif cmd == "reset":
++                actor.reset_to_base()
++                emit({"event": "done", "id": msg.get("id")})
++            else:
++                emit({"event": "error", "message": f"unknown cmd {cmd}"})
++
++
++def main() -> None:
++    ap = argparse.ArgumentParser()
++    sub = ap.add_subparsers(dest="cmd", required=True)
++    s = sub.add_parser("score")
++    s.add_argument("--videos", required=True)
++    s.add_argument("--prompts", required=True)
++    s.add_argument("--contract", default=None)
++    s.add_argument("--out", required=True)
++    r = sub.add_parser("run")
++    r.add_argument("--contract", required=True)
++    r.add_argument("--out", required=True)
++    v = sub.add_parser("serve")
++    v.add_argument("--contract", required=True)
++    v.add_argument("--ctl", required=True)
++    v.add_argument("--events", required=True)
++    v.add_argument("--out", required=True)
++    a = ap.parse_args()
++    sys.path.insert(0, str(REPO))
++    {"score": cmd_score, "run": cmd_run, "serve": cmd_serve}[a.cmd](a)
++
++
++if __name__ == "__main__":
++    main()
+-- 
+2.43.0
+

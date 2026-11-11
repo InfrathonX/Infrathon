@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:592677717c99e5a1ee1b1607f706a43ef37bdecaff0db72cab7a4e4755fa95d7",
+      "judge_public_tag": "h100-80gb-700w-sageattention-quantized-attention-bf16-h100-v2-seed-judge",
+      "work": "sha256:4419a633c7f0a1d70b76294fb6c013836ec279f2d864e90028177e861b367de7",
+      "work_tag": "h100-80gb-700w-sageattention-quantized-attention-bf16-h100-v2-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:592677717c99e5a1ee1b1607f706a43ef37bdecaff0db72cab7a4e4755fa95d7",
+      "judge_public_tag": "h100-94gb-400w-sageattention-quantized-attention-bf16-h100-v2-seed-judge",
+      "work": "sha256:4419a633c7f0a1d70b76294fb6c013836ec279f2d864e90028177e861b367de7",
+      "work_tag": "h100-94gb-400w-sageattention-quantized-attention-bf16-h100-v2-seed-work"
+    }
+  },
+  "source_digest": "e55b2379172e73081de548284b4916a0c1e2502ec542fc177db8036fd277d72e"
+}

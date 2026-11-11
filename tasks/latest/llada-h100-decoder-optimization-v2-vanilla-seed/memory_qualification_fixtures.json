@@ -1,0 +1,25 @@
+{
+  "approval_id": "owner-delegated-20261004-llada-requal-r1-memfixtures-stress61440",
+  "fixtures": {
+    "corrected_reference": {
+      "archive": "artifacts/corrected-decoder-reference.tar.gz",
+      "archive_sha256": "35204b0c9ce6e2b4f0f01b2689e98637d693e49855a57148e2f60aea73e30a78",
+      "archive_size_bytes": 1257,
+      "kind": "corrected_reference",
+      "stress_extra_mib": null
+    },
+    "near_cap_stress": {
+      "archive": "artifacts/near-cap-stress-reference.tar.gz",
+      "archive_sha256": "5a2aeb08b15ee60bdae3e583f48834b0f5ce205dfb47b19c2317c8c83a40563f",
+      "archive_size_bytes": 1550,
+      "kind": "near_cap_stress",
+      "stress_extra_mib": 61440
+    }
+  },
+  "memory_policy_sha256": "2c5e562bfc378a16d2d57b463acef404d1e871c79eb526563eeb443e940013ea",
+  "profile": "fast_dllm_v1_llada_12row_stratified520_batch1",
+  "schema_version": 1,
+  "status": "PRECOMMITTED",
+  "task_id": "llada_h100_decoder_optimization_v2",
+  "workload_policy_sha256": "3f46d685df7689994da4a25e09fe375f1dbb8baffd19d9f49dbddf71fc683c16"
+}

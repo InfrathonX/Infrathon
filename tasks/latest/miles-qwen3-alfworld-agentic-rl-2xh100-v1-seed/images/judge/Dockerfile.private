@@ -1,0 +1,9 @@
+# Private Judge layer: the public Judge plus /opt/alfworld_judge/private, root-only like the rest
+# of /opt/alfworld_judge.  Built only on the host that runs the task, never published; private/
+# is staged by scripts/build_images.sh from the task's listed assets.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+USER root
+COPY private/ /opt/alfworld_judge/private/
+RUN chown -R root:root /opt/alfworld_judge/private \
+    && chmod -R go-rwx /opt/alfworld_judge/private

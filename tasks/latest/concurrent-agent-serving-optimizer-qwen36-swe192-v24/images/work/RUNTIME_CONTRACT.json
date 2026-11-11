@@ -1,0 +1,51 @@
+{
+  "schema_version": 1,
+  "contract_kind": "fixed-public-serving-system",
+  "model": {
+    "repository": "Qwen/Qwen3.6-27B",
+    "served_name_is_judge_selected": true,
+    "text_backbone_layers": 64,
+    "full_attention_layers": 16,
+    "gated_deltanet_layers": 48
+  },
+  "runtime": {
+    "implementation": "vllm",
+    "version": "0.24.0",
+    "tensor_parallel_size": 2,
+    "accelerator": {
+      "count": 2,
+      "min_compute_capability": "8.0",
+      "minimum_memory_mib": 95000
+    },
+    "weight_dtype": "bfloat16",
+    "kv_cache_dtype": "fp8",
+    "max_running_sequences": 192,
+    "max_batched_tokens_per_iteration": 8192,
+    "prefix_caching": true,
+    "chunked_prefill": true
+  },
+  "hybrid_cache": {
+    "decision_unit": "gpu_pages",
+    "raw_gpu_pages": 1253,
+    "reserved_null_pages": 1,
+    "allocatable_pages": 1252,
+    "attention_tokens_per_program_page": 1568,
+    "measured_on_profile": {
+      "reported_by": "vllm:cache_config_info",
+      "page_geometry_is_a_profile_measurement": true,
+      "refreshed_by_launcher_preflight": true,
+      "comparable_only_within_one_measurement_profile": true
+    },
+    "recurrent_group_count": 3,
+    "resident_pages_per_recurrent_group": 1,
+    "peak_pages_per_recurrent_group_while_request_pending_or_inflight": 2,
+    "request_lifetime_peak_reservation_is_conservative": true,
+    "model_level_logical_kv_token_capacity_is_cross_program_additive": false
+  },
+  "scope": {
+    "static_contract_only": true,
+    "contains_live_backend_telemetry": false,
+    "contains_workload_identity_or_order": false,
+    "contains_reference_policy": false
+  }
+}

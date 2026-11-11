@@ -1,0 +1,162 @@
+{
+  "acceptance": "finite full writes of o, dq, dk, dv; byte-identical q, k, v, do across both calls; o byte-identical between forward end and backward end; saved bundle bounded by bytes(q)+bytes(k)+bytes(v)+bytes(o)+4*B*H*S_q (k, v at H_kv heads) with no callables; every relative-L2 limit satisfied on every case",
+  "external_fixtures": [
+    {
+      "identity": "per-deployment-capture",
+      "name": "e7_wan13b_grad_b29_t1_s8192.pt",
+      "recipe": "fixtures/recipe/RECIPE.json",
+      "recipe_sha256": "sha256:d53bcf147bf4d9ac6dd98f18db5a50934fbde81576f53f2b13086f951bb04ec8",
+      "role": "edge_fixture_input",
+      "source": "captured at build time by fixtures/recipe/build_fixture.sh (docs/SOURCE_PROVENANCE.md); the bytes are per-deployment and are not pinned by digest"
+    }
+  ],
+  "integrity": [
+    "complete_write",
+    "inputs_unchanged",
+    "fresh_tensors_per_trial",
+    "nan_poisoned_outputs",
+    "current_stream_dispatch",
+    "saved_bundle_bound"
+  ],
+  "protocol_id": "fp32-golden-nvfp4-fake-quant-training-attention-v1",
+  "reference": {
+    "golden": "fp32 attention forward/backward against the NVFP4 fake-quantized recipe",
+    "provenance": "fastvideo-7f83164-derived-attn-qat-train-v1-judge-port"
+  },
+  "schema_version": 1,
+  "tolerances": {
+    "fixture_caps": {
+      "dk": "0.03",
+      "dq": "0.15",
+      "dv": "0.3",
+      "o": "0.01"
+    },
+    "fixture_floors": {
+      "dk": "0.01",
+      "dq": "0.015",
+      "dv": "0.02",
+      "o": "0.005"
+    },
+    "fixture_rel_l2": {
+      "edge-e1-tiny": {
+        "dk": "0.015",
+        "dq": "0.015",
+        "dv": "0.02",
+        "o": "0.01"
+      },
+      "edge-e10-ltx2-minimal": {
+        "dk": "0.03",
+        "dq": "0.03",
+        "dv": "0.1",
+        "o": "0.01"
+      },
+      "edge-e11-head-dim-64": {
+        "dk": "0.01",
+        "dq": "0.015",
+        "dv": "0.1",
+        "o": "0.01"
+      },
+      "edge-e12-causal-gqa": {
+        "dk": "0.015",
+        "dq": "0.015",
+        "dv": "0.05",
+        "o": "0.01"
+      },
+      "edge-e13-causal-sink": {
+        "dk": "0.02",
+        "dq": "0.03",
+        "dv": "0.02",
+        "o": "0.005"
+      },
+      "edge-e14-head-dim-256": {
+        "dk": "0.01",
+        "dq": "0.02",
+        "dv": "0.03",
+        "o": "0.005"
+      },
+      "edge-e15-head-dim-256-full": {
+        "dk": "0.02",
+        "dq": "0.02",
+        "dv": "0.03",
+        "o": "0.008"
+      },
+      "edge-e2-unaligned": {
+        "dk": "0.015",
+        "dq": "0.05",
+        "dv": "0.03",
+        "o": "0.005"
+      },
+      "edge-e3-cross-attention": {
+        "dk": "0.015",
+        "dq": "0.05",
+        "dv": "0.05",
+        "o": "0.01"
+      },
+      "edge-e4-unaligned-cross": {
+        "dk": "0.01",
+        "dq": "0.015",
+        "dv": "0.3",
+        "o": "0.008"
+      },
+      "edge-e5-zero-key-zero-v-groups": {
+        "dk": "0.01",
+        "dq": "0.015",
+        "dv": "0.02",
+        "o": "0.005"
+      },
+      "edge-e6-rtne-ties": {
+        "dk": "0.015",
+        "dq": "0.015",
+        "dv": "0.03",
+        "o": "0.01"
+      },
+      "edge-e7-wan-grad-capture": {
+        "dk": "0.03",
+        "dq": "0.15",
+        "dv": "0.05",
+        "o": "0.01"
+      },
+      "edge-e8-forced-sink": {
+        "dk": "0.015",
+        "dq": "0.02",
+        "dv": "0.02",
+        "o": "0.01"
+      },
+      "edge-e9-tiny-do-scale": {
+        "dk": "0.01",
+        "dq": "0.03",
+        "dv": "0.02",
+        "o": "0.005"
+      }
+    },
+    "real_layer_rel_l2": {
+      "llm": {
+        "dk": "0.08",
+        "dq": "0.15",
+        "dv": "0.08",
+        "o": "0.01"
+      },
+      "video": {
+        "dk": "0.35",
+        "dq": "0.12",
+        "dv": "0.1",
+        "o": "0.01"
+      },
+      "video_by_source": {
+        "cogvideox2b": {
+          "dk": "0.35",
+          "dq": "0.12",
+          "dv": "0.3",
+          "o": "0.01"
+        }
+      }
+    },
+    "scored_rel_l2": {
+      "dk": "0.03",
+      "dq": "0.08",
+      "dv": "0.12",
+      "o": "0.01"
+    },
+    "zero_golden_rule": "max |candidate| <= 1e-4 where the golden is exactly zero"
+  }
+}

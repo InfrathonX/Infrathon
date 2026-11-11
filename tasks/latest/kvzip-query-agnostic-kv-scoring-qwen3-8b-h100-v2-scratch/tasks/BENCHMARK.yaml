@@ -1,0 +1,14 @@
+name: kvzip_kv_scoring
+base_images:
+  pytorch280_cu129:
+    official_image: pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel
+    extra_packages:
+      - build-essential
+      - ca-certificates
+      - curl
+      - git
+      - jq
+      - python3
+      - ripgrep
+      - xz-utils
+

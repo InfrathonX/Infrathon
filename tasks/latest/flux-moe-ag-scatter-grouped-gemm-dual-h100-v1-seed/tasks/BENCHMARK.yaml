@@ -1,0 +1,14 @@
+name: flux_moe_ag_scatter_dual_h100
+base_images:
+  pytorch280_cu129:
+    official_image: pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel
+    extra_packages:
+      - build-essential
+      - ca-certificates
+      - curl
+      - git
+      - jq
+      - ninja-build
+      - python3
+      - ripgrep
+      - xz-utils

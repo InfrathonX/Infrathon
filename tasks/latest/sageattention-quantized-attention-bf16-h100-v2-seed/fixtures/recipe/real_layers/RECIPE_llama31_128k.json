@@ -1,0 +1,197 @@
+{
+ "schema_version": 1,
+ "kind": "llama",
+ "recipe_id": "rl-llama31-8b-wikitext103-128k-v1",
+ "title": "Llama-3.1-8B-Instruct: Q/K/V of layers 0, 10, 20, 31 for one 131,072-token prefill of WikiText-103 (validation + test)",
+ "identity": "per-deployment-capture",
+ "capture_dir": "llama31-8b-wikitext103-128k",
+ "role": "scored_real_layer",
+ "why": "SageAttention2 accelerates long-context Llama prefill (Table 8: 48K and 100K; Table 14: 262K on H100).",
+ "model": {
+  "repo": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+  "repo_type": "model",
+  "revision": "d10aef7999a2b5ba950ab3974312feeedbfe0b77",
+  "license": "llama3.1 (Built with Llama)",
+  "download": "hf download NousResearch/Meta-Llama-3.1-8B-Instruct --revision d10aef7999a2b5ba950ab3974312feeedbfe0b77 --exclude 'original/*'",
+  "files": {
+   "config.json": "29e4c210b0d6ac178b16b2a255a568bdb23b581e50ca1ef6a6d071dd85704e6e",
+   "generation_config.json": "189fb0c0d7fd8a527db217c0a60a0e013f0394cd8800f9697a666a9e75e5f7fd",
+   "model-00001-of-00004.safetensors": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668",
+   "model-00002-of-00004.safetensors": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15",
+   "model-00003-of-00004.safetensors": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa",
+   "model-00004-of-00004.safetensors": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b",
+   "model.safetensors.index.json": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+   "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+   "tokenizer.json": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4",
+   "tokenizer_config.json": "24e8a6dc2547164b7002e3125f10b415105644fcf02bf9ad8b674c87b1eaaed6"
+  }
+ },
+ "dataset": {
+  "repo": "Salesforce/wikitext",
+  "repo_type": "dataset",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "license": "cc-by-sa-3.0, gfdl",
+  "files": {
+   "wikitext-103-raw-v1/validation-00000-of-00001.parquet": "204929b7ff9d6184953f867dedb860e40aa69c078fc1e54b3baaa8fb28511c4c",
+   "wikitext-103-raw-v1/test-00000-of-00001.parquet": "5f1bea067869d04849c0f975a2b29c4ff47d867f484f5010ea5e861eab246d91"
+  }
+ },
+ "text": {
+  "column": "text",
+  "joiner": "\n\n",
+  "tokens": 131072,
+  "bos": true,
+  "first_token_ids": [
+   128000,
+   271,
+   284,
+   13525,
+   51419,
+   9192,
+   5730,
+   355
+  ]
+ },
+ "capture": {
+  "layers": [
+   0,
+   10,
+   20,
+   31
+  ]
+ },
+ "attention": {
+  "layers": 32,
+  "is_causal": true,
+  "softmax_scale": 0.08838834764831845,
+  "q_heads": 32,
+  "kv_heads": 8
+ },
+ "tensors": {
+  "layout": "B,L,H,D",
+  "dtype": "torch.bfloat16",
+  "q": [
+   1,
+   131072,
+   32,
+   128
+  ],
+  "k": [
+   1,
+   131072,
+   8,
+   128
+  ],
+  "v": [
+   1,
+   131072,
+   8,
+   128
+  ]
+ },
+ "builder": {
+  "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "dockerfile": "fixtures/recipe/real_layers/Dockerfile.builder",
+  "pip_packages": [
+   "accelerate==1.14.0",
+   "diffusers==0.40.0",
+   "ftfy==6.3.1",
+   "huggingface_hub==1.33.0",
+   "numpy==1.26.4",
+   "protobuf==6.32.1",
+   "pyarrow==21.0.0",
+   "regex==2026.9.10",
+   "safetensors==0.8.0",
+   "sentencepiece==0.2.1",
+   "tokenizers==0.22.2",
+   "transformers==5.15.1"
+  ]
+ },
+ "sanity_bands": {
+  "note": "reference capture: RMS widened 2x, abs-max 4x",
+  "layers": {
+   "00": {
+    "q": {
+     "rms_min": 0.651288,
+     "rms_max": 2.605152,
+     "abs_max_min": 3.15625,
+     "abs_max_max": 50.5
+    },
+    "k": {
+     "rms_min": 0.741342,
+     "rms_max": 2.965367,
+     "abs_max_min": 2.859375,
+     "abs_max_max": 45.75
+    },
+    "v": {
+     "rms_min": 0.018087,
+     "rms_max": 0.072349,
+     "abs_max_min": 0.134766,
+     "abs_max_max": 2.15625
+    }
+   },
+   "10": {
+    "q": {
+     "rms_min": 0.688956,
+     "rms_max": 2.755822,
+     "abs_max_min": 3.921875,
+     "abs_max_max": 62.75
+    },
+    "k": {
+     "rms_min": 1.201833,
+     "rms_max": 4.807331,
+     "abs_max_min": 6.0625,
+     "abs_max_max": 97.0
+    },
+    "v": {
+     "rms_min": 0.139244,
+     "rms_max": 0.556976,
+     "abs_max_min": 0.789062,
+     "abs_max_max": 12.625
+    }
+   },
+   "20": {
+    "q": {
+     "rms_min": 0.68071,
+     "rms_max": 2.72284,
+     "abs_max_min": 4.21875,
+     "abs_max_max": 67.5
+    },
+    "k": {
+     "rms_min": 1.162128,
+     "rms_max": 4.648511,
+     "abs_max_min": 5.375,
+     "abs_max_max": 86.0
+    },
+    "v": {
+     "rms_min": 0.158353,
+     "rms_max": 0.633414,
+     "abs_max_min": 0.796875,
+     "abs_max_max": 12.75
+    }
+   },
+   "31": {
+    "q": {
+     "rms_min": 0.81056,
+     "rms_max": 3.242241,
+     "abs_max_min": 7.1875,
+     "abs_max_max": 115.0
+    },
+    "k": {
+     "rms_min": 1.155738,
+     "rms_max": 4.622952,
+     "abs_max_min": 4.5625,
+     "abs_max_max": 73.0
+    },
+    "v": {
+     "rms_min": 0.318022,
+     "rms_max": 1.272087,
+     "abs_max_min": 1.96875,
+     "abs_max_max": 31.5
+    }
+   }
+  }
+ }
+}

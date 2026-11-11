@@ -1,0 +1,10 @@
+{
+  "clock": "trusted controller wall clock around generate, validation, materialisation, all-stream synchronisation, serialization and response transfer",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "unprivileged worker process per evaluation; trusted gates in the root controller",
+  "protocol_id": "controller-wall-clock-seed-relative-caps-v1",
+  "schema_version": 1,
+  "seed_reference": "unmodified seed engine measured on the same device in the same evaluation; caps derived from it (see oracle-protocol policy)",
+  "timed_scope": "generation including prefill; build, warm-up, oracle and O5 work are untimed",
+  "warmup": "one committed warm-up batch per cell before the first measured batch"
+}

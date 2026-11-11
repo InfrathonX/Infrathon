@@ -1,0 +1,64 @@
+{
+  "evaluation_policy": "full-final-shared-v2",
+  "final": {
+    "case_count": 1812,
+    "rounds": "deadline final and trusted host replays",
+    "routing": "round_id prefix manual- or candidate-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "suite_id": "final-holdout-v2"
+  },
+  "groups": [
+    "retrieval",
+    "contextual_qa",
+    "redundancy"
+  ],
+  "interactive": {
+    "case_count": 1812,
+    "rounds": "scored agent submissions; archive FINAL_VERSION only",
+    "routing": "round_id prefix auto- or agent-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "suite_id": "final-holdout-v2"
+  },
+  "protocol_id": "kvzip-scoring-full-final-shared-v2-sharded",
+  "public": {
+    "full": {
+      "case_count": 63
+    },
+    "one": {
+      "case_count": 1,
+      "rule": "first squad row"
+    },
+    "quick": {
+      "case_count": 18,
+      "rule": "first two rows of every task"
+    },
+    "suite_id": "kvzip-scoring-public-v2"
+  },
+  "ratios_per_mille": [
+    100,
+    200,
+    300
+  ],
+  "same_suite_for_interactive_and_final": true,
+  "schema_version": 1,
+  "sharding": {
+    "gpus": "1-8 identical devices visible to the Judge",
+    "partition": "longest-processing-time by estimated cost, deterministic",
+    "per_shard": "Phase A then Phase B on one GPU, NUMA-local whole-core CPU slice",
+    "score_dependence": "none"
+  },
+  "tasks": [
+    "needle",
+    "scbench_kv",
+    "scbench_prefix_suffix",
+    "scbench_repoqa",
+    "ruler_niah",
+    "squad",
+    "gsm",
+    "ruler_qa",
+    "scbench_mf",
+    "scbench_many_shot",
+    "scbench_summary",
+    "ruler_vt"
+  ]
+}

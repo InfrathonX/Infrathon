@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "task_directory": "standalone-paged-gqa-decode-bf16-h100-v2-scratch",
+  "note": "No external models or datasets; the Judge-only holdouts are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private). judge/source/ holds what generates them and is never part of a build.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "becf3496f409da96f66412e5bac08f943ed23259d26ed7b7b7bf923e9a73cfa7",
+      "size": 7195061,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/edge_cases.json",
+      "sha256": "d895d06c2993c46792f6147b19db20f039f7abc6c94b31d0ce8754a8f35e95ce",
+      "size": 62996,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/source/",
+      "sha256": "963cf61749b2b7ab4f3e093b2903454083993a9fbb036a24639000f74f1b05f0",
+      "files": 8,
+      "size": 18658170,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the generator, frozen plan and request traces of judge/final_cases.json and images/work/benchmark/public_cases.json (scripts/generate_final_manifest.py --plan judge/source/paged-gqa-plan-v2.json); never read by a build",
+      "license": "Mooncake FAST'25 traces: Apache-2.0 (kvcache-ai/Mooncake)"
+    }
+  ]
+}

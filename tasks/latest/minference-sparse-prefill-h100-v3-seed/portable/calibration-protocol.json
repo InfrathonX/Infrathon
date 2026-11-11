@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "protocol_id": "real-input-host-event-max-v3",
+  "clock": "max synchronized host wall and caller-stream CUDA events per call",
+  "timed_work": "entire public ABI estimation+attention+output, followed by immediate same-stream snapshot",
+  "untimed_work": [
+    "fixture I/O",
+    "input snapshots",
+    "FP32 references",
+    "integrity verification"
+  ],
+  "warmup": "same-shape real layer2 before each independent layer1/4/15/27 input",
+  "trials_per_group": 3,
+  "groups": 48,
+  "dense_flops": "2*32*128*N*(N+1), paired with eachactualN",
+  "numerical_calibration": "absolute policy after author diagnostics; no seed-relative ratio or inherited v2 tolerance",
+  "quality_calibration": "author pilot120 then frozen policy and independent balanced holdout300",
+  "dense_baseline": "author-only pinnedFA3 sameTorch/Triton/HF environment, distinct image identified explicitly"
+}

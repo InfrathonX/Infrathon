@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "task_directory": "tilelang-mamba2-ssd-forward-h100-v2-seed",
+  "note": "No external downloads at run time. The final holdout and the 24 captured layers of the real cases are Judge-only and are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private); the public captured layer goes into the Work image. The layers are recaptured with fixtures/recipe/real_layers/build_real_layers.sh.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "f7918c71cceab54de5cd72e949005b080d7e58ab767f2f49377094ded5f07379",
+      "size": 38953,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/real_layers/",
+      "sha256": "b954d5c1fb134948d0eccf0d3c38de9c1b3f50e4e9e30dd08504576d80e5c45f",
+      "files": 25,
+      "size": 8602524612,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/REAL_LAYERS.json (build_real_layers.sh judge) on an H100 SXM",
+      "license": "Apache-2.0 (Granite-4.0-H-Micro, Bamba-9B-v2); input text CC-BY-SA-3.0 and GFDL (WikiText-103)"
+    },
+    {
+      "path": "public/public_layer/",
+      "sha256": "7115b23fb37b508c2d56eb5b89cd29b7c20c8a3831ce4efcd70a09cd97077576",
+      "files": 2,
+      "size": 30676655,
+      "consumer": "work",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/REAL_LAYERS.json (build_real_layers.sh public) on an H100 SXM",
+      "license": "Apache-2.0 (Granite-4.0-H-350M); input text CC-BY-SA-3.0 and GFDL (WikiText-103)"
+    }
+  ]
+}

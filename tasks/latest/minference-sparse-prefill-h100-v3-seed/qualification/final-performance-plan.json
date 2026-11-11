@@ -1,0 +1,2595 @@
+{
+  "bindings": {
+    "prompt_manifest_sha256": "819431d337d5b996d1366c0c08e8bf193a431bdbf2e6d34d7dd9d3a84b613d67",
+    "source_commit": "a4eb395f949ea39e871f9bc586d683390692c6be",
+    "status": "awaiting-dense-capture",
+    "tokenizer_sha256": {
+      "config.json": "29e4c210b0d6ac178b16b2a255a568bdb23b581e50ca1ef6a6d071dd85704e6e",
+      "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+      "tokenizer.json": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4",
+      "tokenizer_config.json": "24e8a6dc2547164b7002e3125f10b415105644fcf02bf9ad8b674c87b1eaaed6"
+    }
+  },
+  "capture_state": "on-demand-fixed-input-plan-v1",
+  "case_groups": [
+    {
+      "case_id": "final-niah_single_2-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-32768-r0-L1",
+        "final-niah_single_2-32768-r1-L1",
+        "final-niah_single_2-32768-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_single_2-32768-r0-L2",
+        "final-niah_single_2-32768-r1-L2",
+        "final-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-32768-r0-L4",
+        "final-niah_single_2-32768-r1-L4",
+        "final-niah_single_2-32768-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_single_2-32768-r0-L2",
+        "final-niah_single_2-32768-r1-L2",
+        "final-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-32768-r0-L15",
+        "final-niah_single_2-32768-r1-L15",
+        "final-niah_single_2-32768-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_single_2-32768-r0-L2",
+        "final-niah_single_2-32768-r1-L2",
+        "final-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-32768-r0-L27",
+        "final-niah_single_2-32768-r1-L27",
+        "final-niah_single_2-32768-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_single_2-32768-r0-L2",
+        "final-niah_single_2-32768-r1-L2",
+        "final-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-65536-r0-L1",
+        "final-niah_single_2-65536-r1-L1",
+        "final-niah_single_2-65536-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_single_2-65536-r0-L2",
+        "final-niah_single_2-65536-r1-L2",
+        "final-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-65536-r0-L4",
+        "final-niah_single_2-65536-r1-L4",
+        "final-niah_single_2-65536-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_single_2-65536-r0-L2",
+        "final-niah_single_2-65536-r1-L2",
+        "final-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-65536-r0-L15",
+        "final-niah_single_2-65536-r1-L15",
+        "final-niah_single_2-65536-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_single_2-65536-r0-L2",
+        "final-niah_single_2-65536-r1-L2",
+        "final-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-65536-r0-L27",
+        "final-niah_single_2-65536-r1-L27",
+        "final-niah_single_2-65536-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_single_2-65536-r0-L2",
+        "final-niah_single_2-65536-r1-L2",
+        "final-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-131072-r0-L1",
+        "final-niah_single_2-131072-r1-L1",
+        "final-niah_single_2-131072-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_single_2-131072-r0-L2",
+        "final-niah_single_2-131072-r1-L2",
+        "final-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-131072-r0-L4",
+        "final-niah_single_2-131072-r1-L4",
+        "final-niah_single_2-131072-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_single_2-131072-r0-L2",
+        "final-niah_single_2-131072-r1-L2",
+        "final-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-131072-r0-L15",
+        "final-niah_single_2-131072-r1-L15",
+        "final-niah_single_2-131072-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_single_2-131072-r0-L2",
+        "final-niah_single_2-131072-r1-L2",
+        "final-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "final-niah_single_2-131072-r0-L27",
+        "final-niah_single_2-131072-r1-L27",
+        "final-niah_single_2-131072-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_single_2-131072-r0-L2",
+        "final-niah_single_2-131072-r1-L2",
+        "final-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-32768-r0-L1",
+        "final-niah_multikey_1-32768-r1-L1",
+        "final-niah_multikey_1-32768-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-32768-r0-L2",
+        "final-niah_multikey_1-32768-r1-L2",
+        "final-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-32768-r0-L4",
+        "final-niah_multikey_1-32768-r1-L4",
+        "final-niah_multikey_1-32768-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-32768-r0-L2",
+        "final-niah_multikey_1-32768-r1-L2",
+        "final-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-32768-r0-L15",
+        "final-niah_multikey_1-32768-r1-L15",
+        "final-niah_multikey_1-32768-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-32768-r0-L2",
+        "final-niah_multikey_1-32768-r1-L2",
+        "final-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-32768-r0-L27",
+        "final-niah_multikey_1-32768-r1-L27",
+        "final-niah_multikey_1-32768-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-32768-r0-L2",
+        "final-niah_multikey_1-32768-r1-L2",
+        "final-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-65536-r0-L1",
+        "final-niah_multikey_1-65536-r1-L1",
+        "final-niah_multikey_1-65536-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-65536-r0-L2",
+        "final-niah_multikey_1-65536-r1-L2",
+        "final-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-65536-r0-L4",
+        "final-niah_multikey_1-65536-r1-L4",
+        "final-niah_multikey_1-65536-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-65536-r0-L2",
+        "final-niah_multikey_1-65536-r1-L2",
+        "final-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-65536-r0-L15",
+        "final-niah_multikey_1-65536-r1-L15",
+        "final-niah_multikey_1-65536-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-65536-r0-L2",
+        "final-niah_multikey_1-65536-r1-L2",
+        "final-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-65536-r0-L27",
+        "final-niah_multikey_1-65536-r1-L27",
+        "final-niah_multikey_1-65536-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-65536-r0-L2",
+        "final-niah_multikey_1-65536-r1-L2",
+        "final-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-131072-r0-L1",
+        "final-niah_multikey_1-131072-r1-L1",
+        "final-niah_multikey_1-131072-r2-L1"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-131072-r0-L2",
+        "final-niah_multikey_1-131072-r1-L2",
+        "final-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-131072-r0-L4",
+        "final-niah_multikey_1-131072-r1-L4",
+        "final-niah_multikey_1-131072-r2-L4"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-131072-r0-L2",
+        "final-niah_multikey_1-131072-r1-L2",
+        "final-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-131072-r0-L15",
+        "final-niah_multikey_1-131072-r1-L15",
+        "final-niah_multikey_1-131072-r2-L15"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-131072-r0-L2",
+        "final-niah_multikey_1-131072-r1-L2",
+        "final-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "final-niah_multikey_1-131072-r0-L27",
+        "final-niah_multikey_1-131072-r1-L27",
+        "final-niah_multikey_1-131072-r2-L27"
+      ],
+      "warmups": [
+        "final-niah_multikey_1-131072-r0-L2",
+        "final-niah_multikey_1-131072-r1-L2",
+        "final-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "final-vt-32768-r0-L1",
+        "final-vt-32768-r1-L1",
+        "final-vt-32768-r2-L1"
+      ],
+      "warmups": [
+        "final-vt-32768-r0-L2",
+        "final-vt-32768-r1-L2",
+        "final-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "final-vt-32768-r0-L4",
+        "final-vt-32768-r1-L4",
+        "final-vt-32768-r2-L4"
+      ],
+      "warmups": [
+        "final-vt-32768-r0-L2",
+        "final-vt-32768-r1-L2",
+        "final-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "final-vt-32768-r0-L15",
+        "final-vt-32768-r1-L15",
+        "final-vt-32768-r2-L15"
+      ],
+      "warmups": [
+        "final-vt-32768-r0-L2",
+        "final-vt-32768-r1-L2",
+        "final-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "final-vt-32768-r0-L27",
+        "final-vt-32768-r1-L27",
+        "final-vt-32768-r2-L27"
+      ],
+      "warmups": [
+        "final-vt-32768-r0-L2",
+        "final-vt-32768-r1-L2",
+        "final-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "final-vt-65536-r0-L1",
+        "final-vt-65536-r1-L1",
+        "final-vt-65536-r2-L1"
+      ],
+      "warmups": [
+        "final-vt-65536-r0-L2",
+        "final-vt-65536-r1-L2",
+        "final-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "final-vt-65536-r0-L4",
+        "final-vt-65536-r1-L4",
+        "final-vt-65536-r2-L4"
+      ],
+      "warmups": [
+        "final-vt-65536-r0-L2",
+        "final-vt-65536-r1-L2",
+        "final-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "final-vt-65536-r0-L15",
+        "final-vt-65536-r1-L15",
+        "final-vt-65536-r2-L15"
+      ],
+      "warmups": [
+        "final-vt-65536-r0-L2",
+        "final-vt-65536-r1-L2",
+        "final-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "final-vt-65536-r0-L27",
+        "final-vt-65536-r1-L27",
+        "final-vt-65536-r2-L27"
+      ],
+      "warmups": [
+        "final-vt-65536-r0-L2",
+        "final-vt-65536-r1-L2",
+        "final-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "final-vt-131072-r0-L1",
+        "final-vt-131072-r1-L1",
+        "final-vt-131072-r2-L1"
+      ],
+      "warmups": [
+        "final-vt-131072-r0-L2",
+        "final-vt-131072-r1-L2",
+        "final-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "final-vt-131072-r0-L4",
+        "final-vt-131072-r1-L4",
+        "final-vt-131072-r2-L4"
+      ],
+      "warmups": [
+        "final-vt-131072-r0-L2",
+        "final-vt-131072-r1-L2",
+        "final-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "final-vt-131072-r0-L15",
+        "final-vt-131072-r1-L15",
+        "final-vt-131072-r2-L15"
+      ],
+      "warmups": [
+        "final-vt-131072-r0-L2",
+        "final-vt-131072-r1-L2",
+        "final-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-vt-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "final-vt-131072-r0-L27",
+        "final-vt-131072-r1-L27",
+        "final-vt-131072-r2-L27"
+      ],
+      "warmups": [
+        "final-vt-131072-r0-L2",
+        "final-vt-131072-r1-L2",
+        "final-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-32768-r0-L1",
+        "final-fwe-32768-r1-L1",
+        "final-fwe-32768-r2-L1"
+      ],
+      "warmups": [
+        "final-fwe-32768-r0-L2",
+        "final-fwe-32768-r1-L2",
+        "final-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-32768-r0-L4",
+        "final-fwe-32768-r1-L4",
+        "final-fwe-32768-r2-L4"
+      ],
+      "warmups": [
+        "final-fwe-32768-r0-L2",
+        "final-fwe-32768-r1-L2",
+        "final-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-32768-r0-L15",
+        "final-fwe-32768-r1-L15",
+        "final-fwe-32768-r2-L15"
+      ],
+      "warmups": [
+        "final-fwe-32768-r0-L2",
+        "final-fwe-32768-r1-L2",
+        "final-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-32768-r0-L27",
+        "final-fwe-32768-r1-L27",
+        "final-fwe-32768-r2-L27"
+      ],
+      "warmups": [
+        "final-fwe-32768-r0-L2",
+        "final-fwe-32768-r1-L2",
+        "final-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-65536-r0-L1",
+        "final-fwe-65536-r1-L1",
+        "final-fwe-65536-r2-L1"
+      ],
+      "warmups": [
+        "final-fwe-65536-r0-L2",
+        "final-fwe-65536-r1-L2",
+        "final-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-65536-r0-L4",
+        "final-fwe-65536-r1-L4",
+        "final-fwe-65536-r2-L4"
+      ],
+      "warmups": [
+        "final-fwe-65536-r0-L2",
+        "final-fwe-65536-r1-L2",
+        "final-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-65536-r0-L15",
+        "final-fwe-65536-r1-L15",
+        "final-fwe-65536-r2-L15"
+      ],
+      "warmups": [
+        "final-fwe-65536-r0-L2",
+        "final-fwe-65536-r1-L2",
+        "final-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-65536-r0-L27",
+        "final-fwe-65536-r1-L27",
+        "final-fwe-65536-r2-L27"
+      ],
+      "warmups": [
+        "final-fwe-65536-r0-L2",
+        "final-fwe-65536-r1-L2",
+        "final-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-131072-r0-L1",
+        "final-fwe-131072-r1-L1",
+        "final-fwe-131072-r2-L1"
+      ],
+      "warmups": [
+        "final-fwe-131072-r0-L2",
+        "final-fwe-131072-r1-L2",
+        "final-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-131072-r0-L4",
+        "final-fwe-131072-r1-L4",
+        "final-fwe-131072-r2-L4"
+      ],
+      "warmups": [
+        "final-fwe-131072-r0-L2",
+        "final-fwe-131072-r1-L2",
+        "final-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-131072-r0-L15",
+        "final-fwe-131072-r1-L15",
+        "final-fwe-131072-r2-L15"
+      ],
+      "warmups": [
+        "final-fwe-131072-r0-L2",
+        "final-fwe-131072-r1-L2",
+        "final-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "final-fwe-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "final-fwe-131072-r0-L27",
+        "final-fwe-131072-r1-L27",
+        "final-fwe-131072-r2-L27"
+      ],
+      "warmups": [
+        "final-fwe-131072-r0-L2",
+        "final-fwe-131072-r1-L2",
+        "final-fwe-131072-r2-L2"
+      ]
+    }
+  ],
+  "fixtures": {
+    "final-fwe-131072-r0-L1": {
+      "actual_n": 128751,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r0-L1.safetensors",
+      "input_token_sha256": "21b83ad0c90659501c5d7d8bc37896ebebab0d2cf222487536de79261a8905e5",
+      "layer": 1,
+      "prompt_id": "final-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r0-L15": {
+      "actual_n": 128751,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r0-L15.safetensors",
+      "input_token_sha256": "21b83ad0c90659501c5d7d8bc37896ebebab0d2cf222487536de79261a8905e5",
+      "layer": 15,
+      "prompt_id": "final-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r0-L2": {
+      "actual_n": 128751,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r0-L2.safetensors",
+      "input_token_sha256": "21b83ad0c90659501c5d7d8bc37896ebebab0d2cf222487536de79261a8905e5",
+      "layer": 2,
+      "prompt_id": "final-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r0-L27": {
+      "actual_n": 128751,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r0-L27.safetensors",
+      "input_token_sha256": "21b83ad0c90659501c5d7d8bc37896ebebab0d2cf222487536de79261a8905e5",
+      "layer": 27,
+      "prompt_id": "final-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r0-L4": {
+      "actual_n": 128751,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r0-L4.safetensors",
+      "input_token_sha256": "21b83ad0c90659501c5d7d8bc37896ebebab0d2cf222487536de79261a8905e5",
+      "layer": 4,
+      "prompt_id": "final-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r1-L1": {
+      "actual_n": 113986,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r1-L1.safetensors",
+      "input_token_sha256": "05752ddae15b60bbc266c87f1b294d5e3064ce4832942558c636190fe907d1c0",
+      "layer": 1,
+      "prompt_id": "final-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r1-L15": {
+      "actual_n": 113986,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r1-L15.safetensors",
+      "input_token_sha256": "05752ddae15b60bbc266c87f1b294d5e3064ce4832942558c636190fe907d1c0",
+      "layer": 15,
+      "prompt_id": "final-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r1-L2": {
+      "actual_n": 113986,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r1-L2.safetensors",
+      "input_token_sha256": "05752ddae15b60bbc266c87f1b294d5e3064ce4832942558c636190fe907d1c0",
+      "layer": 2,
+      "prompt_id": "final-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r1-L27": {
+      "actual_n": 113986,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r1-L27.safetensors",
+      "input_token_sha256": "05752ddae15b60bbc266c87f1b294d5e3064ce4832942558c636190fe907d1c0",
+      "layer": 27,
+      "prompt_id": "final-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r1-L4": {
+      "actual_n": 113986,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r1-L4.safetensors",
+      "input_token_sha256": "05752ddae15b60bbc266c87f1b294d5e3064ce4832942558c636190fe907d1c0",
+      "layer": 4,
+      "prompt_id": "final-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r2-L1": {
+      "actual_n": 120311,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r2-L1.safetensors",
+      "input_token_sha256": "29279a9c0db8859f7395e525133ba52f15efb590b420cd287e96a6afe65ad198",
+      "layer": 1,
+      "prompt_id": "final-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r2-L15": {
+      "actual_n": 120311,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r2-L15.safetensors",
+      "input_token_sha256": "29279a9c0db8859f7395e525133ba52f15efb590b420cd287e96a6afe65ad198",
+      "layer": 15,
+      "prompt_id": "final-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r2-L2": {
+      "actual_n": 120311,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r2-L2.safetensors",
+      "input_token_sha256": "29279a9c0db8859f7395e525133ba52f15efb590b420cd287e96a6afe65ad198",
+      "layer": 2,
+      "prompt_id": "final-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r2-L27": {
+      "actual_n": 120311,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r2-L27.safetensors",
+      "input_token_sha256": "29279a9c0db8859f7395e525133ba52f15efb590b420cd287e96a6afe65ad198",
+      "layer": 27,
+      "prompt_id": "final-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-131072-r2-L4": {
+      "actual_n": 120311,
+      "context_budget": 131072,
+      "file": "final-fwe-131072-r2-L4.safetensors",
+      "input_token_sha256": "29279a9c0db8859f7395e525133ba52f15efb590b420cd287e96a6afe65ad198",
+      "layer": 4,
+      "prompt_id": "final-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r0-L1": {
+      "actual_n": 30755,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r0-L1.safetensors",
+      "input_token_sha256": "c3079a978efd8e2191935a0e47940a7dd50337d430cf1d4b299c806576d6d414",
+      "layer": 1,
+      "prompt_id": "final-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r0-L15": {
+      "actual_n": 30755,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r0-L15.safetensors",
+      "input_token_sha256": "c3079a978efd8e2191935a0e47940a7dd50337d430cf1d4b299c806576d6d414",
+      "layer": 15,
+      "prompt_id": "final-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r0-L2": {
+      "actual_n": 30755,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r0-L2.safetensors",
+      "input_token_sha256": "c3079a978efd8e2191935a0e47940a7dd50337d430cf1d4b299c806576d6d414",
+      "layer": 2,
+      "prompt_id": "final-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r0-L27": {
+      "actual_n": 30755,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r0-L27.safetensors",
+      "input_token_sha256": "c3079a978efd8e2191935a0e47940a7dd50337d430cf1d4b299c806576d6d414",
+      "layer": 27,
+      "prompt_id": "final-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r0-L4": {
+      "actual_n": 30755,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r0-L4.safetensors",
+      "input_token_sha256": "c3079a978efd8e2191935a0e47940a7dd50337d430cf1d4b299c806576d6d414",
+      "layer": 4,
+      "prompt_id": "final-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r1-L1": {
+      "actual_n": 32523,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r1-L1.safetensors",
+      "input_token_sha256": "c82a66dc3a3515eb19b5a341e1743491efa8063e92a0fbe038679983971ef485",
+      "layer": 1,
+      "prompt_id": "final-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r1-L15": {
+      "actual_n": 32523,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r1-L15.safetensors",
+      "input_token_sha256": "c82a66dc3a3515eb19b5a341e1743491efa8063e92a0fbe038679983971ef485",
+      "layer": 15,
+      "prompt_id": "final-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r1-L2": {
+      "actual_n": 32523,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r1-L2.safetensors",
+      "input_token_sha256": "c82a66dc3a3515eb19b5a341e1743491efa8063e92a0fbe038679983971ef485",
+      "layer": 2,
+      "prompt_id": "final-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r1-L27": {
+      "actual_n": 32523,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r1-L27.safetensors",
+      "input_token_sha256": "c82a66dc3a3515eb19b5a341e1743491efa8063e92a0fbe038679983971ef485",
+      "layer": 27,
+      "prompt_id": "final-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r1-L4": {
+      "actual_n": 32523,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r1-L4.safetensors",
+      "input_token_sha256": "c82a66dc3a3515eb19b5a341e1743491efa8063e92a0fbe038679983971ef485",
+      "layer": 4,
+      "prompt_id": "final-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r2-L1": {
+      "actual_n": 31438,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r2-L1.safetensors",
+      "input_token_sha256": "92b00f209741986a7ac6d7df21c41fada52e671c929a0173d91b9a5f21c801fd",
+      "layer": 1,
+      "prompt_id": "final-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r2-L15": {
+      "actual_n": 31438,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r2-L15.safetensors",
+      "input_token_sha256": "92b00f209741986a7ac6d7df21c41fada52e671c929a0173d91b9a5f21c801fd",
+      "layer": 15,
+      "prompt_id": "final-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r2-L2": {
+      "actual_n": 31438,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r2-L2.safetensors",
+      "input_token_sha256": "92b00f209741986a7ac6d7df21c41fada52e671c929a0173d91b9a5f21c801fd",
+      "layer": 2,
+      "prompt_id": "final-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r2-L27": {
+      "actual_n": 31438,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r2-L27.safetensors",
+      "input_token_sha256": "92b00f209741986a7ac6d7df21c41fada52e671c929a0173d91b9a5f21c801fd",
+      "layer": 27,
+      "prompt_id": "final-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-32768-r2-L4": {
+      "actual_n": 31438,
+      "context_budget": 32768,
+      "file": "final-fwe-32768-r2-L4.safetensors",
+      "input_token_sha256": "92b00f209741986a7ac6d7df21c41fada52e671c929a0173d91b9a5f21c801fd",
+      "layer": 4,
+      "prompt_id": "final-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r0-L1": {
+      "actual_n": 61459,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r0-L1.safetensors",
+      "input_token_sha256": "0ef5f6a3a5771abaaa6253f76c17f37f56d2ca29b097dc2665c4beb548c49899",
+      "layer": 1,
+      "prompt_id": "final-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r0-L15": {
+      "actual_n": 61459,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r0-L15.safetensors",
+      "input_token_sha256": "0ef5f6a3a5771abaaa6253f76c17f37f56d2ca29b097dc2665c4beb548c49899",
+      "layer": 15,
+      "prompt_id": "final-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r0-L2": {
+      "actual_n": 61459,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r0-L2.safetensors",
+      "input_token_sha256": "0ef5f6a3a5771abaaa6253f76c17f37f56d2ca29b097dc2665c4beb548c49899",
+      "layer": 2,
+      "prompt_id": "final-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r0-L27": {
+      "actual_n": 61459,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r0-L27.safetensors",
+      "input_token_sha256": "0ef5f6a3a5771abaaa6253f76c17f37f56d2ca29b097dc2665c4beb548c49899",
+      "layer": 27,
+      "prompt_id": "final-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r0-L4": {
+      "actual_n": 61459,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r0-L4.safetensors",
+      "input_token_sha256": "0ef5f6a3a5771abaaa6253f76c17f37f56d2ca29b097dc2665c4beb548c49899",
+      "layer": 4,
+      "prompt_id": "final-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r1-L1": {
+      "actual_n": 61697,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r1-L1.safetensors",
+      "input_token_sha256": "0ca5969259df794a933dccfab0bb739c89f1fc93e38b35ac0046c399dd6ba956",
+      "layer": 1,
+      "prompt_id": "final-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r1-L15": {
+      "actual_n": 61697,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r1-L15.safetensors",
+      "input_token_sha256": "0ca5969259df794a933dccfab0bb739c89f1fc93e38b35ac0046c399dd6ba956",
+      "layer": 15,
+      "prompt_id": "final-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r1-L2": {
+      "actual_n": 61697,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r1-L2.safetensors",
+      "input_token_sha256": "0ca5969259df794a933dccfab0bb739c89f1fc93e38b35ac0046c399dd6ba956",
+      "layer": 2,
+      "prompt_id": "final-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r1-L27": {
+      "actual_n": 61697,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r1-L27.safetensors",
+      "input_token_sha256": "0ca5969259df794a933dccfab0bb739c89f1fc93e38b35ac0046c399dd6ba956",
+      "layer": 27,
+      "prompt_id": "final-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r1-L4": {
+      "actual_n": 61697,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r1-L4.safetensors",
+      "input_token_sha256": "0ca5969259df794a933dccfab0bb739c89f1fc93e38b35ac0046c399dd6ba956",
+      "layer": 4,
+      "prompt_id": "final-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r2-L1": {
+      "actual_n": 62332,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r2-L1.safetensors",
+      "input_token_sha256": "24c655cce85cb773e4e212157afbd8684f02c99ac8d66bc95961b97280503843",
+      "layer": 1,
+      "prompt_id": "final-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r2-L15": {
+      "actual_n": 62332,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r2-L15.safetensors",
+      "input_token_sha256": "24c655cce85cb773e4e212157afbd8684f02c99ac8d66bc95961b97280503843",
+      "layer": 15,
+      "prompt_id": "final-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r2-L2": {
+      "actual_n": 62332,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r2-L2.safetensors",
+      "input_token_sha256": "24c655cce85cb773e4e212157afbd8684f02c99ac8d66bc95961b97280503843",
+      "layer": 2,
+      "prompt_id": "final-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r2-L27": {
+      "actual_n": 62332,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r2-L27.safetensors",
+      "input_token_sha256": "24c655cce85cb773e4e212157afbd8684f02c99ac8d66bc95961b97280503843",
+      "layer": 27,
+      "prompt_id": "final-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-fwe-65536-r2-L4": {
+      "actual_n": 62332,
+      "context_budget": 65536,
+      "file": "final-fwe-65536-r2-L4.safetensors",
+      "input_token_sha256": "24c655cce85cb773e4e212157afbd8684f02c99ac8d66bc95961b97280503843",
+      "layer": 4,
+      "prompt_id": "final-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r0-L1": {
+      "actual_n": 130415,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r0-L1.safetensors",
+      "input_token_sha256": "3652bc4b210f4f37b34e47a18fa01177bedde21201542f090ff7fb9184d73262",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r0-L15": {
+      "actual_n": 130415,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r0-L15.safetensors",
+      "input_token_sha256": "3652bc4b210f4f37b34e47a18fa01177bedde21201542f090ff7fb9184d73262",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r0-L2": {
+      "actual_n": 130415,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r0-L2.safetensors",
+      "input_token_sha256": "3652bc4b210f4f37b34e47a18fa01177bedde21201542f090ff7fb9184d73262",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r0-L27": {
+      "actual_n": 130415,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r0-L27.safetensors",
+      "input_token_sha256": "3652bc4b210f4f37b34e47a18fa01177bedde21201542f090ff7fb9184d73262",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r0-L4": {
+      "actual_n": 130415,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r0-L4.safetensors",
+      "input_token_sha256": "3652bc4b210f4f37b34e47a18fa01177bedde21201542f090ff7fb9184d73262",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r1-L1": {
+      "actual_n": 130413,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r1-L1.safetensors",
+      "input_token_sha256": "ba55db9514d59d2afa722e7fbdab02b7552d37cd4b3ee8f23d64a88c3ccc6cb0",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r1-L15": {
+      "actual_n": 130413,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r1-L15.safetensors",
+      "input_token_sha256": "ba55db9514d59d2afa722e7fbdab02b7552d37cd4b3ee8f23d64a88c3ccc6cb0",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r1-L2": {
+      "actual_n": 130413,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r1-L2.safetensors",
+      "input_token_sha256": "ba55db9514d59d2afa722e7fbdab02b7552d37cd4b3ee8f23d64a88c3ccc6cb0",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r1-L27": {
+      "actual_n": 130413,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r1-L27.safetensors",
+      "input_token_sha256": "ba55db9514d59d2afa722e7fbdab02b7552d37cd4b3ee8f23d64a88c3ccc6cb0",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r1-L4": {
+      "actual_n": 130413,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r1-L4.safetensors",
+      "input_token_sha256": "ba55db9514d59d2afa722e7fbdab02b7552d37cd4b3ee8f23d64a88c3ccc6cb0",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r2-L1": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r2-L1.safetensors",
+      "input_token_sha256": "49c5703d3ceae1f8e2c59e635bc49bbe42d8c44e7f9363fe97c06e4540e78441",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r2-L15": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r2-L15.safetensors",
+      "input_token_sha256": "49c5703d3ceae1f8e2c59e635bc49bbe42d8c44e7f9363fe97c06e4540e78441",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r2-L2": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r2-L2.safetensors",
+      "input_token_sha256": "49c5703d3ceae1f8e2c59e635bc49bbe42d8c44e7f9363fe97c06e4540e78441",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r2-L27": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r2-L27.safetensors",
+      "input_token_sha256": "49c5703d3ceae1f8e2c59e635bc49bbe42d8c44e7f9363fe97c06e4540e78441",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-131072-r2-L4": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "final-niah_multikey_1-131072-r2-L4.safetensors",
+      "input_token_sha256": "49c5703d3ceae1f8e2c59e635bc49bbe42d8c44e7f9363fe97c06e4540e78441",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r0-L1": {
+      "actual_n": 32224,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r0-L1.safetensors",
+      "input_token_sha256": "3ebed7871429e1c72ee8cecb321b66151c5ee3c1403f2e4148195e68c1cb1359",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r0-L15": {
+      "actual_n": 32224,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r0-L15.safetensors",
+      "input_token_sha256": "3ebed7871429e1c72ee8cecb321b66151c5ee3c1403f2e4148195e68c1cb1359",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r0-L2": {
+      "actual_n": 32224,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r0-L2.safetensors",
+      "input_token_sha256": "3ebed7871429e1c72ee8cecb321b66151c5ee3c1403f2e4148195e68c1cb1359",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r0-L27": {
+      "actual_n": 32224,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r0-L27.safetensors",
+      "input_token_sha256": "3ebed7871429e1c72ee8cecb321b66151c5ee3c1403f2e4148195e68c1cb1359",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r0-L4": {
+      "actual_n": 32224,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r0-L4.safetensors",
+      "input_token_sha256": "3ebed7871429e1c72ee8cecb321b66151c5ee3c1403f2e4148195e68c1cb1359",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r1-L1": {
+      "actual_n": 32228,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r1-L1.safetensors",
+      "input_token_sha256": "d991393dd5494d10ca8eae76ee66772242fcf1027b2b543ad0071a6d1af28e4d",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r1-L15": {
+      "actual_n": 32228,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r1-L15.safetensors",
+      "input_token_sha256": "d991393dd5494d10ca8eae76ee66772242fcf1027b2b543ad0071a6d1af28e4d",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r1-L2": {
+      "actual_n": 32228,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r1-L2.safetensors",
+      "input_token_sha256": "d991393dd5494d10ca8eae76ee66772242fcf1027b2b543ad0071a6d1af28e4d",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r1-L27": {
+      "actual_n": 32228,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r1-L27.safetensors",
+      "input_token_sha256": "d991393dd5494d10ca8eae76ee66772242fcf1027b2b543ad0071a6d1af28e4d",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r1-L4": {
+      "actual_n": 32228,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r1-L4.safetensors",
+      "input_token_sha256": "d991393dd5494d10ca8eae76ee66772242fcf1027b2b543ad0071a6d1af28e4d",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r2-L1": {
+      "actual_n": 32220,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r2-L1.safetensors",
+      "input_token_sha256": "4e4521629fc55d531f787f2f6a680dc722b711ecb2a6a1505fe26fc7e27fd23c",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r2-L15": {
+      "actual_n": 32220,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r2-L15.safetensors",
+      "input_token_sha256": "4e4521629fc55d531f787f2f6a680dc722b711ecb2a6a1505fe26fc7e27fd23c",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r2-L2": {
+      "actual_n": 32220,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r2-L2.safetensors",
+      "input_token_sha256": "4e4521629fc55d531f787f2f6a680dc722b711ecb2a6a1505fe26fc7e27fd23c",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r2-L27": {
+      "actual_n": 32220,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r2-L27.safetensors",
+      "input_token_sha256": "4e4521629fc55d531f787f2f6a680dc722b711ecb2a6a1505fe26fc7e27fd23c",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-32768-r2-L4": {
+      "actual_n": 32220,
+      "context_budget": 32768,
+      "file": "final-niah_multikey_1-32768-r2-L4.safetensors",
+      "input_token_sha256": "4e4521629fc55d531f787f2f6a680dc722b711ecb2a6a1505fe26fc7e27fd23c",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r0-L1": {
+      "actual_n": 65052,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r0-L1.safetensors",
+      "input_token_sha256": "d6693d11963869182bc79bff251a3e0007d7afb23751f4ea62acf475c1f2ce47",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r0-L15": {
+      "actual_n": 65052,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r0-L15.safetensors",
+      "input_token_sha256": "d6693d11963869182bc79bff251a3e0007d7afb23751f4ea62acf475c1f2ce47",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r0-L2": {
+      "actual_n": 65052,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r0-L2.safetensors",
+      "input_token_sha256": "d6693d11963869182bc79bff251a3e0007d7afb23751f4ea62acf475c1f2ce47",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r0-L27": {
+      "actual_n": 65052,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r0-L27.safetensors",
+      "input_token_sha256": "d6693d11963869182bc79bff251a3e0007d7afb23751f4ea62acf475c1f2ce47",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r0-L4": {
+      "actual_n": 65052,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r0-L4.safetensors",
+      "input_token_sha256": "d6693d11963869182bc79bff251a3e0007d7afb23751f4ea62acf475c1f2ce47",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r1-L1": {
+      "actual_n": 65049,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r1-L1.safetensors",
+      "input_token_sha256": "67228af4b84e2688036be9b588f2462b96123f9624e7c24c658f5a3a5b44c21b",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r1-L15": {
+      "actual_n": 65049,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r1-L15.safetensors",
+      "input_token_sha256": "67228af4b84e2688036be9b588f2462b96123f9624e7c24c658f5a3a5b44c21b",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r1-L2": {
+      "actual_n": 65049,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r1-L2.safetensors",
+      "input_token_sha256": "67228af4b84e2688036be9b588f2462b96123f9624e7c24c658f5a3a5b44c21b",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r1-L27": {
+      "actual_n": 65049,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r1-L27.safetensors",
+      "input_token_sha256": "67228af4b84e2688036be9b588f2462b96123f9624e7c24c658f5a3a5b44c21b",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r1-L4": {
+      "actual_n": 65049,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r1-L4.safetensors",
+      "input_token_sha256": "67228af4b84e2688036be9b588f2462b96123f9624e7c24c658f5a3a5b44c21b",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r2-L1": {
+      "actual_n": 65060,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r2-L1.safetensors",
+      "input_token_sha256": "e4b8bd2d232fa2c160dea027de479f222d776450744d2eff895ab468bca697ca",
+      "layer": 1,
+      "prompt_id": "final-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r2-L15": {
+      "actual_n": 65060,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r2-L15.safetensors",
+      "input_token_sha256": "e4b8bd2d232fa2c160dea027de479f222d776450744d2eff895ab468bca697ca",
+      "layer": 15,
+      "prompt_id": "final-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r2-L2": {
+      "actual_n": 65060,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r2-L2.safetensors",
+      "input_token_sha256": "e4b8bd2d232fa2c160dea027de479f222d776450744d2eff895ab468bca697ca",
+      "layer": 2,
+      "prompt_id": "final-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r2-L27": {
+      "actual_n": 65060,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r2-L27.safetensors",
+      "input_token_sha256": "e4b8bd2d232fa2c160dea027de479f222d776450744d2eff895ab468bca697ca",
+      "layer": 27,
+      "prompt_id": "final-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_multikey_1-65536-r2-L4": {
+      "actual_n": 65060,
+      "context_budget": 65536,
+      "file": "final-niah_multikey_1-65536-r2-L4.safetensors",
+      "input_token_sha256": "e4b8bd2d232fa2c160dea027de479f222d776450744d2eff895ab468bca697ca",
+      "layer": 4,
+      "prompt_id": "final-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r0-L1": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r0-L1.safetensors",
+      "input_token_sha256": "a47dff144e78511d36b7c4e8511775d38f5d90dd6d61297d426a36c7ea6c5542",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r0-L15": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r0-L15.safetensors",
+      "input_token_sha256": "a47dff144e78511d36b7c4e8511775d38f5d90dd6d61297d426a36c7ea6c5542",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r0-L2": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r0-L2.safetensors",
+      "input_token_sha256": "a47dff144e78511d36b7c4e8511775d38f5d90dd6d61297d426a36c7ea6c5542",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r0-L27": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r0-L27.safetensors",
+      "input_token_sha256": "a47dff144e78511d36b7c4e8511775d38f5d90dd6d61297d426a36c7ea6c5542",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r0-L4": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r0-L4.safetensors",
+      "input_token_sha256": "a47dff144e78511d36b7c4e8511775d38f5d90dd6d61297d426a36c7ea6c5542",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r1-L1": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r1-L1.safetensors",
+      "input_token_sha256": "f88e11585e38855d6a5671c647abc564c5e80ffdfdab18757d24b7e9497cbf9a",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r1-L15": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r1-L15.safetensors",
+      "input_token_sha256": "f88e11585e38855d6a5671c647abc564c5e80ffdfdab18757d24b7e9497cbf9a",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r1-L2": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r1-L2.safetensors",
+      "input_token_sha256": "f88e11585e38855d6a5671c647abc564c5e80ffdfdab18757d24b7e9497cbf9a",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r1-L27": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r1-L27.safetensors",
+      "input_token_sha256": "f88e11585e38855d6a5671c647abc564c5e80ffdfdab18757d24b7e9497cbf9a",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r1-L4": {
+      "actual_n": 130363,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r1-L4.safetensors",
+      "input_token_sha256": "f88e11585e38855d6a5671c647abc564c5e80ffdfdab18757d24b7e9497cbf9a",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r2-L1": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r2-L1.safetensors",
+      "input_token_sha256": "b7c4d4e00821ad06a2cd71586f67ae02e1cc5db6f7c9990c8cd18989027dfcba",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r2-L15": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r2-L15.safetensors",
+      "input_token_sha256": "b7c4d4e00821ad06a2cd71586f67ae02e1cc5db6f7c9990c8cd18989027dfcba",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r2-L2": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r2-L2.safetensors",
+      "input_token_sha256": "b7c4d4e00821ad06a2cd71586f67ae02e1cc5db6f7c9990c8cd18989027dfcba",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r2-L27": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r2-L27.safetensors",
+      "input_token_sha256": "b7c4d4e00821ad06a2cd71586f67ae02e1cc5db6f7c9990c8cd18989027dfcba",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-131072-r2-L4": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "final-niah_single_2-131072-r2-L4.safetensors",
+      "input_token_sha256": "b7c4d4e00821ad06a2cd71586f67ae02e1cc5db6f7c9990c8cd18989027dfcba",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r0-L1": {
+      "actual_n": 32178,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r0-L1.safetensors",
+      "input_token_sha256": "befdb841d9479c98c22a60f930b10df45720de4508a90bc87e16f902df24aaa4",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r0-L15": {
+      "actual_n": 32178,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r0-L15.safetensors",
+      "input_token_sha256": "befdb841d9479c98c22a60f930b10df45720de4508a90bc87e16f902df24aaa4",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r0-L2": {
+      "actual_n": 32178,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r0-L2.safetensors",
+      "input_token_sha256": "befdb841d9479c98c22a60f930b10df45720de4508a90bc87e16f902df24aaa4",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r0-L27": {
+      "actual_n": 32178,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r0-L27.safetensors",
+      "input_token_sha256": "befdb841d9479c98c22a60f930b10df45720de4508a90bc87e16f902df24aaa4",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r0-L4": {
+      "actual_n": 32178,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r0-L4.safetensors",
+      "input_token_sha256": "befdb841d9479c98c22a60f930b10df45720de4508a90bc87e16f902df24aaa4",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r1-L1": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r1-L1.safetensors",
+      "input_token_sha256": "dd0f89914107837adc3c2077e0808ea829839ab26a3d37dd24c312bf9ef0e052",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r1-L15": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r1-L15.safetensors",
+      "input_token_sha256": "dd0f89914107837adc3c2077e0808ea829839ab26a3d37dd24c312bf9ef0e052",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r1-L2": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r1-L2.safetensors",
+      "input_token_sha256": "dd0f89914107837adc3c2077e0808ea829839ab26a3d37dd24c312bf9ef0e052",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r1-L27": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r1-L27.safetensors",
+      "input_token_sha256": "dd0f89914107837adc3c2077e0808ea829839ab26a3d37dd24c312bf9ef0e052",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r1-L4": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r1-L4.safetensors",
+      "input_token_sha256": "dd0f89914107837adc3c2077e0808ea829839ab26a3d37dd24c312bf9ef0e052",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r2-L1": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r2-L1.safetensors",
+      "input_token_sha256": "3ad6d2d1c8cbf540d1c9100c579f81d3c3ef908dbfa0780a23dd5986782c1439",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r2-L15": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r2-L15.safetensors",
+      "input_token_sha256": "3ad6d2d1c8cbf540d1c9100c579f81d3c3ef908dbfa0780a23dd5986782c1439",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r2-L2": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r2-L2.safetensors",
+      "input_token_sha256": "3ad6d2d1c8cbf540d1c9100c579f81d3c3ef908dbfa0780a23dd5986782c1439",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r2-L27": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r2-L27.safetensors",
+      "input_token_sha256": "3ad6d2d1c8cbf540d1c9100c579f81d3c3ef908dbfa0780a23dd5986782c1439",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-32768-r2-L4": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "final-niah_single_2-32768-r2-L4.safetensors",
+      "input_token_sha256": "3ad6d2d1c8cbf540d1c9100c579f81d3c3ef908dbfa0780a23dd5986782c1439",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r0-L1": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r0-L1.safetensors",
+      "input_token_sha256": "d2023db85502d1bd04b9bf46822c99c84558db1537638332daf66e27aa3239a1",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r0-L15": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r0-L15.safetensors",
+      "input_token_sha256": "d2023db85502d1bd04b9bf46822c99c84558db1537638332daf66e27aa3239a1",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r0-L2": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r0-L2.safetensors",
+      "input_token_sha256": "d2023db85502d1bd04b9bf46822c99c84558db1537638332daf66e27aa3239a1",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r0-L27": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r0-L27.safetensors",
+      "input_token_sha256": "d2023db85502d1bd04b9bf46822c99c84558db1537638332daf66e27aa3239a1",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r0-L4": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r0-L4.safetensors",
+      "input_token_sha256": "d2023db85502d1bd04b9bf46822c99c84558db1537638332daf66e27aa3239a1",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r1-L1": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r1-L1.safetensors",
+      "input_token_sha256": "8d7949547341d8f8348045ffaaf8f103a8d62554735f81d2574413688b366233",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r1-L15": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r1-L15.safetensors",
+      "input_token_sha256": "8d7949547341d8f8348045ffaaf8f103a8d62554735f81d2574413688b366233",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r1-L2": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r1-L2.safetensors",
+      "input_token_sha256": "8d7949547341d8f8348045ffaaf8f103a8d62554735f81d2574413688b366233",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r1-L27": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r1-L27.safetensors",
+      "input_token_sha256": "8d7949547341d8f8348045ffaaf8f103a8d62554735f81d2574413688b366233",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r1-L4": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r1-L4.safetensors",
+      "input_token_sha256": "8d7949547341d8f8348045ffaaf8f103a8d62554735f81d2574413688b366233",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r2-L1": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r2-L1.safetensors",
+      "input_token_sha256": "3669b3ca59ce9d8dda9ed5fefc54ad2a623ef903049d33c7d3477cb057c31449",
+      "layer": 1,
+      "prompt_id": "final-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r2-L15": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r2-L15.safetensors",
+      "input_token_sha256": "3669b3ca59ce9d8dda9ed5fefc54ad2a623ef903049d33c7d3477cb057c31449",
+      "layer": 15,
+      "prompt_id": "final-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r2-L2": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r2-L2.safetensors",
+      "input_token_sha256": "3669b3ca59ce9d8dda9ed5fefc54ad2a623ef903049d33c7d3477cb057c31449",
+      "layer": 2,
+      "prompt_id": "final-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r2-L27": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r2-L27.safetensors",
+      "input_token_sha256": "3669b3ca59ce9d8dda9ed5fefc54ad2a623ef903049d33c7d3477cb057c31449",
+      "layer": 27,
+      "prompt_id": "final-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-niah_single_2-65536-r2-L4": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "final-niah_single_2-65536-r2-L4.safetensors",
+      "input_token_sha256": "3669b3ca59ce9d8dda9ed5fefc54ad2a623ef903049d33c7d3477cb057c31449",
+      "layer": 4,
+      "prompt_id": "final-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r0-L1": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r0-L1.safetensors",
+      "input_token_sha256": "475e69099b54a243285f2e8b2f1b77d07360246d79bf8ae9318eb00e4c6bb883",
+      "layer": 1,
+      "prompt_id": "final-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r0-L15": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r0-L15.safetensors",
+      "input_token_sha256": "475e69099b54a243285f2e8b2f1b77d07360246d79bf8ae9318eb00e4c6bb883",
+      "layer": 15,
+      "prompt_id": "final-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r0-L2": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r0-L2.safetensors",
+      "input_token_sha256": "475e69099b54a243285f2e8b2f1b77d07360246d79bf8ae9318eb00e4c6bb883",
+      "layer": 2,
+      "prompt_id": "final-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r0-L27": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r0-L27.safetensors",
+      "input_token_sha256": "475e69099b54a243285f2e8b2f1b77d07360246d79bf8ae9318eb00e4c6bb883",
+      "layer": 27,
+      "prompt_id": "final-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r0-L4": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r0-L4.safetensors",
+      "input_token_sha256": "475e69099b54a243285f2e8b2f1b77d07360246d79bf8ae9318eb00e4c6bb883",
+      "layer": 4,
+      "prompt_id": "final-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r1-L1": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r1-L1.safetensors",
+      "input_token_sha256": "cab50f41faa318ae0009f65e1b6dd3af8ae1819a9b6cd643e2f6f8bfeac0c786",
+      "layer": 1,
+      "prompt_id": "final-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r1-L15": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r1-L15.safetensors",
+      "input_token_sha256": "cab50f41faa318ae0009f65e1b6dd3af8ae1819a9b6cd643e2f6f8bfeac0c786",
+      "layer": 15,
+      "prompt_id": "final-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r1-L2": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r1-L2.safetensors",
+      "input_token_sha256": "cab50f41faa318ae0009f65e1b6dd3af8ae1819a9b6cd643e2f6f8bfeac0c786",
+      "layer": 2,
+      "prompt_id": "final-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r1-L27": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r1-L27.safetensors",
+      "input_token_sha256": "cab50f41faa318ae0009f65e1b6dd3af8ae1819a9b6cd643e2f6f8bfeac0c786",
+      "layer": 27,
+      "prompt_id": "final-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r1-L4": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r1-L4.safetensors",
+      "input_token_sha256": "cab50f41faa318ae0009f65e1b6dd3af8ae1819a9b6cd643e2f6f8bfeac0c786",
+      "layer": 4,
+      "prompt_id": "final-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r2-L1": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r2-L1.safetensors",
+      "input_token_sha256": "dc8750b927a336a9ede61b76d04e431a059779193bee72402f934e1d52b4715e",
+      "layer": 1,
+      "prompt_id": "final-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r2-L15": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r2-L15.safetensors",
+      "input_token_sha256": "dc8750b927a336a9ede61b76d04e431a059779193bee72402f934e1d52b4715e",
+      "layer": 15,
+      "prompt_id": "final-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r2-L2": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r2-L2.safetensors",
+      "input_token_sha256": "dc8750b927a336a9ede61b76d04e431a059779193bee72402f934e1d52b4715e",
+      "layer": 2,
+      "prompt_id": "final-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r2-L27": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r2-L27.safetensors",
+      "input_token_sha256": "dc8750b927a336a9ede61b76d04e431a059779193bee72402f934e1d52b4715e",
+      "layer": 27,
+      "prompt_id": "final-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-131072-r2-L4": {
+      "actual_n": 130805,
+      "context_budget": 131072,
+      "file": "final-vt-131072-r2-L4.safetensors",
+      "input_token_sha256": "dc8750b927a336a9ede61b76d04e431a059779193bee72402f934e1d52b4715e",
+      "layer": 4,
+      "prompt_id": "final-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r0-L1": {
+      "actual_n": 32643,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r0-L1.safetensors",
+      "input_token_sha256": "927695ebc66c759f6e31c108702006357d0ff68b0f2bc5362d3d0c3bd457c8cc",
+      "layer": 1,
+      "prompt_id": "final-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r0-L15": {
+      "actual_n": 32643,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r0-L15.safetensors",
+      "input_token_sha256": "927695ebc66c759f6e31c108702006357d0ff68b0f2bc5362d3d0c3bd457c8cc",
+      "layer": 15,
+      "prompt_id": "final-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r0-L2": {
+      "actual_n": 32643,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r0-L2.safetensors",
+      "input_token_sha256": "927695ebc66c759f6e31c108702006357d0ff68b0f2bc5362d3d0c3bd457c8cc",
+      "layer": 2,
+      "prompt_id": "final-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r0-L27": {
+      "actual_n": 32643,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r0-L27.safetensors",
+      "input_token_sha256": "927695ebc66c759f6e31c108702006357d0ff68b0f2bc5362d3d0c3bd457c8cc",
+      "layer": 27,
+      "prompt_id": "final-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r0-L4": {
+      "actual_n": 32643,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r0-L4.safetensors",
+      "input_token_sha256": "927695ebc66c759f6e31c108702006357d0ff68b0f2bc5362d3d0c3bd457c8cc",
+      "layer": 4,
+      "prompt_id": "final-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r1-L1": {
+      "actual_n": 32641,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r1-L1.safetensors",
+      "input_token_sha256": "27d2ea5929b4fb8265efd9e8c35dbb6d0e9f36ba4a992d5c08a1dd2a74b0bc37",
+      "layer": 1,
+      "prompt_id": "final-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r1-L15": {
+      "actual_n": 32641,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r1-L15.safetensors",
+      "input_token_sha256": "27d2ea5929b4fb8265efd9e8c35dbb6d0e9f36ba4a992d5c08a1dd2a74b0bc37",
+      "layer": 15,
+      "prompt_id": "final-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r1-L2": {
+      "actual_n": 32641,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r1-L2.safetensors",
+      "input_token_sha256": "27d2ea5929b4fb8265efd9e8c35dbb6d0e9f36ba4a992d5c08a1dd2a74b0bc37",
+      "layer": 2,
+      "prompt_id": "final-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r1-L27": {
+      "actual_n": 32641,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r1-L27.safetensors",
+      "input_token_sha256": "27d2ea5929b4fb8265efd9e8c35dbb6d0e9f36ba4a992d5c08a1dd2a74b0bc37",
+      "layer": 27,
+      "prompt_id": "final-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r1-L4": {
+      "actual_n": 32641,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r1-L4.safetensors",
+      "input_token_sha256": "27d2ea5929b4fb8265efd9e8c35dbb6d0e9f36ba4a992d5c08a1dd2a74b0bc37",
+      "layer": 4,
+      "prompt_id": "final-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r2-L1": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r2-L1.safetensors",
+      "input_token_sha256": "fd0d8b5ff97e3d60eb52004d9f6f93a7b253360b5f087ae35115cba4ea5fc9ce",
+      "layer": 1,
+      "prompt_id": "final-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r2-L15": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r2-L15.safetensors",
+      "input_token_sha256": "fd0d8b5ff97e3d60eb52004d9f6f93a7b253360b5f087ae35115cba4ea5fc9ce",
+      "layer": 15,
+      "prompt_id": "final-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r2-L2": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r2-L2.safetensors",
+      "input_token_sha256": "fd0d8b5ff97e3d60eb52004d9f6f93a7b253360b5f087ae35115cba4ea5fc9ce",
+      "layer": 2,
+      "prompt_id": "final-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r2-L27": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r2-L27.safetensors",
+      "input_token_sha256": "fd0d8b5ff97e3d60eb52004d9f6f93a7b253360b5f087ae35115cba4ea5fc9ce",
+      "layer": 27,
+      "prompt_id": "final-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-32768-r2-L4": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "final-vt-32768-r2-L4.safetensors",
+      "input_token_sha256": "fd0d8b5ff97e3d60eb52004d9f6f93a7b253360b5f087ae35115cba4ea5fc9ce",
+      "layer": 4,
+      "prompt_id": "final-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r0-L1": {
+      "actual_n": 65280,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r0-L1.safetensors",
+      "input_token_sha256": "c870c8abd7dcc35a7306529aca7f276226645cc32571b11b5eb448c6c92c2a05",
+      "layer": 1,
+      "prompt_id": "final-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r0-L15": {
+      "actual_n": 65280,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r0-L15.safetensors",
+      "input_token_sha256": "c870c8abd7dcc35a7306529aca7f276226645cc32571b11b5eb448c6c92c2a05",
+      "layer": 15,
+      "prompt_id": "final-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r0-L2": {
+      "actual_n": 65280,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r0-L2.safetensors",
+      "input_token_sha256": "c870c8abd7dcc35a7306529aca7f276226645cc32571b11b5eb448c6c92c2a05",
+      "layer": 2,
+      "prompt_id": "final-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r0-L27": {
+      "actual_n": 65280,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r0-L27.safetensors",
+      "input_token_sha256": "c870c8abd7dcc35a7306529aca7f276226645cc32571b11b5eb448c6c92c2a05",
+      "layer": 27,
+      "prompt_id": "final-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r0-L4": {
+      "actual_n": 65280,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r0-L4.safetensors",
+      "input_token_sha256": "c870c8abd7dcc35a7306529aca7f276226645cc32571b11b5eb448c6c92c2a05",
+      "layer": 4,
+      "prompt_id": "final-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r1-L1": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r1-L1.safetensors",
+      "input_token_sha256": "3285ac834b90b8ed71d5496acd7fd7d68eb9db4090d61400d1bc2ad797f7e8f2",
+      "layer": 1,
+      "prompt_id": "final-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r1-L15": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r1-L15.safetensors",
+      "input_token_sha256": "3285ac834b90b8ed71d5496acd7fd7d68eb9db4090d61400d1bc2ad797f7e8f2",
+      "layer": 15,
+      "prompt_id": "final-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r1-L2": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r1-L2.safetensors",
+      "input_token_sha256": "3285ac834b90b8ed71d5496acd7fd7d68eb9db4090d61400d1bc2ad797f7e8f2",
+      "layer": 2,
+      "prompt_id": "final-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r1-L27": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r1-L27.safetensors",
+      "input_token_sha256": "3285ac834b90b8ed71d5496acd7fd7d68eb9db4090d61400d1bc2ad797f7e8f2",
+      "layer": 27,
+      "prompt_id": "final-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r1-L4": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r1-L4.safetensors",
+      "input_token_sha256": "3285ac834b90b8ed71d5496acd7fd7d68eb9db4090d61400d1bc2ad797f7e8f2",
+      "layer": 4,
+      "prompt_id": "final-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r2-L1": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r2-L1.safetensors",
+      "input_token_sha256": "1f317498b9f9babfb518e8437d56fb6b4a79b8c29392271ac01ec1f19788a054",
+      "layer": 1,
+      "prompt_id": "final-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r2-L15": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r2-L15.safetensors",
+      "input_token_sha256": "1f317498b9f9babfb518e8437d56fb6b4a79b8c29392271ac01ec1f19788a054",
+      "layer": 15,
+      "prompt_id": "final-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r2-L2": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r2-L2.safetensors",
+      "input_token_sha256": "1f317498b9f9babfb518e8437d56fb6b4a79b8c29392271ac01ec1f19788a054",
+      "layer": 2,
+      "prompt_id": "final-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r2-L27": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r2-L27.safetensors",
+      "input_token_sha256": "1f317498b9f9babfb518e8437d56fb6b4a79b8c29392271ac01ec1f19788a054",
+      "layer": 27,
+      "prompt_id": "final-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "final-vt-65536-r2-L4": {
+      "actual_n": 65283,
+      "context_budget": 65536,
+      "file": "final-vt-65536-r2-L4.safetensors",
+      "input_token_sha256": "1f317498b9f9babfb518e8437d56fb6b4a79b8c29392271ac01ec1f19788a054",
+      "layer": 4,
+      "prompt_id": "final-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    }
+  },
+  "input_bindings": {
+    "prompt_manifest_sha256": "819431d337d5b996d1366c0c08e8bf193a431bdbf2e6d34d7dd9d3a84b613d67",
+    "prompts_sha256": "b2c0a6a1e502fee31c3ebdcdc4e513b23420d61ba90f582a469aecc1c63b31a2",
+    "recipe_sha256": "e7b51951af71c2aeaa65bb1291e1f36efc1273bb9d6fe597548381cacfaa1062"
+  },
+  "partition": "final",
+  "protocol": "minference-single-real-prompt-qkv-v1",
+  "schema_version": 3,
+  "warmup_scope": "same real prompt and N at unscored L2; no timed output or input-dependent pattern reuse permitted"
+}

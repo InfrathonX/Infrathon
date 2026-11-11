@@ -1,0 +1,23 @@
+{
+  "cases": [
+    {"case_id": "golden_assignment", "measurement_mode": "correctness", "shape": [2, 5, 3, 2], "stage": "assign"},
+    {"case_id": "golden_update", "measurement_mode": "correctness", "shape": [2, 6, 4, 2], "stage": "update"},
+    {"case_id": "golden_combined", "measurement_mode": "correctness", "shape": [1, 5, 3, 2], "stage": "full"},
+    {"case_id": "assign_candidate_only_probe", "measurement_mode": "steady_state", "shape": [1, 327680, 3072, 128], "stage": "assign"},
+    {"case_id": "update_candidate_only_probe", "measurement_mode": "steady_state", "shape": [4, 262144, 1024, 128], "stage": "update"},
+    {"case_id": "full_candidate_only_probe", "measurement_mode": "steady_state", "shape": [1, 262144, 2048, 128], "stage": "full"},
+    {"case_id": "control", "family": "control", "measurement_mode": "fresh_process", "seed": 71101, "shape": [1, 1048576, 8192, 512], "stage": "full"},
+    {"case_id": "large_k_small", "family": "large-K", "measurement_mode": "fresh_process", "seed": 71102, "shape": [1, 393216, 49152, 160], "stage": "full"},
+    {"case_id": "large_k_large", "family": "large-K", "measurement_mode": "fresh_process", "seed": 71103, "shape": [1, 1048576, 49152, 160], "stage": "full"},
+    {"case_id": "large_n_high_d_small", "family": "large-N/high-D", "measurement_mode": "fresh_process", "seed": 71104, "shape": [1, 3145728, 6144, 384], "stage": "full"},
+    {"case_id": "large_n_high_d_large", "family": "large-N/high-D", "measurement_mode": "fresh_process", "seed": 71105, "shape": [1, 6291456, 6144, 384], "stage": "full"}
+  ],
+  "qualification_timeouts": {
+    "fresh_case_seconds": 180,
+    "public_wrapper_seconds": 1500,
+    "semantics": "selected_execution_profile_qualification_ceiling_not_accelerator_identity"
+  },
+  "role": "public",
+  "schema_version": 1,
+  "suite_id": "v7-family-tail60"
+}

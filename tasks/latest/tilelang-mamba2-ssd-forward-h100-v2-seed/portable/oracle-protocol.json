@@ -1,0 +1,18 @@
+{
+  "acceptance": "finite full write, inputs unchanged, fresh tensors per trial, and the relative-L2 / elementwise rule on every case, edge fixtures included",
+  "integrity": ["complete_write", "inputs_unchanged", "fresh_tensors_per_trial", "nan_poisoned_outputs", "current_stream_dispatch", "decoy_warmup"],
+  "protocol_id": "fp32-chunked-ssd-reference-v1",
+  "reference": {
+    "a_log_range": ["0.0", "2.772588722239781"],
+    "arithmetic": "fp32 chunked selective-state-space recurrence with the state carried in fp32",
+    "decay_regimes": ["mixed", "slow_decay", "fast_decay", "unit_dt"],
+    "dt_log_range": ["-6.907755278982137", "-2.3025850929940455"]
+  },
+  "schema_version": 1,
+  "tolerances": {
+    "rel": "0.023515625",
+    "rel_l2": "0.006",
+    "rule": "an element passes when |diff| <= scaled_abs*scale or |diff| <= rel*denominator; the verdict is the violation count plus the relative L2 against rel_l2",
+    "scaled_abs": "0.015"
+  }
+}

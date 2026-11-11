@@ -1,0 +1,170 @@
+{
+  "task_id": "quant_videogen_cross_model_kv_codec_h100_scratch_v4",
+  "name": "Quant-VideoGen Cross-Model KV Codec Portable CUDA Scratch v4",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:7d4944dac9e5150d7bf6d0024acdec9163641f4bc5e09293155cd859052d4d57"
+  },
+  "category": "GPU / Video Generation Systems",
+  "base_image": "pytorch280_cu128",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/workspace",
+  "submit_paths": [
+    "submission"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "__pycache__/",
+    "*.pyc",
+    "*.so",
+    "*.cubin",
+    "*.ptx",
+    "public-results/",
+    ".cache/"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/workspace",
+    "cpu_limit": 8,
+    "mem_limit": "64g",
+    "agent_query": "Read /workspace/AGENT_TASK.md completely. Build a CUDA BF16 KV codec from the empty /workspace/submission directory, run the participant-visible local checks, and leave the strongest complete validated implementation in the submission directory. The score is the persistent-KV compression ratio scaled by a generation-quality factor measured against a fixed reference codec (fidelity to BF16 and VBench), so both fewer bytes and better generation quality raise it; AGENT_TASK.md defines it exactly. This lab has one GPU of its own; the Judge runs on separate GPUs. Wait for every public test and compiler process to finish before sforge-submit --details, so the archive is the version you intend. Every scored submission runs the complete frozen hidden suite and takes roughly 45-60 minutes, and sforge-submit waits for it; feedback is aggregate only (validity, score and a generic status). Only your manual submissions run the Judge while you work. Your final result is the best valid score you reach within the time budget."
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "quant-videogen-cross-model-kv-codec-v4",
+      "definition": {
+        "operation": "persistent_kv_cache_codec_for_autoregressive_video_generation",
+        "starting_point": "empty submission directory (scratch)",
+        "workloads": [
+          "longcat",
+          "hy_worldplay_8b"
+        ],
+        "hidden_workload_count": 2,
+        "hidden_case_count": 17,
+        "hidden_cases_per_workload": {
+          "longcat": 6,
+          "hy_worldplay_8b": 11
+        },
+        "dtype": "bf16",
+        "payload": "plain CUDA-tensor tree, each payload independently decodable",
+        "score": "sqrt over the two workloads of R_w * (1 + q_w): R_w is the BF16 KV bytes over the unique CUDA-storage bytes reachable from the payloads, both summed over every compression call of every hidden case of that workload; q_w = 0.5 f_w + 0.5 v_w is the generation-quality term, 0 for the official Quant-VideoGen codec: f_w the mean fidelity gain from that codec's case means toward the ideal (PSNR 40 dB, SSIM 1, LPIPS 0, each capped at 1) and v_w the tightest VBench margin to the mean gate minus that codec's"
+      },
+      "interface": {
+        "entry_point": "mlsysforge_codec.encode(k, v) -> payload; mlsysforge_codec.decode(payload_k, payload_v) -> (k, v)",
+        "source_path": "submission",
+        "implementation_surface": "python_torch_triton_source_with_static_admission"
+      },
+      "allowed_changes": [
+        "everything under submission (mlsysforge_codec.py, codec/**/*.py, notes.md) within the source policy"
+      ],
+      "invariants": [
+        "the 17 hidden cases (6 LongCat-Video MovieGen prompts continued for 10 segments, 11 HY-WorldPlay-8B upstream image cases), the pinned inputs and goldens, the calibrated per-model mean gates and per-case floor gates and the paper protocol are frozen",
+        "KV bytes accumulate over every compression call of a case; the BF16 byte count of each case is frozen in the release and a candidate must report it exactly",
+        "latency is gated per case against the stage budget the controller enforces, never a frozen device measurement",
+        "the score ranks and never admits: the compression ratio and the quality term only scale it, and the gates alone decide validity",
+        "the quality term's zero point (the official Quant-VideoGen codec's case means on the 17 hidden cases) is measured on each supported device class and frozen with that class's Judge data, beside the shared release, gates and goldens; its 40 dB PSNR ceiling and its 0.5 / 0.5 weights are frozen in the Judge controller",
+        "candidate code runs under the fixed candidate UID of its Judge slot (23001 to 23008) with no network, no capabilities, no memory on any other device and no access to the root-private controller or artifacts",
+        "the Judge spreads the cases over 1-8 identical devices; per-case computation and the score do not depend on the device count",
+        "the source policy admits only the small pure-Python codec closure"
+      ],
+      "resource_manifest_sha256": "sha256:3c89f77c42574c02ed361edbe427203f4bc8e6ed9b0e3c66c903740848bd2890"
+    },
+    "evaluation_suites": {
+      "quant-videogen-kv-codec-v4": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:23e5438695a9f97ff66e74565899bb07ebe1c9cd5cff08d0733404f29b73289e",
+            "case_count": 3
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:91ce54171606a95ecfaeecb69215e096ec514eae0eee634105f8ab017f237049",
+            "case_count": 17
+          },
+          "final": {
+            "manifest_sha256": "sha256:8bc484545a4735832f77e5286ad90e17a90e2eb396db99b01787f3527ff70bd0",
+            "case_count": 17
+          }
+        },
+        "oracle": {
+          "protocol_id": "frozen-goldens-mean-and-case-floor-gates-v4",
+          "spec_sha256": "sha256:62f4460af435e9ab88f50bb62e322bdc77d34cd9281d13f7aaf6c836b95b32bd"
+        },
+        "selection": {
+          "protocol_id": "public-diagnostics-hidden-17-cases-sharded-v4",
+          "spec_sha256": "sha256:38338a64e6d0a69664eb3244f22c4f25e66394ac7aaeab1eacb5f13715f0ed2f"
+        }
+      }
+    },
+    "execution_profiles": {
+      "cuda-sm80-79gib-sharded-judge": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "triton",
+          "read-only-model-mount",
+          "sharded-judge-1-to-8-gpus"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu128-v2-base-codec-abi-v3",
+          "spec_sha256": "sha256:e232b02e1a4309ea4d6d593dcf7d2bd0e6a0c7d904274bc5b436f9bae8b9498b"
+        },
+        "calibration_protocol": {
+          "protocol_id": "summed-byte-ratio-score-budget-gated-wall-v4",
+          "spec_sha256": "sha256:3bb9e18c9ca95dbd1f638f685fb1661b7c6614e14358ae6429c5aa533543880f"
+        }
+      }
+    },
+    "metrics": {
+      "primary": {
+        "direction": "maximize",
+        "unit": "dimensionless",
+        "comparability": "portable",
+        "aggregation": {
+          "protocol_id": "workload-geomean-quality-weighted-summed-byte-ratio-v5",
+          "spec": {
+            "formula": "sqrt(longcat_ratio * (1 + longcat_q) * hy_worldplay_8b_ratio * (1 + hy_worldplay_8b_q)), workload_ratio = sum over the workload's cases of bf16_kv_bytes / sum of stored_kv_bytes",
+            "quality": {
+              "q": "fidelity_weight * f + video_weight * v per workload, from that workload's case means; 0 for the reference codec",
+              "f": "mean over psnr, ssim and lpips of the gain from the reference toward the ideal, capped at 1: min((psnr - ref) / (psnr_ceiling_db - ref), 1), min((ssim - ref) / (1 - ref), 1), min((ref - lpips) / ref, 1)",
+              "v": "min over the four VBench dimensions of 1 - max(bf16 - reading, 0) / mean-gate vbench_allowed_drop, minus the same minimum for the reference readings (bf16 is the case-mean BF16 reading)",
+              "psnr_ceiling_db": "40",
+              "fidelity_weight": "0.5",
+              "video_weight": "0.5",
+              "reference_codec": "official Quant-VideoGen (svg-project/Quant-VideoGen @ 0601468f) with the run_qvg.sh settings (INT2, 256 centroids, block 64, at most 100 k-means iterations on LongCat and 2 on HY), run on the 17 hidden cases with the Judge metric scripts on each supported device class",
+              "reference": "that codec's case means (psnr, ssim, lpips and the four VBench dimensions) per workload, measured on each supported device class and frozen with that class's Judge data as models.<workload>.quality_reference; the Judge refuses a calibrated release without them"
+            },
+            "workloads": [
+              "longcat",
+              "hy_worldplay_8b"
+            ],
+            "validity": "calibrated release; on each workload the case-mean fidelity and VBench-drop gates pass, and on every one of the 17 cases the per-case floor gates and wall_seconds <= the workload's stage_seconds pass"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "quant-videogen-kv-codec-v4",
+      "execution_profile_id": "cuda-sm80-79gib-sharded-judge",
+      "metric_id": "primary"
+    }
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/qvg-judge/run_judge.py --submission /workspace/submission --log-dir /logs/verifier",
+    "eval_timeout": 9000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/qvg-private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 32,
+    "mem_limit": "448g"
+  }
+}

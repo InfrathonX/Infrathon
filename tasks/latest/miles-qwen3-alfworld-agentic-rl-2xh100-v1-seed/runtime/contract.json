@@ -1,0 +1,39 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_alfworld_agentic_rl_2xh100_v1",
+  "policy_hf": "/models/qwen3-4b/snapshots/1cfa9a7208912126459214e8b04321603b3df60c",
+  "policy_megatron": "/data/megatron/Qwen3-4B_torch_dist",
+  "alfworld_data": "/data/public/games",
+  "train_data": "/data/public/train_public.jsonl",
+  "rounds": 12,
+  "games_per_round": 16,
+  "samples_per_game": 8,
+  "max_steps": 30,
+  "max_turn_tokens": 256,
+  "system_prompt": "You are an expert agent operating in the ALFRED embodied household environment. Each turn you receive an observation and the list of admissible actions. Reply with at most two short sentences of reasoning, then the chosen action inside <action></action>, for example <action>go to shelf 1</action>. The action must be exactly one of the admissible actions.",
+  "sampling": {
+    "temperature": 1.0,
+    "top_p": 1.0
+  },
+  "max_staleness": 1,
+  "loss": {
+    "eps_clip": 0.2,
+    "eps_clip_high": 0.28
+  },
+  "optimizer": {
+    "lr": 2e-06,
+    "betas": [
+      0.9,
+      0.999
+    ],
+    "eps": 1e-08,
+    "weight_decay": 0.01,
+    "clip_grad": 1.0
+  },
+  "template_kwargs": {
+    "enable_thinking": false
+  },
+  "seed": 1234,
+  "gpus": 2,
+  "scratch": "/scratch/alfworld"
+}

@@ -1,0 +1,14 @@
+{
+  "model": "/models/Wan2.2-TI2V-5B-Diffusers",
+  "hpsv3_checkpoint": "/models/HPSv3/HPSv3.safetensors",
+  "hpsv3_base": "/models/Qwen2-VL-7B-Instruct",
+  "engine_python_path": null,
+  "scratch": "/tmp/wan_scratch",
+  "sampling": {"height": 704, "width": 1280, "num_frames": 9, "steps": 10, "guidance": 5.0, "negative_prompt": " ",
+               "flow_shift": 5.0, "eta": 1.2, "window_size": 2, "window_range": [0, 5]},
+  "optim": {"lr": 1e-5, "weight_decay": 1e-4, "betas": [0.9, 0.999], "eps": 1e-8, "grad_clip": 1.0,
+            "clip_range": 1e-4, "adv_clip": 5.0},
+  "run": {"prompts": "/contract/run_prompts.jsonl", "rounds": 3, "prompts_per_round": 8, "n": 8, "run_seed": 42,
+          "optimizer_steps_per_round": 2},
+  "replay": {"prompts_per_dump": 16, "n": 8, "optimizer_steps": 4, "probe_optimizer_steps": 1, "engine_urls": []}
+}

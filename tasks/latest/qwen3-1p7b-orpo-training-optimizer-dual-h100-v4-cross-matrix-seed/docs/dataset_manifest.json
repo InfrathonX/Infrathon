@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "status": "internally_frozen_release_license_gate_pending",
+  "source": {
+    "repo_id": "trl-lib/tldr-preference",
+    "revision": "7ae482b332979f8ce40d2a6b5f78f9eddf137efc",
+    "config": "default",
+    "license_declared_by_repository": null,
+    "redistribution_status": "release_gate_pending",
+    "train_parquet_sha256": "eb719012049c4792ecd8aa47cfcc62503aefa9eedfacc4ac118b6a1cd1e88136",
+    "validation_parquet_sha256": "09c94323c556f14752140278379b4b047c6e46b227828ddcb4fff7b0dc806a31"
+  },
+  "tokenizer": {
+    "repo_id": "Qwen/Qwen3-1.7B",
+    "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+  },
+  "preprocessing": {
+    "script_sha256": "fc7df8816f18f46458daf5c235986dd503941acd1676f9039636f22f7496db67",
+    "selection_namespace": "edgebench:qwen3-1p7b:orpo:tldr-preference:v1",
+    "max_length": 512,
+    "max_prompt_length": 384,
+    "chosen_first": true,
+    "ignore_index": -100,
+    "prompt_tokens_masked": true,
+    "pretokenized_before_timing": true,
+    "public_private_record_id_intersection": 0,
+    "public_private_prompt_hash_intersection": 0
+  },
+  "root_manifest": {
+    "sha256": "a968283e5f7a78e1010ec59c47aeb5002eff87962be05e38a0c20df41e24a900",
+    "offline_reproduction_identical": true,
+    "artifact_file_count": 8
+  },
+  "public": {
+    "source_split": "train",
+    "record_count": 128,
+    "sequence_count": 256,
+    "non_padding_tokens": 89578,
+    "scored_completion_tokens_including_eos": 8476,
+    "manifest_sha256": "ba9816131647aefe0d813fc7c7d3706894988943bc58e92c472667f722528c20",
+    "records_sha256": "31ceaa03cd41a108c2e7c8657580baa094d3180f08d0b64128d2ecb6f8dc32f9",
+    "tensors_sha256": "e1218b35260ea9e7afd048962b53c25257d7f298e2a787628d8f5b640cfc7e79",
+    "tensors_logical_size_bytes": 1179648
+  },
+  "private": {
+    "source_split": "validation",
+    "record_count": 512,
+    "sequence_count": 1024,
+    "non_padding_tokens": 362931,
+    "scored_completion_tokens_including_eos": 35665,
+    "manifest_sha256": "f20c00e0422ed5c016db2f56e41c2951941b147d1d58f9bf6de2adf16906d221",
+    "records_sha256": "9d763b1b8af045cf53aaf33a1b46ab048e1dd76e4fe2b4cb88b51196b4f8f379",
+    "tensors_sha256": "6755fb22720f8976678d6fabfb6f80ee0fda8b531fe5944d8a211dcd506a14b5",
+    "tensors_logical_size_bytes": 4718592
+  },
+  "artifact_root_host_only": "<host artifact root>/qwen3-orpo/tldr_preference_v1",
+  "pending": [
+    "resolve redistribution/license gate before publication"
+  ]
+}

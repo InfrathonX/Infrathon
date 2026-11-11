@@ -1,0 +1,17 @@
+{
+  "schema_version": 2,
+  "contract_protocol": "minference-kernel-only-prefill-v3",
+  "status": "all-scientific-artifacts-bound",
+  "artifacts": {
+    "public_performance_manifest": {
+      "status": "bound",
+      "sha256": "c11cf9d0eadd62f0941238be4314dd78dac536eb4248fc9b8806167117cc8692",
+      "size": 92658
+    },
+    "final_performance_manifest": {
+      "status": "bound",
+      "sha256": "112613291a5512fa6bd4e7add4eccdd504ff300400ef03df0b661098a624d9c7",
+      "size": 91781
+    }
+  }
+}

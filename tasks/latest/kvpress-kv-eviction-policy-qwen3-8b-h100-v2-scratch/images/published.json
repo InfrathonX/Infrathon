@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:fc66431825f5d8a636565e648411e1729a9cfc00e8994123b35e4338761f8cef",
+      "judge_public_tag": "h100-80gb-700w-kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch-judge",
+      "work": "sha256:48a7a1c989d67ecb8c1db98214214f6ae232f44b9fc6eee92843d1567aebae8a",
+      "work_tag": "h100-80gb-700w-kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:fc66431825f5d8a636565e648411e1729a9cfc00e8994123b35e4338761f8cef",
+      "judge_public_tag": "h100-94gb-400w-kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch-judge",
+      "work": "sha256:48a7a1c989d67ecb8c1db98214214f6ae232f44b9fc6eee92843d1567aebae8a",
+      "work_tag": "h100-94gb-400w-kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch-work"
+    }
+  },
+  "source_digest": "10a850fd75e5b8af335fe7f85dc43e11ba65c6561da06a20d2bb120490d05e2b"
+}

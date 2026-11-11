@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "recipe_id": "e8-wan21-t2v-1.3b-p0-b15-s00-cond-8192-v1",
+  "title": "Wan2.1-T2V-1.3B self-attention Q/K/V, prompt 0, block 15, denoising step 0, conditional branch, first 8192 tokens",
+  "identity": "per-deployment-capture",
+  "fixture": {
+    "name": "e8_wan13b_p0_b15_s00_cond_8192.pt",
+    "manifest": "e8_wan13b_p0_b15_s00_cond_8192.manifest.json",
+    "role": "edge_fixture_input"
+  },
+  "model": {
+    "repo": "Wan-AI/Wan2.1-T2V-1.3B",
+    "repo_type": "model",
+    "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "download": "hf download Wan-AI/Wan2.1-T2V-1.3B --revision 37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "files": {
+      "LICENSE.txt": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+      "Wan2.1_VAE.pth": "38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981",
+      "config.json": "ab37994c43740513f94b3ba6233a784035a67b43c8cde83c8f31aa90468c67ce",
+      "diffusion_pytorch_model.safetensors": "96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f",
+      "google/umt5-xxl/special_tokens_map.json": "7b8a9f5040adb67b5805abdfd42c1f8d0f3d0e711f10726580eb3789cd0ad61d",
+      "google/umt5-xxl/spiece.model": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+      "google/umt5-xxl/tokenizer.json": "6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b",
+      "google/umt5-xxl/tokenizer_config.json": "ed9a3a8b0faa71a70a32847e0435fe036e6e112d4df4edb7bb48a921e344dc05",
+      "models_t5_umt5-xxl-enc-bf16.pth": "7cace0da2b446bbbbc57d031ab6cf163a3d59b366da94e5afe36745b746fd81d"
+    }
+  },
+  "upstream": {
+    "repo": "https://github.com/Wan-Video/Wan2.1.git",
+    "commit": "9737cba9c1c3c4d04b33fcad41c111989865d315",
+    "subject": "Update README with community projects using Wan2.1 (#582)",
+    "modules": [
+      "wan/configs (WAN_CONFIGS['t2v-1.3B'])",
+      "wan/modules/model.py (WanModel, WanSelfAttention, sinusoidal_embedding_1d)",
+      "wan/modules/attention.py (flash_attention: FA2 varlen path)",
+      "wan/modules/t5.py (T5EncoderModel)",
+      "wan/modules/vae.py (WanVAE)",
+      "wan/utils/fm_solvers_unipc.py (FlowUniPCMultistepScheduler)"
+    ]
+  },
+  "builder": {
+    "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+    "torch": "2.8.0+cu129",
+    "cuda": "12.9",
+    "pip_packages": [
+      "accelerate==1.14.0",
+      "dashscope==1.27.1",
+      "diffusers==0.40.0",
+      "easydict==1.13",
+      "einops==0.8.2",
+      "ftfy==6.3.1",
+      "imageio==2.37.4",
+      "imageio-ffmpeg==0.6.0",
+      "numpy==1.26.4",
+      "opencv-python-headless==4.11.0.86",
+      "tokenizers==0.22.2",
+      "transformers==5.15.1"
+    ],
+    "attention_backend": "flash_attn==2.8.3.post1",
+    "forbidden_packages": ["flash_attn_interface"],
+    "notes": "flash_attn_interface (FA3) must be absent: wan/modules/attention.py silently prefers it and would change the pre-capture blocks."
+  },
+  "capture": {
+    "wan_task": "t2v-1.3B",
+    "prompt_index": 0,
+    "prompt": "A bustling city street at night, filled with the glow of car headlights and the ambient light of streetlights. The scene is a blur of motion, with cars speeding by and pedestrians navigating the crosswalks. The cityscape is a mix of towering buildings and illuminated signs, creating a vibrant and dynamic atmosphere. The perspective of the video is from a high angle, providing a bird's eye view of the street and its surroundings. The overall style of the video is dynamic and energetic, capturing the essence of urban life at night.",
+    "negative_prompt": "wan.configs.shared_config.wan_shared_cfg.sample_neg_prompt",
+    "seed": 4100,
+    "sample_solver": "unipc",
+    "sampling_steps": 50,
+    "shift": 5.0,
+    "guide_scale": 5.0,
+    "size_wh": [832, 480],
+    "frame_num": 81,
+    "seq_len": 32760,
+    "num_blocks": 30,
+    "block_index": 15,
+    "step_index": 0,
+    "timestep_value": 999.0,
+    "cfg_branch": "cond",
+    "hook": "wan.modules.model.flash_attention, entered from WanSelfAttention.forward of blocks[15]",
+    "post_rope_qk": true,
+    "qk_norm": true,
+    "early_stop": "The pipeline aborts as soon as the block-15/step-0/conditional Q/K/V have been copied to the host. Nothing executed after that point can influence them, so no scheduler step, no unconditional branch and no VAE decode ever runs."
+  },
+  "tensors": {
+    "names": ["q", "k", "v"],
+    "shape": [1, 8192, 12, 128],
+    "dtype": "torch.bfloat16",
+    "layout": "B,L,H,D",
+    "contiguous": true,
+    "slice": "tokens[0:8192]",
+    "capture_shape": [1, 32760, 12, 128]
+  },
+  "sanity_bands": {
+    "comment": "Measured on the 2026-09-01 H100 reference capture, widened to a factor of two on RMS and a factor of four on abs-max so that cross-GPU numeric drift passes while a wrong capture point, prompt, seed, step, block or branch fails closed.",
+    "finite_fraction_min": 1.0,
+    "tensors": {
+      "q": {
+        "rms_reference": 1.3540471792221069,
+        "rms_min": 0.6770235896110535,
+        "rms_max": 2.7080943584442139,
+        "abs_max_reference": 18.0,
+        "abs_max_min": 4.5,
+        "abs_max_max": 72.0
+      },
+      "k": {
+        "rms_reference": 1.4202687740325928,
+        "rms_min": 0.7101343870162964,
+        "rms_max": 2.8405375480651855,
+        "abs_max_reference": 8.75,
+        "abs_max_min": 2.1875,
+        "abs_max_max": 35.0
+      },
+      "v": {
+        "rms_reference": 0.8027263879776001,
+        "rms_min": 0.4013631939888,
+        "rms_max": 1.6054527759552002,
+        "abs_max_reference": 7.1875,
+        "abs_max_min": 1.796875,
+        "abs_max_max": 28.75
+      }
+    }
+  },
+  "reference_capture": {
+    "comment": "Provenance only. The fixture is no longer bound by these bytes; every deployment captures its own copy from this recipe.",
+    "sha256": "d7667165ac480d8cceabdd771c58de05e6b85e280e7492a8633d921013358f0a",
+    "size_bytes": 75501040,
+    "captured_utc": "2026-09-01T22:01:33.100907+00:00",
+    "gpu_name": "NVIDIA H100 NVL",
+    "compute_capability": "9.0"
+  }
+}

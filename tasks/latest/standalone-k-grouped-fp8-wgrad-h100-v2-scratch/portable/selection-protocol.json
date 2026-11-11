@@ -1,0 +1,73 @@
+{
+  "case_statistic": "median_trial_tflops; sequence: median_round_tflops",
+  "evaluation_policy": "full-final-shared-v4",
+  "family_aggregation": "per family: geometric mean per model, then across models; primary: geometric mean of the four family scores",
+  "final": {
+    "case_count": 1082,
+    "edge_case_count": 166,
+    "edge_suite_id": "edge-holdout-v3",
+    "hard_gate_case_count": 166,
+    "hard_gate_policy": "every edge case and every scored case is a correctness and memory-safety gate; the sanitizer subset of the edge cases also runs under compute-sanitizer memcheck",
+    "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+    "scored_case_count": 1082,
+    "sequence_rounds": 3,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "interactive": {
+    "case_count": 1082,
+    "edge_case_count": 166,
+    "edge_suite_id": "edge-holdout-v3",
+    "hard_gate_case_count": 166,
+    "hard_gate_policy": "identical to final",
+    "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only; candidate_version override forbidden",
+    "scored_case_count": 1082,
+    "sequence_rounds": 3,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "protocol_id": "k-grouped-fp8-wgrad-shared-final-v4",
+  "public": {
+    "edge": {
+      "case_count": 43,
+      "suite_id": "edge-public-v3"
+    },
+    "family": {
+      "case_ids": "the public cases of one family",
+      "sequence_rounds": 1,
+      "trials": 3,
+      "warmups": 1
+    },
+    "full": {
+      "case_count": 123,
+      "case_ids": "all_public_cases",
+      "sequence_rounds": 1,
+      "trials": 3,
+      "warmups": 1
+    },
+    "one": {
+      "case_count": 1,
+      "case_ids": [
+        "public-013-small_batch"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "quick": {
+      "case_count": 2,
+      "case_ids": [
+        "public-013-small_batch",
+        "public-007-large"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "sanitize": {
+      "case_count": 4,
+      "suite_id": "edge-public-v3"
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,281 @@
+{
+  "task_id": "tilelang_mamba2_ssd_forward_h100_seed_v2",
+  "name": "TileLang Mamba-2 SSD Forward Portable CUDA Optimization Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:1e573416aafdc2b186915c75db0baad026155f65a2b22b5e3cdbe94893742286"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/mamba2_ssd_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/mamba2_ssd_lab",
+    "cpu_limit": 8,
+    "mem_limit": "48g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. A correct but unoptimised four-stage TileLang implementation of the Mamba-2 SSD forward is already in candidates/kernel_v001. Make it faster without changing what it computes, over the whole declared support domain (any batch 1-16, any positive L, any H up to 256 with any G dividing H, P a multiple of 16 up to 256, N a power of two from 16 to 256): the internal chunk size, the staging of intermediates, tiling, layouts, pipelining, and fusion are all yours to choose. Your score comes from hidden test cases in four workload families (batch, serving, long context, and layers captured from real models); their shapes differ from the public tests, which cover the same four families. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Evaluate candidates only by the feedback from the public tests and your submissions. Submitted compute must stay in TileLang: torch may only allocate buffers and create views, and every evaluation records the torch operators a call dispatches and rejects anything else. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run takes about half an hour of your budget. Before finishing, run the full public suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\n```\n\nDo not copy external implementations or solution material into your submission."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/tilelang_mamba2_ssd_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 5400,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/tilelang_mamba2_ssd_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "48g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "tilelang-mamba2-ssd-forward-v2",
+      "definition": {
+        "operation": "mamba2_chunked_ssd_forward",
+        "max_tensor_elements": 2147483647,
+        "decay_regimes": [
+          "mixed",
+          "slow_decay",
+          "fast_decay",
+          "unit_dt"
+        ],
+        "geometries": {
+          "mamba2_2p7b": {
+            "h": 80,
+            "p": 64,
+            "n": 128,
+            "g": 1
+          },
+          "codestral_7b": {
+            "h": 128,
+            "p": 64,
+            "n": 128,
+            "g": 8
+          },
+          "falcon_h1_34b": {
+            "h": 32,
+            "p": 128,
+            "n": 256,
+            "g": 2
+          },
+          "nemotron_h_47b": {
+            "h": 256,
+            "p": 64,
+            "n": 256,
+            "g": 8
+          },
+          "granite_h_small": {
+            "h": 128,
+            "p": 64,
+            "n": 128,
+            "g": 1
+          },
+          "zamba2_7b": {
+            "h": 112,
+            "p": 64,
+            "n": 64,
+            "g": 2
+          },
+          "nemotron_3_nano": {
+            "h": 64,
+            "p": 64,
+            "n": 128,
+            "g": 8
+          },
+          "granite_h_micro": {
+            "h": 64,
+            "p": 64,
+            "n": 128,
+            "g": 1
+          },
+          "falcon_h1_7b": {
+            "h": 24,
+            "p": 128,
+            "n": 256,
+            "g": 1
+          },
+          "falcon_h1_3b": {
+            "h": 32,
+            "p": 128,
+            "n": 256,
+            "g": 1
+          },
+          "nemotron_h_47b_tp2": {
+            "h": 128,
+            "p": 64,
+            "n": 256,
+            "g": 4
+          },
+          "nemotron_h_47b_tp4": {
+            "h": 64,
+            "p": 64,
+            "n": 256,
+            "g": 2
+          },
+          "nemotron_h_47b_tp8": {
+            "h": 32,
+            "p": 64,
+            "n": 256,
+            "g": 1
+          },
+          "codestral_7b_tp4": {
+            "h": 32,
+            "p": 64,
+            "n": 128,
+            "g": 2
+          },
+          "falcon_h1_34b_tp2": {
+            "h": 16,
+            "p": 128,
+            "n": 256,
+            "g": 1
+          }
+        },
+        "workload_families": [
+          "batch",
+          "serving",
+          "long",
+          "real"
+        ],
+        "final_family_counts": {
+          "batch": 42,
+          "serving": 54,
+          "long": 18,
+          "real": 24
+        },
+        "max_batch": 16,
+        "min_long_length": 60000
+      },
+      "interface": {
+        "entry_point": "ssd_forward(x,dt,a,b,c,d,out)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_tilelang_source",
+        "authoritative_abi": "images/work/AGENT_TASK.md entry point and tensor contract sections"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates (chunk size, staging, tiling, layouts, pipelining, fusion)",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "the chunked selective-state-space forward is computed exactly as the seed defines it; only the schedule changes",
+        "the output is fully written on the current stream and every input is unchanged",
+        "the relative-L2 / elementwise rule against the fp32 reference holds on every case and edge fixture",
+        "submitted compute stays in TileLang; no mamba_ssm, fla, helion, compiled extension, private stream, replay or seed specialisation",
+        "every untimed decoy and edge-fixture call dispatches only allocation and view torch operators",
+        "the 24 edge fixtures are hard gates that never enter the score",
+        "warm-up wall and workspace budgets are gates, not score inputs"
+      ],
+      "resource_manifest_sha256": "sha256:2fcf7c90e35a4dd5f6d2545bb450ccfc183e5da49aadfd1bb898ce92449c2117"
+    },
+    "evaluation_suites": {
+      "tilelang-ssd-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:bdbc59d73c9571fbf4b7a384876f6bcbb7d05d3e91c70b05edf34e8f067d952a",
+            "case_count": 45
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:52c0051484c6822099b620361e860f20b76badfe22555163cdb42f864b7ac761",
+            "case_count": 162
+          },
+          "final": {
+            "manifest_sha256": "sha256:8a9a4101231c00fec8b3b72118ae4bb8dc6c9b652f44f404992b3b50c74837d9",
+            "case_count": 162
+          }
+        },
+        "oracle": {
+          "protocol_id": "fp32-chunked-ssd-reference-v1",
+          "spec_sha256": "sha256:e88131e71153760ecfd948ef86a7dc9dc4548fb8b3e99c444f862ce63177eb40"
+        },
+        "selection": {
+          "protocol_id": "tilelang-mamba2-v2-shared-final",
+          "spec_sha256": "sha256:9269348da2b09ddd50279e9a96d5488741571c37fdef42b96dbac17eed21dd12"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-73g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 78383153152,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp32",
+          "tilelang",
+          "nvcc"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-tilelang0113-nvcc-v1",
+          "spec_sha256": "sha256:fb52db7cca1a2c546319abff80149108dcc6bcc85e365ac1624a75cfbbc7ac50"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-v1",
+          "spec_sha256": "sha256:494f593ca3741650c891018e08ba12fc1bfec98df45af967c6857251e8c9d692"
+        }
+      }
+    },
+    "metrics": {
+      "family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "workload-family-geomean-v3",
+          "spec": {
+            "formula": "equal_weight_geometric_mean_over_workload_families_of_geometric_mean_over_cases",
+            "families": [
+              "batch",
+              "serving",
+              "long",
+              "real"
+            ],
+            "family_weights": [
+              "1/4",
+              "1/4",
+              "1/4",
+              "1/4"
+            ],
+            "case_statistic": "median_trial_tflops",
+            "effective_flops": "4*batch*L*H*P*N"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "tilelang-ssd-v2",
+      "execution_profile_id": "single-cuda-sm80-73g",
+      "metric_id": "family-geomean-effective-tflops"
+    }
+  }
+}

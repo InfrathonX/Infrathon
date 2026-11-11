@@ -1,0 +1,14 @@
+# Private Judge layer: the public Judge plus the release config and this device
+# class's quality reference, root-only 400 like the other configs.  Built only
+# on the host that runs the task, never published; both files come from the
+# Judge-only build context scripts/build_images.sh stages (the quality file is
+# absent only for a calibrating release).
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+USER root
+COPY --from=release h100_scratch_v4_release.json h100_scratch_v4_quality.json* /opt/mlsysforge/configs/
+RUN cd /opt/mlsysforge/configs \
+    && for name in h100_scratch_v4_release.json h100_scratch_v4_quality.json; do \
+         [ ! -e "${name}" ] || { chown root:root "${name}" && chmod 400 "${name}"; }; \
+       done \
+    && test -f h100_scratch_v4_release.json

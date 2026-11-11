@@ -1,0 +1,24 @@
+{
+  "note": "Image-driving sources and local image names for scripts/infrathon/image_record.py and scripts/infrathon/pull_images.sh (this task's build_images.sh keeps no source digest of its own).",
+  "source_paths": [
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/images/**/*",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/runtime/**/*",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/tasks/**/*",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/docs/**/*",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/reference/**/*",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/scripts/build_images.sh",
+    "tasks/latest/miles-qwen3-opcd-2xh100-v3-seed/assets/manifest.json",
+    "scripts/miles_opcd/**/*",
+    "scripts/miles_common/**/*"
+  ],
+  "local_tags": {
+    "work": "miles_opcd.work.miles_qwen3_opcd_2xh100_v3:local",
+    "judge": "miles_opcd.judge.miles_qwen3_opcd_2xh100_v3:local",
+    "judge_public": "miles_opcd.judge-public.miles_qwen3_opcd_2xh100_v3:local"
+  },
+  "holdout": {
+    "prefix": "judge/private",
+    "context": "private",
+    "allow_unlisted": false
+  }
+}

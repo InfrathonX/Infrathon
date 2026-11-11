@@ -1,0 +1,3 @@
+# Model authentication uses the restricted host transport.  Codex web
+# search is live and executes on the model provider's side.
+web_search = "live"

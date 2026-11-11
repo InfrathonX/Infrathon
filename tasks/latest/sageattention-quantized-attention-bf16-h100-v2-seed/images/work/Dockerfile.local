@@ -1,0 +1,8 @@
+# Host-built Work layer: the Work image plus the two public real-model layers
+# with their capture manifests, where the public suite reads them.
+# scripts/build_images.sh stages the context as real_layers/<capture dir>/ with
+# directories 0555 and files 0444.
+ARG WORK_PUBLIC_IMAGE
+FROM ${WORK_PUBLIC_IMAGE}
+
+COPY --from=real_layers_public --chown=0:0 . /workspace/benchmark/fixtures/

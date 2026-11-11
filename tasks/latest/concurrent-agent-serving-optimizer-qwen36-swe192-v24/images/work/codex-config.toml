@@ -1,0 +1,3 @@
+# Codex web search is live by default; the launcher records the mode and can
+# still pin it per run via CODEX_WEB_SEARCH_MODE.
+web_search = "live"

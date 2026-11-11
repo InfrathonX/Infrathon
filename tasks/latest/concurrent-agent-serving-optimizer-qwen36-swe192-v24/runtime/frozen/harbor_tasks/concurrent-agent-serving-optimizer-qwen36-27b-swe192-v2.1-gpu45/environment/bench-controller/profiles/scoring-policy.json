@@ -1,0 +1,33 @@
+{
+  "schema_version": 2,
+  "release_id": "qwen36-27b-swe192-v2-1-gpu45",
+  "release_ready": false,
+  "not_ready_reasons": [
+    "fresh_v2_1_release_manifest_not_frozen",
+    "gpu45_release_qualification_not_run"
+  ],
+  "noise_floor": 1.0,
+  "max_baseline_cv": 0.06,
+  "min_baseline_valid_steps_per_min": 74.5,
+  "min_request_success_rate": 0.98,
+  "request_success_tolerance": 0.02,
+  "min_valid_step_ratio": 0.90,
+  "valid_step_ratio_tolerance": 0.06,
+  "min_tests_passed_workflows": 120,
+  "tests_passed_workflows_tolerance": 12,
+  "min_completed_workflows": 0,
+  "completed_workflows_tolerance": 1,
+  "minimum_workflow_progress": 24,
+  "max_p99_gateway_wait_sec": 720.0,
+  "max_p99_step_latency_ratio": 1.25,
+  "tail_target_sec": 420.0,
+  "backend_work_ratio_min": 0.85,
+  "backend_work_ratio_max": 1.15,
+  "hidden_profiles": [
+    {
+      "name": "hidden-pressure-192",
+      "weight": 1.0,
+      "reference_speedup": 1.000001
+    }
+  ]
+}

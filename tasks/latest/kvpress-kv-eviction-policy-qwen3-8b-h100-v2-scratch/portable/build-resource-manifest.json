@@ -1,0 +1,36 @@
+{
+  "boundary": {
+    "excludes": [
+      "the frozen holdout items (rebuilt at image build from judge/private/final_manifest.json)"
+    ],
+    "includes": "image build inputs, Work lab files, launch adapters and contract tooling",
+    "kind": "delivery"
+  },
+  "resources": [
+    {"path": "tasks/BENCHMARK.yaml", "sha256": "sha256:591b78ef62aae7a2ea1c242b5216bcb23d79779264ac4f603b83a3200e7a8af8"},
+    {"path": "images/judge/Dockerfile", "sha256": "sha256:70da77720c6a1d33fb85f215cf33ef26be7aa406f27d0e7396ab9015489219a7"},
+    {"path": "images/judge/Dockerfile.private", "sha256": "sha256:7d65eb0a3c5ced85871c6b57b34d1d6492adb73c7c558378a709bdaa3036ba9c"},
+    {"path": "images/judge/.dockerignore", "sha256": "sha256:32950614d4ca0f74e29c92d090ba816037cbacb0650981f84e80498df9a226b0"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:8b42d8b12deeb86f1c7309abad8db484b836ac79de5344c178885b4f3ac90f7c"},
+    {"path": "images/work/Dockerfile", "sha256": "sha256:e1a88b4cd7c453ffee9ec77bcc2a3190233fd8ae251a995f5ddc55a4f2a44536"},
+    {"path": "images/work/.dockerignore", "sha256": "sha256:cbc07c07aa2c15e791140f8179fc1406730d1c459271f41813be5283ffadc30a"},
+    {"path": "images/work/codex-config.toml", "sha256": "sha256:acd95016d537be1a54a16d253a3a7c5cbcefd624e545bb14a651fb47e37fe8d3"},
+    {"path": "images/work/benchmark/run_public_tests.sh", "sha256": "sha256:43fe8344214b480a294b5c412e731dcd0f7e1cd2b62b7152660b05212b414f91"},
+    {"path": "images/work/benchmark/prepare_submit.sh", "sha256": "sha256:9d72fa1b867e2fdfb5c5f9104a48243311f66a3ebf4b8e06ab96bde10612a354"},
+    {"path": "images/work/workdir/kv_eviction_lab/FINAL_VERSION", "sha256": "sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"},
+    {"path": "images/work/workdir/kv_eviction_lab/notes.md", "sha256": "sha256:ebb9d9695439099d4d1c9015286abe568642b448e99f0220582abaed6cd9ef47"},
+    {"path": "images/work/workdir/kv_eviction_lab/candidates/policy_v001/submission.py", "sha256": "sha256:f9ef46e95330840a1f0ce997e7d94986365922ee8f12c8ead6a56b8ff4a71263"},
+    {"path": "images/work/workdir/kv_eviction_lab/tools/run_one.sh", "sha256": "sha256:dcbff4f2c9dea2a0d8eb90df05151d12b74e953eb4df1de96bce7e302175aaa4"},
+    {"path": "images/work/workdir/kv_eviction_lab/tools/run_public_tests.sh", "sha256": "sha256:d833d6e3b4d74ccf467e8133252242885458c439900e67ab5e7520c7c9fdd232"},
+    {"path": "corpus/public/MANIFEST.json", "sha256": "sha256:15830ac9074c076916b916ee7d8c91457fbbc7e1807ed390bdd4c135817144f5"},
+    {"path": "scripts/lib.sh", "sha256": "sha256:abbe61e979b3641045a625395de0c8161a6cc294dff0c28bcaf83bcb57381daf"},
+    {"path": "scripts/build_images.sh", "sha256": "sha256:82f15377d496f80e648edfef8834b457f47231e68351401cf4997f99f109225a"},
+    {"path": "scripts/eval_archive.sh", "sha256": "sha256:1a9fad6df6712c05a84151f8274bee96253c9e3771221df61133d0e5eb7d56c2"},
+    {"path": "scripts/sforge_entry.py", "sha256": "sha256:2d264df7cf4d15cd9fa00087e75c06dd471f6c72c5d7c09d18c2f767f96cf0a1"},
+    {"path": "scripts/validate_layout.py", "sha256": "sha256:390b50b5edc5d3cabc5301b2b6423f440b7566d3dcba2c878e3544ad7e0acfa7"},
+    {"path": "scripts/update_protected_hashes.py", "sha256": "sha256:d7753be3059d1421e81de294099ddb8493d16ec31e2b64d782d6f04c26d5a2d4"},
+    {"path": "scripts/write_portable_manifests.py", "sha256": "sha256:fe788b6c5461793bacc7ade19103ab01b82864df55c1e3288976dd5d5efffbc7"},
+    {"path": "scripts/refresh_portable_manifests.py", "sha256": "sha256:c160e62ba73b2e23faf6fff11103fa29fc87c0d259ce509e16ef967ddcd7f12e"}
+  ],
+  "schema_version": 1
+}

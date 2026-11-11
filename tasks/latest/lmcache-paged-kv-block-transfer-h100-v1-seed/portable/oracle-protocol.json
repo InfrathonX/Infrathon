@@ -1,0 +1,37 @@
+{
+ "acceptance": "every timed pass is verified in full: the engine pool is refilled per layer from a seeded generator, and verification regenerates each layer, replays the case's waves in order, and compares every stored chunk, every retrieved block, every skipped block and every other pool byte bit for bit; retrieve sources, block-id tables and the pointer array are read-only; every trial changes payloads and rotates the block map",
+ "bandwidth_envelope": {
+  "margin": "1.1",
+  "min_device_gbps": "100.0",
+  "min_host_gbps": "4.0",
+  "probe_bytes": 268435456,
+  "probe_repeats": 5,
+  "protocol": "same-run-cudamemcpy-zerocopy-duplex-probe-v3",
+  "semantics": "probed on the evaluation device and host in the same run before the candidate loads: contiguous D2D copy, pinned cudaMemcpy H2D/D2H, an SM-driven zero-copy stream over the same pinned buffer compiled with the frozen nvcc command, and concurrent H2D plus D2H copies on two streams; the host envelope is the best of the four one-way host probes and the duplex envelope the best of the concurrent probe and those; device, duplex and other host-memory cases are checked against device, duplex and host envelopes; any case whose implied bandwidth exceeds envelope x margin invalidates the run"
+ },
+ "integrity": [
+  "bit_exact_targets",
+  "poison_preserved",
+  "inputs_unchanged",
+  "fresh_tensors_per_call",
+  "current_stream_completion"
+ ],
+ "protocol_id": "bit-exact-paged-kv-transfer-reference-v2",
+ "reference": {
+  "comparison": "integer-space bit-exact compare of every targeted destination byte against the source payload; payloads include NaN patterns, infinities and signed zeros",
+  "constants": {
+   "bs": 16,
+   "esize": 2,
+   "head_sizes": [
+    64,
+    128
+   ]
+  },
+  "scratch_bytes": 268435456,
+  "untargeted_bytes": "pool bytes outside a call's targets keep their seeded contents; store destinations are poisoned with 0x7C7C and skipped blocks must stay poisoned"
+ },
+ "schema_version": 1,
+ "tolerances": {
+  "any": "zero"
+ }
+}

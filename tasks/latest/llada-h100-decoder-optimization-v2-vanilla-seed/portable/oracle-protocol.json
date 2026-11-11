@@ -1,0 +1,88 @@
+{
+  "acceptance": "Interactive and terminal scored rounds use identical source, integrity, performance, memory and qualified quality gates on the complete frozen cohort; ordinary evaluation requires FROZEN qualified policies and a matching calibrated reference. Invalid submissions have no accepted score.",
+  "gates": {
+    "labels": {
+      "integrity_ok": "Runtime integrity",
+      "memory_leak_free": "Memory stability",
+      "performance_ok": "Throughput measurement",
+      "quality_hard_gate": "Quality policy qualified and enforced in every scored round",
+      "quality_ok": "Quality retention against the frozen reference (non-blocking until qualified)",
+      "source_ok": "Submission source admission"
+    },
+    "names": [
+      "source_ok",
+      "integrity_ok",
+      "performance_ok",
+      "memory_leak_free",
+      "quality_ok",
+      "quality_hard_gate"
+    ]
+  },
+  "integrity": [
+    "protected_runtime_hashes",
+    "source_admission",
+    "isolated_worker_protocol",
+    "weight_fingerprint",
+    "layer_coverage",
+    "cache_isolation",
+    "row_atomic_persistent_deadline"
+  ],
+  "policy": {
+    "category_counts": {
+      "gsm8k": 130,
+      "humaneval": 130,
+      "math": 130,
+      "mbpp": 130
+    },
+    "memory_headroom_mib": 6144,
+    "memory_reserve_mib": 7168,
+    "memory_safety_margin_mib": 1024,
+    "quality_final": "paired_non_inferiority_hard_gate",
+    "quality_interactive": "same_as_final",
+    "quality_policy_status": "QUALIFIED",
+    "quality_threshold_formula": "producer_relative_min_retention_ppm_v1",
+    "row_counts": {
+      "table1_gsm8k_5shot_g256": 39,
+      "table1_gsm8k_5shot_g512": 39,
+      "table1_humaneval_0shot_g256": 65,
+      "table1_humaneval_0shot_g512": 65,
+      "table1_math_4shot_g256": 65,
+      "table1_math_4shot_g512": 65,
+      "table1_mbpp_3shot_g256": 65,
+      "table1_mbpp_3shot_g512": 65,
+      "table4_gsm8k_5shot_g1024": 13,
+      "table5_gsm8k_8shot_g1024": 13,
+      "table5_gsm8k_8shot_g256": 13,
+      "table5_gsm8k_8shot_g512": 13
+    },
+    "row_order": [
+      "table1_gsm8k_5shot_g256",
+      "table1_gsm8k_5shot_g512",
+      "table1_math_4shot_g256",
+      "table1_math_4shot_g512",
+      "table1_humaneval_0shot_g256",
+      "table1_humaneval_0shot_g512",
+      "table1_mbpp_3shot_g256",
+      "table1_mbpp_3shot_g512",
+      "table4_gsm8k_5shot_g1024",
+      "table5_gsm8k_8shot_g256",
+      "table5_gsm8k_8shot_g512",
+      "table5_gsm8k_8shot_g1024"
+    ],
+    "row_sentinel_metric": "max_positive_allocated_reserved_nvml_delta_bytes_v1",
+    "row_sentinel_repeat_guard_bytes": 16777216,
+    "row_sentinel_repeat_metric": "max_positive_allocated_reserved_nvml_end_to_repeat_delta_bytes_v1",
+    "workload_profile": "fast_dllm_v1_llada_12row_stratified520_batch1"
+  },
+  "protocol_id": "frozen-workload-row-atomic-all-rounds-hard-gates-quality-reference-v3",
+  "reference": {
+    "determinism": "identical inputs must produce identical outputs; repeat and cross-request cache-isolation tests",
+    "interface": "runtime.api.GenerationSpec in, runtime.api.GenerationResult out; prompt prefix preserved bit-for-bit, every requested slot filled, no mask tokens, valid vocabulary ids",
+    "memory": "device-relative peak cap floor(total_device_memory_mib) - memory_reserve_mib plus row sentinel and repeat-growth guards",
+    "model_use": "sampled weight fingerprint before and after; 32-layer coverage; the supplied model must be used",
+    "quality": "Same semantic accuracy, parseability, executable-code outcomes and useful-output retention against the profile-matched frozen producer reference in every scored round; a hard gate once the quality policy is QUALIFIED.",
+    "source": "static admission of solutions/decoder_vNNN (allowed import roots, no reflection, no file access, size limits)",
+    "timing": "trusted root controller measures each request round trip; row throughput is sum(tokens) / sum(seconds), never a mean of ratios"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,18 @@
+artifacts/
+build/
+private/
+fixtures/*.pt
+*final*cases*.json
+# The frozen qualification draw of the final holdout is part of the
+# distribution: it lives on the Judge-only path and never reaches the Work
+# build context (scripts/validate_layout.py proves it).
+!judge/private/
+!judge/private/final_cases.json
+!judge/private/MANIFEST.json
+# Judge-only routing fixtures are dataset assets (assets/manifest.json), never
+# committed; the public fixtures ship in the Work build context.
+judge/private/routing/
+!images/work/benchmark/routing/*.npy
+.pytest_cache/
+__pycache__/
+*.pyc

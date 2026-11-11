@@ -1,0 +1,19 @@
+artifacts/
+build/
+private/
+# The e8 edge input and its capture manifest are captured per deployment from
+# fixtures/recipe/ and are never committed; fixtures/recipe/ itself is tracked.
+fixtures/*.pt
+fixtures/*.manifest.json
+# v2 real-model activation captures (fixtures/recipe/real_layers/build_real_layers.sh),
+# about 18.4 GB per deployment; the recipes themselves are tracked.
+fixtures/real_layers/
+*final*cases*.json
+# The frozen qualification draw of the final holdout is part of the
+# distribution: it lives on the Judge-only path and never reaches the Work
+# build context (scripts/validate_layout.py proves it).
+!judge/private/
+!judge/private/final_cases.json
+.pytest_cache/
+__pycache__/
+*.pyc

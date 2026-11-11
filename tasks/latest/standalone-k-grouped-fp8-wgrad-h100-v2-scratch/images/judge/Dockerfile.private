@@ -1,0 +1,11 @@
+# Private Judge layer: the public Judge plus the Judge-only inputs.
+# Built only on the host that runs the task, never published; the inputs come
+# from the Judge-only build context scripts/build_images.sh stages.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=final_cases final_cases.json edge_cases.json /opt/standalone_k_grouped_wgrad_judge/private/
+
+RUN chown -R root:root /opt/standalone_k_grouped_wgrad_judge/private \
+    && chmod 0500 /opt/standalone_k_grouped_wgrad_judge/private \
+    && chmod 0400 /opt/standalone_k_grouped_wgrad_judge/private/final_cases.json /opt/standalone_k_grouped_wgrad_judge/private/edge_cases.json

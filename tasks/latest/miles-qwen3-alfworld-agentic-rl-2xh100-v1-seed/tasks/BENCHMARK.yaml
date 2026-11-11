@@ -1,0 +1,5 @@
+name: miles_alfworld
+base_images:
+  miles_alfworld_runtime:
+    official_image: sha256:cba74dc9f2ab3b80f77e598e259362356c1d6635e1b10554c77fd666e4ace91e
+    extra_packages: []

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "task_directory": "minference-sparse-prefill-h100-v3-seed",
+  "note": "The run-time trees. They are mounted read-only, never copied into an image: the Llama-3.1 model and the final prompts into the Judge, the public model and prompts into Work.",
+  "assets": [
+    {
+      "path": "public/models/Meta-Llama-3.1-8B-Instruct/",
+      "sha256": "fc2ded3e81fb7a1618304b5026bc552d4195a8ce1886a92e46d01484878d212e",
+      "size": 16069718188,
+      "files": 10,
+      "consumer": "judge",
+      "description": "the model whose layers produce the Judge kernel inputs (mounted at .../model/d10aef79...)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+        "repo_type": "model",
+        "revision": "d10aef7999a2b5ba950ab3974312feeedbfe0b77",
+        "allow_patterns": [
+          "config.json",
+          "generation_config.json",
+          "model-00001-of-00004.safetensors",
+          "model-00002-of-00004.safetensors",
+          "model-00003-of-00004.safetensors",
+          "model-00004-of-00004.safetensors",
+          "model.safetensors.index.json",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "layout": "flat"
+      }
+    },
+    {
+      "path": "public/models/Llama-3-8B-Instruct-262k/",
+      "sha256": "37dc2c1aa33f945a098d0c23e251b17e9369fe3624cd0ded56c01d9fabbf6c89",
+      "size": 16069718190,
+      "files": 10,
+      "consumer": "work",
+      "description": "the model whose layers produce the public kernel inputs (/workspace/benchmark/model)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "gradientai/Llama-3-8B-Instruct-262k",
+        "repo_type": "model",
+        "revision": "5c5269d53cb8e548f753074ce70b0c3ab325dd87",
+        "allow_patterns": [
+          "config.json",
+          "generation_config.json",
+          "model-00001-of-00004.safetensors",
+          "model-00002-of-00004.safetensors",
+          "model-00003-of-00004.safetensors",
+          "model-00004-of-00004.safetensors",
+          "model.safetensors.index.json",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json"
+        ],
+        "layout": "flat"
+      }
+    },
+    {
+      "path": "public/public-prompts/",
+      "sha256": "f265d26a24edc2712e86f190f29dce784aea03e841ae04af0d12a1225b7fd7b2",
+      "size": 1118266,
+      "files": 2,
+      "consumer": "work",
+      "description": "public kernel prompts and suite settings (scripts/generate_public_prompts.py; /workspace/benchmark/public-prompts)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/kernel-prompts/",
+      "sha256": "e7f7adde229688162c5b83588ccd6373d21cf38891416ca751ecaf2b0c9e88a4",
+      "size": 23178135,
+      "files": 2,
+      "consumer": "judge",
+      "description": "final kernel prompts, Judge only (role private-performance, asset 21432e74; /opt/minference_prefill_judge/external-assets/kernel-prompts)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

@@ -1,0 +1,81 @@
+{
+  "task_id": "concurrent_agent_serving_optimizer_qwen36_swe192_v24",
+  "name": "Concurrent Agent Serving Optimizer — Qwen3.6-27B SWE-192 v2.4",
+  "category": "AI Infrastructure / Serving Systems",
+  "base_image": "ubuntu2404",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app",
+  "submit_paths": [
+    "submission"
+  ],
+  "submit_exclude": [
+    ".git",
+    ".codex",
+    "auth.json",
+    "*.auth.json",
+    "__pycache__",
+    "*.pyc",
+    ".pytest_cache",
+    "*.log",
+    "tests",
+    "benchmark",
+    "oracle",
+    "runtime"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app",
+    "agent_query": "Read /app/AGENT_TASK.md, /app/RUNTIME_CONTRACT.json, and /app/RUN_BUDGET.json completely. Treat this as a workflow-level serving architecture task, not a scalar concurrency-tuning task. Build a self-contained online monitoring and control plane inside the transparent gateway using only traffic it legitimately proxies. Complete the required resource model, program state machine, admission invariant, and experiment plan in /app/submission/ARCHITECTURE.md before the first performance submission. Use public and hidden evaluations for materially distinct, falsifiable architectural hypotheses. Preserve exact one-to-one protocol transparency and leave the strongest Judge-valid implementation in /app/submission before the harness-reported agent deadline.",
+    "cpu_limit": 16,
+    "mem_limit": "64g"
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/kvbench-mlsysforge/run_judge.py --workspace /app/submission --log-dir /logs/verifier",
+    "eval_timeout": 3000,
+    "public_eval_cmd": "python3 /opt/kvbench-mlsysforge/run_public.py --workspace /app/submission --log-dir /logs/verifier",
+    "public_eval_timeout": 2100,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/kvbench-private-evidence.json",
+    "public_private_artifact_path": "/logs/verifier/kvbench-public-private-evidence.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "rescale": {
+      "kind": "linear",
+      "lower": 83.73333333333333,
+      "upper": 108.2
+    },
+    "cpu_limit": 4,
+    "mem_limit": "8g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "backend-dual-cuda-sm80-95g-tp2": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 83886080000,
+        "min_compute_capability": "8.0",
+        "notes": "The envelope constrains the host serving layer, not the task containers: Work and Judge run with NVIDIA_VISIBLE_DEVICES=void and contain no weights, vLLM or GPU device. At TP=2 each card holds 25.9 GiB of Qwen3.6-27B BF16 weights plus the fixed 30 GiB FP8 KV cache, so the serving profile boots on 80 GB cards as well as on 94 GB cards; the floor here is 80,000 MiB. The frozen backend-serving-contract.json still declares 95000 MiB; nothing compares that declaration with the cards. GPU model, UUID, driver and clocks are measurement provenance only.",
+        "interconnect": "tensor-parallel pair visible to one vLLM engine",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp8-kv-cache",
+          "vllm-0.24.0"
+        ]
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_measurement_profile",
+        "baseline_policy": "none",
+        "notes": "valid_steps_per_min is a raw rate. The frozen Direct anchor is reported as a diagnostic ratio and is never a divisor, a floor, or a validity gate; the page geometry in RUNTIME_CONTRACT.json is a measurement of one backend boot and is refreshed by the launcher."
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "backend-dual-cuda-sm80-95g-tp2"
+    }
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "boundary": {
+    "excludes": ["portable/build-resource-manifest.json (self, to avoid recursive hashing)", "tasks/tilelang_mamba2_ssd_forward_h100_seed_v2.json (digest-binding root document)", "oracle/ (host-only qualification reference, never a build input)", "runtime launchers and host qualification results"],
+    "includes": "all files admitted by both Docker build contexts (including the seeded kernel_v001), the pinned task runtime build context, the canonical Judge adapter, the root-only final-holdout generator, direct task-local build helpers, build validation metadata, cooperative submit hook, and the host rebuild prompt",
+    "kind": "portable_image_delivery_inputs"
+  },
+  "resources": [
+    {"path": "tasks/BENCHMARK.yaml", "sha256": "sha256:e58e87a760e12c6842ced7a27eee6421df4cee032c21f22baf9c9b67493a71db"},
+    {"path": "images/work/.dockerignore", "sha256": "sha256:909a4239d92bc094e926d1ec4b99b149beb7411e7a8b5b2708ff42e91c39fa06"},
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:be71886e390c9754b9d3b1a5f3663a56154302b7a39960c079f68cada0661916"},
+    {"path": "images/work/Dockerfile", "sha256": "sha256:697ec8cc329b7bbaf01540a5227490b8f672ec0e241607d2c8f62a9c0947c177"},
+    {"path": "images/work/benchmark/prepare_submit.sh", "sha256": "sha256:9d72fa1b867e2fdfb5c5f9104a48243311f66a3ebf4b8e06ab96bde10612a354"},
+    {"path": "images/work/benchmark/mamba2_ssd_runtime.py", "sha256": "sha256:9d4a2d51170ebffdcc30946dd7dd94fa792701a652276aa9f8a8bf2bf341edb5"},
+    {"path": "images/work/benchmark/public_runner.py", "sha256": "sha256:e19e33eb316b84fc18e1e57c16d2cfa87b1368eb169537f4529ef58c9c1b28a5"},
+    {"path": "images/work/benchmark/run_public_tests.sh", "sha256": "sha256:7486345c54e3a6e6b858218a973be1ac4092d06886dcf227652a03e3f430c95a"},
+    {"path": "images/work/benchmark/source_admission.py", "sha256": "sha256:6890fc3e8f65b999e333a4423ba8775213ce426a4b02c0add2502477af77578c"},
+    {"path": "images/work/codex-config.toml", "sha256": "sha256:acd95016d537be1a54a16d253a3a7c5cbcefd624e545bb14a651fb47e37fe8d3"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/FINAL_VERSION", "sha256": "sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/README_AGENT.md", "sha256": "sha256:932069b26f5a12a3599d516a0c87ad48ecb3939c92594e905feb762349057af3"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/candidates/kernel_v001/submission.py", "sha256": "sha256:579dee1a47ef1e49b3cf279c67364a960cd3b5607ae75c7a9518f4f14c1168c1"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/notes.md", "sha256": "sha256:93f0861e9ace36246424e279fb0847598c563a335a3fd63989e59bb2ceb54781"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/tools/run_one.sh", "sha256": "sha256:30155ae5b46a80227b6df2d5185f2ae82ce6dbc52cca2b915253e4a1f51440d2"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/tools/run_public_tests.sh", "sha256": "sha256:f72c44762ff78c3215b5953e05e6ebaee3b425292245a4d4ce2133cde289aed2"},
+    {"path": "images/judge/.dockerignore", "sha256": "sha256:71ba30d77f626f519c67c90e428069cc4f1cdfe28db469906e8d05911354eadc"},
+    {"path": "images/judge/Dockerfile", "sha256": "sha256:d307f0a7a1c4ea8f7748158626dcf308288dbc46231ac57e98c56d439df66614"},
+    {"path": "images/judge/Dockerfile.private", "sha256": "sha256:df6047c9c45ce19d756623e7b8e438936cecfac5f9d1e84223acaa886264d317"},
+    {"path": "images/judge/candidate_worker.py", "sha256": "sha256:144fd15136e218cb5d041fb7fe38198a55e7481a7f52ac5bfb8df748cffb92f8"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:a318b3c02ef913bd0a7f9b7335188604ba1afb221c8986515f4ba2f856dd38b4"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:a9c030684b95e22b62755c089f1df4d026a4cb96806c272a94d0c6936d564677"},
+    {"path": "images/judge/source_admission.py", "sha256": "sha256:6890fc3e8f65b999e333a4423ba8775213ce426a4b02c0add2502477af77578c"},
+    {"path": "images/judge/verify_ssd.py", "sha256": "sha256:60bbef3b006e69cbc181eb37bee7c7d95623bcee10c71938c5a28bd1c4051f9d"},
+    {"path": "judge/run_judge.py", "sha256": "sha256:a9c030684b95e22b62755c089f1df4d026a4cb96806c272a94d0c6936d564677"},
+    {"path": "runtime/mamba2_ssd_runtime.py", "sha256": "sha256:c8424a1f300e63d93d151abbca1fa07ab90395d8e2d0b8db8ce04e73d7984879"},
+    {"path": "scripts/build_images.sh", "sha256": "sha256:88c4d0168107c5ccfedcf8760ce906b71de41c83e46cc18d52c9518f22cfe913"},
+    {"path": "scripts/generate_final_manifest.py", "sha256": "sha256:bad4f892f4a64c4e6a395ebd7afac0ef5c1489e8d661e11b6d9da3bd4c383ab7"},
+    {"path": "scripts/lib.sh", "sha256": "sha256:22446acabc7dce77379f4806a7bd03b64073a2ab8ebd3d1177e7af1058c8fdaf"},
+    {"path": "scripts/validate_layout.py", "sha256": "sha256:07544e1bd0b99b326c68fe462e9816fe64458e848941053f0665c6203c2aec27"},
+    {"path": "portable/REBUILD_PROMPT.md", "sha256": "sha256:150ae6e227e0ad5ee8e5de331841b99a351d8246c9b7eeefd90cf7a80657a32a"},
+    {"path": "fixtures/recipe/real_layers/REAL_LAYERS.json", "sha256": "sha256:401d9d89fe75753984ce962924aec05125324830c9eec7c9a675d17e5e9eed91"}
+  ],
+  "schema_version": 1
+}

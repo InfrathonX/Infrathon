@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "task_directory": "miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed",
+  "note": "Models, Megatron checkpoints and the public task data are mounted from the Miles host asset roots (scripts/miles_common/host_config.py) and are added here in a later step. private/ is Judge-only and goes into the host-built Judge holdout layer; staged_from is relative to $ALFW_ASSETS (scripts/miles_common/host_config.py shell ALFW_ASSETS). The host directory also holds private_seed.txt, which never enters an image or the dataset.",
+  "assets": [
+    {
+      "path": "judge/private/train_private.jsonl",
+      "sha256": "8252dd23cbd99295d316dd7cd05afffff6441492f1ae7f68f2a176694eb19856",
+      "size": 180134,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/eval_hidden.jsonl",
+      "sha256": "c77ff7c9881d34ae41deb70d897e43bb07f99b860a616f025e4b8b0a38e0a1c2",
+      "size": 160357,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/probe_batch.json",
+      "sha256": "f87f3f5cc24c09ef06bfac211aa9f059d01e30cf2d4d2f154bea4cae02418c7a",
+      "size": 6313479,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/games/",
+      "sha256": "98ced41a41bcaa321dc1e0066fcdd1ba536ba38cf7cb5159e15bddcf2a964924",
+      "files": 2411,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-4B/",
+      "sha256": "3d1c26944d87b4f8429cb66ca40fa5fd190fc9adf8bd58e07f625b3471891101",
+      "size": 8060926626,
+      "files": 13,
+      "consumer": "work+judge",
+      "description": "policy model (ALFW_HF_CACHE)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-4B",
+        "repo_type": "model",
+        "revision": "1cfa9a7208912126459214e8b04321603b3df60c"
+      }
+    },
+    {
+      "path": "public/megatron/",
+      "sha256": "de39e4b243d327d33b17a767515e5781fa48a22f9cc9fcc9ee99ee8fe4eb8825",
+      "size": 8045908152,
+      "files": 6,
+      "consumer": "work+judge",
+      "description": "initial Megatron checkpoint (Miles tools/convert_hf_to_torch_dist.py from Qwen3-4B@1cfa9a72); mounted read-only at /data/megatron (*_MEGATRON_INIT)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/task-data/",
+      "sha256": "05e3aa4a469c213a20981206841aa02169671cd6b4b1f64df1b14f05035470ed",
+      "size": 170860178,
+      "files": 1426,
+      "consumer": "build",
+      "description": "public task data, copied into the Judge image at build time only (scripts/build_images.sh); scripts/prepare_assets.py from ALFWorld json_2.1.1, the probe batch and the public sample run",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/work-task-data/",
+      "sha256": "a196a0be60ccbfe2362e98deef56af702e57ee5cacb4cdf03adc43cbb1a10721",
+      "size": 53036298,
+      "files": 51,
+      "consumer": "build",
+      "description": "the Work image's public data, copied into it at build time only (scripts/build_images.sh): 32 training rows, 8 evaluation games, their game files, the public probe batch and the recorded sample run (scripts/make_work_data.py)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

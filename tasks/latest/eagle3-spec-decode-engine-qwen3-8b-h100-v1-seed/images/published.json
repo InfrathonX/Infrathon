@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:a302e20100eec0cb5e2e0326cf1a2686379a04f4b028b90a7a631d0dfde7f59b",
+      "judge_public_tag": "h100-80gb-700w-eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed-judge",
+      "work": "sha256:d87038112b1c943b62141a248272bef3145e596191e18b7ba069c332a5fac082",
+      "work_tag": "h100-80gb-700w-eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:a302e20100eec0cb5e2e0326cf1a2686379a04f4b028b90a7a631d0dfde7f59b",
+      "judge_public_tag": "h100-94gb-400w-eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed-judge",
+      "work": "sha256:d87038112b1c943b62141a248272bef3145e596191e18b7ba069c332a5fac082",
+      "work_tag": "h100-94gb-400w-eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed-work"
+    }
+  },
+  "source_digest": "108248315fec4955e39983108a31b813d5e24ebedbb641964175c24d3d07c8b8"
+}

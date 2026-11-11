@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "task_directory": "miles-qwen3-opcd-2xh100-v3-seed",
+  "note": "Models, Megatron checkpoints and the public task data are mounted from the Miles host asset roots (scripts/miles_common/host_config.py) and are added here in a later step. private/ is Judge-only and goes into the host-built Judge holdout layer; staged_from is relative to $OPCD_ASSETS_V3 (scripts/miles_common/host_config.py shell OPCD_ASSETS_V3).",
+  "assets": [
+    {
+      "path": "judge/private/eval.jsonl",
+      "sha256": "a48d912b2dcaf37a18e476836f0b3bac687be93a289e02752834d63a0e5124e5",
+      "size": 1221376,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/manifest.json",
+      "sha256": "4bc92a2cc589ba8a8ad470d7c28aa211a80e860d1eb937c370041a62bab1872a",
+      "size": 856,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/paper_test.jsonl",
+      "sha256": "0e46f526a0d707b9627c54ff5eb66cfd3c733dae279ba3c7b6b164e8b6355ed7",
+      "size": 250003,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/probe_batch.json",
+      "sha256": "76d2468add2e5ef6727d6ae660670c06d7ea886b4c2952112f5144fee884a79c",
+      "size": 21642,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-1.7B/",
+      "sha256": "a3ae656ec42b2fd03262c7e3bd0b4ca0c12cc0443bfe2499c55e33152a814a48",
+      "size": 4079450110,
+      "files": 12,
+      "consumer": "work+judge",
+      "description": "student and teacher (MILES_HF_CACHE)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-1.7B",
+        "repo_type": "model",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+      }
+    },
+    {
+      "path": "public/megatron/",
+      "sha256": "6609f9d92309b816ed932a5facca54fdc40b7a1f707675fe2617b78730ffd131",
+      "size": 3441916080,
+      "files": 6,
+      "consumer": "work+judge",
+      "description": "initial Megatron checkpoint (Miles tools/convert_hf_to_torch_dist.py from Qwen3-1.7B@70d244cc); mounted read-only at /data/megatron (*_MEGATRON_INIT)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/task-data/",
+      "sha256": "3777b51fa5954f668b5fd996c82a2b4dd17aa3681724d0824e60b4a6a8329730",
+      "size": 8288279,
+      "files": 6,
+      "consumer": "build",
+      "description": "public task data, copied into the Judge image at build time only (scripts/build_images.sh); scripts/prepare_assets.py from openlifescienceai/medmcqa@91c6572c",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/work-task-data/",
+      "sha256": "15f154110933882deb06ba746f1ff09e2717b727ef44e95e2ba980bea623f589",
+      "size": 312132,
+      "files": 5,
+      "consumer": "build",
+      "description": "the Work image's public data, copied into it at build time only (scripts/build_images.sh): 512 training rows (scripts/prepare_assets.py, scripts/medmcqa_work_rows.json), c, the public probe batch and the public questions",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

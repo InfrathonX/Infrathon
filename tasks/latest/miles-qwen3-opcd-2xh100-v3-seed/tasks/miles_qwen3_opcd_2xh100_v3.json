@@ -1,0 +1,91 @@
+{
+  "task_id": "miles_qwen3_opcd_2xh100_v3",
+  "name": "Miles Qwen3-1.7B On-Policy Context Distillation (v3, same-size frozen teacher) · 2×H100",
+  "category": "Training / System",
+  "base_image": "miles_opcd_runtime",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/miles_lab",
+  "submit_paths": [
+    "repo",
+    "task_entry.py",
+    "config",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "__pycache__/",
+    "*.pyc",
+    "*.safetensors",
+    "*.distcp",
+    "*.pt",
+    "*.bin",
+    "checkpoints/",
+    "outputs/",
+    "wandb/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/miles_lab",
+    "cpu_limit": 24,
+    "mem_limit": "256g",
+    "agent_query": "Read AGENT_TASK.md and docs/INTERFACE.md. Implement on-policy context distillation (the teacher is the frozen initial student snapshot with the context) in the supplied Miles checkout (repo/) and task_entry.py, following the mathematical and workload contract exactly and keeping it a Miles training job (Megatron-Core inside Miles' training actor, SGLang engines started by Miles, the same implementation for probe and run), then maximize the score: the hidden-set accuracy the complete training run adds to the student (answering without the context), in percentage points, per hour of timed training (0 below a 6.5-point gain), so a faster run and a student that learns more both count. Use the public suites (python /opt/miles_opcd_public/run_public.py, suites probe, small, perf; outputs under /scratch) only to get the pipeline working and passing its checks. They are far smaller than the scored run and do not predict the score: think about how your pipeline behaves at a larger scale and how to optimize it, and measure real speed, memory use and learning with sforge-submit, which runs the full evaluation on hidden data. Keep notes in notes.md. Stop every GPU process before submitting with sforge-submit."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/opcd_judge/run_judge.py --app /app/workdir/miles_lab --log-dir /logs/verifier",
+    "eval_timeout": 10800,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/opcd_private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 24,
+    "mem_limit": "256g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "dual-cuda-sm90-nccl": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 85899345920,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl"
+        ],
+        "notes": "Work and Judge serialize on the same leased pair; the Judge pauses Work while it runs. Measured per-card peaks on the H100 NVL qualification pair (nvidia-smi, 1 s samples, qualification.json): reference Judges 77297 MiB (2026-09-27) and 77482 MiB (metric-v2 images, v2m-opcd-ref-01) on the trainer/teacher card, 62356 / 62296 MiB on the engine card, so the reference fits the 80 GiB floor; agent solutions tuned on the 94 GB cards use more (DeepSeek final v2m-opcd-ds-final-01: 95516 / 93929 MiB)."
+      },
+      "dual-cuda-sm90-nccl-80g": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl"
+        ],
+        "notes": "The 80 GB H100 SXM pair (NV18, 700 W; 81559 MiB per card). Qualified separately: runtime/qualification.dual-cuda-sm90-nccl-80g.json (reference T and scores; scores are comparable only within this profile). Measured per-card peaks of the reference Judge on this profile (nvidia-smi, 1 s samples): 75537 MiB on the trainer/teacher card, 54636 MiB on the engine card (the engine's KV pool is a fixed fraction of the card)."
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_hardware_fixed_workload",
+        "baseline_policy": "frozen_base_quality_and_quality_gate"
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "dual-cuda-sm90-nccl"
+    }
+  }
+}

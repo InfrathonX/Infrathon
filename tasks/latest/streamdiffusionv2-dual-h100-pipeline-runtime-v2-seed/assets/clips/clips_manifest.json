@@ -1,0 +1,213 @@
+{
+  "clips": [
+    {
+      "bytes": 154552448,
+      "cut_at": null,
+      "cut_mad": null,
+      "dtype": "uint8",
+      "fps": 30,
+      "frame_mad": {
+        "max": 66.11557325053418,
+        "mean": 4.9488953158386755,
+        "min": 0.03653595753205128
+      },
+      "height": 480,
+      "id": "bbb_480p_129",
+      "parts": [
+        {
+          "frames": 129,
+          "start_frame": 3600,
+          "start_seconds": 120.0
+        }
+      ],
+      "path": "bbb_480p_129.npy",
+      "sha256": "aa1939027ff8e5f73c974f6693dcb03c060735cf2f870a4f0a26c89813914d88",
+      "shape": [
+        129,
+        480,
+        832,
+        3
+      ],
+      "source": "bbb_sunflower_1080p_30fps_normal.mp4",
+      "visibility": "public",
+      "width": 832
+    },
+    {
+      "bytes": 202113152,
+      "cut_at": 128,
+      "cut_mad": 78.66955184936523,
+      "dtype": "uint8",
+      "fps": 30,
+      "frame_mad": {
+        "max": 113.84977340698242,
+        "mean": 7.986172114809353,
+        "min": 0.08980814615885417
+      },
+      "height": 512,
+      "id": "bbb_square_257_cut",
+      "parts": [
+        {
+          "frames": 128,
+          "start_frame": 6300,
+          "start_seconds": 210.0
+        },
+        {
+          "frames": 129,
+          "start_frame": 12900,
+          "start_seconds": 430.0
+        }
+      ],
+      "path": "bbb_square_257_cut.npy",
+      "sha256": "a72658368e06ab435189e72f024280c1c185fda57b9fde09d6946da5b019ab96",
+      "shape": [
+        257,
+        512,
+        512,
+        3
+      ],
+      "source": "bbb_sunflower_1080p_30fps_normal.mp4",
+      "visibility": "public",
+      "width": 512
+    },
+    {
+      "bytes": 154552448,
+      "cut_at": null,
+      "cut_mad": null,
+      "dtype": "uint8",
+      "fps": 24,
+      "frame_mad": {
+        "max": 10.596644631410257,
+        "mean": 6.778231250730334,
+        "min": 2.6461680355235044
+      },
+      "height": 480,
+      "id": "sintel_480p_129",
+      "parts": [
+        {
+          "frames": 129,
+          "start_frame": 2640,
+          "start_seconds": 110.0
+        }
+      ],
+      "path": "sintel_480p_129.npy",
+      "sha256": "5dd6abe4f2b18da6712f224c32d0834e03ec38819abcb81fdaf628ca59c91774",
+      "shape": [
+        129,
+        480,
+        832,
+        3
+      ],
+      "source": "Sintel.2010.1080p.mkv",
+      "visibility": "public",
+      "width": 832
+    },
+    {
+      "bytes": 403439744,
+      "cut_at": 256,
+      "cut_mad": 60.59124501546224,
+      "dtype": "uint8",
+      "fps": 24,
+      "frame_mad": {
+        "max": 60.59124501546224,
+        "mean": 5.647682959834735,
+        "min": 0.3604113260904948
+      },
+      "height": 512,
+      "id": "sintel_square_513_cut",
+      "parts": [
+        {
+          "frames": 256,
+          "start_frame": 5520,
+          "start_seconds": 230.0
+        },
+        {
+          "frames": 257,
+          "start_frame": 14640,
+          "start_seconds": 610.0
+        }
+      ],
+      "path": "sintel_square_513_cut.npy",
+      "sha256": "921ecb989888a4fe497eb28cebad3c0a073729b4993ce8c03fa88e3991a43391",
+      "shape": [
+        513,
+        512,
+        512,
+        3
+      ],
+      "source": "Sintel.2010.1080p.mkv",
+      "visibility": "hidden",
+      "width": 512
+    },
+    {
+      "bytes": 255799424,
+      "cut_at": null,
+      "cut_mad": null,
+      "dtype": "uint8",
+      "fps": 24,
+      "frame_mad": {
+        "max": 41.23158094618056,
+        "mean": 5.134492124549646,
+        "min": 1.06005658436214
+      },
+      "height": 576,
+      "id": "tears_square576_257",
+      "parts": [
+        {
+          "frames": 257,
+          "start_frame": 2400,
+          "start_seconds": 100.0
+        }
+      ],
+      "path": "tears_square576_257.npy",
+      "sha256": "90efd75fc17b5ca547747849d8948447e4a65968128c503898a79285b1454eb9",
+      "shape": [
+        257,
+        576,
+        576,
+        3
+      ],
+      "source": "tears_of_steel_1080p.mov",
+      "visibility": "hidden",
+      "width": 576
+    },
+    {
+      "bytes": 529514624,
+      "cut_at": 256,
+      "cut_mad": 55.18341161334325,
+      "dtype": "uint8",
+      "fps": 24,
+      "frame_mad": {
+        "max": 70.71600729321676,
+        "mean": 6.7482894696886575,
+        "min": 1.051206558469742
+      },
+      "height": 768,
+      "id": "tears_portrait_513_cut",
+      "parts": [
+        {
+          "frames": 256,
+          "start_frame": 7440,
+          "start_seconds": 310.0
+        },
+        {
+          "frames": 257,
+          "start_frame": 12960,
+          "start_seconds": 540.0
+        }
+      ],
+      "path": "tears_portrait_513_cut.npy",
+      "sha256": "23cdabcfaee5e46aaa9a1c1f522a826b25803e7e60315d9c4e0c41789b977c8e",
+      "shape": [
+        513,
+        768,
+        448,
+        3
+      ],
+      "source": "tears_of_steel_1080p.mov",
+      "visibility": "hidden",
+      "width": 448
+    }
+  ],
+  "format": "uint8 [T,H,W,3] RGB",
+  "schema_version": 1
+}

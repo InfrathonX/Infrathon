@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!run_judge.py
+!verify_wgrad.py
+!candidate_worker.py
+!source_admission.py
+!protected_hashes.txt

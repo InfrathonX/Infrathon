@@ -1,0 +1,23 @@
+{
+  "case_count": 12,
+  "evaluation_protocol_id": "sdv2-pipeline-v2-full-final",
+  "input_visibility": "Judge only; this manifest contains identity and policy, not private case parameters or prompts",
+  "reference": "pristine runtime_v001 re-measured on the same devices in every evaluation",
+  "role": "formal",
+  "schema_version": 1,
+  "score": {
+    "direction": "maximize",
+    "formula": "geomean(steady_fps * (in_run_seed_p99 / candidate_p99) ** 0.25)",
+    "latency": "emit(chunk) - controller push(chunk), chunks 12..end",
+    "name": "latency_weighted_fps",
+    "steady_fps": "frames(chunks 12..end) / (emit(last chunk) - controller push(chunk 12))",
+    "unit": "fps"
+  },
+  "selected_manifest_sha256": "6001b507ad020f776f90e1a4bb5315e36ced21376af260f17dd2c9b63340f3a8",
+  "suite_id": "sdv2-pipeline-final-v2",
+  "timeouts": {
+    "judge_controller_seconds": 4200,
+    "outer_judge_seconds": 4200,
+    "worker_pass_seconds": 1800
+  }
+}

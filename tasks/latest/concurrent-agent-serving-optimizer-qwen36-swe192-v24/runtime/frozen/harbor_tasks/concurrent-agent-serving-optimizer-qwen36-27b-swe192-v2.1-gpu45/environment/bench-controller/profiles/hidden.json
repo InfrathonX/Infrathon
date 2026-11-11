@@ -1,0 +1,35 @@
+{
+  "schema_version": 2,
+  "profiles": {
+    "hidden-pressure-192": {
+      "enabled": true,
+      "workflows": 192,
+      "concurrency": 192,
+      "max_steps": 100,
+      "context_bytes": 0,
+      "max_tokens": 2048,
+      "workflow_timeout_sec": 4500,
+      "request_timeout_sec": 2700,
+      "measurement_warmup_sec": 300,
+      "measurement_window_sec": 1800,
+      "tool_delay_min_sec": 0.0,
+      "tool_delay_max_sec": 0.0,
+      "seed": 730073,
+      "warmup_requests": 4,
+      "warmup_context_bytes": 0,
+      "warmup_steps": 3,
+      "workload_family": "swebench-lite",
+      "corpus_partition": "public",
+      "corpus_unique_instances_min": 192,
+      "metrics_sample_interval_sec": 1.0,
+      "metrics_request_timeout_sec": 30,
+      "pressure_required": true,
+      "pressure_kv_threshold": 0.8,
+      "pressure_kv_p95_min": 0.9,
+      "pressure_time_fraction_min": 0.25,
+      "pressure_min_samples": 60,
+      "backend_stall_timeout_sec": 180,
+      "candidate_admission_stall_timeout_sec": 300
+    }
+  }
+}

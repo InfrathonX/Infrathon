@@ -1,0 +1,9 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible",
+  "forbidden_packages": ["sageattention", "flash_mla", "flash_attn", "deep_gemm", "flashinfer", "xformers"],
+  "language": "python3",
+  "protocol_id": "pytorch280-cu129-triton340-source-v1",
+  "required_dtypes": ["bf16", "int8", "fp32"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.8.0", "triton-3.4.0"]
+}

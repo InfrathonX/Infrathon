@@ -1,0 +1,8 @@
+**
+!Dockerfile
+!run_judge.py
+!verifier/
+!verifier/**
+!protected_hashes.txt
+**/__pycache__/
+**/*.pyc

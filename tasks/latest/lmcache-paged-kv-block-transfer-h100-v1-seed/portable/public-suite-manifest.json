@@ -1,0 +1,3185 @@
+{
+ "case_counts": {
+  "scored_performance": 155,
+  "total": 180,
+  "zero_weight_hard_gate": 25
+ },
+ "case_table": {
+  "path": "images/work/benchmark/public_cases.json",
+  "sha256": "3a1fbfe670e9ea1c983f16fff670bf7b745761503a744632a6771ff5bc680ca6"
+ },
+ "cases": [
+  {
+   "arm": "device",
+   "case_id": "edge-skip-all",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 5437340140376543352,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-skip-almost-all",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 8922080246547964217,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-skip-partial-fused",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3795274124009854237,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-single-block",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 439341944422718647,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-three-objects",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 6992987503022898092,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-tail-chunk",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 4625401766961311385,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-single-layer",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 6889816344012846334,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-deepest-stack",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 5023864789055434730,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-single-head",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 7790288625537644266,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-most-heads",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 7687263616749903572,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-head-64-split",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 4201022827231691309,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-head-64-fused",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3669263582346039786,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-pool-ends",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 8340607929936821718,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-whole-pool",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 1940678014806685937,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-repeated-blocks",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3124798827334989775,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 3,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-largest-pool",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 7417761145313181909,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "edge-object-beyond-scratch",
+   "family": "device-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 2471125556235616615,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "edge-host-single",
+   "family": "host-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 8519471570267599009,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "edge-host-store-fused",
+   "family": "host-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3807752228474524,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "edge-host-skip",
+   "family": "host-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 1939171948488946742,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "edge-host-head-64",
+   "family": "host-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 6426712540983983389,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "edge-host-beyond-scratch",
+   "family": "host-small",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3103684050556890741,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "edge-trace-overwrite",
+   "family": "trace",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 6913674765446076672,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 4,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "edge-duplex",
+   "family": "host-duplex",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 3842372287946281843,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 4,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "edge-duplex-skip-fused",
+   "family": "host-duplex",
+   "measurement_mode": "correctness_bit_exact",
+   "role": "correctness",
+   "seed": 2856371375769876111,
+   "timing": "not_measured",
+   "trials": 1,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 1,
+    "numerator": 0
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2660898526906007377,
+   "stratum": "qwen3-8b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1896200382494035862,
+   "stratum": "qwen3-8b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 622383996440944419,
+   "stratum": "qwen3-8b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2002148175039046681,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2829857181138693479,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1706415474081639435,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1567112597756795097,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 837999987481631326,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2333586378213757669,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 18,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-qwen3-8b-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2903522533472620291,
+   "stratum": "qwen3-8b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp2-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2857181423249216178,
+   "stratum": "qwen3-8b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 317887452218076893,
+   "stratum": "qwen3-8b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2692083989672727185,
+   "stratum": "qwen3-8b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1856259925709682376,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4516491980494335027,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3058719368193618911,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 575636361804795112,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 600575434127230541,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3673808396571331651,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-qwen3-8b-tp2-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 595650896208473381,
+   "stratum": "qwen3-8b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp4-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3828347115373253871,
+   "stratum": "qwen3-8b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp4-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3070441318344098060,
+   "stratum": "qwen3-8b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp4-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3282553254204078330,
+   "stratum": "qwen3-8b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 562168463038368410,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4161650314690741424,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3150184301950411460,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 1392371897601518683,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3922703976274863885,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 693246144459101206,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-qwen3-8b-tp4-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3634156809536079833,
+   "stratum": "qwen3-8b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp8-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3737502836261981871,
+   "stratum": "qwen3-8b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp8-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3306489260018988850,
+   "stratum": "qwen3-8b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen3-8b-tp8-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2856514439235534345,
+   "stratum": "qwen3-8b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen3-8b-tp8-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 664432018032989329,
+   "stratum": "qwen3-8b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen3-8b-tp8-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 2797403610107507597,
+   "stratum": "qwen3-8b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3288632488087520103,
+   "stratum": "qwen25-7b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 272534002711402031,
+   "stratum": "qwen25-7b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3208505481356954967,
+   "stratum": "qwen25-7b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1777403389943188520,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2920269811414290999,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 459492510278317717,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4505758737378018431,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1161514863417622782,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 8,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2240222089769534559,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-qwen25-7b-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2222811647465440468,
+   "stratum": "qwen25-7b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp2-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4572597361127066449,
+   "stratum": "qwen25-7b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4001992876055417732,
+   "stratum": "qwen25-7b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3219046436801007841,
+   "stratum": "qwen25-7b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1781465533547408568,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 225069383592355886,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2907987808579894560,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3309257159836170237,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3237329907135678736,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-qwen25-7b-tp2-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1982876653511953323,
+   "stratum": "qwen25-7b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-qwen25-7b-tp4-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1665750130124338026,
+   "stratum": "qwen25-7b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-qwen25-7b-tp4-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 65430106636513094,
+   "stratum": "qwen25-7b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-qwen25-7b-tp4-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2177518397897114224,
+   "stratum": "qwen25-7b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-llama32-3b-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 429680092248264371,
+   "stratum": "llama32-3b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-llama32-3b-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1023442909803935971,
+   "stratum": "llama32-3b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-llama32-3b-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2553660789996059354,
+   "stratum": "llama32-3b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-llama32-3b-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3122531432358799436,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-llama32-3b-tp1-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 973065298827131940,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-llama32-3b-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4244317662712716389,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-llama32-3b-tp1-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 901502492859169357,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-llama32-3b-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1167243563398423412,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 8,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-llama32-3b-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3563546302021884672,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-llama32-3b-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4145712487020962533,
+   "stratum": "llama32-3b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3997877282967697381,
+   "stratum": "mistral-nemo-12b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3224961895212476740,
+   "stratum": "mistral-nemo-12b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3780427691137049017,
+   "stratum": "mistral-nemo-12b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1095161806652740405,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3164312767441026136,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1347820477109573593,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1969070004576013459,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1463062142874501965,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1125444706790734046,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-mistral-nemo-12b-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2011019360109515178,
+   "stratum": "mistral-nemo-12b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp2-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1091862670856926382,
+   "stratum": "mistral-nemo-12b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 3633895660095482515,
+   "stratum": "mistral-nemo-12b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4604856829058266117,
+   "stratum": "mistral-nemo-12b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3351308706409838971,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1055235694610987647,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4536162024311538486,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3793683321094247954,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 600737097903248067,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 8,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4529117672438229209,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 9,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-mistral-nemo-12b-tp2-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 391200953464410259,
+   "stratum": "mistral-nemo-12b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp4-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3895382709293234522,
+   "stratum": "mistral-nemo-12b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp4-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3158650589145544784,
+   "stratum": "mistral-nemo-12b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp4-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3759228680297587549,
+   "stratum": "mistral-nemo-12b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 851809874303846481,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4501302547889349698,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4111233659593007284,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 252304445906510545,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1824349967510758454,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2783305359016512467,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-mistral-nemo-12b-tp4-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1043457203103492645,
+   "stratum": "mistral-nemo-12b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp8-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4108990270391397700,
+   "stratum": "mistral-nemo-12b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp8-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 162442697563404881,
+   "stratum": "mistral-nemo-12b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp8-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3119903421043907609,
+   "stratum": "mistral-nemo-12b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 2237240809794434092,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1944772450490396681,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 377097154798315900,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1699534749051388824,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 86227293953166361,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1474032537776116742,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-mistral-nemo-12b-tp8-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": true,
+   "role": "performance",
+   "seed": 2609793941806310983,
+   "stratum": "mistral-nemo-12b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2954813773674664078,
+   "stratum": "phi-4-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2599580711913698130,
+   "stratum": "phi-4-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1874555386178336366,
+   "stratum": "phi-4-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3895001823574812015,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp1-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3331989811414887969,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3017849458804750388,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp1-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 913680768583952967,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-phi-4-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2795228925574505473,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-phi-4-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2255185705474310559,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-phi-4-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3305033793878306601,
+   "stratum": "phi-4-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 6,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp2-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2869811166830831006,
+   "stratum": "phi-4-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2500909561127820688,
+   "stratum": "phi-4-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2762448784213691902,
+   "stratum": "phi-4-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp2-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 525229647586964632,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-phi-4-tp2-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4158323236723871511,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp2-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1361802881147116370,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-phi-4-tp2-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 52679804723554852,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-phi-4-tp2-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3631854476058379635,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-phi-4-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4181446514128315266,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-phi-4-tp2-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 830146387083407332,
+   "stratum": "phi-4-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-olmo2-13b-tp2-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1822707676702931102,
+   "stratum": "olmo2-13b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-olmo2-13b-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4563843995128617705,
+   "stratum": "olmo2-13b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-olmo2-13b-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1845407727347426272,
+   "stratum": "olmo2-13b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 937817227163718774,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 941386430180005233,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3684285545531815417,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 653688521234144052,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3899549041437509613,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-olmo2-13b-tp2-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 818444176073828891,
+   "stratum": "olmo2-13b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 1,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp1-split-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4602474215859804086,
+   "stratum": "gpt-oss-20b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp1-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3573061294651680568,
+   "stratum": "gpt-oss-20b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp1-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 390265470320261829,
+   "stratum": "gpt-oss-20b-tp1-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp1-fused-synt-device-large-0",
+   "family": "device-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 886222345767952817,
+   "stratum": "gpt-oss-20b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 160,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp1-fused-synt-host-large-0",
+   "family": "host-large",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2699893202140743477,
+   "stratum": "gpt-oss-20b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 168,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "duplex",
+   "case_id": "public-gpt-oss-20b-tp1-fused-synt-host-duplex-0",
+   "family": "host-duplex",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1968689731748084129,
+   "stratum": "gpt-oss-20b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 16,
+   "weight": {
+    "denominator": 156,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-gpt-oss-20b-tp1-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4304327767319100143,
+   "stratum": "gpt-oss-20b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "overlap",
+   "case_id": "public-gpt-oss-20b-tp1-fused-synt-overlap-0",
+   "family": "overlap",
+   "foreground": "gemm",
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1627609649728161810,
+   "stratum": "gpt-oss-20b-tp1-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 12,
+   "weight": {
+    "denominator": 140,
+    "numerator": 3
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp2-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4083886454492391436,
+   "stratum": "gpt-oss-20b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp2-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3464762617960476897,
+   "stratum": "gpt-oss-20b-tp2-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp2-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2256868182887116596,
+   "stratum": "gpt-oss-20b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-gpt-oss-20b-tp2-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 638657540799958395,
+   "stratum": "gpt-oss-20b-tp2-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp4-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1741939087856397382,
+   "stratum": "gpt-oss-20b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp4-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 3115614896999182018,
+   "stratum": "gpt-oss-20b-tp4-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp4-fused-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2085240063400366993,
+   "stratum": "gpt-oss-20b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-gpt-oss-20b-tp4-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 2525905666523931276,
+   "stratum": "gpt-oss-20b-tp4-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "device",
+   "case_id": "public-gpt-oss-20b-tp8-split-synt-device-small-0",
+   "family": "device-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 562029630395349330,
+   "stratum": "gpt-oss-20b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 1320,
+    "numerator": 7
+   }
+  },
+  {
+   "arm": "host",
+   "case_id": "public-gpt-oss-20b-tp8-split-synt-host-small-0",
+   "family": "host-small",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 1086833777369821452,
+   "stratum": "gpt-oss-20b-tp8-split",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 64,
+   "weight": {
+    "denominator": 408,
+    "numerator": 1
+   }
+  },
+  {
+   "arm": "trace",
+   "case_id": "public-gpt-oss-20b-tp8-fused-synt-trace-0",
+   "family": "trace",
+   "foreground": null,
+   "measurement_mode": "pool_refilled_per_trial_untimed_verified_precall_then_settled_verified_trials",
+   "quick_suite": false,
+   "role": "performance",
+   "seed": 4211717286741723817,
+   "stratum": "gpt-oss-20b-tp8-fused",
+   "tier": "public",
+   "trials": 3,
+   "wave_count": 32,
+   "weight": {
+    "denominator": 190,
+    "numerator": 1
+   }
+  }
+ ],
+ "qualification_timeouts": {
+  "semantics": "the Work image enforces no public-suite timeout; the agent budget is the only ceiling"
+ },
+ "role": "public",
+ "schema_version": 2,
+ "selection_semantics": "the 25 edge cases run first and must all pass bit-exactly; quick runs one case per family (7), full runs all 155; the public runner defaults to 3 trials per case; public timing never enters a score",
+ "suite_id": "lmcache-kv-transfer-public-v3"
+}

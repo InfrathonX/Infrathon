@@ -1,0 +1,10 @@
+# Private Judge layer: the public Judge plus private_data/.  Built only on the
+# host that runs the task, never published; private_data/ comes from the
+# Judge-only build context scripts/build_images.sh stages.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+COPY --from=private_data . /opt/eagle3_judge/private_data/
+RUN chown -R root:root /opt/eagle3_judge/private_data \
+ && chmod 0500 /opt/eagle3_judge/private_data \
+ && find /opt/eagle3_judge/private_data -type d -exec chmod 0500 {} + \
+ && find /opt/eagle3_judge/private_data -type f -exec chmod 0400 {} +

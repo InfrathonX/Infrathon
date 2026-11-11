@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "description": "Mamba-2 SSD inputs (x, dt, A, B, C, D) captured at the scan of selected Mamba layers of real hybrid models on real text, at batch 1. dt is the preprocessed step: softplus(dt + dt_bias), clamped to the model's time_step_limit, exactly what the operator consumes. Judge sources read the WikiText-103 test split; the public source reads the validation split, so the two never share text.",
+  "text": {
+    "dataset": {
+      "repo_id": "Salesforce/wikitext",
+      "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+      "license": "CC-BY-SA-3.0 and GFDL"
+    },
+    "joiner": "",
+    "note": "The rows of the named parquet file are joined in order and tokenized without special tokens; a source takes the first seqlen tokens after skipping skip_tokens."
+  },
+  "sources": {
+    "granite_h_micro": {
+      "model": {
+        "repo_id": "ibm-granite/granite-4.0-h-micro",
+        "revision": "d5f01a3ea75f088947be3aae039f4ad52837dfde",
+        "license": "Apache-2.0"
+      },
+      "geometry": "granite_h_micro",
+      "parquet": "wikitext-103-raw-v1/test-00000-of-00001.parquet",
+      "skip_tokens": 0,
+      "seqlen": 16381,
+      "layers": [0, 3, 7, 10, 13, 17, 20, 23, 27, 30, 33, 37],
+      "name_prefix": "granite-h-micro-layer",
+      "consumer": "judge"
+    },
+    "bamba_9b_v2": {
+      "model": {
+        "repo_id": "ibm-ai-platform/Bamba-9B-v2",
+        "revision": "b42852dc9eb96c8ae3359dc8df0e4c3f5c37eb21",
+        "license": "Apache-2.0"
+      },
+      "geometry": "granite_h_small",
+      "parquet": "wikitext-103-raw-v1/test-00000-of-00001.parquet",
+      "skip_tokens": 40000,
+      "seqlen": 32749,
+      "layers": [0, 3, 5, 8, 11, 14, 16, 20, 22, 25, 28, 31],
+      "name_prefix": "bamba-9b-v2-layer",
+      "consumer": "judge"
+    },
+    "public": {
+      "model": {
+        "repo_id": "ibm-granite/granite-4.0-h-350m",
+        "revision": "3b17b717b8f2f5d305b0a92c1491e239aeda19c8",
+        "license": "Apache-2.0"
+      },
+      "geometry": "granite_h_350m",
+      "parquet": "wikitext-103-raw-v1/validation-00000-of-00001.parquet",
+      "skip_tokens": 0,
+      "seqlen": 8123,
+      "layers": [16],
+      "name_prefix": "public-real-layer",
+      "consumer": "work"
+    }
+  }
+}

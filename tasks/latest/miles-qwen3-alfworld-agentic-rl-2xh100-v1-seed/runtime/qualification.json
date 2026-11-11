@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_alfworld_agentic_rl_2xh100_v1",
+  "status": "QUALIFIED under metric v2 on the dual-cuda-sm90-nccl profile (2x H100 NVL): the reference Judge on the built images passed all 12 correctness checks, including provenance M6 (final_hf equal to the full digests of the trainer after its last step and of the engine after its last publication) and the timed-window bounds, and the quality gate: quality_score 23.516 points, T 2751.22 s, score 30.770; the starter and six planted bugs are rejected. CPU-offloaded TP1 trainer on CUDA 0 and TP1 rollout engine on CUDA 1.",
+  "note": "Tracked qualification record (scripts/miles_common/qualification.py), carried by the Judge image: run_judge.py reads metric, timeouts, oracle_limits and grad_limits from it; scripts/run_task.py refuses a formal run while status is PENDING, on another execution profile, or with the Judge under another CPU pinning policy.",
+  "measurement": "Reference Judges, the starter and planted-bug controls through the harness Judge on two H100 NVL GPUs, pinned under cpu_pinning; the frozen base quality is the original Qwen3-4B snapshot 1cfa9a7208912126459214e8b04321603b3df60c measured once under quality_protocol in the Judge image; the run timeout is about 3 x the median reference run time (2432.76 s), rounded.",
+  "metric": {
+    "version": 2,
+    "formula": "quality_score * 3600 / T if correct and quality_score >= 15.0 else 0",
+    "score_scale_seconds": 3600,
+    "quality_repeats": 3,
+    "quality_protocol": {
+      "eval": "eval_alfworld.py --repeats 3 (Judge copy public/eval_alfworld.py) on the Judge's scored_model: the non-weight files of the pinned Qwen3-4B snapshot plus the candidate's final_hf safetensors and index",
+      "games": "private/eval_hidden.jsonl: the 1134 hidden games (heldout train[2553:] and valid_unseen), each played once per repeat",
+      "decoding": "greedy (temperature 0, top_p 1); the contract's system prompt, rendering, max_steps 30, max_turn_tokens 256 and enable_thinking=false; the first <action>...</action> is sent to the game",
+      "engine": "one SGLang server per Judge GPU (--random-seed 0, --mem-fraction-static 0.85, --context-length 40960), games round-robin over the servers, 96 worker processes",
+      "repeat": "quality of a repeat = 100 x games won / 1134; the 3 repeats use the same protocol and differ only by engine scheduling nondeterminism"
+    },
+    "quality_unit": "success-rate points",
+    "quality_gate_min": 15.0,
+    "base_quality_per_repeat": [
+      25.044091710758376,
+      25.308641975308642,
+      25.132275132275133
+    ],
+    "base_quality": 25.16166960611405
+  },
+  "timeouts": {
+    "probe": 1800,
+    "run": 7300
+  },
+  "oracle_limits": {
+    "logprob_mean_abs_err": 0.02,
+    "loss_abs_err_rel_adv": 0.02
+  },
+  "grad_limits": {
+    "cos_min": 0.9,
+    "slice_ratio": [
+      0.75,
+      1.33
+    ],
+    "norm_ratio": [
+      0.75,
+      1.33
+    ]
+  },
+  "execution_profile_id": "dual-cuda-sm90-nccl",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind:undersize=allow",
+    "cpu_count": 16,
+    "cpu_quota": 24,
+    "cpuset_cpus": "24-31,56-63",
+    "cpuset_mems": "1",
+    "note": "SFORGE_CPUSET=auto; Work and Judge share the pair-local 16 logical CPUs with cgroup CPU quota 24. Timing is qualified under this policy."
+  }
+}

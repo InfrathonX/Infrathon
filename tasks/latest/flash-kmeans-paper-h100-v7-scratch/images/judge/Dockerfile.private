@@ -1,0 +1,11 @@
+# Private Judge layer: the public Judge plus hidden_cases.py, root-only 400 like
+# every other Judge file.  Built only on the host that runs the task, never
+# published; the file comes from the Judge-only build context
+# scripts/build_images.sh stages.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=hidden_cases hidden_cases.py /opt/flash_kmeans_judge/hidden_cases.py
+
+RUN chown root:root /opt/flash_kmeans_judge/hidden_cases.py \
+    && chmod 400 /opt/flash_kmeans_judge/hidden_cases.py

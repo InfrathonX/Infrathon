@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:42ab7e21c76fb06664419fd84c8f38c9657a66bb90236c7a73437edfd9b034a7",
+      "judge_public_tag": "h100-80gb-700w-standalone-dynamic-grouped-fp8-h100-v3-scratch-judge",
+      "work": "sha256:ddabff57beb871b055122f7a548bf73692cacbc50a01d08d476b49b247143b9d",
+      "work_tag": "h100-80gb-700w-standalone-dynamic-grouped-fp8-h100-v3-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:42ab7e21c76fb06664419fd84c8f38c9657a66bb90236c7a73437edfd9b034a7",
+      "judge_public_tag": "h100-94gb-400w-standalone-dynamic-grouped-fp8-h100-v3-scratch-judge",
+      "work": "sha256:ddabff57beb871b055122f7a548bf73692cacbc50a01d08d476b49b247143b9d",
+      "work_tag": "h100-94gb-400w-standalone-dynamic-grouped-fp8-h100-v3-scratch-work"
+    }
+  },
+  "source_digest": "9d8d24c66525d5839af8e908831f55572e718d49ded6e23682014021db7c1d1c"
+}

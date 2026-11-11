@@ -1,0 +1,28 @@
+--- a/generated_task_adapter.py
++++ b/generated_task_adapter.py
+@@ -448,21 +448,17 @@
+                 num_warps = 4
+                 num_stages = 4
+         else:
+-            # D == 128
+-            if K <= 1024:
+-                block_k = 64
+-                num_warps = 4
+-                num_stages = 1
+-            elif K <= 65536:
++            # D == 128  [pvsa H100-NVL retune: upstream autotune pick from _TUNE_CONFIGS]
++            if K <= 65536:
+                 block_k = 128
+-                num_warps = 8
++                num_warps = 4
+                 num_stages = 2
+             else:
+                 block_k = 64
+                 num_warps = 4
+                 num_stages = 4
+ 
+-    if N < 65536:
++    if N < 65536 and D < 512:  # [pvsa H100-NVL retune]
+         block_n = 64
+ 
+     return {

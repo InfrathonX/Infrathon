@@ -1,0 +1,13 @@
+# Private Judge layer: the public Judge plus private_data/, then the
+# protected-file check that covers it.  Built only on the host that runs the
+# task, never published; private_data/ comes from the Judge-only build context
+# scripts/build_images.sh stages.  Modes match the earlier single-file Judge.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=private_data . /opt/gkd_judge/private_data/
+
+RUN chown -R root:root /opt/gkd_judge/private_data \
+    && chmod 700 /opt/gkd_judge/private_data \
+    && find /opt/gkd_judge/private_data -type f -exec chmod 600 {} + \
+    && python /opt/gkd_judge/verifier/verify_gkd.py --verify-protected-files

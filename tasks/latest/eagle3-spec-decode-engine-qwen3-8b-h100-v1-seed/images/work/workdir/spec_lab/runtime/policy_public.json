@@ -1,0 +1,18 @@
+{
+  "status": "CALIBRATED_LAB",
+  "source": "Helper A2 tiered margin-CDF calibration (lab/results/A2_REPORT.md, A2_tiers.json), 2026-09-04. Judge copy frozen at qualification (helper D).",
+  "attn_implementation": "eager",
+  "eps_hard": 24.0,
+  "p_soft": 0.03284789994157488,
+  "scope": "global_run",
+  "tiers": [
+    {"margin": 0.0, "max_rate": 0.03284789994157488},
+    {"margin": 0.25, "max_rate": 0.001034126163391934},
+    {"margin": 0.5, "max_rate": 0.00031023784901758014},
+    {"margin": 0.75, "max_rate": 0.00020682523267838676},
+    {"margin": 1.0, "max_rate": 0.00020682523267838676},
+    {"margin": 1.5, "max_rate": 0.00015511892450879007},
+    {"margin": 2.0, "max_rate": 0.0001},
+    {"margin": 3.0, "max_rate": 0.0001}
+  ]
+}

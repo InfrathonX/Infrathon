@@ -1,0 +1,6 @@
+# SHA-256 records for the trusted Judge adapter, verifier, and shared runtime.
+144fd15136e218cb5d041fb7fe38198a55e7481a7f52ac5bfb8df748cffb92f8 judge:candidate_worker.py
+a9c030684b95e22b62755c089f1df4d026a4cb96806c272a94d0c6936d564677 judge:run_judge.py
+6890fc3e8f65b999e333a4423ba8775213ce426a4b02c0add2502477af77578c judge:source_admission.py
+60bbef3b006e69cbc181eb37bee7c7d95623bcee10c71938c5a28bd1c4051f9d judge:verify_ssd.py
+c8424a1f300e63d93d151abbca1fa07ab90395d8e2d0b8db8ce04e73d7984879 worker:mamba2_ssd_runtime.py

@@ -1,0 +1,161 @@
+{
+ "schema_version": 1,
+ "task_id": "miles_diffusion_wan22_dancegrpo_2xh100_v2",
+ "status": "QUALIFIED as task v2 on the dual-cuda-sm90-nccl profile (2x H100 NVL): the starter is valid with score 0; the reference Judge passed all 9 correctness checks and the 50-step quality gate (T 173.02 s, quality_score -0.1752, score 20.81).",
+ "note": "Tracked copy of the qualification (scripts/miles_common/qualification.py). The Judge reads tau_pi_old, the replay list, the run timeout and the R6 thresholds from the private root's qualification.json (MDWAN_PRIVATE_DATA, root-only) and the public checks from the public root's (MDWAN_PUBLIC_DATA). scripts/build_images.sh bakes the metric block into the Judge image as metric.json and its scoring fields into the Work image's /opt/wan_public/metric.json. scripts/run_task.py refuses a formal run while status is PENDING, when the private record's R6 thresholds or tau_pi_old differ from these, or when an image's metric.json lacks this metric block's scoring fields. On this profile MDWAN_PRIVATE_DATA is the H100 NVL private root (assets: hw/h100-94gb-400w/judge/private/).",
+ "measurement": "The reference and the starter through the real SForge eval on two H100 NVL GPUs, pinned under cpu_pinning; the frozen base quality is the original model's 50-step eval of quality_protocol in the Judge image, and quality_calibration_50 places honest and damaged RUN masters against the gate.",
+ "execution_profile_id": "dual-cuda-sm90-nccl",
+ "cpu_pinning": {
+  "policy_id": "auto:gpu-local-l3-v1:mems=bind",
+  "cpu_count": 16,
+  "cpuset_cpus": "16-23,48-55",
+  "cpuset_mems": "1",
+  "cpu_quota": 16,
+  "note": "SFORGE_CPUSET=auto: the union of the GPU pair's local CPU slices (16 CPUs, memory bound to the pair's NUMA node) with a 16-CPU quota; T is qualified for a Judge pinned under this policy, and scripts/run_task.py derives the core count from it."
+ },
+ "metric": {
+  "version": 2,
+  "formula": "3600 / T if correct and quality_score >= -0.28 else 0 (quality_score is a gate, not a multiplier)",
+  "score_scale_seconds": 3600,
+  "quality_repeats": 3,
+  "quality_role": "non-regression gate and reported diagnostic, not a multiplier: the task's fixed RUN lowers held-out HPSv3 for the reference (quality_score about -0.16), so quality x speed would score a negative, implementation-dependent number",
+  "quality_protocol": {
+   "eval": "judge_v2/quality_eval.py (--steps from num_inference_steps), run by the Judge's QUALITY phase once every correctness check passed, after the candidate's processes and the SERVE engines are gone (engine + HPSv3 need ~74 GiB on GPU 0)",
+   "eval_version": "wan22-qeval-v2",
+   "model": "the RUN phase's final/master_fp32.safetensors: the bytes J6 reloads and binds to the run's last publication checksum (copied to /dev/shm by the Judge after the timed replays), loaded into both engines through /update_weights_from_disk (the engine casts it); the eval engines' checksum must equal J6's, else J6 fails (J6.eval_engines: J6's reload ran on a SERVE engine of the candidate's uid, which a candidate can replace and answer for)",
+   "engines": "2 fresh clean sglang-diffusion engines, one per GPU, with run_judge.launch_judge_engines' command (text-encoder/VAE CPU offload, DiT on GPU, warmup off), run as root without the audit-hook dir once no process of the candidate's uid is left, with TMPDIR and the reload dirs in the Judge's own /dev/shm/judge_eval; one throw-away warmup video per engine",
+   "prompt_set": "hao7_test",
+   "prompts_file": "eval_prompts/hao7_test.txt",
+   "prompts_source": "Hao7/video_prompts@bc7d7a44 test.txt ($MDWAN_ASSETS/video_prompts/test.txt): public, used by no training or replay input, disjoint from train.txt; baked into the Judge image by scripts/build_images.sh, which checks prompts_sha256",
+   "prompts_sha256": "812c05b13857a31c6619111c1fdc7c8fd715477a79aada42fa8d073589a9e9e4",
+   "rows": "all 61 prompts (one per non-empty line, stripped, verbatim)",
+   "namespace": "wan22-qeval-v1",
+   "seed_rule": "seed(rep, row) = H('wan22-qeval-v1|hao7_test|{rep}|{row}'), H = sha256[:8] big-endian mod 2**63; x_T = torch CPU Generator(seed).randn fp32 (checked bitwise); repeats 0, 1, 2 are three disjoint seed sets and the base and the final model share every (prompt, seed) pair",
+   "sampler": "/rollout/generate with rollout_sde_type 'ode' (pure Euler flow ODE, no SDE window), 704x1280x9 frames, 50 steps (verl-omni's validation step count; task v1 used 10), guidance_scale = true_cfg_scale = 5, negative prompt ' ', the engine's default flow_shift 5.0, uint8 video",
+   "placement": "within a repeat prompt k goes to engine k mod 2; repeats run one after another; HPSv3 on GPU 0",
+   "scorer": "hpsv3_scorer.HPSv3Scorer (/models/HPSv3/HPSv3.safetensors, /models/Qwen2-VL-7B-Instruct config and processor): frames 0/4/8 PIL-bicubic to 308x588, one batch = the 3 frames of one video",
+   "repeat": "quality of a repeat = mean over the 61 videos of 0.1 x mean(mu of frames 0, 4, 8), numpy float64",
+   "cost": "at 50 steps on 2 H100 NVL: engine cold start 44 s, scorer load 7 s, warmup 38 s, load 18-29 s, 3 repeats x ~275 s generation, 33-38 s scoring: ~970 s for one model (10 steps: ~450 s); GPU 0 peak 75,827 MiB. run_judge.QUALITY_TIMEOUT_S 2100 s.",
+   "num_inference_steps": 50
+  },
+  "quality_unit": "HPSv3 reward",
+  "quality_gate_min": -0.28,
+  "base_quality_per_repeat": [
+   0.7919122755853205,
+   0.7822274581982137,
+   0.793257099573241
+  ],
+  "base_quality": 0.7891322777855917,
+  "quality_calibration_50": {
+   "ref04": {
+    "what": "honest RUN master: the reference implementation",
+    "per_repeat_50": [
+     0.6321406662138433,
+     0.616411127426911,
+     0.6331056388186629
+    ],
+    "quality_score_50": -0.16191313363245263,
+    "quality_score_10": -0.12815,
+    "gate_50_passed": true
+   },
+   "ref01v2": {
+    "what": "honest RUN master: the reference implementation, a second Judge",
+    "per_repeat_50": [
+     0.635542155859249,
+     0.6301705417167295,
+     0.6360674542318928
+    ],
+    "quality_score_50": -0.1552055605163013,
+    "quality_score_10": -0.11859,
+    "gate_50_passed": true
+   },
+   "modelav2": {
+    "what": "honest RUN master: a candidate implementation",
+    "per_repeat_50": [
+     0.7422614128863225,
+     0.7546907495279782,
+     0.7298431955888623
+    ],
+    "quality_score_50": -0.04686715845120393,
+    "quality_score_10": -0.00018,
+    "gate_50_passed": true
+   },
+   "modelbrec": {
+    "what": "honest RUN master: another candidate implementation",
+    "per_repeat_50": [
+     0.706113320409926,
+     0.7148498399661538,
+     0.7069082551803745
+    ],
+    "quality_score_50": -0.07984180593344026,
+    "quality_score_10": -0.12303,
+    "gate_50_passed": true
+   },
+   "lr_r03": {
+    "what": "reference code, 3 rounds (the contract's RUN) of a 20-round run",
+    "per_repeat_50": [
+     0.6255520196560301,
+     0.6210248717335892,
+     0.6275277177614919
+    ],
+    "quality_score_50": -0.16443074140188796,
+    "quality_score_10": -0.13494,
+    "gate_50_passed": true
+   },
+   "lr_r12": {
+    "what": "reference code over-trained to 12 rounds",
+    "per_repeat_50": [
+     0.657193836178936,
+     0.6530575628936943,
+     0.657627257602951
+    ],
+    "quality_score_50": -0.13317272556039794,
+    "quality_score_10": -0.21759,
+    "gate_50_passed": true
+   },
+   "ref04_x2": {
+    "what": "theta0 + 2 x (reference update): an lr x2-sized update",
+    "per_repeat_50": [
+     0.4247681402952457,
+     0.41250269536763584,
+     0.4347776858329448
+    ],
+    "quality_score_50": -0.3651161039536496,
+    "quality_score_10": null,
+    "gate_50_passed": false
+   },
+   "ref04_x3": {
+    "what": "theta0 + 3 x (reference update)",
+    "per_repeat_50": [
+     0.3738040500814146,
+     0.36730779831200994,
+     0.3717845057977028
+    ],
+    "quality_score_50": -0.4181668263885493,
+    "quality_score_10": null,
+    "gate_50_passed": false
+   }
+  }
+ },
+ "tau_pi_old": {
+  "mean": 0.00015,
+  "max": 0.0006,
+  "signed_min": -5e-05
+ },
+ "r6": {
+  "norm_lo": 0.75,
+  "norm_hi": 1.3,
+  "corr_min": 0.28,
+  "resid_min": 0.7,
+  "coef_lo": 1.2,
+  "coef_hi": 2.2
+ },
+ "r6_public": {
+  "norm_lo": 0.75,
+  "norm_hi": 1.3,
+  "corr_min": 0.28,
+  "resid_min": 0.7,
+  "coef_lo": 0.8,
+  "coef_hi": 2.2
+ }
+}

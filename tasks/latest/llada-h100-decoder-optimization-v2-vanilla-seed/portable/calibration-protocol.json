@@ -1,0 +1,29 @@
+{
+  "clock": "trusted root controller wall clock around each request round trip: request-specific allocation, cache initialization, all model evaluations, token selection, state reset, result validation, device-to-host transfer and response serialization",
+  "comparability": "same_measurement_profile",
+  "deadline": "Identical outer timeout per complete evaluation; terminal resume preserves its root deadline, while each interactive (original round_id, submission_id) has an independent root-only checkpoint subdirectory and a deadline written once.",
+  "fresh_process": "Same row-atomic unprivileged worker lifecycle and controller memory/quality gates for every scored round",
+  "measurement_profile_key": [
+    "gpu_name",
+    "compute_capability",
+    "driver_version",
+    "work_image_id",
+    "judge_image_id"
+  ],
+  "measurement_profile_role": "recorded provenance of the reference producer run and of every scored run; driver_version and the image ids never select or refuse a quality reference",
+  "memory": "device-relative cap evaluated on the Judge device; headroom and safety margin from the frozen memory policy",
+  "protocol_id": "controller-timed-rows-per-submission-deadline-profile-keyed-reference-v3",
+  "quality_reference": "producer reference regenerated once per reference profile (scripts/calibrate_reference.py, cached under private_data/reference_cache/<reference_profile_key>.json and installed by scripts/select_reference_profile.py); the Judge refuses a reference of another GPU model / compute capability or a Judge whose software ABI differs from the one the references were measured under; a host driver change or an image rebuild with unchanged software keeps the reference",
+  "reference_profile_key": [
+    "gpu_name",
+    "compute_capability"
+  ],
+  "reference_software_abi": [
+    "cuda_runtime",
+    "torch",
+    "transformers"
+  ],
+  "row_aggregation": "sum(useful tokens) / sum(timed seconds) per row; geometric mean over rows",
+  "schema_version": 1,
+  "timed_scope": "generation only; checkpoint and tokenizer load, prompt tokenization, warm-up, trusted text decode, answer parsing and tests are untimed"
+}

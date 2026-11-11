@@ -1,0 +1,21 @@
+{
+  "accelerator_runtime": "cuda-12.8-compatible",
+  "agent_runtime": "host-provided Codex runtime mounted read-only; agent-free Work image",
+  "allowed_import_roots": ["__future__", "collections", "contextlib", "dataclasses", "functools", "itertools", "math", "runtime", "torch", "triton", "typing"],
+  "candidate_runtime_import": "runtime.api only",
+  "effective_batch_size": 1,
+  "language": "python3",
+  "maximum_sequence": 4096,
+  "model_binding": {
+    "adapter": "scripts/sforge_h100_entry.py",
+    "checkpoint": "GSAI-ML/LLaDA-8B-Instruct",
+    "mount": "/opt/models/llada-hf read-only",
+    "offline": true,
+    "revision": "6059b30c9531767ce47e0ca6a8161a6bb0c67693"
+  },
+  "protocol_id": "pytorch271-cu128-transformers4490-multiarch-v1",
+  "required_dtypes": ["bf16"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.7.1", "cudnn-9", "transformers-4.49.0", "tokenizers-0.21.0", "safetensors-0.5.3", "accelerate-1.4.0", "huggingface-hub-0.29.3"],
+  "torch_cuda_arch_list": "8.0;8.6;8.9;9.0;10.0"
+}

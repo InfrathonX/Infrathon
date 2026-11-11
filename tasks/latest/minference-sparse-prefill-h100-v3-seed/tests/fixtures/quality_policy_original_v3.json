@@ -1,0 +1,31 @@
+{
+  "schema_version": 3,
+  "protocol": "minference-ruler-quality-v3",
+  "status": "frozen",
+  "target": "close to dense on this balanced finite test set",
+  "limits": {
+    "max_macro_drop_pp": 2.0,
+    "max_task_drop_pp": 5.0,
+    "max_task_length_drop_pp": 10.0,
+    "max_dense_perfect_regression_fraction": 0.05
+  },
+  "rationale": [
+    "Conservative finite-sample engineering acceptance target, not a population non-inferiority guarantee.",
+    "Overall 2 percentage points, each task 5 points, each task/budget 10 points; at most 5% of dense-perfect examples may regress.",
+    "Draft recorded before pilot completion; freeze after author calibration and before any holdout model outputs.",
+    "If the seed fails the intended pilot target, revise the implementation on pilot data; never loosen the holdout margin after observing it."
+  ],
+  "holdout_samples": 300,
+  "holdout_samples_per_task_budget": 25,
+  "official_metric": "case-insensitive reference substring recall, extra incorrect answers unpenalized; official generation budgets fixed",
+  "frozen_utc": "2026-10-04T22:14:11.161592+00:00",
+  "calibration": {
+    "samples": 120,
+    "dense_report_sha256": "dec5171493fc3fbef699d9bc495837669605f0f4f93dc5c8734b8017954a61d1",
+    "candidate_report_sha256": "003f7a913051662c5cde2a6bdefaa9e8d7b20c3cad7bf1f2a2fe4e84d0626f06",
+    "paired_report_sha256": "df865a4750392076791aa6295d18678f79aa6e82575f482abb3f220243c4d5e3",
+    "exact_seed_sha256": "64c81b5eff2809700e38caa985b1bffab4b416be6841ace3ab4f5790d9e71550",
+    "pilot_worker_source_sha256": "40f3f4b509dbe20e6eb53fc7ec682bfa460034f0dbbb0d7002d79411a99e3a99",
+    "holdout_model_outputs_observed": false
+  }
+}

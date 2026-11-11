@@ -1,0 +1,9 @@
+{
+  "clock": "monotonic_host_wall_clock_around_synchronized_cuda_calls",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "empty_compilation_cache_per_case",
+  "protocol_id": "cuda-latency-v7",
+  "schema_version": 1,
+  "steady_state": "case_declared_warmup_iters_repeats",
+  "timing_statistic": "manifest_median_with_adaptive_2_to_3_steady_state_trials"
+}

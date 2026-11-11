@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:08650332d2bb283069f8ce2234f28ff3c80523e480322e85095ae90c18f6456c",
+      "judge_public_tag": "h100-80gb-700w-miles-qwen3-opcd-2xh100-v3-seed-judge",
+      "work": "sha256:15f525fc862e216cce84cc153249d495920b65efb8e67a443c05d9212aa1e012",
+      "work_tag": "h100-80gb-700w-miles-qwen3-opcd-2xh100-v3-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:08650332d2bb283069f8ce2234f28ff3c80523e480322e85095ae90c18f6456c",
+      "judge_public_tag": "h100-94gb-400w-miles-qwen3-opcd-2xh100-v3-seed-judge",
+      "work": "sha256:15f525fc862e216cce84cc153249d495920b65efb8e67a443c05d9212aa1e012",
+      "work_tag": "h100-94gb-400w-miles-qwen3-opcd-2xh100-v3-seed-work"
+    }
+  },
+  "source_digest": "8eb1f5035f841cb245aeb48fcecf67f204a8f45955baf493481ffd250d603e58"
+}

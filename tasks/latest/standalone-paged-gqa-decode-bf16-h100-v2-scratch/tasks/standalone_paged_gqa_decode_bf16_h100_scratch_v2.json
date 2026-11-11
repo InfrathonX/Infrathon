@@ -1,0 +1,212 @@
+{
+  "task_id": "standalone_paged_gqa_decode_bf16_h100_scratch_v2",
+  "name": "Standalone Upstream-Compatible BF16 Paged GQA Decode Portable CUDA From-Zero Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:7d23458f97ff9b0972311762f7404e70d554566438a73854b835a08c6ddf4315"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/paged_gqa_decode_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/paged_gqa_decode_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. Starting from the empty submission, implement the exact seven-argument BF16 paged-GQA decode ABI with self-contained Triton, correct and memory-safe over the whole declared support domain (any batch 1-256, any S_q 1-16, any GQA group size with H_q <= 128, a power of two or not, page sizes 1-256, page tables wider than needed, page pools larger than B x width with shared pages, cache lengths up to 1,048,576, and cache slots no query may see holding NaN or Inf), computing only in BF16 and FP32; then optimize the decode, speculative, long-context and sequence families across the whole support domain. Your score comes from hidden test cases on the Judge, which differ from the public tests and can be much larger; the public tests are for getting the kernel working. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Check candidates with the public edge and sanitizer suites (tools/run_public_tests.sh --edge or --sanitize with --candidate-version N) before submitting, and before finishing run the full public suite, the edge suite and the sanitizer suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\ntools/run_public_tests.sh --edge --candidate-version N\ntools/run_public_tests.sh --sanitize --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; existing implementations and attention kernels may not be used in the submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run takes part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/standalone_paged_gqa_decode_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 8400,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/standalone_paged_gqa_decode_v4_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "32g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "paged-gqa-decode-bf16-v2",
+      "definition": {
+        "operation": "paged_kv_cache_grouped_query_attention_decode",
+        "head_dim": 128,
+        "families": {
+          "decode": {
+            "s_q": 1,
+            "workload": "one decode step of a serving engine rank: trace-derived uneven lengths, shared prefix pages, fragmented pool, wide table"
+          },
+          "spec": {
+            "s_q": [
+              2,
+              16
+            ],
+            "workload": "draft-token verification at small batch sizes"
+          },
+          "long": {
+            "s_q": 1,
+            "workload": "contexts up to 1,048,576 tokens"
+          },
+          "stream": {
+            "s_q": 1,
+            "workload": "512 consecutive decode steps of one server; compilation during timed steps counts"
+          }
+        },
+        "support_domain": {
+          "b": [
+            1,
+            256
+          ],
+          "s_q": [
+            1,
+            16
+          ],
+          "h_q_max": 128,
+          "gqa": "h_q % h_kv == 0, any group size, query head h reads kv head h // (h_q / h_kv)",
+          "page_sizes": [
+            1,
+            2,
+            4,
+            8,
+            16,
+            32,
+            64,
+            128,
+            256
+          ],
+          "cache_lengths": "s_q <= l_b <= l_max <= 1048576",
+          "page_table": "int32 [b, width], width >= ceil(l_max / page_size), contiguous",
+          "page_pool": "any size >= the pages used; page ids in [0, pool) and may repeat (shared prefix pages)",
+          "unspecified_contents": "table entries past ceil(l_b / page_size) are valid page ids; cache slots j >= l_b and unused pages may hold any BF16 bit pattern, NaN and Inf included"
+        },
+        "causality": "bottom_right_within_the_realized_cache_length"
+      },
+      "interface": {
+        "entry_point": "paged_gqa_decode_bf16(q_bf16_b_sq_hq_128,k_cache_bf16_pool_page_hkv_128,v_cache_bf16_pool_page_hkv_128,page_table_i32_b_width,cache_seqlens_i32_b,softmax_scale,out_bf16_b_sq_hq_128)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_triton_source_with_statically_checked_host_subset"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "bottom-right causal decode over the realized per-request cache length through the int32 page table",
+        "support domain: any 1<=B<=256, any 1<=S_q<=16, h_q<=128 with any group size h_q/h_kv, page sizes 1-256 (powers of two), cache lengths up to 1,048,576, page tables wider than needed, page pools larger than B x width with repeated page ids",
+        "the output depends only on visible keys: hidden cache slots, unused pages and unused table entries may hold any value, NaN and Inf included",
+        "BF16 inputs and output, computation in BF16 and FP32 only, within the kvcache tolerance rule (max error <= 2x, mean error <= 1.5x of a BF16 reordered reference, plus the 5e-3 normalized-L2 backstop)",
+        "the output is fully written on the current stream, nothing outside out and the call's own scratch is written, and every input is unchanged",
+        "host code obeys the statically checked subset: no host loops, comprehensions, default arguments, tensor math or device queries; kernels are @triton.jit / @triton.autotune only",
+        "no existing attention or GEMM kernel, compiled extension, private stream, replay, dynamic loading, evaluator introspection or shape-specific shortcut",
+        "the 168 private edge cases (12 also under compute-sanitizer memcheck, run first) are zero-weight hard gates that never enter the score"
+      ],
+      "resource_manifest_sha256": "sha256:71b555891f0e362d3d65be02cbf64a169519099642a3415466a3ae46b96bce26"
+    },
+    "evaluation_suites": {
+      "flash-attention-paged-gqa-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:38de2774fab09a0fbc972964ab6fe3f57bd7f0da75802416a8748305c723523b",
+            "case_count": 127
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:865860427ab0a5974124e122fc7c1b9361955482b8af03029f203dba7888d19a",
+            "case_count": 1114
+          },
+          "final": {
+            "manifest_sha256": "sha256:ec2812215b7e6ee664ba5009f11a4fa434702ff671cd765711938d6125b47be9",
+            "case_count": 1114
+          }
+        },
+        "oracle": {
+          "protocol_id": "fp32-paged-gqa-decode-reference-v2",
+          "spec_sha256": "sha256:d268033353d6c959e5c682f482014ab617032c1b7b44b759c0592756faaef5f0"
+        },
+        "selection": {
+          "protocol_id": "paged-gqa-shared-final-v4",
+          "spec_sha256": "sha256:6f0930438ddf2dbdc15a5fb791844ed1331522bd67ea59a445f65ffe4157fe6e"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-32g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 34359738368,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-source-sanitizer-v2",
+          "spec_sha256": "sha256:47ecaf43997fdd74a56691b915888c7a59bf955b95e81694b6e9130b0d884f10"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-decoy-v2",
+          "spec_sha256": "sha256:4213aafa61844f7df5c481eaac3bb0f73b0ba9142537c32203f067ab13de6ad4"
+        }
+      }
+    },
+    "metrics": {
+      "family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "four-family-geomean-v1",
+          "spec": {
+            "formula": "geomean(geomean(decode_cases), geomean(spec_cases), geomean(long_cases), geomean(stream_cases))",
+            "families": [
+              "decode",
+              "spec",
+              "long",
+              "stream"
+            ],
+            "case_statistic": "median_trial_tflops for single calls; total work over total step time for streams",
+            "effective_flops": "4*128*h_q*sum_b(pairs_b)",
+            "pairs_b": "s_q*l_b-s_q*(s_q-1)/2"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "flash-attention-paged-gqa-v2",
+      "execution_profile_id": "single-cuda-sm80-32g",
+      "metric_id": "family-geomean-effective-tflops"
+    }
+  }
+}

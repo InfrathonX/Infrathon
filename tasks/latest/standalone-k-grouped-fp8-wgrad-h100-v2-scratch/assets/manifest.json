@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "task_directory": "standalone-k-grouped-fp8-wgrad-h100-v2-scratch",
+  "note": "No external models or datasets; the Judge-only inputs are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private).",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "d8307833c3980a018c14a687ab051cfad7a7ffd544806f877b50b94a59f69ba7",
+      "size": 338960,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/edge_cases.json",
+      "sha256": "c2ccd914f1cf69e3db2c436aa19321c6392fff03f66e15c6490525d66e561085",
+      "size": 45018,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

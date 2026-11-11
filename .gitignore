@@ -1,0 +1,81 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# JavaScript/tool caches
+node_modules/
+.npm/
+
+# MLSys Forge-generated run state. Task launchers write to
+# outputs/<task-directory>/ by default; nested patterns are a safety net for
+# callers that explicitly select a legacy in-task location.
+/outputs/
+**/logs/
+**/artifacts/
+**/runtime/evals/
+
+# Generated archives and large model/data outputs
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.npy
+*.npz
+*.pt
+*.pth
+# Import hooks that Miles build_images.sh copies into the images (one `import <module>` line each).
+!scripts/miles_*/**/*.pth
+*.safetensors
+*.ckpt
+*.sqlite
+*.sqlite3
+
+# Credentials and local configuration
+auth.json
+*.auth.json
+.codex/
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local process/editor files
+*.log
+*.pid
+.DS_Store
+.idea/
+.vscode/
+*~
+*.swp
+
+# No upstream source tree is vendored at the repository root. Tasks that need
+# one (Flash K-Means calibration, the K-grouped wgrad DeepGEMM oracle) take a
+# checkout path from an environment variable and document the pinned commit.
+# Anchored: a task's own frozen runtime may legitimately contain a vendor/
+# directory, and those files are tracked.
+/vendor/
+
+# Local launcher configuration derived from the tracked *.example files.
+launch/mlsysforge.env
+launch/mlsysforge.json
+launch/mlsysforge-*.env
+
+# Host-private evaluation inputs synced from the asset host (see docs/tasks/PRIVATE_ASSETS.md)
+/lab/
+
+# Per-host Miles launcher configs (credentials, host paths)
+launch/miles-*/*.env
+launch/miles-alfworld/*.env
+
+# Rebuilt public Docker contexts; immutable file hashes live in stage/build audits.
+/deploy/pyromind/**/candidate-release/*/staged-contexts/

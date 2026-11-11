@@ -1,0 +1,11 @@
+{
+  "memory_reserve_mib": 7168,
+  "min_compute_capability": "8.0",
+  "min_device_memory_mib": 34816,
+  "peak_cap_formula": "floor(total_device_memory_mib) - memory_reserve_mib, evaluated on the device the Judge is running on",
+  "qualification_hardware": "NVIDIA H100 NVL",
+  "qualified_max_peak_gib": 82.0,
+  "release_status": "FROZEN",
+  "schema_version": 1,
+  "task_id": "llada_h100_decoder_optimization_v2"
+}

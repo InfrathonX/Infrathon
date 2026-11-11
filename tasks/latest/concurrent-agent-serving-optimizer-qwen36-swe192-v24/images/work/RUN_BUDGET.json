@@ -1,0 +1,8 @@
+{
+  "schema_version": 1,
+  "source": "placeholder-overwritten-by-formal-runner",
+  "agent_timeout_seconds": null,
+  "submission_cooldown_seconds": null,
+  "expected_hidden_runtime_seconds": 2400,
+  "deadline_instruction": "Do not assume a fixed budget; use the values injected for this run."
+}

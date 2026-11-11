@@ -1,0 +1,10 @@
+**
+!Dockerfile
+!AGENT_TASK.md
+!codex-config.toml
+!public_tests/
+!public_tests/**
+!workdir/
+!workdir/**
+**/__pycache__/
+**/*.pyc

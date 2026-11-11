@@ -1,0 +1,86 @@
+{
+  "base_image": "pytorch260_cu124",
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "category": "GPU / Video Generation Systems",
+  "cwd": "/app/workdir/sdv2_pipeline_lab",
+  "internet": true,
+  "judge": {
+    "cpu_limit": 16,
+    "eval_cmd": "python3 /opt/sdv2_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 4200,
+    "image_tag": "local",
+    "mem_limit": "96g",
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/sdv2_pipeline_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score"
+  },
+  "name": "StreamDiffusionV2 Dual-GPU Pipeline Runtime Seed v2",
+  "platform": "linux/amd64",
+  "portable": {
+    "defaults": {
+      "execution_profile_id": "dual-cuda-sm80-26g-nccl"
+    },
+    "execution_profiles": {
+      "dual-cuda-sm80-26g-nccl": {
+        "count": 2,
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl",
+          "flash-attn-2"
+        ],
+        "interconnect": "NCCL over two CUDA devices; NVLink is the qualified topology and PCIe P2P is admitted via scripts/preflight.py --allow-non-nvlink",
+        "min_compute_capability": "8.0",
+        "min_host_memory_bytes": 68719476736,
+        "min_memory_bytes": 27917287424,
+        "notes": "Capability envelope enforced by the trusted worker (runtime/hardware.py) and re-checked by the Judge verifier. Two devices serve one stream; the score is that stream's FPS, so running only one device is permitted but is measured, not assumed, to be slower. 26 GiB per device comes from the 832x480/4-step family (18,289 MiB seed peak) plus the 8 GiB gate margin, applied identically to both ranks; 64 GiB host RAM comes from the worker RSS cap. GPU model names, UUIDs and physical indices are measurement provenance and never gate.",
+        "software_abi": "cu124 / torch 2.6.0 / torchvision 0.21.0 / flash-attn 2.7.4.post1, pinned by base-image digest; FlashAttention 2 sets the sm_80 floor and the pinned wheel excludes sm_100",
+        "vendor": "nvidia"
+      }
+    },
+    "metrics": {
+      "primary": {
+        "baseline_policy": "in_run_seed_reference",
+        "comparability": "same_measurement_profile"
+      }
+    },
+    "schema_version": 1
+  },
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    ".codex.json",
+    "auth.json",
+    "build/",
+    "tools/",
+    "AGENT_TASK.md",
+    "README_AGENT.md",
+    "__pycache__/",
+    "*.pyc",
+    "*.pt",
+    "*.npy",
+    "*.mp4",
+    ".cache/"
+  ],
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "task_id": "streamdiffusionv2_dual_h100_pipeline_runtime_seed_v2",
+  "version_enumeration": {
+    "directory_pattern": "runtime_v([0-9]{3})",
+    "root": "candidates",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md completely. Make one video stream run as fast as possible on the two GPUs: optimize only candidates/runtime_vNNN (placement, transport, overlap, rolling-KV bookkeeping, lane scheduling, buffers, CUDA graphs) through the frozen Runtime seam, keeping every output bit-exact. Frames arrive only through start/push and the controller records when each chunk is pushed. Keep numbered versions and promote FINAL_VERSION when a clean full public result beats the current selection. Formal sforge-submit and terminal evaluation both run the complete frozen private suite with the same gates, scoring, and time budgets; public tools are diagnostics.",
+    "cpu_limit": 16,
+    "image_tag": "local",
+    "mem_limit": "96g",
+    "specs_dir": "/app/workdir/sdv2_pipeline_lab"
+  }
+}

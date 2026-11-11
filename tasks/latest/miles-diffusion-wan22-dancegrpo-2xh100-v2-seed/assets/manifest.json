@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "task_directory": "miles-diffusion-wan22-dancegrpo-2xh100-v2-seed",
+  "note": "Hugging Face models are laid out flat under public/models (MDWAN_ASSETS when INFRATHON_ASSETS_ROOT is set). public/data and the per-hardware private roots are ours; the two private roots differ only in qualification.json and are mounted into the Judge at run time.",
+  "assets": [
+    {
+      "path": "public/models/Wan2.2-TI2V-5B-Diffusers/",
+      "sha256": "a508be3cc4cdba53775e23803f8d35260147532647a5dcb82bffe287adb45f1d",
+      "size": 34203021834,
+      "files": 29,
+      "consumer": "work+judge",
+      "description": "policy model (MDWAN_ASSETS -> /models)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+        "repo_type": "model",
+        "revision": "b8fff7315c768468a5333511427288870b2e9635",
+        "layout": "flat"
+      }
+    },
+    {
+      "path": "public/models/HPSv3/",
+      "sha256": "1d0e557842233a2cac83d183cc98dcba16f2cba26fe7decad5739803fa637d1b",
+      "size": 16584405951,
+      "files": 3,
+      "consumer": "work+judge",
+      "description": "HPSv3 reward model",
+      "source": {
+        "kind": "hf",
+        "repo_id": "MizzenAI/HPSv3",
+        "repo_type": "model",
+        "revision": "4f81e3e09edd82fe3c5f636444c721b592a735ca",
+        "layout": "flat",
+        "allow_patterns": [
+          "HPSv3.safetensors",
+          "README.md",
+          "config.json"
+        ]
+      }
+    },
+    {
+      "path": "public/models/Qwen2-VL-7B-Instruct-config/",
+      "sha256": "c49abaa10d9f97f090b1c8cc8b54ba3af9786d2b6790ea40f35ae5ea7e4ad588",
+      "size": 11503172,
+      "files": 9,
+      "consumer": "work+judge",
+      "description": "HPSv3's backbone configuration and processor only (no weights)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen2-VL-7B-Instruct",
+        "repo_type": "model",
+        "revision": "eed13092ef92e448dd6875b2a00151bd3f7db0ac",
+        "layout": "flat",
+        "allow_patterns": [
+          "README.md",
+          "chat_template.json",
+          "config.json",
+          "generation_config.json",
+          "merges.txt",
+          "preprocessor_config.json",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ]
+      }
+    },
+    {
+      "path": "public/models/video_prompts/",
+      "sha256": "759b9a7923c92b1b40e946102bfeaf0630a355e33e8112a0f3b8f4baa0014b30",
+      "size": 1575013,
+      "files": 4,
+      "consumer": "build",
+      "description": "test.txt is the Judge's quality-eval prompt set, baked into the Judge",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Hao7/video_prompts",
+        "repo_type": "dataset",
+        "revision": "bc7d7a44231642801782bd233f634f993ff23f86",
+        "layout": "flat"
+      }
+    },
+    {
+      "path": "public/data/",
+      "sha256": "2746e8601bedcc1885a64d13e5a7c3afe8c8ece008d9fbb5d667f2d9cf462cf2",
+      "size": 4261422259,
+      "files": 40,
+      "consumer": "work+judge",
+      "description": "public data root (scripts/miles_diffusion_wan/judge/make_private.py --public, then pub0 cut to its first 8 prompts and 2 optimizer steps, with no R6 trajectory oracle, R6 thresholds or dump build logs) mounted at /data/public",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-80gb-700w/judge/private/",
+      "sha256": "6f012d3765d10ada3e9b36a9da416f4ec5f95f2d15455abcb67e3e32c3c7a517",
+      "size": 15865267459,
+      "files": 65,
+      "consumer": "judge",
+      "description": "private Judge root for H100 SXM 80GB (qualification.json names the dual-cuda-sm90-nccl-80g profile); mounted at /judge_private; must not be owned by uid 1001 (the container agent) and must be go-rwx",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "owner": "root"
+    },
+    {
+      "path": "hw/h100-94gb-400w/judge/private/",
+      "sha256": "9edba79bdf392b61690e5e5e3ffc1b8755e3317361f266fcc45b4ee3b89fa827",
+      "size": 15865266537,
+      "files": 65,
+      "consumer": "judge",
+      "description": "private Judge root for H100 NVL: the same data files, qualification.json for the dual-cuda-sm90-nccl profile; mounted at /judge_private; must not be owned by uid 1001 (the container agent) and must be go-rwx",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "owner": "root"
+    }
+  ]
+}

@@ -1,0 +1,456 @@
+{
+  "schema_version": 1,
+  "note": "Work, Judge and integrity-review sizes of local Docker runs in SFORGE_RESOURCE_PROFILE=pyromind mode (the default): one entry per released task, with the CPU, memory and GPU counts its README states.",
+  "tasks": {
+    "attn_qat_nvfp4_training_attention_h100_seed_v1": {
+      "deployment": "attnqat",
+      "work": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "concurrent_agent_serving_optimizer_qwen36_swe192_v24": {
+      "deployment": "concurrent-serving",
+      "work": {
+        "cpu": 16,
+        "memory": "64Gi",
+        "gpu": 0
+      },
+      "judge": {
+        "cpu": 4,
+        "memory": "8Gi",
+        "gpu": 0
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "eagle3_spec_decode_engine_qwen3_8b_h100_v1": {
+      "deployment": "eagle3",
+      "work": {
+        "cpu": 8,
+        "memory": "64Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "64Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "flash_kmeans_paper_h100_kernel_lab_v7_scratch": {
+      "deployment": "flash-kmeans",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "flux_moe_ag_scatter_grouped_gemm_dual_h100_seed_v1": {
+      "deployment": "flux-moe-ag",
+      "work": {
+        "cpu": 32,
+        "memory": "128Gi",
+        "gpu": 8
+      },
+      "judge": {
+        "cpu": 32,
+        "memory": "128Gi",
+        "gpu": 8
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "kvpress_kv_eviction_policy_qwen3_8b_h100_scratch_v2": {
+      "deployment": "kvpress-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 56,
+        "memory": "88Gi",
+        "gpu": 7
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "kvzip_query_agnostic_kv_scoring_qwen3_8b_h100_scratch_v2": {
+      "deployment": "kvzip-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 56,
+        "memory": "88Gi",
+        "gpu": 7
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "llada_h100_decoder_optimization_v2": {
+      "deployment": "llada",
+      "work": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "lmcache_paged_kv_block_transfer_h100_seed_v1": {
+      "deployment": "lmcache-kv-transfer",
+      "work": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "64Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "miles_diffusion_sd35m_mopd_2xh100_v2": {
+      "deployment": "miles-diffusion-opd-v2",
+      "work": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "miles_diffusion_wan22_dancegrpo_2xh100_v2": {
+      "deployment": "miles-diffusion-wan-v2",
+      "work": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "miles_qwen3_alfworld_agentic_rl_2xh100_v1": {
+      "deployment": "miles-alfworld",
+      "work": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "miles_qwen3_opcd_2xh100_v3": {
+      "deployment": "miles-opcd-v3",
+      "work": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "miles_qwen3_opd_scratch_2xh100_v2": {
+      "deployment": "miles-opd-v2",
+      "work": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 24,
+        "memory": "256Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "minference_sparse_prefill_h100_seed_v3": {
+      "deployment": "minference-v3",
+      "work": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "quant_videogen_cross_model_kv_codec_h100_scratch_v4": {
+      "deployment": "qvg-v4",
+      "work": {
+        "cpu": 8,
+        "memory": "64Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 32,
+        "memory": "448Gi",
+        "gpu": 6
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "qwen3_1p7b_orpo_training_optimizer_dual_h100_v4": {
+      "deployment": "orpo",
+      "work": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "qwen3_4b_to_1p7b_gkd_distillation_optimizer_dual_h100_v1": {
+      "deployment": "gkd",
+      "work": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "sageattention_quantized_attention_bf16_h100_seed_v2": {
+      "deployment": "sageattention-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "standalone_dynamic_grouped_fp8_h100_scratch_v3": {
+      "deployment": "dynamic-fp8-v3",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "standalone_k_grouped_fp8_wgrad_h100_scratch_v2": {
+      "deployment": "kgrouped-wgrad-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "standalone_paged_gqa_decode_bf16_h100_scratch_v2": {
+      "deployment": "paged-gqa-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "standalone_sparse_mla_prefill_h100_scratch_v2": {
+      "deployment": "sparse-mla-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "32Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "streamdiffusionv2_dual_h100_pipeline_runtime_seed_v2": {
+      "deployment": "sdv2-v2",
+      "work": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "judge": {
+        "cpu": 16,
+        "memory": "96Gi",
+        "gpu": 2
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    },
+    "tilelang_mamba2_ssd_forward_h100_seed_v2": {
+      "deployment": "tilelang-mamba2-v2",
+      "work": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "judge": {
+        "cpu": 8,
+        "memory": "48Gi",
+        "gpu": 1
+      },
+      "review": {
+        "cpu": 2,
+        "memory": "4Gi",
+        "gpu": 0
+      }
+    }
+  }
+}

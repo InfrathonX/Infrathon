@@ -1,0 +1,117 @@
+{
+  "cases": [
+    {
+      "case_seed": 2101,
+      "chunks_expected": 32,
+      "clip": "asset:bbb_480p_129",
+      "frames": 129,
+      "height": 480,
+      "id": "public_bbb_480p_129_s2",
+      "input": {
+        "asset_id": "bbb_480p_129",
+        "kind": "asset"
+      },
+      "prompt_id": "public_001",
+      "steps": 2,
+      "tier": "public",
+      "width": 832
+    },
+    {
+      "case_seed": 3102,
+      "chunks_expected": 32,
+      "clip": "asset:sintel_480p_129",
+      "frames": 129,
+      "height": 480,
+      "id": "public_sintel_480p_129_s4",
+      "input": {
+        "asset_id": "sintel_480p_129",
+        "kind": "asset"
+      },
+      "prompt_id": "public_002",
+      "steps": 4,
+      "tier": "public",
+      "width": 832
+    },
+    {
+      "case_seed": 2203,
+      "chunks_expected": 56,
+      "clip": "procedural:63:512x512:225:cut129",
+      "frames": 225,
+      "height": 512,
+      "id": "public_proc_square_225_cut_s2",
+      "input": {
+        "cut_at": 129,
+        "height": 512,
+        "kind": "procedural",
+        "num_frames": 225,
+        "seed": 63,
+        "width": 512
+      },
+      "prompt_id": "public_003",
+      "steps": 2,
+      "tier": "public",
+      "width": 512
+    },
+    {
+      "case_seed": 4404,
+      "chunks_expected": 56,
+      "clip": "procedural:61:480x832:225:cut129",
+      "frames": 225,
+      "height": 480,
+      "id": "public_proc_480p_225_cut_s4",
+      "input": {
+        "cut_at": 129,
+        "height": 480,
+        "kind": "procedural",
+        "num_frames": 225,
+        "seed": 61,
+        "width": 832
+      },
+      "prompt_id": "public_004",
+      "steps": 4,
+      "tier": "public",
+      "width": 832
+    },
+    {
+      "case_seed": 4205,
+      "chunks_expected": 32,
+      "clip": "procedural:42:512x512:129:none",
+      "frames": 129,
+      "height": 512,
+      "id": "public_proc_square_129_s2",
+      "input": {
+        "height": 512,
+        "kind": "procedural",
+        "num_frames": 129,
+        "seed": 42,
+        "width": 512
+      },
+      "prompt_id": "public_005",
+      "steps": 2,
+      "tier": "public",
+      "width": 512
+    },
+    {
+      "case_seed": 4506,
+      "chunks_expected": 56,
+      "clip": "procedural:67:512x512:225:none",
+      "frames": 225,
+      "height": 512,
+      "id": "public_proc_square_225_s4",
+      "input": {
+        "height": 512,
+        "kind": "procedural",
+        "num_frames": 225,
+        "seed": 67,
+        "width": 512
+      },
+      "prompt_id": "public_006",
+      "steps": 4,
+      "tier": "public",
+      "width": 512
+    }
+  ],
+  "schema_version": 1,
+  "suite": "sdv2-pipeline-public-v2",
+  "tier": "public"
+}

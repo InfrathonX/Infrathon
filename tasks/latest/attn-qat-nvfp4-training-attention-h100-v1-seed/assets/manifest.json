@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_directory": "attn-qat-nvfp4-training-attention-h100-v1-seed",
+  "note": "No external downloads at run time. The e7 and public-layer captures reach Work and Judge; the final holdout and the 78 real layers are Judge-only (the real layers are mounted read-only at run time). Re-capture with fixtures/recipe/.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "a9ba63f04dd1c1f1ea5d389231bfc0127a7a3120655860151c0e473d043cf4dd",
+      "size": 83717,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/fixtures/e7_wan13b_grad_b29_t1_s8192.pt",
+      "sha256": "03e1d189b7ff3d11c36f2c5f3d5a7511ea924a5d527f407aba83104415b05488",
+      "size": 125833090,
+      "consumer": "work+judge",
+      "description": "e7 Wan2.1-1.3B gradient capture (recipe fixtures/recipe/RECIPE.json), taken on H100 NVL",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/fixtures/e7_wan13b_grad_b29_t1_s8192.manifest.json",
+      "sha256": "d7ce92d48c07e3e91d2dc8520a0e6adef8cc32eb0a200fc12fcfb394448d8891",
+      "size": 1769,
+      "consumer": "work+judge",
+      "description": "e7 Wan2.1-1.3B gradient capture (recipe fixtures/recipe/RECIPE.json), taken on H100 NVL",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/real_layers/",
+      "sha256": "9617bef302d009dd960a368d9d9eea4d5b8a56475bf81b6cbf6ada2718f4432d",
+      "files": 80,
+      "size": 24883194320,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference captures of fixtures/recipe/real_layers/REAL_LAYERS.json (Wan) and REAL_LAYERS_V2.json (CogVideoX-2B, Qwen3-14B, Qwen3.5-4B), build_real_layers.sh, on H100 SXM; two capture manifests",
+      "license": "Apache-2.0 (Wan2.1)",
+      "readable": true
+    },
+    {
+      "path": "public/public_layer/",
+      "sha256": "b35c6dce635658fd81cb4a4da1409fac25298bedc64c754bcafad86c2ccdf431",
+      "files": 4,
+      "size": 758520775,
+      "consumer": "work",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference captures of fixtures/recipe/real_layers/PUBLIC_LAYER.json and PUBLIC_LLM_LAYER.json (build_real_layers.sh public, public_llm)",
+      "license": "Apache-2.0 (Wan2.2)"
+    }
+  ]
+}

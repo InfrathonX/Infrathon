@@ -1,0 +1,14 @@
+"""Small presentation helpers retained for model entrypoint compatibility."""
+
+
+class Color:
+    black = "\033[30m"
+    red = "\033[31m"
+    green = "\033[32m"
+    yellow = "\033[33m"
+    blue = "\033[34m"
+    magenta = "\033[35m"
+    cyan = "\033[36m"
+    white = "\033[37m"
+    reset = "\033[39m"
+    orange = "\033[38;2;180;60;0m"

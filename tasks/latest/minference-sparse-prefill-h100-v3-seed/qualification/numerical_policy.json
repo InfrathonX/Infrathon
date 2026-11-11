@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "protocol": "minference-kernel-energy-fidelity-v1",
+  "status": "frozen",
+  "uniform_probe_rows": 512,
+  "tail_probe_rows": 64,
+  "reference": "FP32 exact causal native GQA sampled rows",
+  "normalization": "sqrt(sum squared output error / max(sum squared reference,1e-12)); worst head checked separately",
+  "limits": {
+    "default": {
+      "nrmse": 0.25,
+      "head_max_nrmse": 0.5,
+      "tail_nrmse": 0.25,
+      "tail_head_max_nrmse": 0.5
+    }
+  },
+  "selection_rule": "Accuracy budget must also reject zero/scaled dense/head omission controls; repair starter rather than widen for acceptance",
+  "frozen_utc": "2026-10-06T21:31:10.179782+00:00",
+  "qualified": false,
+  "calibration": {
+    "record_sha256": "8a2d0f1e7d9ea394a4905ebbac421ce0c1031556d58290966e6632a0273b3b2f",
+    "record_path": ".validation/kernel-only-20261007/adaptive-public-calibration.json",
+    "cases": 48,
+    "source_sha256": "cc9830668bf39bf232f26979c418ea59df092f8321c8806655254ed645dd75a6",
+    "current_starter_sha256": "9be7775b34aae79a984d723b185d996f677232962a7fa482047dd4f40a8b1d48",
+    "same_executable_ast": true,
+    "public_only": true,
+    "dense_noise_max_nrmse": 0.0018079292494803667
+  }
+}

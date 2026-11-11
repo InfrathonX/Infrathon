@@ -1,0 +1,13 @@
+name: llada_decoder
+base_images:
+  pytorch271_cu128:
+    official_image: pytorch/pytorch:2.7.1-cuda12.8-cudnn9-devel
+    extra_packages:
+      - ca-certificates
+      - curl
+      - git
+      - jq
+      - python3
+      - ripgrep
+      - sudo
+      - xz-utils

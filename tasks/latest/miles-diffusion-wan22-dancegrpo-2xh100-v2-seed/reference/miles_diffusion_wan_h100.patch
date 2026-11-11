@@ -1,0 +1,66 @@
+From: Infrathon <infrathon@users.noreply.github.com>
+Date: Mon, 28 Sep 2026 10:30:00 +0000
+Subject: [PATCH] Wan2.2 DanceGRPO reference: fit one NVLink pair of H100 NVL (94 GB)
+
+Applies on top of the qualified tree (miles_diffusion_wan.patch). What is sampled, scored and trained is unchanged;
+only memory placement changes:
+- task_entry.py: --gradient-checkpointing (FSDP trainer replay peak ~79 -> ~52 GiB reserved per GPU); in `serve`,
+  actor.clear_memory() before each publication, so the 4 GiB publication buckets fit inside the training peak.
+- miles/rollout/rm_hub/hpsv3.py: the colocated HPSv3 worker packs its bf16 weights after loading (round trip through
+  host memory, values unchanged; 17.9 -> 15.7 GiB reserved) and returns its scoring cache after each call.
+Measured on H100 NVL GPU 4/5: per-card NVML peak 87780 MiB (85.72 GiB) of 95830 MiB in the replay (>= 7.86 GiB free).
+
+---
+diff --git a/miles/rollout/rm_hub/hpsv3.py b/miles/rollout/rm_hub/hpsv3.py
+index 16f138d..12a2d56 100644
+--- a/miles/rollout/rm_hub/hpsv3.py
++++ b/miles/rollout/rm_hub/hpsv3.py
+@@ -216,6 +216,13 @@ class HPSv3RewardActor:
+         self.device = device
+         self.frame_batch_size = frame_batch_size
+         self.model = build_model(checkpoint_path, base_config_path, rid, len(self.processor.tokenizer), device)
++        if use_cuda:
++            # build_model constructs in fp32 on the GPU and casts to bf16, which leaves the weights spread over
++            # half-used cache segments (~2.3 GiB reserved beyond what is allocated). A round trip through host memory
++            # packs them; the values are unchanged.
++            self.model.to("cpu")
++            torch.cuda.empty_cache()
++            self.model.to("cuda")
+ 
+     @torch.no_grad()
+     def score_batch(self, outputs: list[torch.Tensor], prompts: list[str]) -> list[list[float]]:
+@@ -234,6 +241,10 @@ class HPSv3RewardActor:
+                 inp.get("mm_token_type_ids"),
+             )
+             mus.extend(logits[:, 0].float().cpu().tolist())
++            del inp, logits
++        if self.device == "cuda":
++            # return the scoring activations' cache: the colocated trainer uses that memory next
++            torch.cuda.empty_cache()
+         n = len(FRAME_INDICES)
+         return [mus[i * n : (i + 1) * n] for i in range(len(outputs))]
+ 
+diff --git a/task_entry.py b/task_entry.py
+index 676d91c..4779f06 100644
+--- a/task_entry.py
++++ b/task_entry.py
+@@ -83,6 +83,9 @@ def common_md_args(c: dict) -> list[str]:
+         "--hpsv3-batch-size", "4", "--hpsv3-frame-batch-size", "16",
+         "--rollout-video-dtype", "uint8",
+         "--rollout-microgroup-size", "1", "--micro-batch-size-sample", "1", "--micro-batch-size-tstep", "1",
++        # H100 NVL (94 GB): on each GPU the FSDP trainer shares the card with a sleeping (run) or Judge-owned (serve)
++        # engine and a colocated HPSv3 worker; activation checkpointing brings its replay peak from ~79 to ~52 GiB.
++        "--gradient-checkpointing",
+         "--diffusion-train-iter-order", "sample_major",
+         "--update-weight-buffer-size", str(4 * 2**30),
+         "--actor-num-nodes", "1", "--actor-num-gpus-per-node", "2", "--rollout-num-gpus", "2",
+@@ -284,6 +287,9 @@ def cmd_serve(a) -> None:
+                 if cmd == "probe":
+                     actor.export_full_state(msg["theta1_path"], None)
+                 else:
++                    # return the training activations' cache first, so the publication buckets fit inside the
++                    # training peak instead of adding segments on top of it (H100 NVL, 94 GB)
++                    actor.clear_memory()
+                     actor.update_weights()
+                 emit({"event": "done", "id": msg.get("id")})
+                 rid += 1

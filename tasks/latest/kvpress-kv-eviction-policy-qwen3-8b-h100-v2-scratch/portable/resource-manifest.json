@@ -1,0 +1,25 @@
+{
+  "boundary": {
+    "excludes": "launch and deployment plumbing (build-resource-manifest.json)",
+    "includes": "scientific contract: runtime, trusted Judge code, briefs, public items, frozen holdout manifest, item generator, integrity policy",
+    "kind": "task_core"
+  },
+  "resources": [
+    {"path": "runtime/kv_eviction_runtime.py", "sha256": "sha256:3a2f6caf6b75bae06c7dc32fe818f771e193df862e7f96d03e3ec1ffc25804f0"},
+    {"path": "images/judge/verify_kv_eviction.py", "sha256": "sha256:cbf57b261008f523f7ae9c99692941c23e456e777e697fe6a5392e6e37887c8e"},
+    {"path": "images/judge/candidate_worker.py", "sha256": "sha256:0920cbb6b4b44e35197a8a6d8c44c070bb06b4549c338ab80d4a75573aec8e49"},
+    {"path": "images/judge/trusted_replay.py", "sha256": "sha256:746c1422779884007a92f7811d6c05d5491756d77727b27981bd331dcd773dcc"},
+    {"path": "images/judge/judge_shards.py", "sha256": "sha256:77b405966d8a711a4d98c226438c84216b8a6c35a8e0473d957ef6e998fc6b0a"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:6ca3f2dc94908fe659cc72c9c6da18fd1aa3577d35c76edca64b95ec06648a43"},
+    {"path": "images/judge/source_admission.py", "sha256": "sha256:0ab8f1cb6954a167f2d9fe3f64e54efb2237bc66204f00e9cacbcfbdee9e42d1"},
+    {"path": "images/work/benchmark/source_admission.py", "sha256": "sha256:0ab8f1cb6954a167f2d9fe3f64e54efb2237bc66204f00e9cacbcfbdee9e42d1"},
+    {"path": "images/work/benchmark/public_runner.py", "sha256": "sha256:6bf42f029a77c8aa3d2a5f0595c118dc351c98ceac2524f155ae6baed631bf24"},
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:1c2cbc391802d3945adaa26f554ea9aa72abe2ae130adc302903f1c1560ceb3b"},
+    {"path": "images/work/workdir/kv_eviction_lab/README_AGENT.md", "sha256": "sha256:e62572eaf3bff9354ce7fe5b9df9280b24aadf563e203a0a7f73f483f8e8bb04"},
+    {"path": "corpus/public/items_public.jsonl", "sha256": "sha256:3b401eb6de208452bce6fc7945048648a142a6aa722ecfaf38039c1a0a6c02d2"},
+    {"path": "judge/private/final_manifest.json", "sha256": "sha256:e0bf8572a0a9ca37195af0aa8ac963388a4d389fb20339e4e60115965e08ed65"},
+    {"path": "scripts/prepare_items.py", "sha256": "sha256:3e478e95ad8b802715927921a2d7b01d5f00d57f7b2113fac4fa16a56b252429"},
+    {"path": "llm_judge/POLICY.md", "sha256": "sha256:68ed4ef3905084be3e078039cb7bd4281dd046364e0b50816afe33e704c777f9"}
+  ],
+  "schema_version": 1
+}

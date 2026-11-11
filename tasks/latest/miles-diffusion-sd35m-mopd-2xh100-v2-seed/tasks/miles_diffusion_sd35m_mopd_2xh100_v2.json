@@ -1,0 +1,93 @@
+{
+  "task_id": "miles_diffusion_sd35m_mopd_2xh100_v2",
+  "name": "Miles SD3.5-M Multi-Teacher On-Policy Distillation v2 · 2×H100",
+  "category": "Training / System",
+  "base_image": "miles_diffusion_opd_runtime",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/miles_lab",
+  "submit_paths": [
+    "repo",
+    "task_entry.py",
+    "config",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "__pycache__/",
+    "*.pyc",
+    "*.safetensors",
+    "*.pt",
+    "*.bin",
+    "*.ckpt",
+    "*.msgpack",
+    "checkpoints/",
+    "outputs/",
+    "logs/",
+    "wandb/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/miles_lab",
+    "cpu_limit": 24,
+    "mem_limit": "256g",
+    "agent_query": "Read AGENT_TASK.md and docs/INTERFACE.md. Implement multi-teacher on-policy distillation natively in the supplied miles_diffusion checkout (repo/) and task_entry.py, following the mathematical and workload contract exactly, then maximize the score: how much of the gap between the original model and each teacher the complete run's student closes on the teachers' own tasks (OCR accuracy and PickScore of images it generates from held-out prompts, averaged over the two routes; each route must close at least the gate and pass a teacher-student KL gate), per hour of timed replay training, so a faster training loop and a student that learns more both count. Use the public suites (python /opt/opd_public/run_public.py, suites probe, small, perf; perf --quality also checks the evaluation on a short real run; outputs under /scratch) only to get the pipeline working and passing its checks. They are far smaller than the scored run and do not predict the score: think about how your pipeline behaves at a larger scale and how to optimize it, and measure real speed, memory use and learning with sforge-submit, which runs the full evaluation on hidden data. Keep notes in notes.md. Stop every GPU process before submitting with sforge-submit."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/opd_judge/judge/run_judge.py --app /app/workdir/miles_lab --private /judge_private --log-dir /logs/verifier",
+    "eval_timeout": 7500,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/opd_private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 24,
+    "mem_limit": "256g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "dual-cuda-sm90-nccl": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 85899345920,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "fp16",
+          "nccl"
+        ],
+        "notes": "Work and Judge serialize on the same leased pair; the Judge pauses Work while it runs. Measured on H100 NVL (95830 MiB) GPU 2/3, 2026-09-28: per-card peak 81559 MiB (the Judge's fp32 oracle in the probe check, GPU 0), real run 61596 / 60415 MiB, replay 44370 / 43211 MiB, quality evaluation 24719 MiB (metric v2 runs one evaluator process per card, ~24 GB each); an 80 GB card (81559 MiB) is below the 80 GiB floor and could not hold that oracle peak."
+      },
+      "dual-cuda-sm90-nccl-80g": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "fp16",
+          "nccl"
+        ],
+        "notes": "The 80 GB H100 SXM pair (NV18, 700 W; 81559 MiB per card). Qualified separately: runtime/qualification.dual-cuda-sm90-nccl-80g.json (reference T and scores; scores are comparable only within this profile). The probe check's fp32 oracle runs with --micro 4 on cards below the default profile's 80 GiB floor (with --micro 8 it needs more than an 80 GB card holds); the gradient is a sum over micro-batches, so only the fp32 summation order changes."
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_hardware_fixed_workload",
+        "baseline_policy": "frozen_base_and_teacher_task_metrics_and_gates"
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "dual-cuda-sm90-nccl"
+    }
+  }
+}

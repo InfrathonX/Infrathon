@@ -1,0 +1,136 @@
+{
+  "aggregation": "geometric_mean_over_rows_of_tokens_per_second",
+  "final": {
+    "case_count": 12,
+    "generations": 520,
+    "hard_gate_case_count": 0,
+    "rounds": "host-side terminal final; same frozen cohort and scientific gates as interactive",
+    "routing": "round_id manual-1 (frozen archive after Work ends)",
+    "run_gate_policy": "all_run_wide_gates_must_pass",
+    "scored_case_count": 12,
+    "suite_id": "llada-decoder-final-v2"
+  },
+  "interactive": {
+    "case_count": 12,
+    "rounds": "all agent-initiated scored submissions; same complete frozen final cohort; always follows FINAL_VERSION",
+    "routing": "round_id agent-N",
+    "sampled_cases_per_round": 520,
+    "selection": "all_frozen_final_v1",
+    "suite_id": "llada-decoder-final-v2",
+    "generations": 520,
+    "run_gate_policy": "all_run_wide_gates_must_pass"
+  },
+  "protocol_id": "twelve-rows-frozen-final-all-rounds-v3",
+  "public": {
+    "case_count": 44,
+    "rounds": "candidate-only public evaluator inside Work (--cpu-only, --quick, full)",
+    "row_counts": {
+      "quick_gsm8k_g128": 1,
+      "quick_humaneval_g128": 1,
+      "quick_math_g128": 1,
+      "quick_mbpp_g128": 1,
+      "table1_gsm8k_5shot_g256": 3,
+      "table1_gsm8k_5shot_g512": 3,
+      "table1_humaneval_0shot_g256": 5,
+      "table1_humaneval_0shot_g512": 5,
+      "table1_math_4shot_g256": 5,
+      "table1_math_4shot_g512": 5,
+      "table1_mbpp_3shot_g256": 5,
+      "table1_mbpp_3shot_g512": 5,
+      "table4_gsm8k_5shot_g1024": 1,
+      "table5_gsm8k_8shot_g1024": 1,
+      "table5_gsm8k_8shot_g256": 1,
+      "table5_gsm8k_8shot_g512": 1
+    },
+    "suite_id": "llada-decoder-public-v2"
+  },
+  "row_shapes": {
+    "table1_gsm8k_5shot_g256": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 5,
+      "gen_length": 256
+    },
+    "table1_gsm8k_5shot_g512": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 5,
+      "gen_length": 512
+    },
+    "table1_humaneval_0shot_g256": {
+      "benchmark": "humaneval",
+      "block_length": 32,
+      "fewshot": 0,
+      "gen_length": 256
+    },
+    "table1_humaneval_0shot_g512": {
+      "benchmark": "humaneval",
+      "block_length": 32,
+      "fewshot": 0,
+      "gen_length": 512
+    },
+    "table1_math_4shot_g256": {
+      "benchmark": "math",
+      "block_length": 32,
+      "fewshot": 4,
+      "gen_length": 256
+    },
+    "table1_math_4shot_g512": {
+      "benchmark": "math",
+      "block_length": 32,
+      "fewshot": 4,
+      "gen_length": 512
+    },
+    "table1_mbpp_3shot_g256": {
+      "benchmark": "mbpp",
+      "block_length": 32,
+      "fewshot": 3,
+      "gen_length": 256
+    },
+    "table1_mbpp_3shot_g512": {
+      "benchmark": "mbpp",
+      "block_length": 32,
+      "fewshot": 3,
+      "gen_length": 512
+    },
+    "table4_gsm8k_5shot_g1024": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 5,
+      "gen_length": 1024
+    },
+    "table5_gsm8k_8shot_g1024": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 8,
+      "gen_length": 1024
+    },
+    "table5_gsm8k_8shot_g256": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 8,
+      "gen_length": 256
+    },
+    "table5_gsm8k_8shot_g512": {
+      "benchmark": "gsm8k",
+      "block_length": 32,
+      "fewshot": 8,
+      "gen_length": 512
+    }
+  },
+  "rows": [
+    "table1_gsm8k_5shot_g256",
+    "table1_gsm8k_5shot_g512",
+    "table1_math_4shot_g256",
+    "table1_math_4shot_g512",
+    "table1_humaneval_0shot_g256",
+    "table1_humaneval_0shot_g512",
+    "table1_mbpp_3shot_g256",
+    "table1_mbpp_3shot_g512",
+    "table4_gsm8k_5shot_g1024",
+    "table5_gsm8k_8shot_g256",
+    "table5_gsm8k_8shot_g512",
+    "table5_gsm8k_8shot_g1024"
+  ],
+  "schema_version": 1
+}

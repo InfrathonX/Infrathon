@@ -1,0 +1,23 @@
+{
+  "acceptance": "finite, fully written output on every non-empty group; normalized error against the exact reference below its limit on every group; upstream normalized error against the bf16 source below its limit on every group (or pool of small groups) with at least the minimum element count",
+  "integrity": ["complete_write", "inputs_unchanged", "guard_bands_intact", "nan_filled_invalid_rows", "decoy_precall_redrawn_rows_fresh_measured_tensors", "sequence_last_writer_exact_check", "nan_poisoned_outputs", "current_stream_dispatch", "compute_sanitizer_memcheck_subset"],
+  "protocol_id": "fp8-exact-and-bf16-source-normalized-error-v4",
+  "quantization": {
+    "operands": "fp8_e4m3fn_with_per_128_block_fp32_scales",
+    "scale_block": 128,
+    "scale_rule": "max(abs(block), 1e-4) / 448"
+  },
+  "reference": {
+    "exact": "fp64_product_of_the_dequantized_fp8_operands",
+    "source": "bf16_gemm_of_the_unquantized_bf16_source_operands",
+    "provenance": "moe-serving-synthetic-v4"
+  },
+  "schema_version": 1,
+  "tolerances": {
+    "normalized_error": "1 - 2*dot(candidate, reference) / (sum(candidate^2) + sum(reference^2))",
+    "exact_error_limit": "0.00005",
+    "normalized_error_limit": "0.001",
+    "source_check_min_elements": 16384,
+    "scale_block": 128
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "accelerator_runtime": "cuda-12.9-with-nvcc",
+  "compile": {
+    "abi_header": "runtime/transfer_abi.h",
+    "command": "nvcc -O3 -std=c++17 -arch=<native sm of the allocated GPU, sm_XYa on Hopper and newer> --shared --cudart=shared",
+    "timeout_seconds": 300
+  },
+  "entry_point": "lmcache_paged_kv_block_transfer",
+  "harness_runtime": ["pytorch-2.8.0"],
+  "language": "cuda-c++17-single-translation-unit",
+  "protocol_id": "cuda129-nvcc-native-sm-shared-cudart-v1",
+  "required_dtypes": ["bf16-storage-bytes"],
+  "schema_version": 1
+}

@@ -1,0 +1,32 @@
+{
+  "schema_version": 1,
+  "task_directory": "concurrent-agent-serving-optimizer-qwen36-swe192-v24",
+  "note": "The Judge-only nonce source (two lines: hidden, public workload nonce; never enters an image) is read by the host launcher and baseline runner (SFORGE_KVBENCH_NONCE_SOURCE). Qwen/Qwen3.6-27B@6a9e13bd (Hugging Face) is loaded by the external vLLM backend (KVBENCH_MODEL_PATH). The 192 public swebench/sweb.eval.x86_64.* images are not assets: scripts/stage_swebench_corpus.py pulls them by digest.",
+  "assets": [
+    {
+      "path": "judge/nonce_source.txt",
+      "sha256": "a813d5870b40fea3f2930da4004ff8048749b105f6b8b218c50c9d8a37311577",
+      "size": 130,
+      "consumer": "judge",
+      "description": "hidden and public workload nonces (commitments in scripts/preflight.py)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/models/Qwen3.6-27B/",
+      "sha256": "8e3e1fc0103c85a66c1516343b645a80d667e47a8152b8b38a24e67e218d1d33",
+      "size": 55586107940,
+      "files": 29,
+      "consumer": "backend",
+      "description": "served by the external vLLM backend (KVBENCH_MODEL_PATH: plain files, not the cache's links)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3.6-27B",
+        "repo_type": "model",
+        "revision": "6a9e13bd6fc8f0983b9b99948120bc37f49c13e9",
+        "layout": "flat"
+      }
+    }
+  ]
+}

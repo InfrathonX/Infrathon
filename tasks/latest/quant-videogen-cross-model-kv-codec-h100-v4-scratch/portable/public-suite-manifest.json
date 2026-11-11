@@ -1,0 +1,18 @@
+{
+  "case_counts": {
+    "diagnostic": 3,
+    "scored_performance": 0,
+    "total": 3,
+    "zero_weight_hard_gate": 0
+  },
+  "cases": [
+    {"case_id": "public-abi-fidelity-compression", "measurement_mode": "fast_abi_fidelity_and_compression_checks_on_synthetic_kv", "role": "diagnostic", "runner": "public_tests/run_public_tests.py", "weight": {"denominator": 1, "numerator": 0}},
+    {"case_id": "public-self-forcing-prefix-350", "latent_frames": 180, "measurement_mode": "candidate_only_end_to_end_diagnostic", "optional_vbench": true, "prefix": 350, "prompt_count": 2, "role": "diagnostic", "runner": "public_tests/run_self_forcing_paper.py", "weight": {"denominator": 1, "numerator": 0}, "workload": "Self-Forcing (Wan2.1-T2V-1.3B) paper protocol"},
+    {"case_id": "public-self-forcing-prefix-700", "latent_frames": 180, "measurement_mode": "candidate_only_end_to_end_diagnostic", "optional_vbench": true, "prefix": 700, "prompt_count": 2, "role": "diagnostic", "runner": "public_tests/run_self_forcing_paper.py", "weight": {"denominator": 1, "numerator": 0}, "workload": "Self-Forcing (Wan2.1-T2V-1.3B) paper protocol"}
+  ],
+  "public_prompts_sha256": "8ee4339584b042e0cbda30048e4709899ebebe8d0f632f7f832fbcea351467f1",
+  "role": "public",
+  "schema_version": 1,
+  "selection_semantics": "participant-visible diagnostics only: the fast ABI/fidelity/compression check and the Self-Forcing paper protocol at prefixes 350 and 700 over the public prompts; none of them scores, and the hidden LongCat / HY-WorldPlay-8B workloads, goldens and gates are never exposed in Work",
+  "suite_id": "quant-videogen-public-v3"
+}

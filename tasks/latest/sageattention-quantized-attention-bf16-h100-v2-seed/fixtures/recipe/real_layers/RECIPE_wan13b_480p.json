@@ -1,0 +1,487 @@
+{
+ "schema_version": 1,
+ "kind": "diffusion",
+ "recipe_id": "rl-wan21-1.3b-480p-v1",
+ "title": "Wan2.1-T2V-1.3B 480p 81 frames: self-attention Q/K/V of five blocks at three denoising steps (conditional pass)",
+ "identity": "per-deployment-capture",
+ "capture_dir": "wan13b-480p",
+ "role": "scored_real_layer",
+ "why": "SageAttention's upstream example accelerates Wan2.1 (example/wan_infer.py); 480p 81 frames is its default.",
+ "model": {
+  "repo": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+  "repo_type": "model",
+  "revision": "0fad780a534b6463e45facd96134c9f345acfa5b",
+  "license": "apache-2.0",
+  "download": "hf download Wan-AI/Wan2.1-T2V-1.3B-Diffusers --revision 0fad780a534b6463e45facd96134c9f345acfa5b",
+  "files": {
+   "model_index.json": "b8b28e022329acf975e027579a1d2dc3de44dba28f4c909b98a880fbf5b0de7d",
+   "scheduler/scheduler_config.json": "3fed2abbd9bbc301a74db01947198057ec5049808910dccab320925bf27bea6e",
+   "text_encoder/config.json": "4087b6192155a4643f6d29fd326c4610103130674011ef4d0a53f8bce5de967d",
+   "text_encoder/model-00001-of-00005.safetensors": "c0ef3a140898e228a3520c9adec60743d2e8e5b3d229651bb37f1a3921919f99",
+   "text_encoder/model-00002-of-00005.safetensors": "481c7b2b39771c44df6dd8d13ee12ed072d731b4a650bd092885d4d52db229ad",
+   "text_encoder/model-00003-of-00005.safetensors": "f93148bcc04052a169e1e49bfcf6125df6cf9bf243cb9c627da75266cf8e35c3",
+   "text_encoder/model-00004-of-00005.safetensors": "a451792c739c05bca4606190cc2dd16731411bac03b4cf6aacc5767321f857c9",
+   "text_encoder/model-00005-of-00005.safetensors": "7e76e18d224531b8197a46231cb53daf7f2f6ca707130252becf933026ac4eea",
+   "text_encoder/model.safetensors.index.json": "8af791f24a6447aa30c95786f40adf23d3c9df97470d2f36159c8f1113f120b4",
+   "tokenizer/special_tokens_map.json": "456b58fd240a06c743a7c2cf8008bec501240d68ebd1fc4018ea569505fea270",
+   "tokenizer/spiece.model": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+   "tokenizer/tokenizer.json": "20a46ac256746594ed7e1e3ef733b83fbc5a6f0922aa7480eda961743de080ef",
+   "tokenizer/tokenizer_config.json": "1d8d2a216bf8e70ac15b7ddcea566c4dd0433c024b39a58ca5e4c66bd78defbd",
+   "transformer/config.json": "0b093fa072e9ff28763febe9b964ee582f566733a6d6709deb9dfba1bde16b81",
+   "transformer/diffusion_pytorch_model-00001-of-00002.safetensors": "6d011927dbd2cc8afe53d57abab04a8fd86f615d83324770d985fb058ece3a24",
+   "transformer/diffusion_pytorch_model-00002-of-00002.safetensors": "b92ec2309b1f239af6f746431815a881afcc938abb26a4f08d9a2fd6c892f872",
+   "transformer/diffusion_pytorch_model.safetensors.index.json": "dcbcf3497134a3f50557ff069dd7d2c84b5c4d8c5932472f6bdb780fb4016589",
+   "vae/config.json": "f0c1cc1d7decb5badc384f54691746a27a9aeff49f7ebca974e583389342d527",
+   "vae/diffusion_pytorch_model.safetensors": "d6e524b3fffede1787a74e81b30976dce5400c4439ba64222168e607ed19e793"
+  }
+ },
+ "generation": {
+  "pipeline": "WanPipeline",
+  "seed": 5150,
+  "call": {
+   "prompt": "A paper boat drifts down a rain-filled gutter past glowing shop windows at dusk, ripples spreading in the puddles.",
+   "negative_prompt": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, still picture, cluttered background",
+   "height": 480,
+   "width": 832,
+   "num_frames": 81,
+   "num_inference_steps": 30,
+   "guidance_scale": 5.0
+  }
+ },
+ "capture": {
+  "points": [
+   [
+    2,
+    0
+   ],
+   [
+    2,
+    7
+   ],
+   [
+    2,
+    14
+   ],
+   [
+    2,
+    21
+   ],
+   [
+    2,
+    29
+   ],
+   [
+    12,
+    0
+   ],
+   [
+    12,
+    7
+   ],
+   [
+    12,
+    14
+   ],
+   [
+    12,
+    21
+   ],
+   [
+    12,
+    29
+   ],
+   [
+    24,
+    0
+   ],
+   [
+    24,
+    7
+   ],
+   [
+    24,
+    14
+   ],
+   [
+    24,
+    21
+   ],
+   [
+    24,
+    29
+   ]
+  ],
+  "calls_per_step": 2,
+  "layers": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9,
+   10,
+   11,
+   12,
+   13,
+   14
+  ]
+ },
+ "attention": {
+  "layers": 30,
+  "is_causal": false,
+  "softmax_scale": 0.08838834764831845,
+  "q_heads": 12,
+  "kv_heads": 12
+ },
+ "tensors": {
+  "layout": "B,L,H,D",
+  "dtype": "torch.bfloat16",
+  "q": [
+   1,
+   32760,
+   12,
+   128
+  ],
+  "k": [
+   1,
+   32760,
+   12,
+   128
+  ],
+  "v": [
+   1,
+   32760,
+   12,
+   128
+  ]
+ },
+ "builder": {
+  "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "dockerfile": "fixtures/recipe/real_layers/Dockerfile.builder",
+  "pip_packages": [
+   "accelerate==1.14.0",
+   "diffusers==0.40.0",
+   "ftfy==6.3.1",
+   "huggingface_hub==1.33.0",
+   "numpy==1.26.4",
+   "protobuf==6.32.1",
+   "pyarrow==21.0.0",
+   "regex==2026.9.10",
+   "safetensors==0.8.0",
+   "sentencepiece==0.2.1",
+   "tokenizers==0.22.2",
+   "transformers==5.15.1"
+  ]
+ },
+ "sanity_bands": {
+  "note": "reference capture: RMS widened 2x, abs-max 4x",
+  "layers": {
+   "00": {
+    "q": {
+     "rms_min": 0.534218,
+     "rms_max": 2.136873,
+     "abs_max_min": 2.296875,
+     "abs_max_max": 36.75
+    },
+    "k": {
+     "rms_min": 0.546702,
+     "rms_max": 2.186807,
+     "abs_max_min": 2.140625,
+     "abs_max_max": 34.25
+    },
+    "v": {
+     "rms_min": 1.032978,
+     "rms_max": 4.131913,
+     "abs_max_min": 4.15625,
+     "abs_max_max": 66.5
+    }
+   },
+   "01": {
+    "q": {
+     "rms_min": 0.688248,
+     "rms_max": 2.752992,
+     "abs_max_min": 3.828125,
+     "abs_max_max": 61.25
+    },
+    "k": {
+     "rms_min": 0.71712,
+     "rms_max": 2.868481,
+     "abs_max_min": 3.953125,
+     "abs_max_max": 63.25
+    },
+    "v": {
+     "rms_min": 0.372095,
+     "rms_max": 1.488382,
+     "abs_max_min": 1.648438,
+     "abs_max_max": 26.375
+    }
+   },
+   "02": {
+    "q": {
+     "rms_min": 0.684099,
+     "rms_max": 2.736396,
+     "abs_max_min": 3.234375,
+     "abs_max_max": 51.75
+    },
+    "k": {
+     "rms_min": 0.699879,
+     "rms_max": 2.799514,
+     "abs_max_min": 3.34375,
+     "abs_max_max": 53.5
+    },
+    "v": {
+     "rms_min": 0.422516,
+     "rms_max": 1.690062,
+     "abs_max_min": 2.25,
+     "abs_max_max": 36.0
+    }
+   },
+   "03": {
+    "q": {
+     "rms_min": 0.722741,
+     "rms_max": 2.890963,
+     "abs_max_min": 3.625,
+     "abs_max_max": 58.0
+    },
+    "k": {
+     "rms_min": 0.767133,
+     "rms_max": 3.068532,
+     "abs_max_min": 4.21875,
+     "abs_max_max": 67.5
+    },
+    "v": {
+     "rms_min": 0.317287,
+     "rms_max": 1.269149,
+     "abs_max_min": 1.867188,
+     "abs_max_max": 29.875
+    }
+   },
+   "04": {
+    "q": {
+     "rms_min": 1.525833,
+     "rms_max": 6.103334,
+     "abs_max_min": 26.0,
+     "abs_max_max": 416.0
+    },
+    "k": {
+     "rms_min": 1.554038,
+     "rms_max": 6.216153,
+     "abs_max_min": 24.125,
+     "abs_max_max": 386.0
+    },
+    "v": {
+     "rms_min": 0.572769,
+     "rms_max": 2.291078,
+     "abs_max_min": 1.914062,
+     "abs_max_max": 30.625
+    }
+   },
+   "05": {
+    "q": {
+     "rms_min": 0.54441,
+     "rms_max": 2.177641,
+     "abs_max_min": 2.390625,
+     "abs_max_max": 38.25
+    },
+    "k": {
+     "rms_min": 0.549548,
+     "rms_max": 2.198193,
+     "abs_max_min": 2.21875,
+     "abs_max_max": 35.5
+    },
+    "v": {
+     "rms_min": 0.964961,
+     "rms_max": 3.859843,
+     "abs_max_min": 3.796875,
+     "abs_max_max": 60.75
+    }
+   },
+   "06": {
+    "q": {
+     "rms_min": 0.696817,
+     "rms_max": 2.787267,
+     "abs_max_min": 4.1875,
+     "abs_max_max": 67.0
+    },
+    "k": {
+     "rms_min": 0.713672,
+     "rms_max": 2.854687,
+     "abs_max_min": 3.984375,
+     "abs_max_max": 63.75
+    },
+    "v": {
+     "rms_min": 0.432234,
+     "rms_max": 1.728934,
+     "abs_max_min": 2.546875,
+     "abs_max_max": 40.75
+    }
+   },
+   "07": {
+    "q": {
+     "rms_min": 0.699365,
+     "rms_max": 2.797459,
+     "abs_max_min": 3.625,
+     "abs_max_max": 58.0
+    },
+    "k": {
+     "rms_min": 0.705907,
+     "rms_max": 2.823629,
+     "abs_max_min": 4.0,
+     "abs_max_max": 64.0
+    },
+    "v": {
+     "rms_min": 0.458057,
+     "rms_max": 1.832227,
+     "abs_max_min": 2.3125,
+     "abs_max_max": 37.0
+    }
+   },
+   "08": {
+    "q": {
+     "rms_min": 0.734828,
+     "rms_max": 2.939314,
+     "abs_max_min": 3.796875,
+     "abs_max_max": 60.75
+    },
+    "k": {
+     "rms_min": 0.768054,
+     "rms_max": 3.072218,
+     "abs_max_min": 4.1875,
+     "abs_max_max": 67.0
+    },
+    "v": {
+     "rms_min": 0.326971,
+     "rms_max": 1.307883,
+     "abs_max_min": 1.984375,
+     "abs_max_max": 31.75
+    }
+   },
+   "09": {
+    "q": {
+     "rms_min": 1.496906,
+     "rms_max": 5.987624,
+     "abs_max_min": 26.75,
+     "abs_max_max": 428.0
+    },
+    "k": {
+     "rms_min": 1.534109,
+     "rms_max": 6.136436,
+     "abs_max_min": 23.875,
+     "abs_max_max": 382.0
+    },
+    "v": {
+     "rms_min": 0.606646,
+     "rms_max": 2.426585,
+     "abs_max_min": 2.453125,
+     "abs_max_max": 39.25
+    }
+   },
+   "10": {
+    "q": {
+     "rms_min": 0.554697,
+     "rms_max": 2.218787,
+     "abs_max_min": 2.453125,
+     "abs_max_max": 39.25
+    },
+    "k": {
+     "rms_min": 0.552861,
+     "rms_max": 2.211444,
+     "abs_max_min": 2.296875,
+     "abs_max_max": 36.75
+    },
+    "v": {
+     "rms_min": 0.766935,
+     "rms_max": 3.067741,
+     "abs_max_min": 3.1875,
+     "abs_max_max": 51.0
+    }
+   },
+   "11": {
+    "q": {
+     "rms_min": 0.701584,
+     "rms_max": 2.806335,
+     "abs_max_min": 4.25,
+     "abs_max_max": 68.0
+    },
+    "k": {
+     "rms_min": 0.714055,
+     "rms_max": 2.85622,
+     "abs_max_min": 3.890625,
+     "abs_max_max": 62.25
+    },
+    "v": {
+     "rms_min": 0.426493,
+     "rms_max": 1.705971,
+     "abs_max_min": 2.359375,
+     "abs_max_max": 37.75
+    }
+   },
+   "12": {
+    "q": {
+     "rms_min": 0.706649,
+     "rms_max": 2.826597,
+     "abs_max_min": 3.671875,
+     "abs_max_max": 58.75
+    },
+    "k": {
+     "rms_min": 0.70957,
+     "rms_max": 2.838282,
+     "abs_max_min": 4.09375,
+     "abs_max_max": 65.5
+    },
+    "v": {
+     "rms_min": 0.414099,
+     "rms_max": 1.656394,
+     "abs_max_min": 2.328125,
+     "abs_max_max": 37.25
+    }
+   },
+   "13": {
+    "q": {
+     "rms_min": 0.744808,
+     "rms_max": 2.979234,
+     "abs_max_min": 3.90625,
+     "abs_max_max": 62.5
+    },
+    "k": {
+     "rms_min": 0.76891,
+     "rms_max": 3.075641,
+     "abs_max_min": 4.15625,
+     "abs_max_max": 66.5
+    },
+    "v": {
+     "rms_min": 0.314524,
+     "rms_max": 1.258097,
+     "abs_max_min": 1.890625,
+     "abs_max_max": 30.25
+    }
+   },
+   "14": {
+    "q": {
+     "rms_min": 1.386452,
+     "rms_max": 5.545808,
+     "abs_max_min": 26.0,
+     "abs_max_max": 416.0
+    },
+    "k": {
+     "rms_min": 1.496147,
+     "rms_max": 5.984589,
+     "abs_max_min": 23.0,
+     "abs_max_max": 368.0
+    },
+    "v": {
+     "rms_min": 0.555925,
+     "rms_max": 2.223701,
+     "abs_max_min": 2.703125,
+     "abs_max_max": 43.25
+    }
+   }
+  }
+ }
+}

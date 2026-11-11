@@ -1,0 +1,120 @@
+{
+  "schema_version": 1,
+  "recipe_id": "attn-qat-real-layers-v1",
+  "identity": "per-deployment-capture",
+  "manifest_name": "real_layers.manifest.json",
+  "chunk_rows": 512,
+  "note": "Scored real layers of the Judge. sanity_bands are the H100 reference capture widened by 2x on the RMS and 4x on the absolute maximum.",
+  "sanity_bands": {
+    "q": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.4622,
+      "rms_max": 4.124,
+      "abs_max_min": 2.359,
+      "abs_max_max": 134.0
+    },
+    "k": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.4588,
+      "rms_max": 4.452,
+      "abs_max_min": 2.188,
+      "abs_max_max": 179.0
+    },
+    "v": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.2889,
+      "rms_max": 3.964,
+      "abs_max_min": 1.484,
+      "abs_max_max": 62.25
+    },
+    "do": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 6.414e-10,
+      "rms_max": 7.157e-07,
+      "abs_max_min": 5.122e-09,
+      "abs_max_max": 0.0005836
+    }
+  },
+  "sources": {
+    "wan13b": {
+      "model": {
+        "repo_id": "Wan-AI/Wan2.1-T2V-1.3B-Diffusers",
+        "revision": "0fad780a534b6463e45facd96134c9f345acfa5b"
+      },
+      "prompt": "A bustling city street at night, filled with the glow of car headlights and the ambient light of streetlights, with pedestrians crossing in the rain.",
+      "negative_prompt": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, still picture, cluttered background",
+      "geometry": {
+        "frames": 81,
+        "height": 480,
+        "width": 832,
+        "latent_shape": [
+          16,
+          21,
+          60,
+          104
+        ],
+        "seq_len": 32760
+      },
+      "heads_kept": 12,
+      "blocks": [
+        0,
+        3,
+        6,
+        9,
+        12,
+        15,
+        18,
+        21,
+        24,
+        27
+      ],
+      "sigma_percent": [
+        10,
+        50,
+        90
+      ],
+      "latent": {
+        "steps": 30,
+        "guidance_scale": 5.0,
+        "seed": 4100
+      },
+      "noise_seed": 4200,
+      "layer_format": "wan13b-b{block:02d}-s{sigma:03d}"
+    },
+    "wan14b": {
+      "model": {
+        "repo_id": "Wan-AI/Wan2.1-T2V-14B-Diffusers",
+        "revision": "38ec498cb3208fb688890f8cc7e94ede2cbd7f68"
+      },
+      "prompt": "A red fox trots along a snowy forest ridge at sunrise while pine branches shed powder in the wind and distant peaks glow orange.",
+      "negative_prompt": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, still picture, cluttered background",
+      "geometry": {
+        "frames": 81,
+        "height": 720,
+        "width": 1280,
+        "latent_shape": [
+          16,
+          21,
+          90,
+          160
+        ],
+        "seq_len": 75600
+      },
+      "heads_kept": 20,
+      "blocks": [
+        0,
+        39
+      ],
+      "sigma_percent": [
+        50
+      ],
+      "latent": {
+        "steps": 20,
+        "guidance_scale": 5.0,
+        "seed": 4300
+      },
+      "noise_seed": 4400,
+      "layer_format": "wan14b-b{block:02d}-s{sigma:03d}"
+    }
+  }
+}

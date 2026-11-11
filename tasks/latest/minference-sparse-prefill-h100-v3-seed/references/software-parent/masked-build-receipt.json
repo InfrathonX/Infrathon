@@ -1,0 +1,20 @@
+{
+  "status": "build-completed",
+  "returncode": 0,
+  "wall_seconds": 5.582619241991779,
+  "created_utc": "2026-10-05T11:55:05.878015+00:00",
+  "dockerfile_sha256": "b4410613a4d545b617c6e11cad112df0d300592f736adee4066ecb9b067a9fb6",
+  "unmasked_build_receipt_sha256": "956d55707fc8dfc3fb4ec816a0e7695bfaa5793e9c7db0ef9c91318c6f368068",
+  "software_source_image_id": "sha256:c790ca30156a2a03a18990443696576af5029296edbbbfda3e670292c9bcf433",
+  "official_base_image_id": "sha256:cf5aa3f7045a68c10d80f546746591c5ccae6a33729e5e32625ff76bd2c036fe",
+  "python_import_check_cuda_visible_devices": "",
+  "python_import_check_nvidia_visible_devices": "void",
+  "persistent_cuda_visible_devices_override_added": false,
+  "correction": "Prior build receipt gpu_access=false was an intent claim; build device access was not independently sampled. The masked derivative explicitly disables CUDA discovery for its Python check. Separate runc CPU validation proves no GPU access for that audit.",
+  "model_qkv_or_prompts_copied": false,
+  "qualified": false,
+  "image_id": "sha256:603d5163cef94886eade0d7b55e8b39ecc29f6ff1ad68c76556d573e16613189",
+  "image_tag": "minference-owned-clean-software-cpu-masked:20261005",
+  "official_base_layers_shared": 15,
+  "added_image_delta_bytes": 1505728587
+}

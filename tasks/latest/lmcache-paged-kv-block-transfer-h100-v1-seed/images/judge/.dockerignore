@@ -1,0 +1,9 @@
+*
+!Dockerfile
+!run_judge.py
+!verify_kv_transfer.py
+!candidate_worker.py
+!source_admission.py
+!protected_hashes.txt
+!anchor_cases.json
+!public_cases.json

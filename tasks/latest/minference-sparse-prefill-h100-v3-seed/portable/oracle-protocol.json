@@ -1,0 +1,9 @@
+{
+  "schema_version": 1,
+  "contract_protocol": "minference-kernel-only-prefill-v3",
+  "protocol_id": "kernel-fidelity-then-throughput-v3",
+  "submit_final_same_suite": true,
+  "gpu_count": 1,
+  "model_answer_generation": false,
+  "numeric_policy": "qualification/numerical_policy.json"
+}

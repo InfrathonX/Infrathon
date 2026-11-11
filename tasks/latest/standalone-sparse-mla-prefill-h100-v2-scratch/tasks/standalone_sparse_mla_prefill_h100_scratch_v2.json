@@ -1,0 +1,263 @@
+{
+  "task_id": "standalone_sparse_mla_prefill_h100_scratch_v2",
+  "name": "Standalone Upstream-Suite BF16 Sparse-MLA Prefill Portable CUDA From-Zero Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:def0a1ef99fef91a0eaf726d257e7a1768b5ae6428ad0fc838abeb2007de315e"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/sparse_mla_prefill_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/sparse_mla_prefill_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. Starting from the empty submission, implement the exact nine-argument BF16 sparse-MLA prefill ABI (sparse_mla_prefill writing out, max_logits and lse) with self-contained Triton, correct and memory-safe over the whole declared support domain (d_qk of 512 or 576 at any h_q that is a multiple of 16 from 16 to 128, topk any multiple of 128 up to 2048, any s_q from 1 to 70000 with s_q on grid axis 0 and 64-bit offsets, any s_kv from 1 to 1048576, invalid indices anywhere in a row, stale indices past topk_length, duplicated keys, rows with no valid key, +-inf sinks, topk_length from 0 to topk and any positive sm_scale), with BF16 or FP16 multiply operands and FP32 accumulation and softmax statistics (no FP8, INT8 or FP4); then optimize across the whole support domain, including streams of consecutive calls whose shapes change from call to call. Your score comes from hidden test cases on the Judge, which cover the kinds of call described in AGENT_TASK.md with undisclosed shapes; the public tests are for getting the kernel working and seeing trends. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Check candidates with the public sanitizer and edge suites (tools/run_public_tests.sh --sanitize or --edge with --candidate-version N) before submitting, and before finishing run the full public suite, the edge suite and the sanitizer suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\ntools/run_public_tests.sh --edge --candidate-version N\ntools/run_public_tests.sh --sanitize --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; external implementations and existing attention or GEMM kernels may not be used in the submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run takes about ten minutes of your budget, so submit candidates worth measuring."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/standalone_sparse_mla_prefill_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 5400,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/standalone_sparse_mla_prefill_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "32g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "sparse-mla-prefill-bf16-v3",
+      "definition": {
+        "operation": "token_sparse_mla_prefill_attention",
+        "outputs": [
+          "out",
+          "max_logits",
+          "lse"
+        ],
+        "families": {
+          "v32": {
+            "model": "DeepSeek-V3.2",
+            "d_qk": 576,
+            "h_q": 128,
+            "topk": 2048,
+            "max_context": 163840
+          },
+          "glm5": {
+            "model": "GLM-5",
+            "d_qk": 576,
+            "h_q": 64,
+            "topk": 2048,
+            "max_context": 202752
+          },
+          "v4_flash": {
+            "model": "DeepSeek-V4-Flash",
+            "d_qk": 512,
+            "h_q": 64,
+            "topk": 512,
+            "max_context": 1048576
+          },
+          "v4_pro": {
+            "model": "DeepSeek-V4-Pro",
+            "d_qk": 512,
+            "h_q": 128,
+            "topk": 1024,
+            "max_context": 1048576
+          }
+        },
+        "d_v": 512,
+        "h_kv": 1,
+        "suite_source": "anchors: deepseek-ai/FlashMLA@ba89a34 tests/test_flash_mla_sparse_prefill.py performance_cases; serving groups: HF config.json of each model, vLLM and SGLang sparse-MLA serving paths, Mooncake FAST'25 request traces",
+        "support_domain": {
+          "geometries": [
+            [
+              576,
+              128
+            ],
+            [
+              576,
+              64
+            ],
+            [
+              512,
+              64
+            ],
+            [
+              512,
+              128
+            ]
+          ],
+          "topk": "multiple of 128 in [128, 2048]",
+          "s_q": [
+            1,
+            70000
+          ],
+          "s_kv": [
+            1,
+            1048576
+          ],
+          "caps": "s_q * h_q * d_qk <= 2**32 and s_q * topk <= 2**25",
+          "indices": "any int32; a slot is invalid when j >= topk_length[i] or the index is outside [0, s_kv); invalid slots may sit anywhere in a row, slots past topk_length may hold stale valid-looking indices, and valid keys may repeat",
+          "attn_sink": "fp32 [h_q] or None, +-inf allowed",
+          "topk_length": "int32 [s_q] in [0, topk] or None",
+          "sm_scale": "any positive finite float",
+          "layout": "contiguous",
+          "h_q": "any multiple of 16 from 16 to 128 (the brief's contract); the scored suite uses each geometry's whole-model heads and tensor-parallel splits of them"
+        },
+        "precision": "multiply operands bf16 or fp16; accumulation, softmax statistics, max_logits and lse fp32; fp8, int8 and fp4 forbidden",
+        "scored_groups": {
+          "anchor": "FlashMLA performance_cases (s_q 4096, upstream inputs, sm_scale 0.5) and the same template at the GLM-5 geometry",
+          "trace": "streams of the prefill calls of consecutive requests of three production request traces, chunked at 2048 to 16384 rows",
+          "replay": "streams of one whole-context chunked prefill, contexts log-spaced up to the model's context length",
+          "multi": "one call over 2 to 128 requests packed into one KV workspace",
+          "sweep": "causal single calls stratified over query-chunk and context sizes, aligned and ragged",
+          "heads": "causal single calls at the head count of one tensor-parallel rank",
+          "length": "decode-context-parallel shards with topk_length near topk/2, /4 or /8, even or ragged",
+          "pattern": "causal single calls whose indices carry a learned indexer's locality (window, sink and window, shared blocks, sorted)"
+        }
+      },
+      "interface": {
+        "entry_point": "sparse_mla_prefill(q_bf16_sq_hq_dqk,kv_bf16_skv_1_dqk,indices_i32_sq_1_topk,sm_scale,attn_sink_fp32_hq_or_none,topk_length_i32_sq_or_none,out_bf16_sq_hq_512,max_logits_fp32_sq_hq,lse_fp32_sq_hq)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_triton_source_with_allowlisted_imports"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "a slot is invalid when j >= topk_length[i], or the index is negative or >= s_kv; the length test applies first",
+        "invalid slots contribute -inf logits and may be interleaved anywhere in a row; duplicated valid keys are separate attention positions",
+        "max_logits and lse are the raw statistics; the attention sink changes only the normaliser of out",
+        "a row with no valid slot returns out = 0, max_logits = -inf, lse = +inf",
+        "support domain: d_qk 512 or 576 at any h_q that is a multiple of 16 from 16 to 128, topk a multiple of 128 up to 2048, any 1 <= s_q <= 70000 (s_q*h_q*d_qk <= 2**32, s_q*topk <= 2**25), any 1 <= s_kv <= 1048576, any positive sm_scale",
+        "bf16 or fp16 multiply operands with fp32 accumulation and softmax statistics; no fp8, int8 or fp4",
+        "all three outputs are fully written on the current stream, nothing outside the outputs and the call's own scratch is written, and every input is unchanged",
+        "only allowlisted imports (torch, triton and a few standard modules); no existing GEMM or attention kernel, compiled extension, private stream, replay, dynamic loading, evaluator introspection or scored-shape-only path",
+        "the 470 private edge cases (17 also under compute-sanitizer memcheck, run first) are zero-weight hard gates that never enter the score"
+      ],
+      "resource_manifest_sha256": "sha256:bf961d069a16982d3802ed8507b9cf15f4bb713c3150958f4865e8cd803049ee"
+    },
+    "evaluation_suites": {
+      "flashmla-sparse-prefill-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:a45bc3aa1569ae34f33d98ff4d9152cdfb89465ee186c5446001e2bb5b83b1ee",
+            "case_count": 108
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:7a3e184b6ec9d7ab71960b45da45c294a826bd1a6121fa400c595f7ef01cb805",
+            "case_count": 997
+          },
+          "final": {
+            "manifest_sha256": "sha256:d43676b6e7d5dc1fddeb7aaf14e2f4361208d909dbec68b61d657c7bbf9a84f6",
+            "case_count": 997
+          }
+        },
+        "oracle": {
+          "protocol_id": "chunked-fp32-sparse-prefill-reference-v2",
+          "spec_sha256": "sha256:0947d9cdce9bb62c8ee6b9961b7a8bb452c6c0a5800d5d2ef4386a66d0fa2784"
+        },
+        "selection": {
+          "protocol_id": "sparse-mla-shared-final-v3",
+          "spec_sha256": "sha256:7757dd3db28868c25a075eb6b225e730042ab7dae48c497cc8d3b3a3a126a995"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-32g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 34359738368,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-source-sanitizer-v2",
+          "spec_sha256": "sha256:47ecaf43997fdd74a56691b915888c7a59bf955b95e81694b6e9130b0d884f10"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-decoy-l2flush-v2",
+          "spec_sha256": "sha256:a785e80cea8047cac521e370f320b34eee5dc9617265ce95aacb6ab247eb74b1"
+        }
+      }
+    },
+    "metrics": {
+      "family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "four-family-two-tier-geomean-v1",
+          "spec": {
+            "formula": "geomean over v32, glm5, v4_flash, v4_pro of sqrt(geomean(evidence groups) * geomean(sweep groups)), each group the geomean of its cases",
+            "families": [
+              "v32",
+              "glm5",
+              "v4_flash",
+              "v4_pro"
+            ],
+            "tiers": {
+              "evidence": [
+                "anchor",
+                "trace",
+                "replay",
+                "multi",
+                "pattern"
+              ],
+              "sweep": [
+                "sweep",
+                "heads",
+                "length"
+              ]
+            },
+            "case_statistic": "median of 3 trials for a single call; total effective FLOPs over total seconds for a stream",
+            "stream_protocol": "16 untimed warm-up calls at neighbouring shapes, then every call timed with compilation; stops after 8 timed seconds",
+            "effective_flops": "2*positions*h_q*(d_qk+512)",
+            "positions": "s_q*topk, or sum(topk_length) when topk_length is given"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "flashmla-sparse-prefill-v2",
+      "execution_profile_id": "single-cuda-sm80-32g",
+      "metric_id": "family-geomean-effective-tflops"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+build/
+artifacts/
+private/
+# The Judge-only evaluation inputs are part of the distribution (they never
+# reach the Work build context).
+!judge/private/
+corpus/private/
+*final*cases*.json
+# The frozen qualification draw of the final holdout is part of the
+# distribution too: it lives on the same Judge-only path and never reaches the
+# Work build context (scripts/validate_layout.py proves it).
+!judge/private/final_cases.json
+.pytest_cache/
+__pycache__/
+*.pyc
+

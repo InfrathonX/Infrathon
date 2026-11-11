@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:fbb013b7c5f96727c489e73a66e1aad69a606833cf78a743faef1d30206dd145",
+      "judge_public_tag": "h100-80gb-700w-quant-videogen-cross-model-kv-codec-h100-v4-scratch-judge",
+      "work": "sha256:354af27645b7bd33029ce195b310892aaf0cf0384242d21b3ec3c8579d496c35",
+      "work_tag": "h100-80gb-700w-quant-videogen-cross-model-kv-codec-h100-v4-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:fbb013b7c5f96727c489e73a66e1aad69a606833cf78a743faef1d30206dd145",
+      "judge_public_tag": "h100-94gb-400w-quant-videogen-cross-model-kv-codec-h100-v4-scratch-judge",
+      "work": "sha256:354af27645b7bd33029ce195b310892aaf0cf0384242d21b3ec3c8579d496c35",
+      "work_tag": "h100-94gb-400w-quant-videogen-cross-model-kv-codec-h100-v4-scratch-work"
+    }
+  },
+  "source_digest": "92582c9c38d19580ee4b2cd71afc0084161be3959317acc1262e60450480838b"
+}

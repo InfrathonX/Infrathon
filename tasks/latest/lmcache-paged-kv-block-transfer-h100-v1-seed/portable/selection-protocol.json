@@ -1,0 +1,95 @@
+{
+ "agent_feedback": "score, group scores, family scores and gate states; never case membership or per-case results",
+ "case_statistic": "median_trial_payload_gbps; overlap cases times (1 - median foreground loss); duplex cases count both directions",
+ "edge_fixtures": {
+  "case_count": 25,
+  "policy": "all_must_pass_before_any_scored_case",
+  "scored": false
+ },
+ "evaluation_policy": "full-final-shared-v3",
+ "family_aggregation": "tier-balanced geometric mean of stratum geometric means",
+ "final": {
+  "case_count": 843,
+  "family_counts": {
+   "device-large": 156,
+   "device-small": 143,
+   "host-duplex": 104,
+   "host-large": 104,
+   "host-small": 142,
+   "overlap": 104,
+   "trace": 90
+  },
+  "hard_gate_case_count": 25,
+  "hard_gate_policy": "all_must_pass",
+  "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+  "scored_case_count": 843,
+  "suite_id": "lmcache-kv-transfer-final-holdout-v2",
+  "trials": 3
+ },
+ "group_families": {
+  "device": [
+   "device-large",
+   "device-small"
+  ],
+  "host": [
+   "host-large",
+   "host-small",
+   "host-duplex"
+  ],
+  "overlap": [
+   "overlap"
+  ],
+  "trace": [
+   "trace"
+  ]
+ },
+ "group_weights": {
+  "device": "0.35",
+  "host": "0.25",
+  "overlap": "0.3",
+  "trace": "0.1"
+ },
+ "interactive": {
+  "case_count": 843,
+  "family_counts": {
+   "device-large": 156,
+   "device-small": 143,
+   "host-duplex": 104,
+   "host-large": 104,
+   "host-small": 142,
+   "overlap": 104,
+   "trace": 90
+  },
+  "hard_gate_case_count": 25,
+  "hard_gate_policy": "all_must_pass",
+  "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only; candidate_version override forbidden",
+  "scored_case_count": 843,
+  "suite_id": "lmcache-kv-transfer-final-holdout-v2",
+  "trials": 3
+ },
+ "protocol_id": "lmcache-shared-final-v3",
+ "public": {
+  "full": {
+   "case_count": 155,
+   "case_ids": "all_public_cases"
+  },
+  "quick": {
+   "case_count": 7,
+   "case_ids": [
+    "public-mistral-nemo-12b-tp2-split-synt-device-small-0",
+    "public-mistral-nemo-12b-tp8-fused-synt-device-large-0",
+    "public-mistral-nemo-12b-tp8-fused-synt-host-duplex-0",
+    "public-mistral-nemo-12b-tp8-fused-synt-host-large-0",
+    "public-mistral-nemo-12b-tp8-fused-synt-overlap-0",
+    "public-qwen3-8b-tp4-fused-synt-host-small-0",
+    "public-qwen3-8b-tp8-fused-synt-trace-0"
+   ]
+  },
+  "trials_default": 3,
+  "trials_range": [
+   1,
+   32
+  ]
+ },
+ "schema_version": 1
+}

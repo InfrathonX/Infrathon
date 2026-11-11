@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "task_directory": "flash-kmeans-paper-h100-v7-scratch",
+  "note": "No external models or datasets (inputs are synthetic). hidden_cases.py holds the hidden benchmark and deployment cases; it is Judge-only and goes into the host-built Judge holdout layer.",
+  "assets": [
+    {
+      "path": "judge/hidden_cases.py",
+      "sha256": "a8a56b4e8375e431553cf0dfb118b017fb8ea93961d1d9b097a5f06a53502d97",
+      "size": 9796,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

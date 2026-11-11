@@ -1,0 +1,73 @@
+{
+ "public_heldout": "/data/public/heldout.jsonl: 64 ocr + 64 pickscore prompts",
+ "public_kl": {
+  "prompts_sha256": "65e7d293969ab1a7b64f0432bb3e088cbdc91583b25084bef6f6e9fb66ad087d",
+  "case_seeds": [
+   0,
+   1
+  ],
+  "samples": 2,
+  "base_kl_per_repeat": [
+   {
+    "case_seed": 0,
+    "per_route": {
+     "ocr": {
+      "kl": 0.00012590200386033995,
+      "n": 384
+     },
+     "pickscore": {
+      "kl": 0.0007712621716388426,
+      "n": 384
+     }
+    },
+    "kl_pooled": 0.0004485820877495913
+   },
+   {
+    "case_seed": 1,
+    "per_route": {
+     "ocr": {
+      "kl": 0.00012598939360396457,
+      "n": 384
+     },
+     "pickscore": {
+      "kl": 0.000759924700219049,
+      "n": 384
+     }
+    },
+    "kl_pooled": 0.00044295704691150686
+   }
+  ]
+ },
+ "public_task_quality": {
+  "prompts_sha256": "65e7d293969ab1a7b64f0432bb3e088cbdc91583b25084bef6f6e9fb66ad087d",
+  "route_counts": {
+   "ocr": 64,
+   "pickscore": 64
+  },
+  "cfg": 1.0,
+  "steps": 40,
+  "res": 512,
+  "case_seed": 0,
+  "batch": 16,
+  "ocr_workers_per_gpu": 8,
+  "routes": {
+   "ocr": {
+    "metric": "ocr",
+    "base": 0.08236739160875675,
+    "teacher": 0.7644088747670887,
+    "base_se": 0.019272384308739732,
+    "teacher_se": 0.027195163929397984,
+    "n": 64
+   },
+   "pickscore": {
+    "metric": "pickscore",
+    "base": 19.817325353622437,
+    "teacher": 21.939990520477295,
+    "base_se": 0.1829366899704208,
+    "teacher_se": 0.1950161251155134,
+    "n": 64
+   }
+  }
+ },
+ "note": "The original model's held-out KL and the original model's and the teachers' task metric on the public held-out prompts, for comparing perf --quality. They do not predict a score."
+}

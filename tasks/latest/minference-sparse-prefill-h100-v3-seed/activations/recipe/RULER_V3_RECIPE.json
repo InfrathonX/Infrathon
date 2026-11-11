@@ -1,0 +1,90 @@
+{
+  "schema_version": 3,
+  "protocol": "minference-real-ruler-prefill-v3",
+  "model": {
+    "architecture": {
+      "head_dim": 128,
+      "num_attention_heads": 32,
+      "num_hidden_layers": 32,
+      "num_key_value_heads": 8
+    },
+    "byte_identical_to_gated_upstream": {
+      "checked_utc": "2026-09-13",
+      "repo": "meta-llama/Llama-3.1-8B-Instruct",
+      "revision": "0e9e39f249a16976918f6564b8830bc894c89659",
+      "verified": "The Hugging Face content-addressed identifiers agree: the four weight shards have the same LFS sha256 in both repositories, and config.json, generation_config.json, model.safetensors.index.json, special_tokens_map.json and tokenizer.json have the same git blob ids.  Only tokenizer_config.json (chat template metadata, unused by the capture) differs.  The pinned per-file sha256 below were recomputed from the downloaded snapshot and equal those LFS digests."
+    },
+    "download": "hf download NousResearch/Meta-Llama-3.1-8B-Instruct --revision d10aef7999a2b5ba950ab3974312feeedbfe0b77 --exclude 'original/*'",
+    "files": {
+      "config.json": "29e4c210b0d6ac178b16b2a255a568bdb23b581e50ca1ef6a6d071dd85704e6e",
+      "generation_config.json": "189fb0c0d7fd8a527db217c0a60a0e013f0394cd8800f9697a666a9e75e5f7fd",
+      "model-00001-of-00004.safetensors": "2b1879f356aed350030bb40eb45ad362c89d9891096f79a3ab323d3ba5607668",
+      "model-00002-of-00004.safetensors": "09d433f650646834a83c580877bd60c6d1f88f7755305c12576b5c7058f9af15",
+      "model-00003-of-00004.safetensors": "fc1cdddd6bfa91128d6e94ee73d0ce62bfcdb7af29e978ddcab30c66ae9ea7fa",
+      "model-00004-of-00004.safetensors": "92ecfe1a2414458b4821ac8c13cf8cb70aed66b5eea8dc5ad9eeb4ff309d6d7b",
+      "model.safetensors.index.json": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+      "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+      "tokenizer.json": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4",
+      "tokenizer_config.json": "24e8a6dc2547164b7002e3125f10b415105644fcf02bf9ad8b674c87b1eaaed6"
+    },
+    "license": "Llama 3.1 Community License",
+    "repo": "NousResearch/Meta-Llama-3.1-8B-Instruct",
+    "revision": "d10aef7999a2b5ba950ab3974312feeedbfe0b77",
+    "tokenizer": {
+      "add_special_tokens": true,
+      "identity_anchor": "input_token_sha256: SHA256 of exact saved input_ids as signed int32 little-endian bytes",
+      "prefix_token": "HF encode(add_special_tokens=True); never manually prepend or pad tokens",
+      "source": "pinned tokenizer.json/tokenizer_config.json/special_tokens_map.json/config.json, each verified against prompt manifest and model file SHA"
+    }
+  },
+  "source_commit": "a4eb395f949ea39e871f9bc586d683390692c6be",
+  "tasks": [
+    "niah_single_2",
+    "niah_multikey_1",
+    "vt",
+    "fwe"
+  ],
+  "context_budgets": [
+    32768,
+    65536,
+    131072
+  ],
+  "target_layers": [
+    1,
+    4,
+    15,
+    27
+  ],
+  "warmup_layer": 2,
+  "prompts_per_task_budget": 3,
+  "groups_per_partition": 48,
+  "unique_fixtures_per_partition": 180,
+  "author_pilot_samples": 120,
+  "author_holdout_samples": 300,
+  "eos_token_ids": [
+    128001,
+    128008,
+    128009
+  ],
+  "real_inputs": true,
+  "synthetic_noise": false,
+  "prefill_candidate_abi": [
+    "q",
+    "k",
+    "v",
+    "softmax_scale",
+    "out"
+  ],
+  "decode": "dense HF SDPA",
+  "quality_policy": "calibrate on author-pilot and freeze before independent holdout; no default calibrated margin",
+  "scope": "four task subset, one model; finite sample quality decision and kernel throughput measured separately",
+  "terminal_quality": {
+    "partition": "author-holdout",
+    "role": "private-terminal-quality",
+    "samples": 300,
+    "samples_per_task_length": 25,
+    "visibility": "private Judge only; interactive/public never uses this set",
+    "freeze_order": "pilot selects candidate and margins; freeze policy before first terminal predictions; do not retune against terminal results",
+    "dense_cache": "reuse only with exact model/tokenizer/input/EOS/scorer/software/image identities"
+  }
+}

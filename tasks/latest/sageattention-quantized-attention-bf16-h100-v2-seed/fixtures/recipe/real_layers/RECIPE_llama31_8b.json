@@ -1,0 +1,950 @@
+{
+ "schema_version": 1,
+ "kind": "llama",
+ "recipe_id": "rl-llama31-8b-wikitext2-16k-v1",
+ "title": "Llama-3.1-8B: every attention layer's Q (32 heads) and K/V (8 heads) for one 16,384-token prefill of WikiText-2 test",
+ "identity": "per-deployment-capture",
+ "capture_dir": "llama31-8b-wikitext2-16k",
+ "role": "real_activation_gate",
+ "why": "SageAttention reports layer-wise accuracy across all layers of Llama2-7B (Tables 2/3); Llama-3.1-8B is in SageAttention2's model set, has the L1 cell's geometry (32/8 heads x 128, GQA) and supports a 16K prefill.",
+ "model": {
+  "repo": "meta-llama/Llama-3.1-8B",
+  "repo_type": "model",
+  "revision": "d04e592bb4f6aa9cfee91e2e20afa771667e1d4b",
+  "license": "llama3.1 (gated; accept on Hugging Face; HF_TOKEN from the environment only, never stored)",
+  "download": "hf download meta-llama/Llama-3.1-8B --revision d04e592bb4f6aa9cfee91e2e20afa771667e1d4b --exclude 'original/*'",
+  "files": {
+   "LICENSE": "64e1b2889b7892e6bbe7a7ed5bfe6ff793c61f9d584345f8f41cf9f5cb30a369",
+   "config.json": "54acfad3cffe057640904ca8a1e83525e6551c70c7a04c641f5a9eda0bbf64bd",
+   "generation_config.json": "e645194d2dd27c86ed34a5a23f306c1a0fd79a42123c26551b7251c700a3379d",
+   "model-00001-of-00004.safetensors": "f8b9704ab09cdeb097aa4a0a24bca96f906eec36bad63ab495bc21475058601b",
+   "model-00002-of-00004.safetensors": "c28b25e7541751056ee126627e007f8d4288319733285e9f7b17b9ff6eb313f0",
+   "model-00003-of-00004.safetensors": "d8e9504dd4e4a146d484c52a97584ec14dac92237c46b064934af67a85e7d383",
+   "model-00004-of-00004.safetensors": "e4486f35c040f683f7d790354f66c169c109eb9fa0954a4a35d7c458a108405d",
+   "model.safetensors.index.json": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+   "special_tokens_map.json": "462d91939dbc37178aa5a3eae7068d1990ccc92e09f288cc71f42cdf139d69cc",
+   "tokenizer.json": "76e48799b099d43365bd24ccd8ecc5aedac831718da780552f03b0a6eb4412aa",
+   "tokenizer_config.json": "8004530facf809ac432114de2a4dcc65fcb632da5ec16d666091aeb6a2ee444a"
+  }
+ },
+ "dataset": {
+  "repo": "Salesforce/wikitext",
+  "repo_type": "dataset",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "license": "cc-by-sa-3.0, gfdl",
+  "file": "wikitext-2-raw-v1/test-00000-of-00001.parquet",
+  "sha256": "5f1bea067869d04849c0f975a2b29c4ff47d867f484f5010ea5e861eab246d91"
+ },
+ "upstream": {
+  "repo": "https://github.com/thu-ml/SageAttention",
+  "commit": "d1a57a546c3d395b1ffcbeecc66d81db76f3b4b5",
+  "text_source": "WikiText is the LLM evaluation set of both SageAttention papers"
+ },
+ "builder": {
+  "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "dockerfile": "fixtures/recipe/real_layers/Dockerfile.builder",
+  "pip_packages": [
+   "accelerate==1.14.0",
+   "diffusers==0.40.0",
+   "huggingface_hub==1.33.0",
+   "numpy==1.26.4",
+   "protobuf==6.32.1",
+   "pyarrow==21.0.0",
+   "regex==2026.9.10",
+   "safetensors==0.8.0",
+   "sentencepiece==0.2.1",
+   "tokenizers==0.22.2",
+   "transformers==5.15.1"
+  ]
+ },
+ "text": {
+  "column": "text",
+  "joiner": "\n\n",
+  "tokens": 16384,
+  "bos": true,
+  "first_token_ids": [
+   128000,
+   271,
+   284,
+   8563,
+   426,
+   11206,
+   466,
+   284
+  ]
+ },
+ "capture": {
+  "hook": "transformers AttentionInterface wrapper around sdpa_attention_forward; q after RoPE, k/v before repeat_kv",
+  "use_cache": false,
+  "early_stop": "aborts after the last layer's attention inputs are copied"
+ },
+ "attention": {
+  "layers": 32,
+  "is_causal": true,
+  "softmax_scale": 0.08838834764831845,
+  "q_heads": 32,
+  "kv_heads": 8
+ },
+ "tensors": {
+  "layout": "B,L,H,D",
+  "dtype": "torch.bfloat16",
+  "q": [
+   1,
+   16384,
+   32,
+   128
+  ],
+  "k": [
+   1,
+   16384,
+   8,
+   128
+  ],
+  "v": [
+   1,
+   16384,
+   8,
+   128
+  ]
+ },
+ "sanity_bands": {
+  "comment": "Measured on the 2026-10-05 H100 NVL S0 capture (docs/tasks/sageattention-upstream-alignment-20261005), widened to a factor of two on RMS and four on abs-max, as for the e8 recipe. A capture from the wrong prompt, step, layer order or text fails closed although its bytes legitimately differ across GPUs.",
+  "finite_fraction_min": 1.0,
+  "layers": {
+   "00": {
+    "q": {
+     "rms_reference": 1.3281474113464355,
+     "rms_min": 0.6640737056732178,
+     "rms_max": 2.656294822692871,
+     "abs_max_reference": 12.375,
+     "abs_max_min": 3.09375,
+     "abs_max_max": 49.5
+    },
+    "k": {
+     "rms_reference": 1.504528284072876,
+     "rms_min": 0.752264142036438,
+     "rms_max": 3.009056568145752,
+     "abs_max_reference": 10.5625,
+     "abs_max_min": 2.640625,
+     "abs_max_max": 42.25
+    },
+    "v": {
+     "rms_reference": 0.036326948553323746,
+     "rms_min": 0.018163474276661873,
+     "rms_max": 0.07265389710664749,
+     "abs_max_reference": 0.54296875,
+     "abs_max_min": 0.1357421875,
+     "abs_max_max": 2.171875
+    }
+   },
+   "01": {
+    "q": {
+     "rms_reference": 1.5063742399215698,
+     "rms_min": 0.7531871199607849,
+     "rms_max": 3.0127484798431396,
+     "abs_max_reference": 14.3125,
+     "abs_max_min": 3.578125,
+     "abs_max_max": 57.25
+    },
+    "k": {
+     "rms_reference": 2.2142715454101562,
+     "rms_min": 1.1071357727050781,
+     "rms_max": 4.4285430908203125,
+     "abs_max_reference": 12.0,
+     "abs_max_min": 3.0,
+     "abs_max_max": 48.0
+    },
+    "v": {
+     "rms_reference": 0.07649502158164978,
+     "rms_min": 0.03824751079082489,
+     "rms_max": 0.15299004316329956,
+     "abs_max_reference": 1.5546875,
+     "abs_max_min": 0.388671875,
+     "abs_max_max": 6.21875
+    }
+   },
+   "02": {
+    "q": {
+     "rms_reference": 1.4742263555526733,
+     "rms_min": 0.7371131777763367,
+     "rms_max": 2.9484527111053467,
+     "abs_max_reference": 13.0625,
+     "abs_max_min": 3.265625,
+     "abs_max_max": 52.25
+    },
+    "k": {
+     "rms_reference": 2.2206358909606934,
+     "rms_min": 1.1103179454803467,
+     "rms_max": 4.441271781921387,
+     "abs_max_reference": 16.0,
+     "abs_max_min": 4.0,
+     "abs_max_max": 64.0
+    },
+    "v": {
+     "rms_reference": 0.1650938242673874,
+     "rms_min": 0.0825469121336937,
+     "rms_max": 0.3301876485347748,
+     "abs_max_reference": 2.21875,
+     "abs_max_min": 0.5546875,
+     "abs_max_max": 8.875
+    }
+   },
+   "03": {
+    "q": {
+     "rms_reference": 1.4235038757324219,
+     "rms_min": 0.7117519378662109,
+     "rms_max": 2.8470077514648438,
+     "abs_max_reference": 14.1875,
+     "abs_max_min": 3.546875,
+     "abs_max_max": 56.75
+    },
+    "k": {
+     "rms_reference": 2.194148540496826,
+     "rms_min": 1.097074270248413,
+     "rms_max": 4.388297080993652,
+     "abs_max_reference": 19.125,
+     "abs_max_min": 4.78125,
+     "abs_max_max": 76.5
+    },
+    "v": {
+     "rms_reference": 0.20738045871257782,
+     "rms_min": 0.10369022935628891,
+     "rms_max": 0.41476091742515564,
+     "abs_max_reference": 2.453125,
+     "abs_max_min": 0.61328125,
+     "abs_max_max": 9.8125
+    }
+   },
+   "04": {
+    "q": {
+     "rms_reference": 1.4193577766418457,
+     "rms_min": 0.7096788883209229,
+     "rms_max": 2.8387155532836914,
+     "abs_max_reference": 12.25,
+     "abs_max_min": 3.0625,
+     "abs_max_max": 49.0
+    },
+    "k": {
+     "rms_reference": 2.2247061729431152,
+     "rms_min": 1.1123530864715576,
+     "rms_max": 4.4494123458862305,
+     "abs_max_reference": 18.5,
+     "abs_max_min": 4.625,
+     "abs_max_max": 74.0
+    },
+    "v": {
+     "rms_reference": 0.20084430277347565,
+     "rms_min": 0.10042215138673782,
+     "rms_max": 0.4016886055469513,
+     "abs_max_reference": 2.03125,
+     "abs_max_min": 0.5078125,
+     "abs_max_max": 8.125
+    }
+   },
+   "05": {
+    "q": {
+     "rms_reference": 1.3990308046340942,
+     "rms_min": 0.6995154023170471,
+     "rms_max": 2.7980616092681885,
+     "abs_max_reference": 14.5625,
+     "abs_max_min": 3.640625,
+     "abs_max_max": 58.25
+    },
+    "k": {
+     "rms_reference": 2.2461047172546387,
+     "rms_min": 1.1230523586273193,
+     "rms_max": 4.492209434509277,
+     "abs_max_reference": 18.0,
+     "abs_max_min": 4.5,
+     "abs_max_max": 72.0
+    },
+    "v": {
+     "rms_reference": 0.20180456340312958,
+     "rms_min": 0.10090228170156479,
+     "rms_max": 0.40360912680625916,
+     "abs_max_reference": 2.6875,
+     "abs_max_min": 0.671875,
+     "abs_max_max": 10.75
+    }
+   },
+   "06": {
+    "q": {
+     "rms_reference": 1.3326250314712524,
+     "rms_min": 0.6663125157356262,
+     "rms_max": 2.665250062942505,
+     "abs_max_reference": 13.6875,
+     "abs_max_min": 3.421875,
+     "abs_max_max": 54.75
+    },
+    "k": {
+     "rms_reference": 2.3148882389068604,
+     "rms_min": 1.1574441194534302,
+     "rms_max": 4.629776477813721,
+     "abs_max_reference": 18.0,
+     "abs_max_min": 4.5,
+     "abs_max_max": 72.0
+    },
+    "v": {
+     "rms_reference": 0.21433603763580322,
+     "rms_min": 0.10716801881790161,
+     "rms_max": 0.42867207527160645,
+     "abs_max_reference": 3.671875,
+     "abs_max_min": 0.91796875,
+     "abs_max_max": 14.6875
+    }
+   },
+   "07": {
+    "q": {
+     "rms_reference": 1.3659706115722656,
+     "rms_min": 0.6829853057861328,
+     "rms_max": 2.7319412231445312,
+     "abs_max_reference": 13.875,
+     "abs_max_min": 3.46875,
+     "abs_max_max": 55.5
+    },
+    "k": {
+     "rms_reference": 2.4136083126068115,
+     "rms_min": 1.2068041563034058,
+     "rms_max": 4.827216625213623,
+     "abs_max_reference": 22.125,
+     "abs_max_min": 5.53125,
+     "abs_max_max": 88.5
+    },
+    "v": {
+     "rms_reference": 0.2394234985113144,
+     "rms_min": 0.1197117492556572,
+     "rms_max": 0.4788469970226288,
+     "abs_max_reference": 3.5625,
+     "abs_max_min": 0.890625,
+     "abs_max_max": 14.25
+    }
+   },
+   "08": {
+    "q": {
+     "rms_reference": 1.300112009048462,
+     "rms_min": 0.650056004524231,
+     "rms_max": 2.600224018096924,
+     "abs_max_reference": 15.375,
+     "abs_max_min": 3.84375,
+     "abs_max_max": 61.5
+    },
+    "k": {
+     "rms_reference": 2.330453395843506,
+     "rms_min": 1.165226697921753,
+     "rms_max": 4.660906791687012,
+     "abs_max_reference": 19.125,
+     "abs_max_min": 4.78125,
+     "abs_max_max": 76.5
+    },
+    "v": {
+     "rms_reference": 0.24573321640491486,
+     "rms_min": 0.12286660820245743,
+     "rms_max": 0.4914664328098297,
+     "abs_max_reference": 3.671875,
+     "abs_max_min": 0.91796875,
+     "abs_max_max": 14.6875
+    }
+   },
+   "09": {
+    "q": {
+     "rms_reference": 1.328872561454773,
+     "rms_min": 0.6644362807273865,
+     "rms_max": 2.657745122909546,
+     "abs_max_reference": 14.9375,
+     "abs_max_min": 3.734375,
+     "abs_max_max": 59.75
+    },
+    "k": {
+     "rms_reference": 2.249169111251831,
+     "rms_min": 1.1245845556259155,
+     "rms_max": 4.498338222503662,
+     "abs_max_reference": 20.25,
+     "abs_max_min": 5.0625,
+     "abs_max_max": 81.0
+    },
+    "v": {
+     "rms_reference": 0.2839471697807312,
+     "rms_min": 0.1419735848903656,
+     "rms_max": 0.5678943395614624,
+     "abs_max_reference": 4.59375,
+     "abs_max_min": 1.1484375,
+     "abs_max_max": 18.375
+    }
+   },
+   "10": {
+    "q": {
+     "rms_reference": 1.3394325971603394,
+     "rms_min": 0.6697162985801697,
+     "rms_max": 2.6788651943206787,
+     "abs_max_reference": 14.375,
+     "abs_max_min": 3.59375,
+     "abs_max_max": 57.5
+    },
+    "k": {
+     "rms_reference": 2.3105764389038086,
+     "rms_min": 1.1552882194519043,
+     "rms_max": 4.621152877807617,
+     "abs_max_reference": 21.375,
+     "abs_max_min": 5.34375,
+     "abs_max_max": 85.5
+    },
+    "v": {
+     "rms_reference": 0.26599305868148804,
+     "rms_min": 0.13299652934074402,
+     "rms_max": 0.5319861173629761,
+     "abs_max_reference": 2.53125,
+     "abs_max_min": 0.6328125,
+     "abs_max_max": 10.125
+    }
+   },
+   "11": {
+    "q": {
+     "rms_reference": 1.2984834909439087,
+     "rms_min": 0.6492417454719543,
+     "rms_max": 2.5969669818878174,
+     "abs_max_reference": 14.4375,
+     "abs_max_min": 3.609375,
+     "abs_max_max": 57.75
+    },
+    "k": {
+     "rms_reference": 2.2129251956939697,
+     "rms_min": 1.1064625978469849,
+     "rms_max": 4.4258503913879395,
+     "abs_max_reference": 20.75,
+     "abs_max_min": 5.1875,
+     "abs_max_max": 83.0
+    },
+    "v": {
+     "rms_reference": 0.29145297408103943,
+     "rms_min": 0.14572648704051971,
+     "rms_max": 0.5829059481620789,
+     "abs_max_reference": 3.578125,
+     "abs_max_min": 0.89453125,
+     "abs_max_max": 14.3125
+    }
+   },
+   "12": {
+    "q": {
+     "rms_reference": 1.4153774976730347,
+     "rms_min": 0.7076887488365173,
+     "rms_max": 2.8307549953460693,
+     "abs_max_reference": 14.0625,
+     "abs_max_min": 3.515625,
+     "abs_max_max": 56.25
+    },
+    "k": {
+     "rms_reference": 2.288001537322998,
+     "rms_min": 1.144000768661499,
+     "rms_max": 4.576003074645996,
+     "abs_max_reference": 21.375,
+     "abs_max_min": 5.34375,
+     "abs_max_max": 85.5
+    },
+    "v": {
+     "rms_reference": 0.27749478816986084,
+     "rms_min": 0.13874739408493042,
+     "rms_max": 0.5549895763397217,
+     "abs_max_reference": 2.5625,
+     "abs_max_min": 0.640625,
+     "abs_max_max": 10.25
+    }
+   },
+   "13": {
+    "q": {
+     "rms_reference": 1.3336559534072876,
+     "rms_min": 0.6668279767036438,
+     "rms_max": 2.667311906814575,
+     "abs_max_reference": 18.25,
+     "abs_max_min": 4.5625,
+     "abs_max_max": 73.0
+    },
+    "k": {
+     "rms_reference": 2.2720370292663574,
+     "rms_min": 1.1360185146331787,
+     "rms_max": 4.544074058532715,
+     "abs_max_reference": 19.5,
+     "abs_max_min": 4.875,
+     "abs_max_max": 78.0
+    },
+    "v": {
+     "rms_reference": 0.2890603542327881,
+     "rms_min": 0.14453017711639404,
+     "rms_max": 0.5781207084655762,
+     "abs_max_reference": 3.703125,
+     "abs_max_min": 0.92578125,
+     "abs_max_max": 14.8125
+    }
+   },
+   "14": {
+    "q": {
+     "rms_reference": 1.3387552499771118,
+     "rms_min": 0.6693776249885559,
+     "rms_max": 2.6775104999542236,
+     "abs_max_reference": 13.375,
+     "abs_max_min": 3.34375,
+     "abs_max_max": 53.5
+    },
+    "k": {
+     "rms_reference": 2.35884428024292,
+     "rms_min": 1.17942214012146,
+     "rms_max": 4.71768856048584,
+     "abs_max_reference": 18.25,
+     "abs_max_min": 4.5625,
+     "abs_max_max": 73.0
+    },
+    "v": {
+     "rms_reference": 0.2968038022518158,
+     "rms_min": 0.1484019011259079,
+     "rms_max": 0.5936076045036316,
+     "abs_max_reference": 3.25,
+     "abs_max_min": 0.8125,
+     "abs_max_max": 13.0
+    }
+   },
+   "15": {
+    "q": {
+     "rms_reference": 1.4587942361831665,
+     "rms_min": 0.7293971180915833,
+     "rms_max": 2.917588472366333,
+     "abs_max_reference": 16.875,
+     "abs_max_min": 4.21875,
+     "abs_max_max": 67.5
+    },
+    "k": {
+     "rms_reference": 2.2770845890045166,
+     "rms_min": 1.1385422945022583,
+     "rms_max": 4.554169178009033,
+     "abs_max_reference": 20.125,
+     "abs_max_min": 5.03125,
+     "abs_max_max": 80.5
+    },
+    "v": {
+     "rms_reference": 0.2830297648906708,
+     "rms_min": 0.1415148824453354,
+     "rms_max": 0.5660595297813416,
+     "abs_max_reference": 3.5625,
+     "abs_max_min": 0.890625,
+     "abs_max_max": 14.25
+    }
+   },
+   "16": {
+    "q": {
+     "rms_reference": 1.3772878646850586,
+     "rms_min": 0.6886439323425293,
+     "rms_max": 2.754575729370117,
+     "abs_max_reference": 14.5625,
+     "abs_max_min": 3.640625,
+     "abs_max_max": 58.25
+    },
+    "k": {
+     "rms_reference": 2.3561792373657227,
+     "rms_min": 1.1780896186828613,
+     "rms_max": 4.712358474731445,
+     "abs_max_reference": 21.375,
+     "abs_max_min": 5.34375,
+     "abs_max_max": 85.5
+    },
+    "v": {
+     "rms_reference": 0.2805100083351135,
+     "rms_min": 0.14025500416755676,
+     "rms_max": 0.561020016670227,
+     "abs_max_reference": 2.625,
+     "abs_max_min": 0.65625,
+     "abs_max_max": 10.5
+    }
+   },
+   "17": {
+    "q": {
+     "rms_reference": 1.445361852645874,
+     "rms_min": 0.722680926322937,
+     "rms_max": 2.890723705291748,
+     "abs_max_reference": 15.8125,
+     "abs_max_min": 3.953125,
+     "abs_max_max": 63.25
+    },
+    "k": {
+     "rms_reference": 2.2098965644836426,
+     "rms_min": 1.1049482822418213,
+     "rms_max": 4.419793128967285,
+     "abs_max_reference": 18.0,
+     "abs_max_min": 4.5,
+     "abs_max_max": 72.0
+    },
+    "v": {
+     "rms_reference": 0.2808586061000824,
+     "rms_min": 0.1404293030500412,
+     "rms_max": 0.5617172122001648,
+     "abs_max_reference": 2.78125,
+     "abs_max_min": 0.6953125,
+     "abs_max_max": 11.125
+    }
+   },
+   "18": {
+    "q": {
+     "rms_reference": 1.3475556373596191,
+     "rms_min": 0.6737778186798096,
+     "rms_max": 2.6951112747192383,
+     "abs_max_reference": 16.375,
+     "abs_max_min": 4.09375,
+     "abs_max_max": 65.5
+    },
+    "k": {
+     "rms_reference": 2.2898783683776855,
+     "rms_min": 1.1449391841888428,
+     "rms_max": 4.579756736755371,
+     "abs_max_reference": 19.125,
+     "abs_max_min": 4.78125,
+     "abs_max_max": 76.5
+    },
+    "v": {
+     "rms_reference": 0.29031020402908325,
+     "rms_min": 0.14515510201454163,
+     "rms_max": 0.5806204080581665,
+     "abs_max_reference": 3.578125,
+     "abs_max_min": 0.89453125,
+     "abs_max_max": 14.3125
+    }
+   },
+   "19": {
+    "q": {
+     "rms_reference": 1.3920446634292603,
+     "rms_min": 0.6960223317146301,
+     "rms_max": 2.7840893268585205,
+     "abs_max_reference": 15.1875,
+     "abs_max_min": 3.796875,
+     "abs_max_max": 60.75
+    },
+    "k": {
+     "rms_reference": 2.149991035461426,
+     "rms_min": 1.074995517730713,
+     "rms_max": 4.299982070922852,
+     "abs_max_reference": 19.0,
+     "abs_max_min": 4.75,
+     "abs_max_max": 76.0
+    },
+    "v": {
+     "rms_reference": 0.31519773602485657,
+     "rms_min": 0.15759886801242828,
+     "rms_max": 0.6303954720497131,
+     "abs_max_reference": 3.125,
+     "abs_max_min": 0.78125,
+     "abs_max_max": 12.5
+    }
+   },
+   "20": {
+    "q": {
+     "rms_reference": 1.3439840078353882,
+     "rms_min": 0.6719920039176941,
+     "rms_max": 2.6879680156707764,
+     "abs_max_reference": 16.5,
+     "abs_max_min": 4.125,
+     "abs_max_max": 66.0
+    },
+    "k": {
+     "rms_reference": 2.1792149543762207,
+     "rms_min": 1.0896074771881104,
+     "rms_max": 4.358429908752441,
+     "abs_max_reference": 19.125,
+     "abs_max_min": 4.78125,
+     "abs_max_max": 76.5
+    },
+    "v": {
+     "rms_reference": 0.31945669651031494,
+     "rms_min": 0.15972834825515747,
+     "rms_max": 0.6389133930206299,
+     "abs_max_reference": 3.40625,
+     "abs_max_min": 0.8515625,
+     "abs_max_max": 13.625
+    }
+   },
+   "21": {
+    "q": {
+     "rms_reference": 1.4554671049118042,
+     "rms_min": 0.7277335524559021,
+     "rms_max": 2.9109342098236084,
+     "abs_max_reference": 21.875,
+     "abs_max_min": 5.46875,
+     "abs_max_max": 87.5
+    },
+    "k": {
+     "rms_reference": 2.2134952545166016,
+     "rms_min": 1.1067476272583008,
+     "rms_max": 4.426990509033203,
+     "abs_max_reference": 19.625,
+     "abs_max_min": 4.90625,
+     "abs_max_max": 78.5
+    },
+    "v": {
+     "rms_reference": 0.337059885263443,
+     "rms_min": 0.1685299426317215,
+     "rms_max": 0.674119770526886,
+     "abs_max_reference": 3.71875,
+     "abs_max_min": 0.9296875,
+     "abs_max_max": 14.875
+    }
+   },
+   "22": {
+    "q": {
+     "rms_reference": 1.385682225227356,
+     "rms_min": 0.692841112613678,
+     "rms_max": 2.771364450454712,
+     "abs_max_reference": 20.875,
+     "abs_max_min": 5.21875,
+     "abs_max_max": 83.5
+    },
+    "k": {
+     "rms_reference": 2.193284034729004,
+     "rms_min": 1.096642017364502,
+     "rms_max": 4.386568069458008,
+     "abs_max_reference": 19.25,
+     "abs_max_min": 4.8125,
+     "abs_max_max": 77.0
+    },
+    "v": {
+     "rms_reference": 0.34104305505752563,
+     "rms_min": 0.17052152752876282,
+     "rms_max": 0.6820861101150513,
+     "abs_max_reference": 4.34375,
+     "abs_max_min": 1.0859375,
+     "abs_max_max": 17.375
+    }
+   },
+   "23": {
+    "q": {
+     "rms_reference": 1.4173997640609741,
+     "rms_min": 0.7086998820304871,
+     "rms_max": 2.8347995281219482,
+     "abs_max_reference": 22.0,
+     "abs_max_min": 5.5,
+     "abs_max_max": 88.0
+    },
+    "k": {
+     "rms_reference": 2.1635661125183105,
+     "rms_min": 1.0817830562591553,
+     "rms_max": 4.327132225036621,
+     "abs_max_reference": 20.75,
+     "abs_max_min": 5.1875,
+     "abs_max_max": 83.0
+    },
+    "v": {
+     "rms_reference": 0.3585738241672516,
+     "rms_min": 0.1792869120836258,
+     "rms_max": 0.7171476483345032,
+     "abs_max_reference": 4.03125,
+     "abs_max_min": 1.0078125,
+     "abs_max_max": 16.125
+    }
+   },
+   "24": {
+    "q": {
+     "rms_reference": 1.4305006265640259,
+     "rms_min": 0.7152503132820129,
+     "rms_max": 2.8610012531280518,
+     "abs_max_reference": 22.875,
+     "abs_max_min": 5.71875,
+     "abs_max_max": 91.5
+    },
+    "k": {
+     "rms_reference": 2.1477138996124268,
+     "rms_min": 1.0738569498062134,
+     "rms_max": 4.2954277992248535,
+     "abs_max_reference": 21.125,
+     "abs_max_min": 5.28125,
+     "abs_max_max": 84.5
+    },
+    "v": {
+     "rms_reference": 0.3971808850765228,
+     "rms_min": 0.1985904425382614,
+     "rms_max": 0.7943617701530457,
+     "abs_max_reference": 5.125,
+     "abs_max_min": 1.28125,
+     "abs_max_max": 20.5
+    }
+   },
+   "25": {
+    "q": {
+     "rms_reference": 1.520827293395996,
+     "rms_min": 0.760413646697998,
+     "rms_max": 3.041654586791992,
+     "abs_max_reference": 24.125,
+     "abs_max_min": 6.03125,
+     "abs_max_max": 96.5
+    },
+    "k": {
+     "rms_reference": 2.182727336883545,
+     "rms_min": 1.0913636684417725,
+     "rms_max": 4.36545467376709,
+     "abs_max_reference": 23.625,
+     "abs_max_min": 5.90625,
+     "abs_max_max": 94.5
+    },
+    "v": {
+     "rms_reference": 0.43005114793777466,
+     "rms_min": 0.21502557396888733,
+     "rms_max": 0.8601022958755493,
+     "abs_max_reference": 4.40625,
+     "abs_max_min": 1.1015625,
+     "abs_max_max": 17.625
+    }
+   },
+   "26": {
+    "q": {
+     "rms_reference": 1.3708821535110474,
+     "rms_min": 0.6854410767555237,
+     "rms_max": 2.7417643070220947,
+     "abs_max_reference": 21.75,
+     "abs_max_min": 5.4375,
+     "abs_max_max": 87.0
+    },
+    "k": {
+     "rms_reference": 2.221857786178589,
+     "rms_min": 1.1109288930892944,
+     "rms_max": 4.443715572357178,
+     "abs_max_reference": 20.25,
+     "abs_max_min": 5.0625,
+     "abs_max_max": 81.0
+    },
+    "v": {
+     "rms_reference": 0.38217008113861084,
+     "rms_min": 0.19108504056930542,
+     "rms_max": 0.7643401622772217,
+     "abs_max_reference": 4.46875,
+     "abs_max_min": 1.1171875,
+     "abs_max_max": 17.875
+    }
+   },
+   "27": {
+    "q": {
+     "rms_reference": 1.4021140336990356,
+     "rms_min": 0.7010570168495178,
+     "rms_max": 2.8042280673980713,
+     "abs_max_reference": 22.375,
+     "abs_max_min": 5.59375,
+     "abs_max_max": 89.5
+    },
+    "k": {
+     "rms_reference": 2.1680641174316406,
+     "rms_min": 1.0840320587158203,
+     "rms_max": 4.336128234863281,
+     "abs_max_reference": 21.125,
+     "abs_max_min": 5.28125,
+     "abs_max_max": 84.5
+    },
+    "v": {
+     "rms_reference": 0.4811752438545227,
+     "rms_min": 0.24058762192726135,
+     "rms_max": 0.9623504877090454,
+     "abs_max_reference": 4.96875,
+     "abs_max_min": 1.2421875,
+     "abs_max_max": 19.875
+    }
+   },
+   "28": {
+    "q": {
+     "rms_reference": 1.4146411418914795,
+     "rms_min": 0.7073205709457397,
+     "rms_max": 2.829282283782959,
+     "abs_max_reference": 20.75,
+     "abs_max_min": 5.1875,
+     "abs_max_max": 83.0
+    },
+    "k": {
+     "rms_reference": 2.2141990661621094,
+     "rms_min": 1.1070995330810547,
+     "rms_max": 4.428398132324219,
+     "abs_max_reference": 20.375,
+     "abs_max_min": 5.09375,
+     "abs_max_max": 81.5
+    },
+    "v": {
+     "rms_reference": 0.4554177522659302,
+     "rms_min": 0.2277088761329651,
+     "rms_max": 0.9108355045318604,
+     "abs_max_reference": 5.78125,
+     "abs_max_min": 1.4453125,
+     "abs_max_max": 23.125
+    }
+   },
+   "29": {
+    "q": {
+     "rms_reference": 1.376922369003296,
+     "rms_min": 0.688461184501648,
+     "rms_max": 2.753844738006592,
+     "abs_max_reference": 13.6875,
+     "abs_max_min": 3.421875,
+     "abs_max_max": 54.75
+    },
+    "k": {
+     "rms_reference": 2.3454251289367676,
+     "rms_min": 1.1727125644683838,
+     "rms_max": 4.690850257873535,
+     "abs_max_reference": 33.25,
+     "abs_max_min": 8.3125,
+     "abs_max_max": 133.0
+    },
+    "v": {
+     "rms_reference": 0.5244072675704956,
+     "rms_min": 0.2622036337852478,
+     "rms_max": 1.0488145351409912,
+     "abs_max_reference": 7.09375,
+     "abs_max_min": 1.7734375,
+     "abs_max_max": 28.375
+    }
+   },
+   "30": {
+    "q": {
+     "rms_reference": 1.4594990015029907,
+     "rms_min": 0.7297495007514954,
+     "rms_max": 2.9189980030059814,
+     "abs_max_reference": 20.25,
+     "abs_max_min": 5.0625,
+     "abs_max_max": 81.0
+    },
+    "k": {
+     "rms_reference": 2.1448519229888916,
+     "rms_min": 1.0724259614944458,
+     "rms_max": 4.289703845977783,
+     "abs_max_reference": 21.0,
+     "abs_max_min": 5.25,
+     "abs_max_max": 84.0
+    },
+    "v": {
+     "rms_reference": 0.535994291305542,
+     "rms_min": 0.267997145652771,
+     "rms_max": 1.071988582611084,
+     "abs_max_reference": 6.6875,
+     "abs_max_min": 1.671875,
+     "abs_max_max": 26.75
+    }
+   },
+   "31": {
+    "q": {
+     "rms_reference": 1.5988885164260864,
+     "rms_min": 0.7994442582130432,
+     "rms_max": 3.197777032852173,
+     "abs_max_reference": 28.625,
+     "abs_max_min": 7.15625,
+     "abs_max_max": 114.5
+    },
+    "k": {
+     "rms_reference": 2.207556962966919,
+     "rms_min": 1.1037784814834595,
+     "rms_max": 4.415113925933838,
+     "abs_max_reference": 18.0,
+     "abs_max_min": 4.5,
+     "abs_max_max": 72.0
+    },
+    "v": {
+     "rms_reference": 0.6450514793395996,
+     "rms_min": 0.3225257396697998,
+     "rms_max": 1.2901029586791992,
+     "abs_max_reference": 7.71875,
+     "abs_max_min": 1.9296875,
+     "abs_max_max": 30.875
+    }
+   }
+  }
+ }
+}

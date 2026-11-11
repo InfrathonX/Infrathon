@@ -1,0 +1,46 @@
+{
+  "approval_id": "owner-delegated-20261004-llada-requal-r1-memory82g-headroom6g",
+  "headroom_mib": 6144,
+  "historical_a6000_policy": {
+    "applicability": "NONE",
+    "max_peak_gib": 47.0,
+    "status": "UNCALIBRATED_FOR_H100"
+  },
+  "measurements": {
+    "reference_and_near_cap_stress_required": true,
+    "required": [
+      "torch_peak_allocated_bytes",
+      "torch_peak_reserved_bytes",
+      "nvml_peak_device_used_bytes"
+    ]
+  },
+  "min_compute_capability": "8.0",
+  "min_device_memory_mib": 34816,
+  "near_cap_stress": {
+    "maximum_gap_mib": 4096,
+    "minimum_cap_utilization": 0.95,
+    "observed_cap_utilization": 0.9740392696566698,
+    "status": "QUALIFIED"
+  },
+  "peak_cap_policy": "device_relative_v1: floor(total_device_memory_mib) - (headroom_mib + safety_margin_mib)",
+  "qualification_hardware": "NVIDIA H100 NVL",
+  "qualification_run_sha256": "302aa40015a4f6079f87a698b7bd631cdbf383567e461c4623b2e3082d588d48",
+  "qualification_status": "QUALIFIED",
+  "qualified_clean_idle_free_mib": 95585,
+  "qualified_max_peak_gib": 82.0,
+  "release_status": "FROZEN",
+  "row_sentinel": {
+    "max_growth_bytes": 10737418240,
+    "metric": "max_positive_allocated_reserved_nvml_delta_bytes_v1",
+    "observed_max_growth_bytes": 10190061568,
+    "observed_max_repeat_growth_bytes": 0,
+    "qualification_guard_bytes": 12884901888,
+    "repeat_growth_guard_bytes": 16777216,
+    "repeat_metric": "max_positive_allocated_reserved_nvml_end_to_repeat_delta_bytes_v1",
+    "safety_margin_bytes": 536870912,
+    "status": "FROZEN"
+  },
+  "safety_margin_mib": 1024,
+  "schema_version": 1,
+  "task_id": "llada_h100_decoder_optimization_v2"
+}

@@ -1,0 +1,224 @@
+{
+  "task_id": "kvzip_query_agnostic_kv_scoring_qwen3_8b_h100_scratch_v2",
+  "name": "Query-Agnostic KV Scoring Qwen3-8B Portable CUDA Scratch v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:208ae7882ce58210e482c46b09680ab05f97c85da7c070507c88ce983ed86f6a"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/kv_scoring_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "scorer_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/kv_scoring_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md first. Implement a query-agnostic, ratio-agnostic KVScorer for frozen Qwen3-8B. One score tensor must support global top-10%, top-20%, and top-30% retention across retrieval, contextual-QA and redundancy workloads, with contexts up to 32,000 tokens. Version every candidate, preserve every fail-closed check, and leave FINAL_VERSION on the strongest clean candidate. Scorers must not use token identity in any form, and each score call must do its own work (see AGENT_TASK.md). Public tests are for getting the scorer working: use the one, quick, and full public commands. Your score comes from hidden test cases: every sforge-submit --details evaluates them and waits for the result, and your final result is the best valid score you reach within the time budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/kvzip_kv_scoring_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 11000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/kvzip_kv_scoring_v2_private.json.gz",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 64,
+    "mem_limit": "96g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "kvzip-query-agnostic-kv-scoring-v2",
+      "definition": {
+        "operation": "query_agnostic_kv_importance_scoring_for_frozen_decoder",
+        "model_id": "Qwen/Qwen3-8B",
+        "n_layers": 36,
+        "n_heads": 32,
+        "n_kv_heads": 8,
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "ratios_percent": [
+          10,
+          20,
+          30
+        ],
+        "groups": [
+          "retrieval",
+          "contextual_qa",
+          "redundancy"
+        ],
+        "tasks": [
+          "needle",
+          "scbench_kv",
+          "scbench_prefix_suffix",
+          "scbench_repoqa",
+          "ruler_niah",
+          "squad",
+          "gsm",
+          "ruler_qa",
+          "scbench_mf",
+          "scbench_many_shot",
+          "scbench_summary",
+          "ruler_vt"
+        ],
+        "counts_per_task": {
+          "gsm": 200,
+          "needle": 96,
+          "ruler_niah": 192,
+          "ruler_qa": 152,
+          "ruler_vt": 234,
+          "scbench_kv": 150,
+          "scbench_many_shot": 54,
+          "scbench_mf": 250,
+          "scbench_prefix_suffix": 150,
+          "scbench_repoqa": 22,
+          "scbench_summary": 62,
+          "squad": 250
+        },
+        "context_tokens": {
+          "min": 64,
+          "max": 32000
+        },
+        "retention": "global top-r over (layer, kv_head, context_position) with one score tensor serving every ratio",
+        "item_sources": [
+          "rajpurkar/squad",
+          "openai/gsm8k",
+          "Jang-Hyun/SCBench-preprocessed",
+          "simonjegou/ruler",
+          "snu-mllab/KVzip needle generator"
+        ]
+      },
+      "interface": {
+        "entry_point": "KVScorer(spec, assets).score(layer_idx, hidden_states, queries, keys, values, position_embeddings, weights, ctx_range) -> float32[1,8,end-start]",
+        "source_path": "candidates/scorer_vNNN/submission.py",
+        "assets_path": "candidates/scorer_vNNN/assets.pt or assets.ref",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "python_torch_triton_source_with_static_admission"
+      },
+      "allowed_changes": [
+        "versioned scorer implementations under candidates (scorer_v001 starts empty)",
+        "optional assets.pt tensors (weights_only, at most 128 MiB) or assets.ref to an earlier version",
+        "FINAL_VERSION selector",
+        "notes.md"
+      ],
+      "invariants": [
+        "the model, context-only capture, retention ratios, global allocator and trusted masked decode are frozen",
+        "Phase A (unprivileged worker, context only) emits one finite score tensor per row; Phase B (trusted) decodes full-cache and compressed answers without candidate code",
+        "a fresh scorer per row; each layer is scored twice, the repeat on fresh input copies, and the smaller time counts",
+        "task relative accuracy = compressed / full-cache task accuracy; groups mean over tasks; ratio mean over groups; primary = 100 x mean over ratios",
+        "every run-wide gate is fail-closed: admitted source, valid scores, immutable inputs and RNG, suite overhead <= 25% and item overhead <= max(50% of its prefill, 10 x the shortest suite prefill), scorer memory <= 8 GiB, finite metrics, positive full-cache references",
+        "every scored round evaluates the frozen 1,812-row final suite (full-final-shared-v2); its manifest and private needles are Judge-only and its rows are rebuilt from pinned public sources at image build",
+        "Phase B decodes pairs in chunks sized from token counts only; the Judge shards rows across 1-8 identical GPUs and the score does not depend on the shard count"
+      ],
+      "resource_manifest_sha256": "sha256:bb7eb7bdc4d34bd9dc657ba0e51c73d5872eae00846b3a17adea7dd2decacd6e"
+    },
+    "evaluation_suites": {
+      "kvzip-scoring-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:1888395a6a39cc071c821af63a2aad6412f17792a5d1d1c3daf13fae364c4f7c",
+            "case_count": 63
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:2a531b1fb43030db15308e6a66e0676ffddc8efa7e0c4bf3e2f7aade9b92bd4a",
+            "case_count": 1812
+          },
+          "final": {
+            "manifest_sha256": "sha256:77305e9f7727f7164301a3248274a59b90d9506e93e0e8111224421b06ead483",
+            "case_count": 1812
+          }
+        },
+        "oracle": {
+          "protocol_id": "trusted-masked-decode-relative-accuracy-v2",
+          "spec_sha256": "sha256:8a2d7b89d5eac8bd64aff547883ff4c574ae49234a9689fd091317a8407a02b1"
+        },
+        "selection": {
+          "protocol_id": "kvzip-scoring-full-final-shared-v2-sharded",
+          "spec_sha256": "sha256:2af29d304f0a9dfc3dd47d54c03adc454f19a8102ca73985be9bf6264da792b6"
+        }
+      }
+    },
+    "execution_profiles": {
+      "cuda-sm80-79g-sharded-judge": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "8.0",
+        "features": [
+          "bf16",
+          "cuda",
+          "fp32",
+          "read-only-model-mount",
+          "sdpa",
+          "sharded-judge-1-to-8-gpus",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-transformers4571-sdpa-rouge-v1",
+          "spec_sha256": "sha256:76c719bd02182bdc17b6484b4368aacd244ab38203c20dbf66a57b9e24e3cc97"
+        },
+        "calibration_protocol": {
+          "protocol_id": "host-wall-cuda-event-max-sum-layers-two-warmups-v1",
+          "spec_sha256": "sha256:035a95285f454b42ef1e6fceaee6f58ac510fb96a7dd5c3ef045b7abba5c3169"
+        }
+      }
+    },
+    "metrics": {
+      "relative-accuracy-auc-points": {
+        "direction": "maximize",
+        "unit": "relative_accuracy_points",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "ratio-mean-group-mean-task-relative-v2",
+          "spec": {
+            "formula": "100 * mean_over_ratios(mean_over_groups(mean_over_tasks(task_acc_compressed / task_acc_full)))",
+            "ratios_percent": [
+              10,
+              20,
+              30
+            ],
+            "groups": [
+              "retrieval",
+              "contextual_qa",
+              "redundancy"
+            ],
+            "lossless_reference": 100
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "kvzip-scoring-v2",
+      "execution_profile_id": "cuda-sm80-79g-sharded-judge",
+      "metric_id": "relative-accuracy-auc-points"
+    }
+  }
+}

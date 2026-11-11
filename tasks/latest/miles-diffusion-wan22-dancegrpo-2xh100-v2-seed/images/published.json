@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:b640defd593df3c322ce9425fa9b977c5dff6fa202b25742fa3a9e5765e8dffa",
+      "judge_public_tag": "h100-80gb-700w-miles-diffusion-wan22-dancegrpo-2xh100-v2-seed-judge",
+      "work": "sha256:361d29d1325f452fe1596813c985976292b174c4eca6a53e107c9375311b48f6",
+      "work_tag": "h100-80gb-700w-miles-diffusion-wan22-dancegrpo-2xh100-v2-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:b640defd593df3c322ce9425fa9b977c5dff6fa202b25742fa3a9e5765e8dffa",
+      "judge_public_tag": "h100-94gb-400w-miles-diffusion-wan22-dancegrpo-2xh100-v2-seed-judge",
+      "work": "sha256:361d29d1325f452fe1596813c985976292b174c4eca6a53e107c9375311b48f6",
+      "work_tag": "h100-94gb-400w-miles-diffusion-wan22-dancegrpo-2xh100-v2-seed-work"
+    }
+  },
+  "source_digest": "512e5f2d2a91e0cca3cfc61d61c20c6ad86a977f7e311c3205cace64817d8fe6"
+}

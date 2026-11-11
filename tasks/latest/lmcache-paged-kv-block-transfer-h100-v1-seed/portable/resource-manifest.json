@@ -1,0 +1,31 @@
+{
+  "boundary": {
+    "excludes": "Dockerfiles, dockerignore files, cooperative handoff and launcher/build machinery; those are delivery inputs in build-resource-manifest.json",
+    "includes": "authoritative agent-facing task prompt and README, public runner and its wrappers, source admission, protected hashes, the disclosed public case table, hidden verifier / worker / Judge adapter, the shared trusted runtime and frozen ABI header (bit-exact oracle, envelope probe, timing), and the root-only final-holdout generator; the seeded kernel_v001 is part of the Work context and is bound by the delivery manifest",
+    "kind": "scientific_task_resources"
+  },
+  "resources": [
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:4ef6f3906490503e5cee78054ab49bb1e32e5bf0062815bb8cafcd5578cf473e"},
+    {"path": "images/work/workdir/kv_transfer_lab/README_AGENT.md", "sha256": "sha256:921da17601273d510c82e3c6d42bc3800a1ae49d103a7f3afda3a6acfc8bffea"},
+    {"path": "images/work/benchmark/kv_transfer_runtime.py", "sha256": "sha256:bd9a05bf25e850147091f28d15a72fdddd82293b6f7400375b32c03b9b5deddd"},
+    {"path": "images/work/benchmark/transfer_abi.h", "sha256": "sha256:06eaa0fcbe58e229c40d2447eef02bbdef9556257fb62bf51f7b0f664fc7de5e"},
+    {"path": "images/work/benchmark/public_runner.py", "sha256": "sha256:a26ade7706df59a9800c30c898067e98acb2eda413d62daab088809bf4102cc7"},
+    {"path": "images/work/benchmark/run_public_tests.sh", "sha256": "sha256:4fa1880def7a5d63bef72cc872d52df4d6e2ae6689b4dedd8725ec1d6f9d15c1"},
+    {"path": "images/work/benchmark/source_admission.py", "sha256": "sha256:2cafc12351de9f9df1e8f5b2dcfb664febc4790ab81e71e660d253f843e6cdc1"},
+    {"path": "images/work/workdir/kv_transfer_lab/tools/run_one.sh", "sha256": "sha256:6ddefd5c8ca999c7070fa1e5d7af74381075e2fe55a5bb781dd826e0c2f280a5"},
+    {"path": "images/work/workdir/kv_transfer_lab/tools/run_public_tests.sh", "sha256": "sha256:f72c44762ff78c3215b5953e05e6ebaee3b425292245a4d4ce2133cde289aed2"},
+    {"path": "images/judge/candidate_worker.py", "sha256": "sha256:5125852816fb176760b6654b303416740796beb043b422d57347540888407734"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:50e2e7d25f2dc485b8d8fe3130e6575ca913db3a4c1d958dda18aebd8dda1ba5"},
+    {"path": "images/judge/source_admission.py", "sha256": "sha256:2cafc12351de9f9df1e8f5b2dcfb664febc4790ab81e71e660d253f843e6cdc1"},
+    {"path": "images/judge/verify_kv_transfer.py", "sha256": "sha256:75665b4da432965f44ce7896e81a1ab755f1ddeedd1047d80d22055043761ec6"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:6f957e78375ab444a28dfc75268e79731136432bfe084a99fca6756ac1d071a1"},
+    {"path": "images/judge/public_cases.json", "sha256": "sha256:3a1fbfe670e9ea1c983f16fff670bf7b745761503a744632a6771ff5bc680ca6"},
+    {"path": "judge/run_judge.py", "sha256": "sha256:50e2e7d25f2dc485b8d8fe3130e6575ca913db3a4c1d958dda18aebd8dda1ba5"},
+    {"path": "runtime/kv_transfer_runtime.py", "sha256": "sha256:3aeaba0476efac20997e24b0b15616744f930159bdf31da07772210ecb239b53"},
+    {"path": "runtime/transfer_abi.h", "sha256": "sha256:f75a4c2ed2a14c74435ac0e5369a2345e69b5e0c7f3def6a8bcc94ca701de3b2"},
+    {"path": "scripts/make_public_runtime.py", "sha256": "sha256:d3fa471b50173453616913691175e1514cbf533825b86850d1965ea92a54b8a3"},
+    {"path": "images/work/benchmark/public_cases.json", "sha256": "sha256:3a1fbfe670e9ea1c983f16fff670bf7b745761503a744632a6771ff5bc680ca6"},
+    {"path": "scripts/generate_final_manifest.py", "sha256": "sha256:0e0aee26155773870dc39fc8d09bbb282e894c0d4ce6615fdb1998d7f1ef02dc"}
+  ],
+  "schema_version": 1
+}

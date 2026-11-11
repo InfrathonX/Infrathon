@@ -1,0 +1,18 @@
+{
+  "commands": {
+    "sforge-save-version": {
+      "sha256": "2ed9a84912fae8c2178f3a37ddb5f23715b0175712bae367d91bdc93f11831b9",
+      "size": 3056
+    },
+    "sforge-submit": {
+      "sha256": "3486e9913ec6c49208fe735b544cda740fa37d772109aeb290287964df064e26",
+      "size": 19175
+    }
+  },
+  "contains_credentials": false,
+  "generator": "sforge/harness/evolve_scripts.py",
+  "generator_sha256": "a4e3dd5954023b6c1d8eb5e0d8b91d6b52c1f5b4d159b904c92fe771c842a67a",
+  "protocol": "sforge-public-generated-commands-v1",
+  "runtime_overridden_by_controller": true,
+  "schema_version": 1
+}

@@ -1,0 +1,10 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible",
+  "forbidden_packages": ["deep_gemm"],
+  "language": "python3",
+  "protocol_id": "pytorch280-cu129-triton340-fp8-source-sanitizer-v2",
+  "required_dtypes": ["fp8-e4m3", "bf16", "fp32", "fp64"],
+  "required_tools": ["compute-sanitizer"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.8.0", "triton-3.4.0"]
+}

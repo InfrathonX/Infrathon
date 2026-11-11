@@ -1,0 +1,9 @@
+**
+!Dockerfile
+!verify_flash_kmeans.py
+!run_judge.py
+!protected_hashes.txt
+!benchmark/
+!benchmark/**
+**/__pycache__/
+**/*.pyc

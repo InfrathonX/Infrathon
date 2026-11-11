@@ -1,0 +1,5 @@
+name: miles_diffusion_opd
+base_images:
+  miles_diffusion_opd_runtime:
+    official_image: sha256:5ba5a9748fb816907e045d616f4d44f7fecfe5db24881e94fd285859857df84a
+    extra_packages: []

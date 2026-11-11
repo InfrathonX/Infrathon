@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "correctness": [
+    {
+      "case_id": "cpu_odd_shape_bias_beta_low",
+      "seed": 1729,
+      "batch": 2,
+      "sequence_length": 7,
+      "student_hidden_size": 11,
+      "teacher_hidden_size": 19,
+      "vocab_size": 37,
+      "beta": 0.1,
+      "temperature": 0.9,
+      "ignore_index": -100,
+      "bias": true,
+      "mask_stride": 5
+    },
+    {
+      "case_id": "cpu_uneven_mask_no_bias_hot_temp",
+      "seed": 2718,
+      "batch": 3,
+      "sequence_length": 9,
+      "student_hidden_size": 13,
+      "teacher_hidden_size": 17,
+      "vocab_size": 47,
+      "beta": 0.5,
+      "temperature": 2.0,
+      "ignore_index": -100,
+      "bias": false,
+      "mask_stride": 4
+    },
+    {
+      "case_id": "cpu_beta_zero_forward_kl",
+      "seed": 6283,
+      "batch": 2,
+      "sequence_length": 11,
+      "student_hidden_size": 7,
+      "teacher_hidden_size": 23,
+      "vocab_size": 41,
+      "beta": 0.0,
+      "temperature": 1.0,
+      "ignore_index": -100,
+      "bias": false,
+      "mask_stride": 3
+    },
+    {
+      "case_id": "cpu_beta_one_reverse_kl",
+      "seed": 9241,
+      "batch": 3,
+      "sequence_length": 8,
+      "student_hidden_size": 17,
+      "teacher_hidden_size": 13,
+      "vocab_size": 53,
+      "beta": 1.0,
+      "temperature": 0.7,
+      "ignore_index": -100,
+      "bias": true,
+      "mask_stride": 5
+    },
+    {
+      "case_id": "cpu_irregular_mask_mid_beta",
+      "seed": 3141,
+      "batch": 3,
+      "sequence_length": 10,
+      "student_hidden_size": 15,
+      "teacher_hidden_size": 21,
+      "vocab_size": 43,
+      "beta": 0.35,
+      "temperature": 1.3,
+      "ignore_index": -100,
+      "bias": true,
+      "mask_stride": 4,
+      "mask_ignored_count": 13
+    }
+  ],
+  "gpu_objective": [
+    {
+      "case_id": "qwen3_gkd_heads_t96",
+      "seed": 314159,
+      "batch": 1,
+      "sequence_length": 96,
+      "student_hidden_size": 2048,
+      "teacher_hidden_size": 2560,
+      "vocab_size": 151936,
+      "beta": 0.5,
+      "temperature": 0.9,
+      "ignore_index": -100,
+      "bias": false,
+      "mask_stride": 11
+    },
+    {
+      "case_id": "qwen3_gkd_public_path_b3_t383",
+      "classification": "PUBLIC_OBJECTIVE_STRESS_DIAGNOSTIC_ONLY",
+      "formal": false,
+      "score_eligible": false,
+      "workload_path": "qwen3_full_distillation_objective",
+      "seed": 32452843,
+      "batch": 3,
+      "sequence_length": 383,
+      "student_hidden_size": 2048,
+      "teacher_hidden_size": 2560,
+      "vocab_size": 151936,
+      "beta": 0.5,
+      "temperature": 0.9,
+      "ignore_index": -100,
+      "bias": false,
+      "mask_stride": 13
+    }
+  ]
+}

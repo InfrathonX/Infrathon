@@ -1,0 +1,25 @@
+{
+  "repo_id": "GSAI-ML/LLaDA-8B-Instruct",
+  "revision": "6059b30c9531767ce47e0ca6a8161a6bb0c67693",
+  "logical_size_bytes": 16037449215,
+  "parameter_count": 8015581184,
+  "tensor_payload_bytes": 16031162368,
+  "files": {
+    ".gitattributes": [1519, "11ad7efa24975ee4b0c3c3a38ed18737f0658a5f75a0a96787b576a78a023361"],
+    "README.md": [31, "4bcf87ecfbbb8e07a01b21415a970c8b53a5283bf6872b657040d3f45c9241f7"],
+    "config.json": [1385, "5f99fefe855fdb5100bb6cadb57bdb09fae723ad54811f95c00ecacf29d58a6a"],
+    "configuration_llada.py": [12000, "c947a64d8b735affa69d5adeb416c83ce607c8925270884e4471ae11068e2bfe"],
+    "generation_config.json": [128, "00b3d1ffda2ca0a45633deb52ca4413dda046e7c94e9b05b73ed4a565b0677b3"],
+    "model-00001-of-00006.safetensors": [2109747184, "ff6699df9635a267fb4ac801ea8012d39b21bb22ed290d5a57128521b889c230"],
+    "model-00002-of-00006.safetensors": [2948598128, "b8ddf571b47f57ce654913877f3625d2c7b9a4c3f81cb6f41f6c3055473b0281"],
+    "model-00003-of-00006.safetensors": [2986883656, "8347db2fd61a3b5bad2970c2f83ecb84b93632e276a41ca169dcc5efae15462c"],
+    "model-00004-of-00006.safetensors": [2952797224, "93d8706872e7432d5cd40c9a61f9f9d270c101828cef2adaf27c67743d3dcf1a"],
+    "model-00005-of-00006.safetensors": [2919239128, "ff5f765eb7ec8bfdbe3b962a9e920d71de43d55e04eb4844710c0efcc8855092"],
+    "model-00006-of-00006.safetensors": [2113931792, "f25d4cc57b24a79a840d49c3b25d9a22dd5caf3a9766f591e4625377901194e2"],
+    "model.safetensors.index.json": [24941, "28b4ec27206e42e7ade630450e6ce618bd197acf34d35120e8e86d2bb910a408"],
+    "modeling_llada.py": [60672, "1eef56b9917a3283199183a1f969b149276b49bb321a806f7e20dcb52180224c"],
+    "special_tokens_map.json": [747, "e9f1f0f6fa133da3169ae69b1969c51cced047a900050893d7a0711c6bd063aa"],
+    "tokenizer.json": [6098988, "071eb20fe7bd601550b1b7838ff696d6c93b88f51257f753303d3df23163c381"],
+    "tokenizer_config.json": [51692, "b9a6102c39a4f42f47f0d63fc6cee58a2381199d90f2a4f39b3f6871f32b4119"]
+  }
+}

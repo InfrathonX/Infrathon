@@ -1,0 +1,359 @@
+{
+  "direct_outside_read": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Outside read",
+    "errors": [
+      "direct_outside_read.py:1: filesystem path is outside admitted roots"
+    ],
+    "source": "direct_outside_read.py",
+    "command": "$PY $G/e2_admission.py --case direct_outside_read",
+    "mismatch": false
+  },
+  "path_receiver_read": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Outside read receiver",
+    "errors": [],
+    "source": "path_receiver_read.py",
+    "command": "$PY $G/e2_admission.py --case path_receiver_read",
+    "mismatch": true
+  },
+  "path_variable_read": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Outside read variable",
+    "errors": [],
+    "source": "path_variable_read.py",
+    "command": "$PY $G/e2_admission.py --case path_variable_read",
+    "mismatch": true
+  },
+  "path_receiver_write": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Outside write; static only",
+    "errors": [],
+    "source": "path_receiver_write.py",
+    "command": "$PY $G/e2_admission.py --case path_receiver_write",
+    "mismatch": true
+  },
+  "builtin_write_mode": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Write outside admitted build/tmp roots",
+    "errors": [],
+    "source": "builtin_write_mode.py",
+    "command": "$PY $G/e2_admission.py --case builtin_write_mode",
+    "mismatch": true
+  },
+  "builtin_keyword_mode": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Immutable model-root write; static only",
+    "errors": [],
+    "source": "builtin_keyword_mode.py",
+    "command": "$PY $G/e2_admission.py --case builtin_keyword_mode",
+    "mismatch": true
+  },
+  "safe_prefix_traversal": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Traversal escapes read root",
+    "errors": [],
+    "source": "safe_prefix_traversal.py",
+    "command": "$PY $G/e2_admission.py --case safe_prefix_traversal",
+    "mismatch": true
+  },
+  "relative_traversal": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Relative traversal outside root",
+    "errors": [],
+    "source": "relative_traversal.py",
+    "command": "$PY $G/e2_admission.py --case relative_traversal",
+    "mismatch": true
+  },
+  "allowed_tmp_write": {
+    "expected": "ADMIT",
+    "observed": "REJECT",
+    "reason": "Explicit SAFE_WRITE_PREFIXES /tmp",
+    "errors": [
+      "allowed_tmp_write.py:1: filesystem path is outside admitted roots"
+    ],
+    "source": "allowed_tmp_write.py",
+    "command": "$PY $G/e2_admission.py --case allowed_tmp_write",
+    "mismatch": true
+  },
+  "allowed_tmp_path_write": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Explicit SAFE_WRITE_PREFIXES /tmp",
+    "errors": [],
+    "source": "allowed_tmp_path_write.py",
+    "command": "$PY $G/e2_admission.py --case allowed_tmp_path_write",
+    "mismatch": false
+  },
+  "allowed_build_write": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Explicit build root",
+    "errors": [],
+    "source": "allowed_build_write.py",
+    "command": "$PY $G/e2_admission.py --case allowed_build_write",
+    "mismatch": false
+  },
+  "allowed_dtype_getattr": {
+    "expected": "ADMIT",
+    "observed": "REJECT",
+    "reason": "Ordinary dtype selection",
+    "errors": [
+      "allowed_dtype_getattr.py:2: dynamic control-plane lookup is forbidden"
+    ],
+    "source": "allowed_dtype_getattr.py",
+    "command": "$PY $G/e2_admission.py --case allowed_dtype_getattr",
+    "mismatch": true
+  },
+  "allowed_local_runtime": {
+    "expected": "ADMIT",
+    "observed": "REJECT",
+    "reason": "Local variable unrelated to trusted module",
+    "errors": [
+      "allowed_local_runtime.py:2: trusted-runtime monkey-patching is forbidden"
+    ],
+    "source": "allowed_local_runtime.py",
+    "command": "$PY $G/e2_admission.py --case allowed_local_runtime",
+    "mismatch": true
+  },
+  "runtime_direct_assign": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Trusted-runtime mutation",
+    "errors": [
+      "runtime_direct_assign.py:2: trusted-runtime monkey-patching is forbidden"
+    ],
+    "source": "runtime_direct_assign.py",
+    "command": "$PY $G/e2_admission.py --case runtime_direct_assign",
+    "mismatch": false
+  },
+  "runtime_setattr": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Trusted-runtime mutation",
+    "errors": [],
+    "source": "runtime_setattr.py",
+    "command": "$PY $G/e2_admission.py --case runtime_setattr",
+    "mismatch": true
+  },
+  "runtime_dict": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Trusted-runtime mutation",
+    "errors": [],
+    "source": "runtime_dict.py",
+    "command": "$PY $G/e2_admission.py --case runtime_dict",
+    "mismatch": true
+  },
+  "pickle_loads": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Assignment explicitly forbids pickled data",
+    "errors": [],
+    "source": "pickle_loads.py",
+    "command": "$PY $G/e2_admission.py --case pickle_loads",
+    "mismatch": true
+  },
+  "torch_load": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Explicit forbidden deserialization",
+    "errors": [
+      "torch_load.py:2: forbidden call 'torch.load'"
+    ],
+    "source": "torch_load.py",
+    "command": "$PY $G/e2_admission.py --case torch_load",
+    "mismatch": false
+  },
+  "network_import": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Explicit banned network import",
+    "errors": [
+      "network_import.py:1: forbidden import 'socket'"
+    ],
+    "source": "network_import.py",
+    "command": "$PY $G/e2_admission.py --case network_import",
+    "mismatch": false
+  },
+  "subprocess_import": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Explicit banned process import",
+    "errors": [
+      "subprocess_import.py:1: forbidden import 'subprocess'"
+    ],
+    "source": "subprocess_import.py",
+    "command": "$PY $G/e2_admission.py --case subprocess_import",
+    "mismatch": false
+  },
+  "runtime_internal_import": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Assignment expects reject; shipped docs only clearly forbid mutation: specification ambiguity",
+    "errors": [],
+    "source": "runtime_internal_import.py",
+    "command": "$PY $G/e2_admission.py --case runtime_internal_import",
+    "mismatch": true
+  },
+  "unselected_sibling": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Dependency contains banned socket import and is outside selected digest",
+    "errors": [],
+    "source": "unselected_sibling.py",
+    "command": "$PY $G/e2_admission.py --case unselected_sibling",
+    "submission": {
+      "ok": true,
+      "final_version": 1,
+      "candidate_version": 1,
+      "versions": [
+        1,
+        2
+      ],
+      "num_candidate_versions": 2,
+      "selected_sha256": "c0c64d6f78ce7ef2b9fadf16dad6b41452ad0664eee526437d41a065030aabba",
+      "errors": [],
+      "warnings": [],
+      "mode": "archive"
+    },
+    "changed_sibling_submission": {
+      "ok": true,
+      "final_version": 1,
+      "candidate_version": 1,
+      "versions": [
+        1,
+        2
+      ],
+      "num_candidate_versions": 2,
+      "selected_sha256": "c0c64d6f78ce7ef2b9fadf16dad6b41452ad0664eee526437d41a065030aabba",
+      "errors": [],
+      "warnings": [],
+      "mode": "archive"
+    },
+    "selected_digest_unchanged": true,
+    "mismatch": true
+  },
+  "gc_request_enumeration": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Control-plane introspection exposes future worker requests",
+    "errors": [],
+    "source": "gc_request_enumeration.py",
+    "command": "$PY $G/e2_admission.py --case gc_request_enumeration",
+    "mismatch": true
+  },
+  "clock_mutation": {
+    "expected": "REJECT",
+    "observed": "ADMIT",
+    "reason": "Mutates authoritative shared clock",
+    "errors": [],
+    "source": "clock_mutation.py",
+    "command": "$PY $G/e2_admission.py --case clock_mutation",
+    "mismatch": true
+  },
+  "allowed_joined_thread": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Complete helper before return",
+    "errors": [],
+    "source": "allowed_joined_thread.py",
+    "command": "$PY $G/e2_admission.py --case allowed_joined_thread",
+    "mismatch": false
+  },
+  "allowed_extension_import": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Explicitly allowed trusted compiler surface",
+    "errors": [],
+    "source": "allowed_extension_import.py",
+    "command": "$PY $G/e2_admission.py --case allowed_extension_import",
+    "mismatch": false
+  },
+  "allowed_torch_getattr_feature": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Constant-name feature detection on torch namespaces",
+    "errors": [],
+    "source": "allowed_torch_getattr_feature.py",
+    "command": "$PY $G/e2_admission.py --case allowed_torch_getattr_feature",
+    "mismatch": false
+  },
+  "allowed_tmp_dynamic_write": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Static prefix /tmp/ resolved from f-string, os.path.join and Path join",
+    "errors": [],
+    "source": "allowed_tmp_dynamic_write.py",
+    "command": "$PY $G/e2_admission.py --case allowed_tmp_dynamic_write",
+    "mismatch": false
+  },
+  "allowed_workspace_dynamic_write": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "Static prefix under the workspace build root",
+    "errors": [],
+    "source": "allowed_workspace_dynamic_write.py",
+    "command": "$PY $G/e2_admission.py --case allowed_workspace_dynamic_write",
+    "mismatch": false
+  },
+  "allowed_tmp_read": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "/tmp is an admitted write root, so candidates may read it back",
+    "errors": [],
+    "source": "allowed_tmp_read.py",
+    "command": "$PY $G/e2_admission.py --case allowed_tmp_read",
+    "mismatch": false
+  },
+  "allowed_file_relative_read": {
+    "expected": "ADMIT",
+    "observed": "ADMIT",
+    "reason": "__file__-derived read of the candidate's own directory",
+    "errors": [],
+    "source": "allowed_file_relative_read.py",
+    "command": "$PY $G/e2_admission.py --case allowed_file_relative_read",
+    "mismatch": false
+  },
+  "getattr_torch_load": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Constant getattr routing into a forbidden call",
+    "errors": [
+      "getattr_torch_load.py:2: dynamic control-plane lookup or mutation is forbidden"
+    ],
+    "source": "getattr_torch_load.py",
+    "command": "$PY $G/e2_admission.py --case getattr_torch_load",
+    "mismatch": false
+  },
+  "getattr_torch_dynamic_name": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Non-constant attribute name on a torch root",
+    "errors": [
+      "getattr_torch_dynamic_name.py:3: dynamic control-plane lookup or mutation is forbidden"
+    ],
+    "source": "getattr_torch_dynamic_name.py",
+    "command": "$PY $G/e2_admission.py --case getattr_torch_dynamic_name",
+    "mismatch": false
+  },
+  "dynamic_path_unresolvable_write": {
+    "expected": "REJECT",
+    "observed": "REJECT",
+    "reason": "Bare variable has no static prefix",
+    "errors": [
+      "dynamic_path_unresolvable_write.py:2: filesystem path or mode cannot be resolved"
+    ],
+    "source": "dynamic_path_unresolvable_write.py",
+    "command": "$PY $G/e2_admission.py --case dynamic_path_unresolvable_write",
+    "mismatch": false
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:b8945d65efa6957931e2a7efa1617412886e8b83072cf320b6d60fd7c9827127",
+      "judge_public_tag": "h100-80gb-700w-minference-sparse-prefill-h100-v3-seed-judge",
+      "work": "sha256:28b9fe5bc5570ead298d550cce25921adfe65081bead260e100d6e3b75f60a7b",
+      "work_tag": "h100-80gb-700w-minference-sparse-prefill-h100-v3-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:b8945d65efa6957931e2a7efa1617412886e8b83072cf320b6d60fd7c9827127",
+      "judge_public_tag": "h100-94gb-400w-minference-sparse-prefill-h100-v3-seed-judge",
+      "work": "sha256:28b9fe5bc5570ead298d550cce25921adfe65081bead260e100d6e3b75f60a7b",
+      "work_tag": "h100-94gb-400w-minference-sparse-prefill-h100-v3-seed-work"
+    }
+  },
+  "source_digest": "9a731dcff6db9577901d080da9409dab4932c5819cadc670a184028020b38c9a"
+}

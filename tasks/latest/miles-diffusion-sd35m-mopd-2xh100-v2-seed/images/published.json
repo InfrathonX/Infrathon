@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:0a70e536fa70a60de716678923e0a208bb3cc32bfea09f5d1338b570b0ac2d1a",
+      "judge_public_tag": "h100-80gb-700w-miles-diffusion-sd35m-mopd-2xh100-v2-seed-judge",
+      "work": "sha256:78244c70d1475b92a0236a588af2d327326ac82a7e4bc27a2a129ee071bd4fdf",
+      "work_tag": "h100-80gb-700w-miles-diffusion-sd35m-mopd-2xh100-v2-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:0a70e536fa70a60de716678923e0a208bb3cc32bfea09f5d1338b570b0ac2d1a",
+      "judge_public_tag": "h100-94gb-400w-miles-diffusion-sd35m-mopd-2xh100-v2-seed-judge",
+      "work": "sha256:78244c70d1475b92a0236a588af2d327326ac82a7e4bc27a2a129ee071bd4fdf",
+      "work_tag": "h100-94gb-400w-miles-diffusion-sd35m-mopd-2xh100-v2-seed-work"
+    }
+  },
+  "source_digest": "6ed344f47b4d34cc4ca1515298e44e1d2a12eb5127902097976de720124b665b"
+}

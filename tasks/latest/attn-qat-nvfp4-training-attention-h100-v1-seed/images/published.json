@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:463dc2bdf160eec140f7cf5efbb6a3a65c224a755a087e663c86e410e728ae76",
+      "judge_public_tag": "h100-80gb-700w-attn-qat-nvfp4-training-attention-h100-v1-seed-judge",
+      "work": "sha256:a2226f6baf843a391df37e24470ebac84bc3d0ae095b989b71a42439821983e2",
+      "work_tag": "h100-80gb-700w-attn-qat-nvfp4-training-attention-h100-v1-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:463dc2bdf160eec140f7cf5efbb6a3a65c224a755a087e663c86e410e728ae76",
+      "judge_public_tag": "h100-94gb-400w-attn-qat-nvfp4-training-attention-h100-v1-seed-judge",
+      "work": "sha256:a2226f6baf843a391df37e24470ebac84bc3d0ae095b989b71a42439821983e2",
+      "work_tag": "h100-94gb-400w-attn-qat-nvfp4-training-attention-h100-v1-seed-work"
+    }
+  },
+  "source_digest": "4e48b9f94842400cf90d9db76a7921260e3e3aeb7bd1dfd7d901a6931be84bca"
+}

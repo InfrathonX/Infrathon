@@ -1,0 +1,947 @@
+diff --git a/miles/backends/fsdp_utils/actor.py b/miles/backends/fsdp_utils/actor.py
+index f3eab369..1a610fbe 100644
+--- a/miles/backends/fsdp_utils/actor.py
++++ b/miles/backends/fsdp_utils/actor.py
+@@ -130,6 +130,11 @@ class FSDPTrainRayActor(TrainRayActor):
+ 
+             if args.use_lora:
+                 model = apply_lora(model, args, self.train_pipeline_config)
++                if args.student_init is not None and rank == 0:
++                    from miles.backends.fsdp_utils.opd_dump import load_student_init_
++
++                    n = load_student_init_(model, args.student_init)
++                    logger.info("student LoRA initialised from %s (%d tensors)", args.student_init, n)
+ 
+             model.train()
+ 
+@@ -172,6 +177,19 @@ class FSDPTrainRayActor(TrainRayActor):
+         else:
+             self.model = torch.nn.ModuleDict(self.models)
+ 
++        self.teacher_runtime = None
++        if args.loss_type == "opd":
++            from miles.backends.fsdp_utils.teacher import TeacherRuntime
++
++            self.teacher_runtime = TeacherRuntime(
++                args,
++                self.model_backend,
++                self.train_pipeline_config,
++                self._forward_dtype,
++                torch.device("cuda", torch.cuda.current_device()),
++            )
++            clear_memory()
++
+         self.sde_backend = load_function(args.sde_step_backend_path)(
+             self.scheduler,
+             sde_timestep_divisor=self.train_pipeline_config.sde_timestep_divisor,
+@@ -444,6 +462,8 @@ class FSDPTrainRayActor(TrainRayActor):
+             microbatch_id = 0
+             for optim_step_idx, microbatch_ranges in enumerate(microbatch_schedule):
+                 self.optimizer.zero_grad(set_to_none=True)
++                probe_step = self.global_step < int(getattr(self.args, "opd_dump_means_steps", 0) or 0)
++                loss_ctx.keep_means = probe_step
+ 
+                 old_log_prob_from_new = self.args.diffusion_recompute_old_log_prob and optim_step_idx == 0
+ 
+@@ -483,9 +503,50 @@ class FSDPTrainRayActor(TrainRayActor):
+                         # otherwise the logged metric leaks the local shard's value.
+                         grad_norm = grad_norm.full_tensor()
+                     metrics.emit_replicated("grad_norm", grad_norm)
++                    opd_dump = self.args.loss_type == "opd" and self.args.opd_dump_dir is not None
++                    if opd_dump:
++                        from miles.backends.fsdp_utils import opd_dump as od
++
++                        lora_pre = od.snapshot_lora(self.model)
++                        lr_used = float(self.optimizer.param_groups[0]["lr"])
++                    if self.args.loss_type == "opd" and self.scaler.is_enabled():
++                        found_inf = sum(v.item() for v in self.scaler._found_inf_per_device(self.optimizer).values())
++                        if found_inf:
++                            raise RuntimeError(
++                                f"OPD step {self.global_step}: grad scaler found inf/nan and would skip the update; "
++                                "every optimizer step must update (train in fp32 or use a lower initial loss scale)"
++                            )
+                     self.scaler.step(self.optimizer)
+                     self.scaler.update()
+                     self.lr_scheduler.step()
++                    if opd_dump:
++                        exp_avg, exp_avg_sq, adam_step = od.snapshot_adam(self.model, self.optimizer)
++                        last_step = (rollout_id == self.args.num_rollout - 1
++                                     and optim_step_idx == len(microbatch_schedule) - 1)
++                        lora_post = od.snapshot_lora(self.model) if (probe_step or last_step) else None
++                        od.write_step(
++                            self.args.opd_dump_dir,
++                            self.global_step,
++                            {
++                                "step": self.global_step,
++                                "rollout_id": rollout_id,
++                                "optim_step_in_rollout": optim_step_idx,
++                                "lora_pre": lora_pre,
++                                "exp_avg": exp_avg,
++                                "exp_avg_sq": exp_avg_sq,
++                                "adam_step": adam_step,
++                                "grad_norm_preclip": float(grad_norm),
++                                "lr": lr_used,
++                                "betas": tuple(self.optimizer.param_groups[0]["betas"]),
++                                "eps": float(self.optimizer.param_groups[0]["eps"]),
++                                "weight_decay": float(self.optimizer.param_groups[0]["weight_decay"]),
++                                "clip_grad": float(self.args.clip_grad),
++                                "forward_dtype": str(self._forward_dtype),
++                                "lora_post": lora_post,
++                            },
++                            [p for lo, hi in microbatch_ranges for p in train_pairs[lo:hi]],
++                            get_gloo_group(),
++                        )
+                 else:
+                     self.optimizer.zero_grad(set_to_none=True)
+                 self.global_step += 1
+@@ -552,6 +613,8 @@ class FSDPTrainRayActor(TrainRayActor):
+         new_pred = _compute_noise_pred()
+ 
+         ref_pred = None
++        if self.teacher_runtime is not None:
++            ref_pred = self.teacher_runtime.predict(prepared.extras["routes"], latents_in, timesteps_in, pos_cond_in)
+         ref_mode = self.args.ref_mode
+         if ref_mode != "none":
+             if ref_mode == "ema":
+diff --git a/miles/backends/fsdp_utils/configs/sd3.py b/miles/backends/fsdp_utils/configs/sd3.py
+index 6dc5be1a..f4c9fdca 100644
+--- a/miles/backends/fsdp_utils/configs/sd3.py
++++ b/miles/backends/fsdp_utils/configs/sd3.py
+@@ -15,6 +15,12 @@ class SD3TrainPipelineConfig(TrainPipelineConfig):
+ 
+     hf_ckpt_name_patterns = ("stable-diffusion-3", "sd3")
+     cfg_batching = False
++    # FlowMatchEuler timesteps are sigma * num_train_timesteps (1000); the CPS backend resolves
++    # sigma = timestep / divisor, so SD3 + cps needs the divisor to be 1000, not the base 1.0.
++    sde_timestep_divisor = 1.0 if __import__("os").environ.get("OPD_AUTHOR_VARIANT") == "sigma_x1000" else 1000.0
++    # The engine returns its fp16 text conditioning; an fp32 forward (autocast off) needs it at the forward dtype
++    # (exact upcast). fp16 forwards are unchanged (fp16 -> fp16).
++    input_dtype_policy = {"latents": None, "cond": "default", "timestep": None}
+ 
+     lora_target_modules = [
+         "attn.to_q",
+diff --git a/miles/backends/fsdp_utils/loss_hub/types.py b/miles/backends/fsdp_utils/loss_hub/types.py
+index 74d252b4..686fc290 100644
+--- a/miles/backends/fsdp_utils/loss_hub/types.py
++++ b/miles/backends/fsdp_utils/loss_hub/types.py
+@@ -24,6 +24,7 @@ class DiffusionLossContext:
+     rollout_id: int = 0
+     microbatch_id: int = 0
+     dp_rank: int = 0
++    keep_means: bool = False  # OPD probe steps: stash per-pair transition means on the batch
+ 
+ 
+ @dataclass
+diff --git a/miles/backends/fsdp_utils/metrics.py b/miles/backends/fsdp_utils/metrics.py
+index 5a72600d..7780e742 100644
+--- a/miles/backends/fsdp_utils/metrics.py
++++ b/miles/backends/fsdp_utils/metrics.py
+@@ -31,6 +31,7 @@ SCHEMA = {
+     "nft_adv_mean": MetricReduce.MEAN,
+     "nft_t_mean": MetricReduce.MEAN,
+     "nft_num_timesteps": MetricReduce.MEAN,
++    "opd_kl": MetricReduce.MEAN,
+ }
+ 
+ 
+diff --git a/miles/rollout/sglang_diffusion_rollout.py b/miles/rollout/sglang_diffusion_rollout.py
+index b8ef4357..8311962a 100644
+--- a/miles/rollout/sglang_diffusion_rollout.py
++++ b/miles/rollout/sglang_diffusion_rollout.py
+@@ -169,7 +169,9 @@ async def generate_microgroup(
+     """Generate using traditional SGLang router with token-based workflow"""
+ 
+     state = GenerateState(args)
+-    url = f"http://{args.sglang_router_ip}:{args.sglang_router_port}/rollout/generate"
++    external_url = getattr(args, "rollout_generate_url", None)
++    base_url = external_url.rstrip("/") if external_url else f"http://{args.sglang_router_ip}:{args.sglang_router_port}"
++    url = f"{base_url}/rollout/generate"
+ 
+     # Prepare payload for sglang-diffusion server
+     # SGL-D TODO: support seed list for multiple samples in one request
+@@ -193,7 +195,7 @@ async def generate_microgroup(
+     )
+ 
+     st = hooks.StageTimer()
+-    if args.rollout_fetch_in_parser:
++    if args.rollout_fetch_in_parser and not external_url:
+         with st.stage("generate"):
+             router_url = f"http://{args.sglang_router_ip}:{args.sglang_router_port}"
+             i = state.next_parser_idx()
+@@ -264,6 +266,12 @@ async def generate_and_rm_microgroup(
+     if args.group_rm:
+         return microgroup
+ 
++    # OPD learns from the teacher, not a reward; a reward model is only an optional diagnostic.
++    if args.loss_type == "opd" and args.rm_type is None and args.custom_rm_path is None:
++        for sample in microgroup:
++            sample.reward = 0.0
++        return microgroup
++
+     # calculate the reward for the microgroup
+     st = hooks.StageTimer()
+     with st.stage("reward"):
+@@ -285,6 +293,9 @@ async def generate_and_rm_group(
+     n_per_prompt = args.n_samples_per_prompt
+     group_index = int(group[0].group_index or 0)
+     seed_base = (args.rollout_seed + group_index * n_per_prompt) % (2**31)
++    # A contract row may carry its own seed (stable under re-ordering / partial replays); it wins.
++    if group[0].metadata and group[0].metadata.get("seed") is not None:
++        seed_base = int(group[0].metadata["seed"]) % (2**31)
+ 
+     tasks = []
+     for idx in range(0, len(group), args.rollout_microgroup_size):
+diff --git a/miles/utils/arguments.py b/miles/utils/arguments.py
+index 071d6852..d057f8ea 100644
+--- a/miles/utils/arguments.py
++++ b/miles/utils/arguments.py
+@@ -836,14 +836,52 @@ def get_miles_extra_args_provider(add_custom_arguments=None):
+             parser.add_argument(
+                 "--loss-type",
+                 type=str,
+-                choices=["policy_loss", "sft_loss", "custom_loss", "nft"],
++                choices=["policy_loss", "sft_loss", "custom_loss", "nft", "opd"],
+                 default="policy_loss",
+                 help=(
+                     "Train objective shortcut. Diffusion default policy_loss = Flow-GRPO prepare+formula. "
+                     "nft auto-fills prepare / loss-formula paths and selects the NFT train-data converter. "
+-                    "DiT forward always stays in the FSDP actor."
++                    "opd = on-policy distillation (DiffusionOPD): per-step Gaussian KL between the student's "
++                    "and a frozen routed teacher's transition means on the student's own SDE states; "
++                    "needs --teacher-model. DiT forward always stays in the FSDP actor."
+                 ),
+             )
++            parser.add_argument(
++                "--teacher-model",
++                type=str,
++                action="append",
++                default=None,
++                metavar="KEY=PATH",
++                help=(
++                    "Frozen OPD teacher for samples whose --teacher-key metadata equals KEY (repeatable). "
++                    "PATH is a PEFT LoRA adapter dir on top of --hf-checkpoint, or a diffusers transformer dir."
++                ),
++            )
++            parser.add_argument(
++                "--teacher-key",
++                type=str,
++                default="data_source",
++                help="Sample.metadata field that routes each sample to its --teacher-model KEY.",
++            )
++            parser.add_argument(
++                "--student-init",
++                type=str,
++                default=None,
++                help="safetensors with PEFT-named LoRA weights loaded into the student adapter before training.",
++            )
++            parser.add_argument(
++                "--opd-dump-dir",
++                type=str,
++                default=None,
++                help="Write per-optimizer-step OPD records (pairs, per-pair KL, LoRA, AdamW state) here.",
++            )
++            parser.add_argument(
++                "--opd-dump-means-steps",
++                type=int,
++                default=0,
++                help="The first N optimizer steps' dumps also carry per-pair student/teacher transition means and "
++                "the post-step LoRA (probe evidence).",
++            )
+             parser.add_argument(
+                 "--custom-prepare-train-batch-path",
+                 type=str,
+@@ -996,6 +1034,15 @@ def get_miles_extra_args_provider(add_custom_arguments=None):
+                 default=3,
+                 help="Number of consecutive failures before marking a worker as unhealthy.",
+             )
++            parser.add_argument(
++                "--rollout-generate-url",
++                type=str,
++                default=None,
++                help=(
++                    "Send every POST /rollout/generate to this base URL instead of the local router "
++                    "(e.g. a replay or fixture server). Weight publication still targets the local engines."
++                ),
++            )
+             return parser
+ 
+         # wandb
+@@ -1550,6 +1597,16 @@ def set_default_diffusion_args(args) -> None:
+         if args.custom_loss_function_path is None:
+             args.custom_loss_function_path = "miles.backends.fsdp_utils.loss_hub.nft.nft_loss_formula"
+ 
++    if args.loss_type == "opd":
++        if args.custom_convert_samples_to_train_data_path is None:
++            args.custom_convert_samples_to_train_data_path = (
++                "miles.ray.data_conversion_hub.opd.convert_samples_to_train_data"
++            )
++        if args.custom_prepare_train_batch_path is None:
++            args.custom_prepare_train_batch_path = "miles.backends.fsdp_utils.loss_hub.opd.prepare_opd_batch"
++        if args.custom_loss_function_path is None:
++            args.custom_loss_function_path = "miles.backends.fsdp_utils.loss_hub.opd.opd_loss_formula"
++
+     if args.ref_mode is None:
+         if is_nft:
+             args.ref_mode = "ema"
+@@ -1736,6 +1793,23 @@ def miles_validate_args(args):
+                 "--diffusion-recompute-old-log-prob is only supported for policy_loss / Flow-GRPO, not NFT"
+             )
+ 
++    if args.loss_type == "opd":
++        if not args.teacher_model:
++            raise ValueError("--loss-type opd requires at least one --teacher-model KEY=PATH")
++        keys = [spec.split("=", 1)[0] for spec in args.teacher_model]
++        if any("=" not in spec or not k for spec, k in zip(args.teacher_model, keys, strict=True)):
++            raise ValueError(f"--teacher-model expects KEY=PATH, got {args.teacher_model}")
++        if len(set(keys)) != len(keys):
++            raise ValueError(f"duplicate --teacher-model keys {keys}")
++        if args.diffusion_sde_type != "cps":
++            raise ValueError("--loss-type opd scores CPS transitions; set --diffusion-sde-type cps")
++        if args.diffusion_kl_beta > 0 or args.ref_mode != "none":
++            raise ValueError("--loss-type opd has no reference/KL-to-ref term; drop --diffusion-kl-beta/--ref-mode")
++        if args.diffusion_recompute_old_log_prob:
++            raise ValueError("--loss-type opd has no importance ratio; drop --diffusion-recompute-old-log-prob")
++        if not args.use_lora:
++            raise ValueError("--loss-type opd trains a LoRA student; pass --use-lora")
++
+     if is_nft and args.ref_mode == "none":
+         raise ValueError("--loss-type nft requires a reference model; set --ref-mode ema or lora_base")
+     if args.ref_mode == "ema" and not args.use_ema:
+diff --git a/train_diffusion.py b/train_diffusion.py
+index 3e69b372..ca5cef52 100644
+--- a/train_diffusion.py
++++ b/train_diffusion.py
+@@ -10,6 +10,19 @@ from miles.utils.misc import should_run_periodic_action
+ from miles.utils.tracking_utils import init_tracking
+ 
+ 
++def notify_published(args, rollout_id: int) -> None:
++    """With an external generate endpoint (replay/fixture server), report that the weights trained on
++    rollout ``rollout_id`` are now applied to every local engine; the server gates the next round on it."""
++    url = getattr(args, "rollout_generate_url", None)
++    if not url:
++        return
++    import urllib.request
++
++    req = urllib.request.Request(f"{url.rstrip('/')}/replay/published?round={rollout_id}", data=b"", method="POST")
++    with urllib.request.urlopen(req, timeout=120) as resp:
++        resp.read()
++
++
+ def train(args):
+     configure_logger()
+     logger = logging.getLogger(__name__)
+@@ -78,6 +91,7 @@ def train(args):
+         if args.offload_rollout:
+             ray.get(rollout_manager.onload_weights.remote())
+         actor_model.update_weights()
++        notify_published(args, rollout_id)
+ 
+         if should_run_periodic_action(rollout_id, args.eval_interval, num_rollout_per_epoch):
+             ray.get(rollout_manager.eval.remote(rollout_id))
+diff --git a/miles/backends/fsdp_utils/loss_hub/opd.py b/miles/backends/fsdp_utils/loss_hub/opd.py
+new file mode 100644
+index 00000000..b9bc7862
+--- /dev/null
++++ b/miles/backends/fsdp_utils/loss_hub/opd.py
+@@ -0,0 +1,109 @@
++"""On-policy distillation (DiffusionOPD) batch preparation and loss formula.
++
++For every train pair (x_i, t_i, t_{i+1}, cond) on the student's own CPS trajectory, the student and the
++routed frozen teacher each predict a velocity at the same x_i with the same conditioning; both are
++pushed through the same CPS transition kernel and the loss is the closed-form Gaussian KL between the
++two transition distributions (shared std s_t = sigma_{i+1} sin(eta pi / 2)):
++
++    KL_i / D = mean_over_elements((mu(v_S) - mu(v_T))^2) / (2 s_t^2)
++
++The actor normalises ``loss_sum`` by the local pair count; with equal pairs per DP rank the gradient is
++that of the global pair mean. Gradients flow only through the student prediction.
++"""
++
++from __future__ import annotations
++
++import os
++
++import torch
++
++from miles.backends.fsdp_utils.loss_hub.types import DiffusionLossContext, PreparedBatch
++from miles.utils.metric_buffer import MetricBuffer
++
++
++def prepare_opd_batch(ctx: DiffusionLossContext, batch: list[dict], *, pad_to_len: int | None = None) -> PreparedBatch:
++    args, device, config = ctx.args, ctx.device, ctx.train_pipeline_config
++    if len(ctx.models) != 1:
++        raise ValueError("OPD supports single-DiT families")
++    if args.diffusion_true_cfg_scale is not None or args.diffusion_guidance_scale > 1.0:
++        raise ValueError("OPD student and teachers run the conditional branch only (guidance 1.0)")
++    component_name, model = next(iter(ctx.models.items()))
++
++    latents = torch.stack([pair["latent"] for pair in batch]).to(device=device, dtype=torch.float32)
++    timesteps = torch.stack([pair["timestep"] for pair in batch]).to(device=device, dtype=torch.float32)
++    next_timesteps = torch.stack([pair["next_timestep"] for pair in batch]).to(device=device, dtype=torch.float32)
++    pos_list = [config.prepare_cond_kwargs(pair["denoising_env"].pos_cond_kwargs, device) for pair in batch]
++    pos_cond = config.collate_cond_for_sample_batch(pos_list, device, pad_to_len=pad_to_len)
++
++    model_t = next_timesteps if os.environ.get("OPD_AUTHOR_VARIANT") == "t_next_input" else timesteps  # planted bug
++    return PreparedBatch(
++        latents=latents,
++        timesteps=timesteps,
++        timesteps_for_model=config.process_timestep_as_input(model_t),
++        model=model,
++        component_name=component_name,
++        guidance_scale=1.0,
++        use_cfg=False,
++        cfg_batching=False,
++        true_cfg_scale=None,
++        pos_cond=pos_cond,
++        neg_cond=None,
++        joint_cond=None,
++        advantage=torch.zeros(len(batch), device=device),
++        extras={"next_timesteps": next_timesteps, "routes": [pair["teacher_route"] for pair in batch]},
++    )
++
++
++def cps_transition_means(ctx: DiffusionLossContext, prepared: PreparedBatch, pred: torch.Tensor):
++    """(mu, std) of the CPS transition from x_i under a velocity prediction, in fp32."""
++    sigma, sigma_next = ctx.sde_backend.resolve_sigmas(
++        prepared.timesteps, prepared.extras["next_timesteps"], ndim=prepared.latents.ndim
++    )
++    mu, std, _ = ctx.sde_backend.prev_sample_mean_and_std(
++        pred.float(), prepared.latents.float(), sigma, sigma_next, noise_level=ctx.args.diffusion_noise_level
++    )
++    return mu, std
++
++
++def opd_loss_formula(
++    ctx: DiffusionLossContext,
++    batch: list[dict],
++    prepared: PreparedBatch,
++    *,
++    new_pred: torch.Tensor,
++    ref_pred: torch.Tensor | None,
++    metrics: MetricBuffer,
++    write_old_log_prob: bool = False,
++    old_log_prob_from_new: bool = False,
++) -> torch.Tensor | None:
++    if write_old_log_prob:
++        return None  # OPD has no importance ratio
++    if ref_pred is None:
++        raise ValueError("OPD needs the routed teacher prediction (actor teacher runtime)")
++    mu_s, std = cps_transition_means(ctx, prepared, new_pred)
++    with torch.no_grad():
++        mu_t, _ = cps_transition_means(ctx, prepared, ref_pred.detach())
++    reduce_dims = tuple(range(1, mu_s.ndim))
++    kl = ((mu_s - mu_t) ** 2).mean(dim=reduce_dims) / (2 * std.flatten() ** 2)
++    loss_sum = kl.sum()
++    variant = os.environ.get("OPD_AUTHOR_VARIANT")  # author-only planted bugs for gate calibration (never shipped)
++    if variant == "uniform_mse":
++        loss_sum = ((mu_s - mu_t) ** 2).mean(dim=reduce_dims).sum() * float((1 / (2 * std.flatten() ** 2)).mean())
++    elif variant == "partial_backward":
++        keep = torch.arange(len(batch), device=kl.device) % 3 == 0
++        loss_sum = kl[keep].sum() + kl[~keep].detach().sum()
++    elif variant == "half_samples":
++        keep = torch.tensor([int(p["output_idx"]) < 4 for p in batch], device=kl.device)
++        loss_sum = kl[keep].sum() + kl[~keep].detach().sum()
++
++    with torch.no_grad():
++        bsz = len(batch)
++        metrics.emit_mean("loss", total=loss_sum.detach(), count=bsz)
++        metrics.emit_mean("opd_kl", total=loss_sum.detach(), count=bsz)
++        keep_means = bool(getattr(ctx, "keep_means", False))
++        for j, (pair, kl_j) in enumerate(zip(batch, kl.detach().tolist(), strict=True)):
++            pair["opd_kl"] = kl_j
++            if keep_means:
++                pair["opd_mu_student"] = mu_s[j].detach().float().cpu()
++                pair["opd_mu_teacher"] = mu_t[j].float().cpu()
++    return loss_sum
+diff --git a/miles/backends/fsdp_utils/opd_dump.py b/miles/backends/fsdp_utils/opd_dump.py
+new file mode 100644
+index 00000000..28fb389e
+--- /dev/null
++++ b/miles/backends/fsdp_utils/opd_dump.py
+@@ -0,0 +1,91 @@
++"""Per-optimizer-step records for ``--loss-type opd`` (``--opd-dump-dir``) and ``--student-init`` loading.
++
++Record ``step_{k:05d}.pt`` (written by global rank 0) holds everything an external checker needs to
++replay step k of AdamW and to recompute its gradient:
++  pairs          [(row_id, output_idx, request_id, step_index, route, kl)] over all DP ranks
++  lora_pre       {peft_key: fp32} student LoRA before the update (PEFT file naming, no adapter name)
++  exp_avg/exp_avg_sq {peft_key: fp32} AdamW moments after the update, ``adam_step`` its step count
++  grad_norm_preclip, lr, loss (global pair mean the backward used)
++The first ``--opd-dump-means-steps`` steps also carry per-pair fp32 student/teacher transition means and lora_post;
++the run's last step always carries lora_post (the final student).
++"""
++
++from __future__ import annotations
++
++import os
++
++import torch
++import torch.distributed as dist
++from safetensors.torch import load_file
++
++ADAPTER = ".default"
++
++
++def peft_key(param_name: str) -> str:
++    return param_name.replace(f"{ADAPTER}.weight", ".weight")
++
++
++def _full(t: torch.Tensor) -> torch.Tensor:
++    return (t.full_tensor() if hasattr(t, "full_tensor") else t).detach().float().cpu()
++
++
++def trainable_lora(model: torch.nn.Module):
++    return [(n, p) for n, p in model.named_parameters() if p.requires_grad]
++
++
++def load_student_init_(model: torch.nn.Module, path: str) -> int:
++    """Copy PEFT-named LoRA tensors into the (unsharded, rank-0) student adapter; exact key coverage."""
++    tensors = load_file(path)
++    params = dict(trainable_lora(model))
++    by_key = {peft_key(n): p for n, p in params.items()}
++    if set(by_key) != set(tensors):
++        missing, extra = sorted(set(by_key) - set(tensors)), sorted(set(tensors) - set(by_key))
++        raise ValueError(f"--student-init keys differ from the student adapter: missing={missing[:4]} extra={extra[:4]}")
++    with torch.no_grad():
++        for key, p in by_key.items():
++            if tuple(tensors[key].shape) != tuple(p.shape):
++                raise ValueError(f"--student-init {key} shape {tuple(tensors[key].shape)} != {tuple(p.shape)}")
++            p.copy_(tensors[key].to(p.dtype))
++    return len(by_key)
++
++
++def snapshot_lora(model: torch.nn.Module) -> dict[str, torch.Tensor]:
++    """Full fp32 copy of the student LoRA (collective over FSDP ranks)."""
++    return {peft_key(n): _full(p) for n, p in trainable_lora(model)}
++
++
++def snapshot_adam(model: torch.nn.Module, optimizer) -> tuple[dict, dict, int]:
++    m, v, step = {}, {}, None
++    for n, p in trainable_lora(model):
++        state = optimizer.state[p]
++        m[peft_key(n)] = _full(state["exp_avg"])
++        v[peft_key(n)] = _full(state["exp_avg_sq"])
++        s = int(state["step"].item() if torch.is_tensor(state["step"]) else state["step"])
++        if step is not None and s != step:
++            raise RuntimeError("AdamW step counts differ across parameters")
++        step = s
++    return m, v, step
++
++
++def write_step(dump_dir: str, step: int, record: dict, local_pairs: list[dict], group) -> None:
++    """Gather every rank's pair records and write one file from global rank 0."""
++    rows = [
++        (p.get("row_id"), p.get("output_idx"), p.get("request_id"), p.get("step_index"), p.get("teacher_route"),
++         p.get("opd_kl"))
++        for p in local_pairs
++    ]
++    means = None
++    if any("opd_mu_student" in p for p in local_pairs):
++        means = [(p["opd_mu_student"], p["opd_mu_teacher"]) for p in local_pairs]
++    gathered = [None] * dist.get_world_size(group)
++    dist.all_gather_object(gathered, {"pairs": rows, "means": means}, group=group)
++    if dist.get_rank() != 0:
++        return
++    record = dict(record)
++    record["pairs"] = [row for g in gathered for row in g["pairs"]]
++    if means is not None:
++        record["means"] = [m for g in gathered for m in (g["means"] or [])]
++    os.makedirs(dump_dir, exist_ok=True)
++    tmp = os.path.join(dump_dir, f".step_{step:05d}.pt.tmp")
++    torch.save(record, tmp)
++    os.replace(tmp, os.path.join(dump_dir, f"step_{step:05d}.pt"))
+diff --git a/miles/backends/fsdp_utils/teacher.py b/miles/backends/fsdp_utils/teacher.py
+new file mode 100644
+index 00000000..2d327575
+--- /dev/null
++++ b/miles/backends/fsdp_utils/teacher.py
+@@ -0,0 +1,139 @@
++"""Frozen, routed teacher runtime for on-policy distillation (``--loss-type opd``).
++
++Each ``--teacher-model KEY=PATH`` becomes one full, frozen DiT copy on this rank's GPU:
++- PATH is a PEFT LoRA adapter dir (adapter_config.json + adapter_model.safetensors): the base
++  ``--hf-checkpoint`` component is loaded in fp32, ``W += (alpha / r) * B @ A`` is merged in fp32, and the
++  merged model is stored in the forward dtype (no adapter layers remain, so a teacher can never share or
++  leak into the student's PEFT adapter or its weight publication);
++- PATH is a diffusers component dir: loaded as is.
++
++Teachers never pass through FSDP or the optimizer and are not offloaded with the student.
++"""
++
++from __future__ import annotations
++
++import json
++import logging
++import os
++
++import torch
++from safetensors.torch import load_file
++
++logger = logging.getLogger(__name__)
++
++PEFT_PREFIX = "base_model.model."
++
++
++def _merge_peft_lora_(model: torch.nn.Module, adapter_dir: str) -> int:
++    cfg = json.load(open(os.path.join(adapter_dir, "adapter_config.json")))
++    if cfg.get("use_dora") or cfg.get("use_rslora") or cfg.get("rank_pattern") or cfg.get("alpha_pattern"):
++        raise ValueError(f"unsupported LoRA variant in {adapter_dir}")
++    scale = float(cfg["lora_alpha"]) / float(cfg["r"])
++    tensors = load_file(os.path.join(adapter_dir, "adapter_model.safetensors"))
++    modules = dict(model.named_modules())
++    pairs: dict[str, dict[str, torch.Tensor]] = {}
++    for key, value in tensors.items():
++        name = key[len(PEFT_PREFIX):] if key.startswith(PEFT_PREFIX) else key
++        for tag in ("lora_A", "lora_B"):
++            suffix = f".{tag}.weight"
++            if name.endswith(suffix):
++                pairs.setdefault(name[: -len(suffix)], {})[tag] = value
++                break
++        else:
++            raise ValueError(f"unexpected key {key} in {adapter_dir}")
++    with torch.no_grad():
++        for name, ab in pairs.items():
++            linear = modules[name]
++            delta = scale * (ab["lora_B"].float() @ ab["lora_A"].float())
++            linear.weight.copy_((linear.weight.float() + delta).to(linear.weight.dtype))
++    return len(pairs)
++
++
++def _load_peft_lora_factors(adapter_dir: str, dtype: torch.dtype, device) -> tuple[float, dict[str, tuple[torch.Tensor, torch.Tensor]]]:
++    cfg = json.load(open(os.path.join(adapter_dir, "adapter_config.json")))
++    scale = float(cfg["lora_alpha"]) / float(cfg["r"])
++    tensors = load_file(os.path.join(adapter_dir, "adapter_model.safetensors"))
++    factors: dict[str, dict[str, torch.Tensor]] = {}
++    for key, value in tensors.items():
++        name = key[len(PEFT_PREFIX):] if key.startswith(PEFT_PREFIX) else key
++        tag = "lora_A" if name.endswith(".lora_A.weight") else "lora_B"
++        factors.setdefault(name.rsplit(f".{tag}.weight", 1)[0], {})[tag] = value.to(device=device, dtype=dtype)
++    return scale, {name: (ab["lora_A"], ab["lora_B"]) for name, ab in factors.items()}
++
++
++class TeacherRuntime:
++    def __init__(self, args, model_backend, train_pipeline_config, forward_dtype: torch.dtype, device: torch.device):
++        self.args = args
++        self.config = train_pipeline_config
++        self.forward_dtype = forward_dtype
++        self.device = device
++        self.teachers: dict[str, torch.nn.Module] = {}
++        self.unmerged: dict[str, tuple[float, dict]] = {}
++        component = args.update_weight_target_modules[0]
++        if os.environ.get("OPD_AUTHOR_VARIANT") == "teacher_unmerged":
++            # author-only HONEST variant for gate calibration: one frozen base copy in the forward dtype, each
++            # teacher's LoRA applied unmerged (x @ A^T @ B^T * alpha/r added to the base output) per route
++            base = model_backend.load_component(component, args, master_dtype=torch.float32, materialize_weights=True)
++            if args.fsdp_attention_backend is not None:
++                model_backend.set_attention_backend(base, args.fsdp_attention_backend)
++            self.base = base.to(device=device, dtype=forward_dtype).eval().requires_grad_(False)
++            for spec in args.teacher_model:
++                key, path = spec.split("=", 1)
++                self.unmerged[key] = _load_peft_lora_factors(path, forward_dtype, device)
++                self.teachers[key] = self.base
++            return
++        for spec in args.teacher_model:
++            key, path = spec.split("=", 1)
++            if os.path.isfile(os.path.join(path, "adapter_config.json")):
++                model = model_backend.load_component(component, args, master_dtype=torch.float32, materialize_weights=True)
++                # author-only planted bug for gate calibration (never shipped): the base DiT scores as teacher
++                merged = 0 if os.environ.get("OPD_AUTHOR_VARIANT") == "teacher_is_base" else _merge_peft_lora_(model, path)
++                logger.info("teacher %s: merged %d LoRA modules from %s", key, merged, path)
++            else:
++                model_cls = model_backend._resolve_component_class(args, component)
++                model = model_cls.from_pretrained(path, torch_dtype=torch.float32)
++                logger.info("teacher %s: loaded full DiT from %s", key, path)
++            if args.fsdp_attention_backend is not None:
++                model_backend.set_attention_backend(model, args.fsdp_attention_backend)
++            model = model.to(device=device, dtype=forward_dtype).eval().requires_grad_(False)
++            self.teachers[key] = model
++
++    @torch.no_grad()
++    def predict(self, routes: list[str], latents: torch.Tensor, timesteps: torch.Tensor, pos_cond: dict) -> torch.Tensor:
++        """Velocity of each pair's routed teacher at the pair's own state (conditional branch only)."""
++        out = None
++        if os.environ.get("OPD_AUTHOR_VARIANT") == "route_swap":  # author-only planted bug: routes exchanged
++            keys = sorted(self.teachers)
++            routes = [keys[1 - keys.index(r)] if r in keys and len(keys) == 2 else r for r in routes]
++        for key in sorted(set(routes)):
++            if key not in self.teachers:
++                raise KeyError(f"no --teacher-model for route {key!r} (have {sorted(self.teachers)})")
++            idx = torch.tensor([i for i, r in enumerate(routes) if r == key], device=latents.device)
++            cond = {k: (v.index_select(0, idx) if isinstance(v, torch.Tensor) else v) for k, v in pos_cond.items()}
++            hooks = []
++            if key in self.unmerged:
++                scale, factors = self.unmerged[key]
++                modules = dict(self.base.named_modules())
++                for name, (lora_a, lora_b) in factors.items():
++                    hooks.append(modules[name].register_forward_hook(
++                        lambda mod, inp, outp, a=lora_a, b=lora_b: outp + scale * torch.nn.functional.linear(
++                            torch.nn.functional.linear(inp[0].to(a.dtype), a), b).to(outp.dtype)))
++            with torch.autocast("cuda", dtype=self.forward_dtype, enabled=self.forward_dtype != torch.float32):
++                pred = self.config.compute_noise_pred(
++                    model=self.teachers[key],
++                    latents_input=latents.index_select(0, idx),
++                    timesteps_input=timesteps.index_select(0, idx),
++                    pos_cond=cond,
++                    neg_cond=None,
++                    joint_cond=None,
++                    use_cfg=False,
++                    cfg_batching=False,
++                    guidance_scale=1.0,
++                    true_cfg_scale=None,
++                )
++            for h in hooks:
++                h.remove()
++            if out is None:
++                out = torch.empty((latents.shape[0], *pred.shape[1:]), device=pred.device, dtype=pred.dtype)
++            out.index_copy_(0, idx, pred)
++        return out
+diff --git a/miles/ray/data_conversion_hub/opd.py b/miles/ray/data_conversion_hub/opd.py
+new file mode 100644
+index 00000000..58b72059
+--- /dev/null
++++ b/miles/ray/data_conversion_hub/opd.py
+@@ -0,0 +1,99 @@
++"""Convert on-policy distillation (DiffusionOPD) rollout samples into flat train-pair payloads.
++
++One pair per (sample, SDE window step i): the student's own state x_i with the engine's (t_i, t_{i+1})
++and conditioning. The teacher is chosen per sample from ``Sample.metadata[--teacher-key]``. There is no
++reward and no importance ratio, so reward post-processing is skipped entirely.
++
++Pair order: optimizer step ``s`` of a rollout trains the contiguous row block
++``[s*R/S, (s+1)*R/S)`` of that rollout's R prompt rows. The DP splitter hands rank ``d`` the ``d``-th
++contiguous slice and the actor cuts each rank's slice into S consecutive optimizer steps, so pairs are
++emitted rank-major / step-minor to make every global step hold exactly its row block.
++"""
++
++from __future__ import annotations
++
++from typing import Any
++
++import torch
++
++from miles.utils.train_data_utils import scheduler_meta_from_samples
++from miles.utils.types import Sample
++
++
++def _dp_size(args) -> int:
++    world = int(args.actor_num_nodes) * int(args.actor_num_gpus_per_node)
++    sp = int(getattr(args, "sequence_parallel_size", 1) or 1)
++    return world // sp
++
++
++def _sample_pairs(args, sample: Sample, output_idx: int) -> list[dict[str, Any]]:
++    traj, env = sample.dit_trajectory, sample.denoising_env
++    if traj is None or traj.timesteps is None or env is None:
++        raise ValueError(f"sample {sample.index} lacks dit_trajectory/denoising_env")
++    sde_idx = (sample.train_metadata or {}).get("sde_step_indices")
++    if not sde_idx:
++        raise ValueError("OPD needs the SDE window (sde_step_indices) of every sample")
++    if traj.latent_step_indices is None:
++        position = {step: step for step in range(int(traj.latents.shape[0]))}
++    else:
++        position = {int(step): pos for pos, step in enumerate(traj.latent_step_indices.tolist())}
++    missing = [int(i) for i in sde_idx if int(i) not in position]
++    if missing:
++        raise ValueError(f"trajectory lacks latents for window steps {missing}")
++    route = sample.metadata.get(args.teacher_key)
++    if route is None:
++        raise ValueError(f"sample {sample.index} has no metadata[{args.teacher_key!r}] to route its teacher")
++    pairs = []
++    for i in sde_idx:
++        i = int(i)
++        pairs.append(
++            {
++                "latent": traj.latents[position[i]].detach().cpu(),  # producer dtype, bytes as returned
++                "timestep": traj.timesteps[i].detach().cpu(),
++                "next_timestep": traj.timesteps[i + 1].detach().cpu(),
++                "denoising_env": env,
++                "teacher_route": str(route),
++                "sample_index": sample.index,
++                "row_id": sample.metadata.get("row_id"),
++                "output_idx": output_idx,
++                "request_id": sample.request_id,
++                "step_index": i,
++                "prompt": sample.prompt,
++            }
++        )
++    return pairs
++
++
++def convert_samples_to_train_data(args, samples: list[Sample]) -> dict[str, Any]:
++    if samples and isinstance(samples[0], list):
++        samples = [s for group in samples for s in group]
++    n = int(args.n_samples_per_prompt)
++    if len(samples) % n:
++        raise ValueError(f"{len(samples)} samples is not a whole number of {n}-sample groups")
++    groups = [samples[g * n : (g + 1) * n] for g in range(len(samples) // n)]
++    for group in groups:
++        if len({s.group_index for s in group}) != 1:
++            raise ValueError("samples of one prompt row must be contiguous")
++
++    steps = int(args.num_steps_per_rollout or 1)
++    dp = _dp_size(args)
++    rows = len(groups)
++    if rows % (steps * dp):
++        raise ValueError(f"{rows} rows per rollout must split evenly over {steps} steps x {dp} DP ranks")
++    per_chunk = rows // (steps * dp)
++
++    def chunk(step: int, rank: int) -> list[list[Sample]]:
++        lo = step * (rows // steps) + rank * per_chunk
++        return groups[lo : lo + per_chunk]
++
++    train_data: list[dict[str, Any]] = []
++    for rank in range(dp):
++        for step in range(steps):
++            for group in chunk(step, rank):
++                for output_idx, sample in enumerate(group):
++                    train_data.extend(_sample_pairs(args, sample, output_idx))
++    return {"train_data": train_data, **scheduler_meta_from_samples(samples)}
++
++
++def pair_dtype(pair: dict[str, Any]) -> torch.dtype:
++    return pair["latent"].dtype
+diff --git a/scripts/run_diffusion_opd_sd3_mopd.py b/scripts/run_diffusion_opd_sd3_mopd.py
+new file mode 100644
+index 00000000..42d924fc
+--- /dev/null
++++ b/scripts/run_diffusion_opd_sd3_mopd.py
+@@ -0,0 +1,138 @@
++"""SD3.5-medium multi-teacher on-policy distillation (DiffusionOPD / MOPD) on mixed OCR + PickScore prompts.
++
++The student (a LoRA on SD3.5-M) samples its own CPS trajectories on the sglang-diffusion engine; every
++sample is routed by its ``metadata.data_source`` to a frozen teacher (the official DiffusionOPD OCR and
++Aes teachers, quanhaol/DiffusionOPD) that scores the same SDE states; the student minimises the per-step
++closed-form Gaussian KL (element mean, i.e. KL / D) between its and the teacher's transition means.
++Only the student adapter is published back to the engines. Mirrors the verl-omni recipe
++``examples/diffusionopd_trainer/sd35/run_sd35_medium_mopd_distill.sh`` (guidance 1.0, CPS eta 0.8,
++3-step window in [0, 5), LoRA r32/a64, lr 1e-4, wd 1e-4, 8 prompts x 8 samples, 2 optimizer steps per
++rollout, sync), at 512x512 on 2 GPUs.
++
++Prompt rows: jsonl ``{"input": <prompt>, "metadata": {"data_source": "ocr"|"pickscore", "row_id": int}}``.
++
++2-GPU colocate: FSDP DP=2 plus 2 rollout engines time-multiplexed on the same GPUs.
++
++Usage:
++    python3 scripts/run_diffusion_opd_sd3_mopd.py --prompt-data rows.jsonl \\
++        --ocr-teacher <dir>/OCRTeacher/lora --aes-teacher <dir>/AesTeacher/lora
++"""
++
++from dataclasses import dataclass
++
++import typer
++
++import miles.utils.external_utils.command_utils as U
++
++MODEL = "stabilityai/stable-diffusion-3.5-medium"
++
++
++@dataclass
++class ScriptArgs(U.ExecuteTrainConfig):
++    model: str = MODEL
++    prompt_data: str = ""
++    ocr_teacher: str = ""
++    aes_teacher: str = ""
++    ocr_label: str = "ocr"  # data_source value routed to the OCR teacher
++    aes_label: str = "pickscore"  # data_source value routed to the Aes teacher
++    student_init: str = ""
++    num_rollout: int = 48
++    rollout_seed: int = 42
++    train_dtype: str = "fp16"  # task contract: fp16 or fp32 training only (bf16 too far from the fp32 oracle)
++    opd_dump_dir: str = ""
++    rollout_generate_url: str = ""
++    rows_per_round: int = 8
++    steps_per_round: int = 2
++    probe_steps: int = 0  # the first N optimizer steps dump transition means + post-step LoRA
++    extra_args: str = ""
++
++
++def execute(args: ScriptArgs) -> None:
++    run_name = f"diffusion_opd_sd3_mopd_{U.create_run_id()}"
++
++    ckpt_args = f"--hf-checkpoint {args.model} "
++
++    rollout_args = (
++        "--rollout-function-path miles.rollout.sglang_diffusion_rollout.generate_rollout "
++        f"--prompt-data {args.prompt_data} "
++        "--input-key input "
++        "--metadata-key metadata "
++        f"--rollout-batch-size {args.rows_per_round} "
++        "--n-samples-per-prompt 8 "
++        f"--num-rollout {args.num_rollout} "
++        f"--rollout-seed {args.rollout_seed} "
++        f"--num-steps-per-rollout {args.steps_per_round} "
++        "--rollout-microgroup-size 8 "
++        "--diffusion-num-steps 10 "
++        "--diffusion-guidance-scale 1.0 "
++        "--diffusion-sde-type cps "
++        "--sde-step-backend-path miles.backends.fsdp_utils.sde_step_backend.CpsSdeStepBackend "
++        "--diffusion-noise-level 0.8 "
++        "--diffusion-log-prob-no-const "
++        "--diffusion-height 512 "
++        "--diffusion-width 512 "
++        "--diffusion-step-strategy-path miles.rollout.step_strategy_hub.sde_window "
++        "--diffusion-num-sde-steps 3 "
++        "--diffusion-sde-window-range 0,5 "
++    )
++    if args.rollout_generate_url:
++        rollout_args += f"--rollout-generate-url {args.rollout_generate_url} "
++
++    opd_args = (
++        "--loss-type opd "
++        f"--teacher-model {args.ocr_label}={args.ocr_teacher} "
++        f"--teacher-model {args.aes_label}={args.aes_teacher} "
++        "--teacher-key data_source "
++    )
++    if args.student_init:
++        opd_args += f"--student-init {args.student_init} "
++    if args.opd_dump_dir:
++        opd_args += f"--opd-dump-dir {args.opd_dump_dir} "
++    if args.probe_steps:
++        opd_args += f"--opd-dump-means-steps {args.probe_steps} "
++
++    optimizer_args = "--lr 1e-4 --adam-beta1 0.9 --adam-beta2 0.999 --adam-eps 1e-8 --weight-decay 1e-4 --clip-grad 1.0 "
++
++    lora_args = "--use-lora --lora-ipc-weight-sync --lora-rank 32 --lora-alpha 64 --lora-init-weights gaussian "
++
++    sglang_args = (
++        "--use-miles-router "
++        "--rollout-parser-num-workers 16 "
++        "--sglang-server-concurrency 8 "
++        "--sglang-dit-precision fp16 "
++        "--sglang-vae-slicing "
++        "--update-weight-buffer-size 2147483648 "
++    )
++
++    train_backend_args = f"--train-backend fsdp --diffusion-forward-dtype {args.train_dtype} "
++
++    perf_args = f"--gradient-checkpointing --micro-batch-size {16 if args.rows_per_round % 8 == 0 else 8} "
++
++    misc_args = (
++        "--actor-num-gpus-per-node 2 "
++        "--rollout-num-gpus 2 "
++        "--rollout-num-gpus-per-engine 1 "
++        "--num-gpus-per-node 2 "
++        "--colocate "
++    )
++
++    U.execute_train(
++        train_args=(
++            f"{ckpt_args} {rollout_args} {opd_args} {optimizer_args} {lora_args} {sglang_args} "
++            f"{train_backend_args} {perf_args} {misc_args} {args.extra_args}"
++        ),
++        num_gpus_per_node=2,
++        config=args,
++        # No expandable segments: their CUDA-IPC export needs pidfd_getfd, which sandboxed containers deny.
++        extra_env_vars={},
++    )
++    print(f"run {run_name} done")
++
++
++@U.dataclass_cli
++def main(args: ScriptArgs) -> None:
++    execute(args)
++
++
++if __name__ == "__main__":
++    typer.run(main)

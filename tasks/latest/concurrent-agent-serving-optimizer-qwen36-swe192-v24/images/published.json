@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:4a86adc656583e3045ae3e82b096657ec15706158471cb5b32f9d3811071f313",
+      "judge_public_tag": "h100-80gb-700w-concurrent-agent-serving-optimizer-qwen36-swe192-v24-judge",
+      "work": "sha256:4aa9ec0480203ce48c65144ffd75300dd2b926e9504ab93d0e27c72fea462501",
+      "work_tag": "h100-80gb-700w-concurrent-agent-serving-optimizer-qwen36-swe192-v24-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:4a86adc656583e3045ae3e82b096657ec15706158471cb5b32f9d3811071f313",
+      "judge_public_tag": "h100-94gb-400w-concurrent-agent-serving-optimizer-qwen36-swe192-v24-judge",
+      "work": "sha256:4aa9ec0480203ce48c65144ffd75300dd2b926e9504ab93d0e27c72fea462501",
+      "work_tag": "h100-94gb-400w-concurrent-agent-serving-optimizer-qwen36-swe192-v24-work"
+    }
+  },
+  "source_digest": "5b3d7f23551294c36b437299a8b9881636d37fb37174a1a906580ffeb61ff1f0"
+}

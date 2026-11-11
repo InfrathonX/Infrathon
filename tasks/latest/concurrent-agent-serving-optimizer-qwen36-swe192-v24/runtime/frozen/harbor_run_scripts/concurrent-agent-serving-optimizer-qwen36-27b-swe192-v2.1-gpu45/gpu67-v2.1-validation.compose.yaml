@@ -1,0 +1,46 @@
+services:
+  main:
+    image: harbor-kv/main:qwen36-27b-swe192-v2-1-gpu45-v1
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+
+  model-api:
+    image: "${KV_GPU67_MODEL_API_IMAGE:-harbor-kv/model-api:qwen36-swe192-v24-url-v1}"
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+
+  bench-controller:
+    image: "${KV_GPU67_CONTROLLER_IMAGE:-harbor-kv/bench-controller:qwen36-27b-swe192-v2-1-gpu45-v1}"
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+
+  sandbox-worker:
+    environment:
+      SANDBOX_OWNER: qwen36-swe192-v2-1-gpu67-validation
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+
+networks:
+  front:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+
+volumes:
+  verifier-control:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+  model-api-audit:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+  public-feedback:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+  sandbox-control:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+  trusted-benchmark-results:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"
+  sandbox-workspaces:
+    labels:
+      ai.openai.harbor-kv.gpu67-v2-1-owner: "${KV_GPU67_V21_OWNER_TOKEN:?set by gpu67-v2.1-validation-stack.sh}"

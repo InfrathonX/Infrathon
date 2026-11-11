@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:c1c72a35aaa71d742e5c1791715fc3e336cc8036d7e5dfb89993827b2373c2d4",
+      "judge_public_tag": "h100-80gb-700w-standalone-paged-gqa-decode-bf16-h100-v2-scratch-judge",
+      "work": "sha256:cd6d122ea0bf70743a160cfd5034841dd6ad7739c27046b3107790858da725e2",
+      "work_tag": "h100-80gb-700w-standalone-paged-gqa-decode-bf16-h100-v2-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:c1c72a35aaa71d742e5c1791715fc3e336cc8036d7e5dfb89993827b2373c2d4",
+      "judge_public_tag": "h100-94gb-400w-standalone-paged-gqa-decode-bf16-h100-v2-scratch-judge",
+      "work": "sha256:cd6d122ea0bf70743a160cfd5034841dd6ad7739c27046b3107790858da725e2",
+      "work_tag": "h100-94gb-400w-standalone-paged-gqa-decode-bf16-h100-v2-scratch-work"
+    }
+  },
+  "source_digest": "f936156ef978f1b723fc758c98177ad128082215358002ddf04361738ea90914"
+}

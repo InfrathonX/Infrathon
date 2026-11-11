@@ -1,0 +1,248 @@
+{
+  "schema_version": 1,
+  "task_directory": "eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed",
+  "note": "Qwen/Qwen3-8B@b968826d (Hugging Face) and the converted EAGLE-3 head are mounted read-only at run time and are added here in a later step. private_data/ (holdout prompts, reference streams, commitments, policy) is Judge-only and goes into the host-built Judge holdout layer.",
+  "assets": [
+    {
+      "path": "judge/private_data/anchor/chat_bs1.jsonl",
+      "sha256": "9079fc761fa118eb0ef82543b8f149ac25f1aee1c5b15f85e364b4b2d75d4a90",
+      "size": 4110,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor/code_bs1.jsonl",
+      "sha256": "df8c2a485db994c4e3cdfd2ace6f1e9892507378d89e90f87964062076b8a761",
+      "size": 5205,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor/longctx_bs1.jsonl",
+      "sha256": "6135507a1f908b2bd37acd39eeade818945f03e571384066edfb8bd794a61925",
+      "size": 68927,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor/math_bs1.jsonl",
+      "sha256": "1993fc4004610da188bac9925b49106f386a454289f5901c677ff104f28bcd4e",
+      "size": 3545,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor/mixed_bs8.jsonl",
+      "sha256": "40d2d867b2cd733776714c2dfac2ef4833f5b7ec1399934d1089e535ce2546fa",
+      "size": 10064,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor/think_bs1.jsonl",
+      "sha256": "541897b7e2e7f9b9c31da68609703245dacfbfa8f30ddefb15931190b6f3403a",
+      "size": 3473,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/anchor_manifest.json",
+      "sha256": "f58e3637b66915cce984487d62d04f0851854617862c82025ab5e780c8e6d078",
+      "size": 2176,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/commitments.json",
+      "sha256": "8104f3df30763890806444245f5e772ee4e53f0fc4d92fdcdd7df7b251835e5a",
+      "size": 2153,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/chat_bs1.jsonl",
+      "sha256": "20c2896edbce17f49b280e0d4a13120836c010ea26bd55729ce22c1f2e7ce6c2",
+      "size": 8216,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/code_bs1.jsonl",
+      "sha256": "fa221c0a5726a4910e0063df669137962b7447553fb877dbca35134a3f8c13c2",
+      "size": 13267,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/longctx_bs1.jsonl",
+      "sha256": "50dec9f1c05332acba18b9381d86b39e5d3ef419835c2c9e62131464ad2d7a58",
+      "size": 170786,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/math_bs1.jsonl",
+      "sha256": "31575fb2e30ed3098205931219dbc3722b5ee0eba838acae09867f8a8adfa7a6",
+      "size": 9297,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/mixed_bs8.jsonl",
+      "sha256": "cae4cc9232debbdb5db6b4b522f46ddd9ee3952ed4ce173095f97cf79b271cc0",
+      "size": 22521,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final/think_bs1.jsonl",
+      "sha256": "0d6cea00d267d00e76b89a4393b4987f0f01b0216049081ac83a60bc35a44a58",
+      "size": 8681,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/final_manifest.json",
+      "sha256": "cc9805892d4f799a6aebf3c96b38ec58e9e6145816fc5286884faccfa2fc2010",
+      "size": 2175,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/policy.json",
+      "sha256": "386a0993d9a058543e8beb9f90dcca739a3e1af0ecf8890c17cecdeaea4e137f",
+      "size": 2032,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/reference_streams.json",
+      "sha256": "2dade96633180ab7bc0ff683da22d2c699a40d833f75069cc72e868dba0e8247",
+      "size": 656213,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/chat_bs1.jsonl",
+      "sha256": "0301379e2fa7f350fdc9a18d8e709d813c62212651c6ae242f823a0e14ef1c96",
+      "size": 264,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/code_bs1.jsonl",
+      "sha256": "4c171e44848f3aabfea96a68fe7b1eade2035540f5b482199bba27b60e766c3f",
+      "size": 686,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/longctx_bs1.jsonl",
+      "sha256": "cc353eca095d11971eef5d5dcaf4eb0a97b43bb97aff871f0f000d64442363a6",
+      "size": 11343,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/math_bs1.jsonl",
+      "sha256": "24fb8b21dfada35365f81759654c4605858147420704d1fbc167b9cc6d5c7685",
+      "size": 469,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/mixed_bs8.jsonl",
+      "sha256": "4a6e3961adac8bdfa129503cbbd0341da9764425d28963b4d784c2dfada9acad",
+      "size": 4326,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup/think_bs1.jsonl",
+      "sha256": "79bcf6f00684271a41196cc0a5a1697710f8a1b8609f51cedf668df47afb797f",
+      "size": 457,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/warmup_manifest.json",
+      "sha256": "11e2895e2a84ed6353cb3d6fe6e09fdbdc4e1339d7c92a7a4ba204bcd380cc21",
+      "size": 2175,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-8B/",
+      "sha256": "e47b9aca03bbdb25886318a0f1bea76e13303f2971c21ecb8e0ffe69029172bb",
+      "size": 16397461266,
+      "files": 15,
+      "consumer": "work+judge",
+      "description": "frozen target model (EAGLE3_TARGET_REPO, the cache repository folder)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-8B",
+        "repo_type": "model",
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+      }
+    },
+    {
+      "path": "public/eagle3-head/",
+      "sha256": "4a12aa15930470b050c184c45f22469f00042fd7db02be57f5600df17aa56bf0",
+      "size": 799465127,
+      "files": 4,
+      "consumer": "work+judge",
+      "description": "converted EAGLE-3 draft head (scripts/convert_head.py from Tengyunw/qwen3_8b_eagle3@2a1059d5, frozen by scripts/freeze_head_artifact.sh; EAGLE3_HEAD_DIR)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

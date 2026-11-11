@@ -1,0 +1,73 @@
+{
+  "case_statistic": "median of 3 trials for a single call; total effective FLOPs over total seconds for a stream (16 untimed neighbouring warm-up calls, then every call timed with compilation, stopped after 8 timed seconds)",
+  "evaluation_policy": "full-final-shared-v3",
+  "final": {
+    "case_count": 997,
+    "edge_case_count": 470,
+    "edge_suite_id": "edge-holdout-v3",
+    "hard_gate_case_count": 470,
+    "hard_gate_policy": "every edge case and every scored case is a correctness and memory-safety gate; the sanitize subset of the edge cases runs first under compute-sanitizer memcheck",
+    "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+    "sanitize_case_count": 17,
+    "scored_case_count": 997,
+    "suite_id": "final-holdout-v4",
+    "trials": 3,
+    "warmups": 1
+  },
+  "historical_interactive_policy": "v1 (final-holdout-v1, full-final-shared-v2) scored a task-authored 3x3 grid with finite sinks and lengths; v2 (final-holdout-v2) scored the 13 upstream performance shapes only; v3 (final-holdout-v3) scored 181 cases in seven groups with a 30-second stream limit; none of their scores is comparable with v4",
+  "interactive": {
+    "candidate_version_override": "forbidden; evaluate the submitted FINAL_VERSION",
+    "case_count": 997,
+    "edge_case_count": 470,
+    "edge_suite_id": "edge-holdout-v3",
+    "hard_gate_case_count": 470,
+    "hard_gate_policy": "identical to final",
+    "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only",
+    "sanitize_case_count": 17,
+    "scored_case_count": 997,
+    "suite_id": "final-holdout-v4",
+    "trials": 3,
+    "warmups": 1
+  },
+  "protocol_id": "sparse-mla-shared-final-v3",
+  "public": {
+    "edge": {
+      "case_count": 73,
+      "suite_id": "edge-public-v3"
+    },
+    "full": {
+      "case_count": 108,
+      "case_ids": "all_public_cases",
+      "trials": 3,
+      "warmups": 1
+    },
+    "one": {
+      "case_count": 1,
+      "case_ids": [
+        "public-002-basic"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "quick": {
+      "case_count": 8,
+      "case_ids": [
+        "public-000-basic",
+        "public-006-sweep",
+        "public-018-pattern",
+        "public-022-heads",
+        "public-026-length",
+        "public-030-multi",
+        "public-034-trace",
+        "public-037-replay"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "sanitize": {
+      "case_count": 7,
+      "suite_id": "edge-public-v3"
+    }
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,88 @@
+{
+  "case_statistic": "median_trial_tflops",
+  "edge_fixtures": {
+    "case_count": 8,
+    "external_fixtures": [
+      {
+        "name": "e8_wan13b_p0_b15_s00_cond_8192.pt",
+        "role": "edge_fixture_input",
+        "identity": "per-deployment-capture",
+        "recipe": "fixtures/recipe/RECIPE.json",
+        "recipe_sha256": "sha256:a3914cc7962a2fe7ca907fa9461e4f0bd8aa18056e27109a27ee52d2031fb4ec",
+        "source": "fixtures/recipe/build_fixture.sh (docs/SOURCE_PROVENANCE.md); captured on this deployment's own GPU at build time, never shipped"
+      }
+    ],
+    "policy": "all_must_pass_before_any_scored_case",
+    "scored": false
+  },
+  "final": {
+    "case_count": 774,
+    "gated_sweep_cases": "a frozen hidden half of each family's sweep cases",
+    "hard_gate_case_count": 8,
+    "hard_gate_policy": "all_must_pass",
+    "real_case_count": 139,
+    "real_trials": 3,
+    "row_sampling": {
+      "from_length": 65536,
+      "fraction": "1/8",
+      "chunk_rows": 1024,
+      "always": [
+        "first chunk",
+        "last chunk"
+      ]
+    },
+    "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+    "scored_case_count": 774,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmup_wall_limit_seconds": 60.0,
+    "warmups": 1
+  },
+  "interactive": {
+    "case_count": 774,
+    "gated_sweep_cases": "a frozen hidden half of each family's sweep cases",
+    "hard_gate_case_count": 8,
+    "hard_gate_policy": "all_must_pass",
+    "real_case_count": 139,
+    "real_trials": 3,
+    "row_sampling": {
+      "from_length": 65536,
+      "fraction": "1/8",
+      "chunk_rows": 1024,
+      "always": [
+        "first chunk",
+        "last chunk"
+      ]
+    },
+    "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only; candidate_version override forbidden",
+    "scored_case_count": 774,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmup_wall_limit_seconds": 60.0,
+    "warmups": 1
+  },
+  "protocol_id": "sageattention-v3-shared-final-v1",
+  "public": {
+    "full": {
+      "case_count": 19,
+      "case_ids": "all_public_cases",
+      "real_layers": 2,
+      "trials": 3
+    },
+    "quick": {
+      "case_count": 3,
+      "case_ids": [
+        "public-p1",
+        "public-p4",
+        "public-video-h16-d128-l96001"
+      ],
+      "perf_only": [
+        "public-video-h16-d128-l96001"
+      ],
+      "trials": 1
+    },
+    "warmups": 1
+  },
+  "schema_version": 1,
+  "evaluation_policy": "full-final-shared-v3"
+}

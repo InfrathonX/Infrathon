@@ -1,0 +1,6764 @@
+{
+  "case_counts": {
+    "scored_performance": 1114,
+    "total": 1282,
+    "zero_weight_hard_gate": 168
+  },
+  "cases": [
+    {
+      "case_id": "final-0000-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0001-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0002-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0003-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0004-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0005-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0006-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0007-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0008-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0009-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0010-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0011-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0012-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0013-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0014-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0015-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0016-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0017-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0018-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0019-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0020-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0021-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0022-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0023-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0024-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0025-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0026-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0027-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0028-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0029-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0030-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0031-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0032-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0033-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0034-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0035-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0036-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0037-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0038-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0039-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0040-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0041-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0042-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0043-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0044-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0045-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0046-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0047-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0048-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0049-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0050-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0051-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0052-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0053-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0054-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0055-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0056-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0057-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0058-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0059-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0060-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0061-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0062-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0063-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0064-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0065-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0066-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0067-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0068-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0069-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0070-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0071-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0072-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0073-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0074-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0075-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0076-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0077-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0078-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0079-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0080-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0081-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0082-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0083-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0084-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0085-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0086-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0087-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0088-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0089-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0090-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0091-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0092-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0093-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0094-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0095-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0096-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0097-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0098-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0099-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0100-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0101-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0102-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0103-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0104-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0105-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0106-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0107-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0108-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0109-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0110-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0111-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0112-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0113-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0114-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0115-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0116-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0117-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0118-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0119-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0120-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0121-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0122-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0123-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0124-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0125-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0126-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0127-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0128-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0129-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0130-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0131-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0132-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0133-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0134-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0135-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0136-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0137-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0138-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0139-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0140-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0141-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0142-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0143-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0144-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0145-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0146-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0147-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0148-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0149-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0150-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0151-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0152-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0153-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0154-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0155-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0156-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0157-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0158-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0159-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0160-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0161-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0162-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0163-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0164-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0165-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0166-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0167-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0168-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0169-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0170-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0171-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0172-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0173-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0174-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0175-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0176-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0177-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0178-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0179-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0180-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0181-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0182-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0183-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0184-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0185-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0186-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0187-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0188-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0189-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0190-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0191-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0192-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0193-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0194-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0195-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0196-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0197-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0198-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0199-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0200-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0201-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0202-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0203-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0204-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0205-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0206-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0207-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0208-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0209-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0210-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0211-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0212-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0213-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0214-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0215-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0216-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0217-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0218-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0219-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0220-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0221-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0222-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0223-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0224-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0225-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0226-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0227-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0228-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0229-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0230-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0231-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0232-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0233-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0234-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0235-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0236-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0237-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0238-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0239-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0240-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0241-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0242-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0243-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0244-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0245-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0246-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0247-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0248-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0249-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0250-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0251-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0252-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0253-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0254-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0255-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0256-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0257-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0258-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0259-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0260-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0261-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0262-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0263-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0264-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0265-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0266-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0267-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0268-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0269-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0270-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0271-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0272-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0273-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0274-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0275-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0276-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0277-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0278-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0279-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0280-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0281-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0282-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0283-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0284-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0285-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0286-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0287-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0288-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0289-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0290-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0291-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0292-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0293-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0294-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0295-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0296-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0297-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0298-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0299-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0300-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0301-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0302-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0303-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0304-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0305-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0306-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0307-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0308-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0309-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0310-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0311-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0312-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0313-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0314-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0315-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0316-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0317-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0318-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0319-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0320-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0321-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0322-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0323-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0324-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0325-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0326-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0327-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0328-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0329-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0330-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0331-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0332-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0333-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0334-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0335-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0336-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0337-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0338-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0339-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0340-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0341-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0342-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0343-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0344-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0345-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0346-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0347-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0348-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0349-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0350-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0351-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0352-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0353-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0354-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0355-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0356-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0357-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0358-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0359-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0360-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0361-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0362-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0363-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0364-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0365-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0366-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0367-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0368-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0369-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0370-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0371-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0372-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0373-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0374-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0375-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0376-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0377-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0378-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0379-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0380-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0381-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0382-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0383-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0384-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0385-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0386-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0387-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0388-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0389-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0390-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0391-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0392-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0393-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0394-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0395-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0396-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0397-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0398-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0399-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0400-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0401-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0402-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0403-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0404-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0405-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0406-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0407-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0408-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0409-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0410-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0411-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0412-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0413-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0414-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0415-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0416-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0417-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0418-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0419-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0420-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0421-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0422-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0423-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0424-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0425-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0426-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0427-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0428-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0429-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0430-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0431-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0432-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0433-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0434-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0435-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0436-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0437-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0438-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0439-decode",
+      "family": "decode",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0440-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0441-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0442-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0443-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0444-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0445-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0446-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0447-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0448-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0449-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0450-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0451-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0452-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0453-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0454-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0455-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0456-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0457-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0458-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0459-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0460-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0461-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0462-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0463-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0464-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0465-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0466-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0467-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0468-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0469-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0470-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0471-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0472-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0473-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0474-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0475-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0476-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0477-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0478-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0479-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0480-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0481-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0482-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0483-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0484-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0485-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0486-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0487-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0488-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0489-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0490-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0491-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0492-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0493-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0494-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0495-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0496-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0497-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0498-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0499-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0500-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0501-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0502-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0503-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0504-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0505-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0506-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0507-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0508-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0509-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0510-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0511-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0512-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0513-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0514-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0515-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0516-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0517-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0518-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0519-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0520-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0521-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0522-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0523-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0524-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0525-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0526-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0527-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0528-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0529-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0530-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0531-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0532-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0533-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0534-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0535-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0536-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0537-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0538-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0539-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0540-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0541-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0542-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0543-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0544-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0545-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0546-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0547-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0548-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0549-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0550-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0551-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0552-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0553-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0554-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0555-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0556-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0557-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0558-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0559-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0560-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0561-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0562-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0563-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0564-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0565-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0566-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0567-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0568-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0569-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0570-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0571-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0572-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0573-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0574-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0575-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0576-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0577-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0578-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0579-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0580-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0581-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0582-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0583-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0584-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0585-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0586-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0587-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0588-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0589-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0590-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0591-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0592-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0593-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0594-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0595-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0596-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0597-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0598-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0599-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0600-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0601-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0602-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0603-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0604-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0605-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0606-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0607-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0608-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0609-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0610-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0611-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0612-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0613-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0614-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0615-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0616-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0617-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0618-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0619-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0620-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0621-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0622-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0623-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0624-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0625-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0626-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0627-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0628-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0629-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0630-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0631-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0632-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0633-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0634-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0635-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0636-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0637-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0638-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0639-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0640-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0641-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0642-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0643-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0644-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0645-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0646-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0647-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0648-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0649-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0650-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0651-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0652-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0653-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0654-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0655-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0656-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0657-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0658-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0659-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0660-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0661-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0662-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0663-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0664-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0665-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0666-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0667-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0668-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0669-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0670-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0671-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0672-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0673-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0674-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0675-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0676-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0677-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0678-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0679-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0680-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0681-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0682-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0683-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0684-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0685-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0686-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0687-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0688-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0689-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0690-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0691-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0692-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0693-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0694-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0695-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0696-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0697-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0698-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0699-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0700-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0701-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0702-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0703-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0704-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0705-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0706-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0707-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0708-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0709-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0710-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0711-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0712-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0713-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0714-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0715-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0716-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0717-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0718-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0719-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0720-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0721-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0722-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0723-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0724-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0725-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0726-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0727-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0728-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0729-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0730-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0731-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0732-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0733-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0734-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0735-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0736-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0737-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0738-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0739-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0740-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0741-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0742-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0743-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0744-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0745-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0746-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0747-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0748-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0749-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0750-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0751-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0752-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0753-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0754-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0755-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0756-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0757-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0758-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0759-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0760-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0761-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0762-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0763-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0764-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0765-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0766-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0767-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0768-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0769-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0770-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0771-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0772-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0773-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0774-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0775-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0776-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0777-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0778-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0779-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0780-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0781-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0782-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0783-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0784-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0785-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0786-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0787-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0788-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0789-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0790-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0791-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0792-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0793-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0794-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0795-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0796-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0797-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0798-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0799-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0800-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0801-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0802-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0803-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0804-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0805-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0806-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0807-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0808-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0809-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0810-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0811-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0812-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0813-spec",
+      "family": "spec",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0814-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0815-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0816-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0817-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0818-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0819-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0820-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0821-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0822-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0823-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0824-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0825-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0826-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0827-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0828-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0829-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0830-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0831-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0832-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0833-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0834-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0835-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0836-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0837-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0838-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0839-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0840-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0841-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0842-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0843-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0844-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0845-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0846-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0847-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0848-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0849-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0850-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0851-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0852-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0853-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0854-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0855-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0856-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0857-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0858-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0859-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0860-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0861-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0862-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0863-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0864-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0865-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0866-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0867-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0868-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0869-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0870-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0871-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0872-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0873-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0874-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0875-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0876-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0877-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0878-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0879-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0880-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0881-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0882-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0883-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0884-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0885-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0886-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0887-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0888-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0889-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0890-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0891-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0892-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0893-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0894-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0895-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0896-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0897-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0898-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0899-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0900-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0901-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0902-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0903-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0904-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0905-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0906-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0907-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0908-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0909-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0910-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0911-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0912-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0913-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0914-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0915-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0916-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0917-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0918-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0919-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0920-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0921-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0922-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0923-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0924-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0925-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0926-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0927-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0928-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0929-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0930-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0931-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0932-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0933-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0934-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0935-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0936-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0937-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0938-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0939-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0940-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0941-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0942-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0943-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0944-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0945-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0946-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0947-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0948-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0949-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0950-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0951-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0952-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0953-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0954-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0955-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0956-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0957-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0958-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0959-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0960-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0961-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0962-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0963-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0964-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0965-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0966-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0967-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0968-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0969-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0970-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0971-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0972-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0973-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0974-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0975-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0976-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0977-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0978-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0979-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0980-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0981-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0982-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0983-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0984-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0985-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0986-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0987-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0988-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0989-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0990-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0991-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0992-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0993-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0994-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0995-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0996-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0997-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0998-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-0999-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1000-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1001-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1002-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1003-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1004-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1005-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1006-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1007-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1008-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1009-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1010-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1011-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1012-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1013-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1014-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1015-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1016-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1017-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1018-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1019-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1020-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1021-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1022-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1023-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1024-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1025-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1026-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1027-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1028-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1029-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1030-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1031-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1032-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1033-long",
+      "family": "long",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1034-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1035-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1036-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1037-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1038-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1039-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1040-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1041-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1042-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1043-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1044-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1045-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1046-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1047-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1048-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1049-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1050-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1051-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1052-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1053-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1054-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1055-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1056-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1057-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1058-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1059-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1060-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1061-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1062-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1063-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1064-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1065-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1066-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1067-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1068-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1069-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1070-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1071-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1072-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1073-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1074-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1075-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1076-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1077-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1078-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1079-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1080-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1081-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1082-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1083-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1084-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1085-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1086-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1087-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1088-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1089-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1090-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1091-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1092-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1093-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1094-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1095-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1096-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1097-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1098-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1099-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1100-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1101-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1102-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1103-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1104-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1105-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1106-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1107-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1108-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1109-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1110-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1111-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1112-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    },
+    {
+      "case_id": "final-1113-stream",
+      "family": "stream",
+      "role": "performance",
+      "weight": "family geometric mean"
+    }
+  ],
+  "draw_policy": {
+    "default": "frozen-instance-by-default: scripts/build_images.sh reads the Judge-only Infrathon asset judge/final_cases.json (INFRATHON_ASSETS_ROOT) unless FINAL_CASES_PATH names another instance; every host that builds from this tree scores the same 254 cases",
+    "generator": "scripts/generate_final_manifest.py --plan <frozen plan> --private-output <path>",
+    "per_call_seeds": "every warm-up, untimed and measured call draws its page layout and data from SHA-256(case seed, role, trial) truncated to 63 bits; untimed calls shorten each request by up to 20% while keeping its shared blocks",
+    "privacy": "hidden lengths, shared blocks, request schedules, head configurations and seeds are Judge-only; this manifest lists only opaque case IDs and families",
+    "redraw": "a new plan is a NEW suite identity: frozen_instance must be re-recorded and no earlier score is comparable to it",
+    "seed_range": [
+      4294967296,
+      9223372036854775807
+    ]
+  },
+  "edge_suite": {
+    "case_count": 168,
+    "categories": [
+      "batch",
+      "heads",
+      "layout",
+      "lengths",
+      "long_context",
+      "page_size",
+      "s_q",
+      "sanitize",
+      "v1_contract",
+      "values"
+    ],
+    "frozen_instance": {
+      "path": "judge/private/edge_cases.json",
+      "sha256": "d895d06c2993c46792f6147b19db20f039f7abc6c94b31d0ce8754a8f35e95ce"
+    },
+    "generator": "scripts/generate_edge_manifest.py",
+    "native_case_count": 167,
+    "privacy": "Judge-only path judge/private/, staged mode 0600 into the root-only Judge build context with the final holdout, proven absent from every Work build context by scripts/validate_layout.py",
+    "sanitize_case_count": 12,
+    "sanitize_only_case_count": 1,
+    "semantics": "untimed zero-weight hard gates over the whole support domain (any 1 <= B <= 256, any 1 <= S_q <= 16, h_q <= 128 with any group size, page sizes 1-256, page tables up to 4x wider than needed, page pools larger than B x width with repeated page ids, hidden cache slots and unused pages holding NaN or Inf): each native case is called twice on one fresh guarded input set (output re-poisoned between calls); complete writes, the kvcache tolerance rule and the normalized-L2 backstop, 1 MiB guard bands with soft-landing metadata fills and byte-exact inputs after every call; the sanitize subset also runs once under compute-sanitizer memcheck with the caching allocator disabled, before any native call, and its sanitizer-only case (a K/V pool above 2**31 elements) runs only there",
+    "suite_id": "edge-holdout-v4"
+  },
+  "evaluation_policy": "full-final-shared-v4",
+  "frozen_instance": {
+    "path": "judge/private/final_cases.json",
+    "provenance": "frozen plan judge/source/paged-gqa-plan-v2.json (Judge-only asset; v4.2: 1114 cases, Mooncake conversation and tool-agent traces, 80 sequences, PagedAttention sharing workloads, FA3 outlier values; v4.3 appended two public cases), converted with scripts/generate_final_manifest.py",
+    "sha256": "becf3496f409da96f66412e5bac08f943ed23259d26ed7b7b7bf923e9a73cfa7",
+    "size": 7195061
+  },
+  "orchestration_timeouts": {
+    "standalone_final_evaluation_seconds": 8400
+  },
+  "role": "interactive",
+  "schema_version": 1,
+  "selection_protocol_id": "paged-gqa-shared-final-v4",
+  "selection_semantics": "the sanitizer subset of the private edge cases (12 cases, one of them sanitizer-only) runs first under compute-sanitizer memcheck, so an out-of-bounds kernel is stopped before any native call; then the 167 native edge cases run and must all pass; then the 1114 scored cases run, each also a correctness and memory-safety gate; each family's cases are geometrically averaged and the score is the geometric mean of the decode, spec, long and stream family scores; the terminal score is a fresh evaluation of the final snapshot, not an average of earlier feedback",
+  "suite_gate_timeouts": {
+    "candidate_seconds": 7200,
+    "judge_adapter_seconds": 8200,
+    "sanitizer_seconds": 780,
+    "verifier_total_seconds": 8100
+  },
+  "suite_id": "final-holdout-v4",
+  "timeout_semantics": "suite gates and orchestration ceilings qualify the selected execution profile; they do not identify a GPU model",
+  "workload": {
+    "families": {
+      "decode": "one decode step of a busy server, S_q = 1: per-request cache lengths, batch composition and shared-prefix blocks from a simulated server replaying a request trace with a per-rank KV budget from the model configuration ; plus the parallel-sampling (n = 2, 4, 6), beam-search (width 2, 4, 6) and shared few-shot prompt (80 and 341 tokens) workloads of the PagedAttention paper, with page-granular sharing",
+      "long": "contexts up to each model's maximum position (up to 1,048,576): single requests, one long request inside a busy batch, and the four configurations of the split-KV decode benchmark the semantics come from",
+      "spec": "2-16 query tokens per request at small batch sizes, lengths from the same simulation at low load",
+      "stream": "80 sequences of 512 consecutive decode steps of one server (ten of them speculative, S_q 2-5): requests join and leave between steps, pages are reserved on arrival and returned on departure through a fragmented free list, the table width and pool stay fixed; 16 untimed calls on nearby shapes, then every step timed with compilation counted; at most 120 s of timed calls per sequence"
+    },
+    "head_configurations": "public models split across tensor-parallel ranks; disjoint from the public suite",
+    "layout": "physical pages come from a random permutation of a pool larger than the call needs; every distinct shared 512-token block owns one set of pages read by every request that lists it; table entries past a request's last page are arbitrary valid ids; a quarter of the decode cases hold NaN in hidden slots",
+    "plan": "the plan (model configurations, request traces, server simulation) is kept outside the repository; scripts/generate_final_manifest.py converts and checks it",
+    "values": "a quarter of the single calls draw Q, K and V from N(0,1) + N(0,100) * Bernoulli(0.001), the outlier distribution of the FlashAttention-3 numerics study"
+  }
+}

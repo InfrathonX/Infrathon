@@ -1,0 +1,73 @@
+{
+  "task_id": "qwen3_1p7b_orpo_training_optimizer_dual_h100_v4",
+  "name": "Qwen3-1.7B Dual-H100 ORPO Training Optimization v4 — Cross Matrix",
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/orpo_lab",
+  "submit_paths": [
+    "solutions",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "runtime/",
+    "tests/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/orpo_lab",
+    "cpu_limit": 16,
+    "mem_limit": "96g",
+    "agent_query": "Read AGENT_TASK.md and optimize the supplied full-parameter BF16 Qwen3-1.7B ORPO training step on two CUDA GPUs (compute capability 8.0 or newer, at least 60 GiB each, NCCL). Preserve the initialized solution, implement build_objective and optionally build_model_patch according to runtime.api, use the public tests for development, record retained experiments, and leave FINAL_VERSION on the strongest validated version."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/orpo_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 12000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/orpo_private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 16,
+    "mem_limit": "96g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "dual-cuda-sm80-60g-nccl": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 64424509440,
+        "min_compute_capability": "8.0",
+        "interconnect": "NCCL over any CUDA peer transport (NVLink used for qualification; a non-NVLink pair is admitted with scripts/preflight.py --allow-non-nvlink)",
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl",
+          "torch.distributed.fsdp"
+        ],
+        "notes": "Capability envelope enforced by the trusted runtime (orpo_lab/runtime/distributed_probe.py) and by the Judge controller (e2e_formal_controller.py); GPU model, UUID, clocks and the qualification peak-memory bytes are recorded as measurement provenance only. The 60 GiB floor covers the largest scored workload with headroom; 40 GiB and 48 GiB cards do not fit."
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_measurement_profile_paired_reference",
+        "baseline_policy": "official_hf_trl_reference_relaunched_on_the_same_devices_in_the_same_judge_run",
+        "notes": "The score is a ratio against the official TRL reference, which is re-measured live on whatever devices ran the candidate; it carries no frozen device constant. Absolute throughput (tokens/s) behind the ratio is comparable only within one measurement profile."
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "dual-cuda-sm80-60g-nccl"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:2e21db9f1709fcc9a15c212b802f27cebffd6b8df3e688e7497d198a12cdecc5",
+      "judge_public_tag": "h100-80gb-700w-flash-kmeans-paper-h100-v7-scratch-judge",
+      "work": "sha256:4010f7bb8f2d0d81122dc9d964288002aa28a72d51879f29546df82749921a2c",
+      "work_tag": "h100-80gb-700w-flash-kmeans-paper-h100-v7-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:2e21db9f1709fcc9a15c212b802f27cebffd6b8df3e688e7497d198a12cdecc5",
+      "judge_public_tag": "h100-94gb-400w-flash-kmeans-paper-h100-v7-scratch-judge",
+      "work": "sha256:4010f7bb8f2d0d81122dc9d964288002aa28a72d51879f29546df82749921a2c",
+      "work_tag": "h100-94gb-400w-flash-kmeans-paper-h100-v7-scratch-work"
+    }
+  },
+  "source_digest": "091fe8ad4b3e49ffcf9e35a407e6829a40fec7c0d93208482b20345d8f10da04"
+}

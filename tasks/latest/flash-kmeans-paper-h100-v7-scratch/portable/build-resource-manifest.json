@@ -1,0 +1,41 @@
+{
+  "boundary": {
+    "excludes": [
+      "portable/build-resource-manifest.json (self, to avoid recursive hashing)",
+      "tasks/flash_kmeans_paper_h100_kernel_lab_v7_scratch.json (digest-binding root document)",
+      "runtime launchers and host qualification results"
+    ],
+    "includes": "all files admitted by both Docker build contexts, the canonical Judge adapter copied before build, direct task-local build helpers, build validation metadata, cooperative submit hook, and the host rebuild prompt",
+    "kind": "portable_image_delivery_inputs"
+  },
+  "resources": [
+    {"path": "tasks/BENCHMARK.yaml", "sha256": "sha256:db45e3528efff0a24d248e180df05700d6831b15c7968a78d22527cb42ec530d"},
+    {"path": "images/work/.dockerignore", "sha256": "sha256:5417bfff82d25a93ac2a39ee2a39bb04ffe37f110829a114fb26b83c7de158cd"},
+    {"path": "images/work/Dockerfile", "sha256": "sha256:d182d6aab5822e15affbc76ac0ae07845d3ed73ab45467eba0d16e1b6bc32dcd"},
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:f112759688837f7fc0c4b501a0ba2fe0402f2f285a2f9efe7f1889e04f6c7e4f"},
+    {"path": "images/work/codex-config.toml", "sha256": "sha256:067b4b438a3f9011d000385288fc80fc7cd4f443b0533e555b6b936f9030b7e9"},
+    {"path": "images/work/public_tests/prepare_submit.sh", "sha256": "sha256:9d72fa1b867e2fdfb5c5f9104a48243311f66a3ebf4b8e06ab96bde10612a354"},
+    {"path": "images/work/public_tests/public_fresh_worker.py", "sha256": "sha256:1ca23441ae5f40a36ef88852af9d2db651d830322beed827fbaedc902e46deba"},
+    {"path": "images/work/public_tests/public_test.py", "sha256": "sha256:73e13b70f193a89d0f1c37a232d441f57fcb542b8e88bde92b63f46b573440af"},
+    {"path": "images/work/public_tests/run_public_tests.sh", "sha256": "sha256:c940467486469f03710c9d45b769032daa58e6515bd6824f1be77cac02729f51"},
+    {"path": "images/work/workdir/flash_kmeans_lab/README_AGENT.md", "sha256": "sha256:3b83842dfa10fcdd7bf6cd3145308e3f884e47cedeb061a560a39a2173647783"},
+    {"path": "images/work/workdir/flash_kmeans_lab/notes.md", "sha256": "sha256:f33d775e8460ef46888d4aebd45cf85a520f9a64c4d6d5aa9d05d0b936d5b69f"},
+    {"path": "images/judge/.dockerignore", "sha256": "sha256:b4eec702e211b0c5c46640650af29c74a44ea8254505c5567082510c4b12c1c6"},
+    {"path": "images/judge/Dockerfile", "sha256": "sha256:f662c6f8b97a306401f0223993521607b05b12d2a573ef50c021b611f6199a92"},
+    {"path": "images/judge/Dockerfile.private", "sha256": "sha256:37300c8e612e8240058063d7e4d1f479f725cd6fa603f6f0f1c36af26b10a5e3"},
+    {"path": "images/judge/verify_flash_kmeans.py", "sha256": "sha256:786a9975d85c010b64120b6dd26d22f19a78d0f9f2ac46602b1e0bd37db6d029"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:f339ba8b866365612b1b2d698661307b587aa0d6db34ca541e945069248af97d"},
+    {"path": "images/judge/hidden_cases.py", "sha256": "sha256:a8a56b4e8375e431553cf0dfb118b017fb8ea93961d1d9b097a5f06a53502d97"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:96582b520ead945aeb5ae3dbbd8e1bb236a01a2510b48aca2d226f35ff728242"},
+    {"path": "images/judge/benchmark/benchmark_cases.py", "sha256": "sha256:2a7673517dd89c658542635a8c09d8bc407f9bd434bc56e5bf24faef5da9f936"},
+    {"path": "images/judge/benchmark/deployment_bench.py", "sha256": "sha256:8ce265f052d0842a975b6e3e885d63327d25325b8e46a765ff23036a31659e52"},
+    {"path": "images/judge/benchmark/kernel_bench.py", "sha256": "sha256:2feea89cbac192eae4b4bb1320e9b3242b87e1fc2ad1b7a89ea6be6b6a253477"},
+    {"path": "images/judge/benchmark/source_admission.py", "sha256": "sha256:358e51d756b6811e32c3ff1d76e6349d80d64cf8eab6db5e9883826bb1f62fa1"},
+    {"path": "judge/run_judge.py", "sha256": "sha256:f339ba8b866365612b1b2d698661307b587aa0d6db34ca541e945069248af97d"},
+    {"path": "scripts/build_images.sh", "sha256": "sha256:b02bc0be9e02622d6f7d5374912bc509b56bcca302a369d1a48c313bd6a21c21"},
+    {"path": "scripts/lib.sh", "sha256": "sha256:ae560d635460f68e721e74d25c01238279b940ad134f89a8c95c8de951ac6f8b"},
+    {"path": "scripts/validate_layout.py", "sha256": "sha256:96d895a55858f39c9ca4a5026b4f7e33a531ea1946be0c9ffea5830ac4c1bc67"},
+    {"path": "portable/REBUILD_PROMPT.md", "sha256": "sha256:b0a7c34b003dddf31d225fbc58e5949058c2cde118d5d52bb367b882e0fe2196"}
+  ],
+  "schema_version": 1
+}

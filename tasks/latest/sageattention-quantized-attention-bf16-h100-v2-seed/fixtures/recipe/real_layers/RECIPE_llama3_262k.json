@@ -1,0 +1,155 @@
+{
+ "schema_version": 1,
+ "kind": "llama",
+ "recipe_id": "rl-llama3-8b-262k-wikitext103-262k-v1",
+ "title": "Llama-3-8B-Instruct-262k: Q/K/V of layers 0 and 31 for one 262,144-token prefill of WikiText-103 (validation + test)",
+ "identity": "per-deployment-capture",
+ "capture_dir": "llama3-8b-262k-wikitext103-262k",
+ "role": "scored_real_layer",
+ "why": "SageAttention2 accelerates long-context Llama prefill (Table 8: 48K and 100K; Table 14: 262K on H100).",
+ "model": {
+  "repo": "gradientai/Llama-3-8B-Instruct-262k",
+  "repo_type": "model",
+  "revision": "5c5269d53cb8e548f753074ce70b0c3ab325dd87",
+  "license": "llama3 (Built with Meta Llama 3)",
+  "download": "hf download gradientai/Llama-3-8B-Instruct-262k --revision 5c5269d53cb8e548f753074ce70b0c3ab325dd87 --exclude 'original/*'",
+  "files": {
+   "config.json": "7c99af5c50446ce01d989c8ed9fd14b6c0edf34ef94877291bd5e6f82ce3b5d0",
+   "generation_config.json": "41c62a8bdd6198fa8bf8dcb2a869e502349d2ae8deb5f8237600865ab26190ea",
+   "model-00001-of-00004.safetensors": "a544d86308259afbba1dc479750bd6d07f0c83ceb99bbb3ed26b26ec6a1cfe57",
+   "model-00002-of-00004.safetensors": "7432c5d8273697c39adbb717988938009d9391e1224403495afbbaaa5cea401c",
+   "model-00003-of-00004.safetensors": "70d47a4b945b10ac94f6f6ffbcf94c0aed5b25c447c428925ec86996b557d9e9",
+   "model-00004-of-00004.safetensors": "24e0c55d4abaa18c34eab453fda256d27c35def37f9894018e8829f62bff0902",
+   "model.safetensors.index.json": "146776fce3f6db1103aa6f249e65ee5544c5923ce6f971b092eee79aa6e5d37b",
+   "special_tokens_map.json": "cc2e013b7545f183ef03e079a3c91c6f364fa37e4068c512d7dd843e59024535",
+   "tokenizer.json": "52b583ee1699c6ca4468f70885bd5f96dd1f7517292362a67581038afc04f4d8",
+   "tokenizer_config.json": "f5ab4e87761aa98ebf26583956c4a1b74e2bbbff61ab13d5879e68106ff4dc94"
+  }
+ },
+ "dataset": {
+  "repo": "Salesforce/wikitext",
+  "repo_type": "dataset",
+  "revision": "b08601e04326c79dfdd32d625aee71d232d685c3",
+  "license": "cc-by-sa-3.0, gfdl",
+  "files": {
+   "wikitext-103-raw-v1/validation-00000-of-00001.parquet": "204929b7ff9d6184953f867dedb860e40aa69c078fc1e54b3baaa8fb28511c4c",
+   "wikitext-103-raw-v1/test-00000-of-00001.parquet": "5f1bea067869d04849c0f975a2b29c4ff47d867f484f5010ea5e861eab246d91"
+  }
+ },
+ "text": {
+  "column": "text",
+  "joiner": "\n\n",
+  "tokens": 262144,
+  "bos": true,
+  "first_token_ids": [
+   128000,
+   271,
+   284,
+   13525,
+   51419,
+   9192,
+   5730,
+   355
+  ]
+ },
+ "capture": {
+  "layers": [
+   0,
+   31
+  ]
+ },
+ "attention": {
+  "layers": 32,
+  "is_causal": true,
+  "softmax_scale": 0.08838834764831845,
+  "q_heads": 32,
+  "kv_heads": 8
+ },
+ "tensors": {
+  "layout": "B,L,H,D",
+  "dtype": "torch.bfloat16",
+  "q": [
+   1,
+   262144,
+   32,
+   128
+  ],
+  "k": [
+   1,
+   262144,
+   8,
+   128
+  ],
+  "v": [
+   1,
+   262144,
+   8,
+   128
+  ]
+ },
+ "builder": {
+  "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "dockerfile": "fixtures/recipe/real_layers/Dockerfile.builder",
+  "pip_packages": [
+   "accelerate==1.14.0",
+   "diffusers==0.40.0",
+   "ftfy==6.3.1",
+   "huggingface_hub==1.33.0",
+   "numpy==1.26.4",
+   "protobuf==6.32.1",
+   "pyarrow==21.0.0",
+   "regex==2026.9.10",
+   "safetensors==0.8.0",
+   "sentencepiece==0.2.1",
+   "tokenizers==0.22.2",
+   "transformers==5.15.1"
+  ]
+ },
+ "sanity_bands": {
+  "note": "reference capture: RMS widened 2x, abs-max 4x",
+  "layers": {
+   "00": {
+    "q": {
+     "rms_min": 0.737153,
+     "rms_max": 2.948611,
+     "abs_max_min": 4.15625,
+     "abs_max_max": 66.5
+    },
+    "k": {
+     "rms_min": 0.857366,
+     "rms_max": 3.429464,
+     "abs_max_min": 4.3125,
+     "abs_max_max": 69.0
+    },
+    "v": {
+     "rms_min": 0.018416,
+     "rms_max": 0.073664,
+     "abs_max_min": 0.139648,
+     "abs_max_max": 2.234375
+    }
+   },
+   "31": {
+    "q": {
+     "rms_min": 0.873033,
+     "rms_max": 3.492132,
+     "abs_max_min": 8.75,
+     "abs_max_max": 140.0
+    },
+    "k": {
+     "rms_min": 1.214005,
+     "rms_max": 4.856018,
+     "abs_max_min": 6.3125,
+     "abs_max_max": 101.0
+    },
+    "v": {
+     "rms_min": 0.28305,
+     "rms_max": 1.132201,
+     "abs_max_min": 2.28125,
+     "abs_max_max": 36.5
+    }
+   }
+  }
+ }
+}

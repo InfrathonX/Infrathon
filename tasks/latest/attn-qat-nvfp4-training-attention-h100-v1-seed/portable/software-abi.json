@@ -1,0 +1,9 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible",
+  "forbidden_packages": ["fastvideo", "fastvideo_kernel", "flash_attn", "flash_attn_interface", "sageattention", "flashinfer", "xformers"],
+  "language": "python3",
+  "protocol_id": "pytorch280-cu129-triton340-fp8-source-v1",
+  "required_dtypes": ["bf16", "fp8-e4m3", "fp32"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.8.0", "triton-3.4.0"]
+}

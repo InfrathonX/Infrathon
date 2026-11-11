@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "task_directory": "qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed",
+  "note": "The models (Hugging Face Qwen3 at pinned revisions) and the TL;DR preference data are mounted read-only at run time and are added here in a later step. private_data/hidden_cases.json is Judge-only and goes into the host-built Judge holdout layer.",
+  "assets": [
+    {
+      "path": "judge/private_data/hidden_cases.json",
+      "sha256": "6750783f24f1cc38a7ac536b2d725344b7f552a4cf91683a1ada3590d7da9650",
+      "size": 8301,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-1.7B/",
+      "sha256": "a3ae656ec42b2fd03262c7e3bd0b4ca0c12cc0443bfe2499c55e33152a814a48",
+      "size": 4079450110,
+      "files": 12,
+      "consumer": "work+judge",
+      "description": "policy model (ORPO_MODEL_HOST_PATH)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-1.7B",
+        "repo_type": "model",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+      }
+    },
+    {
+      "path": "public/tldr_preference_v1/",
+      "sha256": "5c82804ed0137476a7a324b027f2bd4c7216cf09fae86f85839a10d16e21d4ee",
+      "size": 1275871,
+      "files": 5,
+      "consumer": "work+judge",
+      "description": "TL;DR preference data (scripts/prepare_tldr_data.py from trl-lib/tldr-preference@7ae482b3): freeze_manifest.json and the public/ partition only; Work mounts public/ (ORPO_DATA_HOST_ROOT). The v1 private/ partition is not shipped: the Judge trains on judge/tldr_preference_cross_v4/",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/tldr_preference_cross_v4/",
+      "sha256": "71011b80d9340a2ac3a79a87d04de8c8abb4ea016dabcc03d424346dbdd0f809",
+      "size": 16016308,
+      "files": 11,
+      "consumer": "judge",
+      "description": "private cross-matrix partitions the Judge trains on (scripts/prepare_tldr_cross_matrix.py; ORPO_PRIVATE_DATA_HOST_ROOT)",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "readable": true
+    }
+  ]
+}

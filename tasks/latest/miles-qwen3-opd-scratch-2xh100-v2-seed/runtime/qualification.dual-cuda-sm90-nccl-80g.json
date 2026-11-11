@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_opd_scratch_2xh100_v2",
+  "status": "QUALIFIED on an H100 SXM 80 GB NVLink pair: three reference Judges passed all 13 checks and the 1.6-point quality gate; the negative controls (ctl-adv-sign, ctl-stale) and the starter are rejected; the correct variants var-mtpg and var-teacher-triton pass.",
+  "execution_profile_id": "dual-cuda-sm90-nccl-80g",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind",
+    "cpuset_cpus": "48-53,56-61,112-117,120-125",
+    "cpuset_mems": "1",
+    "cpu_quota": 24
+  },
+  "metric": {
+    "version": 2,
+    "formula": "quality_score * 3600 / T if correct and quality_score >= 1.6 else 0",
+    "score_scale_seconds": 3600,
+    "quality_repeats": 3,
+    "quality_protocol": {
+      "eval": "eval_math.py (Judge copy public/eval_math.py; command opd_checks.eval_math_cmd) on the Judge's scored_model: the non-weight files of the pinned Qwen3-1.7B snapshot plus the candidate's final_hf safetensors and index; prompts rendered with the pinned tokenizer; MATH-500 evaluated in the same engines and reported only",
+      "questions": "private/eval.jsonl: the 2000 hidden DAPO-Math-17k problems (sha256 a58761eee4ee6d2c3d317615fc94462df99a9a0a1cb26cb5cbf381434faa423c), the last 2000 rows of upstream Miles' split permutation (dedup on prompt text, random.Random(42)); each answered once per repeat; correct = upstream Miles' held-out DAPO scorer (rm.py _is_correct: last \\\\boxed{} via grade_answer_verl or last 'Answer:' line via math_dapo compute_score), math_grader/",
+      "decoding": "sampled with the training contract: temperature 1.0, top_p 1.0, no top-k, max_new_tokens 4096 (the contract's max_response_len), chat template with enable_thinking=false",
+      "engine": "two SGLang offline engines (--dp 2, one per GPU; row i on engine i mod 2): tp 1, mem_fraction_static 0.7, random_seed 0, enable_deterministic_inference=True; radix cache flushed between passes",
+      "repeat": "repeat r in 0, 1, 2 sends problem i with sampling_seed = r * 1000003 + i (global row index); quality of a repeat = 100 x correct / 2000. The base below was measured once with one engine (S0a, GPU 4) and again with --dp 2 on GPU 4/5: every per-problem result bit-identical"
+    },
+    "quality_unit": "accuracy points",
+    "quality_gate_min": 1.6,
+    "quality_gate_source": "PROVISIONAL (S0): half the mean gain of the two 32-step reference measurements, S0b A (+3.25, Judge-style run with hooks, T 1695.8 s) and S0c at step 32 (+3.10). The gain plateaus by step 16 (S0c/S0d: +3.08 / +3.10 / +2.33 / +2.82 / +2.87 / +3.62 / +3.25 at steps 16 / 32 / 48 / 64 / 40 / 80 / 120). Reset from the three reference Judges.",
+    "base_quality_per_repeat": [
+      25.55,
+      25.85,
+      26.400000000000002
+    ],
+    "base_quality": 25.933333333333337,
+    "base_quality_source": "Original Qwen3-1.7B snapshot 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e with eval_math.py and the flags of quality_protocol, image miles-model-dependencies-flat:local (the v2 images' base), 2026-10-07 (S0a, one engine, GPU 4) and 2026-10-08 (--dp 2, GPU 4/5): correct per repeat [511, 517, 528] of 2000, correct_sha256 ['ffd222bae7e4', '77de17243746', '2302566c2061']..., identical in both. Raw: $OPD_V2_S0/s0a/student-4096.json and $OPD_ASSETS_V2/../base-r1/base.json. MATH-500 base [70.4, 71.8, 71.2] (reported only)."
+  },
+  "timeouts": {
+    "probe": 1800,
+    "run": 5400,
+    "_source": "S0b reference run (task_entry run, start to exit) 2034 s at 32 x 128 x 4096 (T 1695.8 s); probes as v1 (8 trajectories, <= 1024 response tokens)"
+  },
+  "step_oracle_limits": {
+    "student_lp_err": 0.05,
+    "teacher_lp_err": 0.05,
+    "loss_abs": 0.02,
+    "_source": "unchanged from v1; S0b (32 x 256 x 4096) reference: step 0 student / teacher log-prob error 0.0077 / 0.0078, loss error 1.4e-5; served step 17 0.0083 / 0.0085; teacher steps 5, 11 0.0098 / 0.0081"
+  },
+  "grad_limits": {
+    "cos_min": 0.93,
+    "slice_ratio": [
+      0.75,
+      1.35
+    ],
+    "norm_ratio": [
+      0.75,
+      1.35
+    ],
+    "_source": "unchanged from v1; S0b reference served step 17: cosine 0.975, embedding-row ratio 1.022, grad-norm ratio 1.007; step 0 (with the initial student) 0.993 / 1.000 / 1.002. v2's oracle recomputes the student's layers in the gradient backward (bit-identical to v1's code, peak 36 vs 88 GiB)"
+  }
+}

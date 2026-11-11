@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:7b313ed9aab658cd2c56014382d4f34942cf6b9deaa0be328ffdac6ff58a4b8c",
+      "judge_public_tag": "h100-80gb-700w-miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed-judge",
+      "work": "sha256:0ee9ae051458810cbc92c4dbbede28a0edf9c398f6989e837a087c86d2800f54",
+      "work_tag": "h100-80gb-700w-miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:7b313ed9aab658cd2c56014382d4f34942cf6b9deaa0be328ffdac6ff58a4b8c",
+      "judge_public_tag": "h100-94gb-400w-miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed-judge",
+      "work": "sha256:0ee9ae051458810cbc92c4dbbede28a0edf9c398f6989e837a087c86d2800f54",
+      "work_tag": "h100-94gb-400w-miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed-work"
+    }
+  },
+  "source_digest": "bcb5c94ff8da0ae072258262b90bcf30f84e400fe5b73cfe4feafdd8aa7356d3"
+}

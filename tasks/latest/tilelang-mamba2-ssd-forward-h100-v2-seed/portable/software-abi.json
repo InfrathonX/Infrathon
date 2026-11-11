@@ -1,0 +1,9 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible-with-nvcc",
+  "forbidden_packages": ["mamba_ssm", "fla", "helion", "flash_attn", "flashinfer", "deep_gemm", "xformers"],
+  "language": "python3",
+  "protocol_id": "pytorch280-cu129-triton340-tilelang0113-nvcc-v1",
+  "required_dtypes": ["bf16", "fp32"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.8.0", "triton-3.4.0", "tilelang-0.1.13"]
+}

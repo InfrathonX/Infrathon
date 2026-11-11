@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:a92b3502678809c6cef3fbe78c2e744d854e2fd6c14192547666bdeed3cda3f0",
+      "judge_public_tag": "h100-80gb-700w-tilelang-mamba2-ssd-forward-h100-v2-seed-judge",
+      "work": "sha256:f43ae550adaa02c263b1f38c7bc2b5c78e6e02988705a00886e32b5798c89cf4",
+      "work_tag": "h100-80gb-700w-tilelang-mamba2-ssd-forward-h100-v2-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:a92b3502678809c6cef3fbe78c2e744d854e2fd6c14192547666bdeed3cda3f0",
+      "judge_public_tag": "h100-94gb-400w-tilelang-mamba2-ssd-forward-h100-v2-seed-judge",
+      "work": "sha256:f43ae550adaa02c263b1f38c7bc2b5c78e6e02988705a00886e32b5798c89cf4",
+      "work_tag": "h100-94gb-400w-tilelang-mamba2-ssd-forward-h100-v2-seed-work"
+    }
+  },
+  "source_digest": "ac2ec05fbaf8ecec47a8c08e2793cef0ba05447b1ab309d6973b832b44fd6bbe"
+}

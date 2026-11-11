@@ -1,0 +1,17 @@
+#!/usr/bin/env python3
+"""Generate the exact source/metadata seal for the kernel-only Judge."""
+import argparse,hashlib,json
+from pathlib import Path
+ROOT=Path(__file__).resolve().parents[1]
+PREFIX='/opt/minference_prefill_judge/'
+PROTECTED_LOCAL_PATHS={'/opt/minference_prefill_judge/runtime/minference_prefill_runtime.py': 'runtime/minference_prefill_runtime.py', '/opt/minference_prefill_judge/runtime/activation_archive_v3.py': 'runtime/activation_archive_v3.py', '/opt/minference_prefill_judge/source_admission.py': 'images/judge/source_admission.py', '/opt/minference_prefill_judge/submission_loader.py': 'images/judge/submission_loader.py', '/opt/minference_prefill_judge/candidate_worker.py': 'images/judge/candidate_worker.py', '/opt/minference_prefill_judge/verify_minference_prefill.py': 'images/judge/verify_minference_prefill.py', '/opt/minference_prefill_judge/run_judge.py': 'images/judge/run_judge.py', '/opt/minference_prefill_judge/scripts/external_assets_on_demand_v3.py': 'scripts/external_assets_on_demand_v3.py', '/opt/minference_prefill_judge/activations/recipe/RECIPE.json': 'activations/recipe/RECIPE.json', '/opt/minference_prefill_judge/activations/recipe/RULER_V3_RECIPE.json': 'activations/recipe/RULER_V3_RECIPE.json', '/opt/minference_prefill_judge/activations/recipe/candidate_attention.py': 'activations/recipe/candidate_attention.py', '/opt/minference_prefill_judge/activations/recipe/quality_v3.py': 'activations/recipe/quality_v3.py', '/opt/minference_prefill_judge/activations/recipe/ruler_v3.py': 'activations/recipe/ruler_v3.py', '/opt/minference_prefill_judge/activations/recipe/ruler_reference.py': 'activations/recipe/ruler_reference.py', '/opt/minference_prefill_judge/activations/recipe/capture_activations.py': 'activations/recipe/capture_activations.py', '/opt/minference_prefill_judge/runtime/measure_single_prompt_v3.py': 'runtime/measure_single_prompt_v3.py', '/opt/minference_prefill_judge/runtime/prepare_single_prompt_v3.py': 'runtime/prepare_single_prompt_v3.py', '/opt/minference_prefill_judge/runtime/stream_parent_v3.py': 'runtime/stream_parent_v3.py', '/opt/minference_prefill_judge/runtime/single_prompt_archive_v3.py': 'runtime/single_prompt_archive_v3.py', '/opt/minference_prefill_judge/runtime/on_demand_suite_v3.py': 'runtime/on_demand_suite_v3.py', '/opt/minference_prefill_judge/runtime/run_single_prompt_worker_v3.py': 'runtime/run_single_prompt_worker_v3.py', '/opt/minference_prefill_judge/runtime/kernel_fidelity_v3.py': 'runtime/kernel_fidelity_v3.py'}
+DYNAMIC_PATHS={'/opt/minference_prefill_judge/private/final_manifest.json': 'qualification/final-performance-plan.json', '/opt/minference_prefill_judge/private/numerical_policy.json': 'qualification/numerical_policy.json', '/opt/minference_prefill_judge/private/external-assets-contract.json': 'qualification/external-assets-contract.json'}
+PROTECTED_FILE_COUNT=len(PROTECTED_LOCAL_PATHS)+len(DYNAMIC_PATHS)
+def generate(root=ROOT):
+    root=Path(root);values={**PROTECTED_LOCAL_PATHS,**DYNAMIC_PATHS}
+    return ''.join(hashlib.sha256((root/v).read_bytes()).hexdigest()+'  '+k+'\n' for k,v in sorted(values.items()))
+if __name__=='__main__':
+    p=argparse.ArgumentParser();p.add_argument('--check',action='store_true');a=p.parse_args();out=ROOT/'images/judge/protected_hashes.txt';raw=generate()
+    if a.check:assert out.read_text()==raw,'protected source drift'
+    else:out.write_text(raw)
+    print('kernel protected files:',PROTECTED_FILE_COUNT)

@@ -1,0 +1,29 @@
+{
+  "case_counts": {
+    "scored_performance": 6,
+    "total": 6,
+    "zero_weight_hard_gate": 0
+  },
+  "cases": [
+    {"batch_count": 2, "batch_size": 2, "case_id": "public-chat_bs2", "cell": "chat_bs2", "enable_thinking": false, "max_new_tokens": 384, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 4, "prompt_file_sha256": "2e07305b6c72b68b3d68e6adbc20491cdb389c8cdc3cdd7f299c727b2d216bb1", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"},
+    {"batch_count": 2, "batch_size": 4, "case_id": "public-math_bs4", "cell": "math_bs4", "enable_thinking": false, "max_new_tokens": 256, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 8, "prompt_file_sha256": "a7aa30cbbfcafafcea9bb8785c20bd4a5e16780b326196aee6a41306529f092d", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"},
+    {"batch_count": 2, "batch_size": 3, "case_id": "public-code_bs3", "cell": "code_bs3", "enable_thinking": false, "max_new_tokens": 384, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 6, "prompt_file_sha256": "c7656e5ba681b65da8bfd6383c26b7cd07af2f0b6d49e70abca0b46c2d66b5c6", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"},
+    {"batch_count": 2, "batch_size": 2, "case_id": "public-longctx_bs2", "cell": "longctx_bs2", "enable_thinking": false, "max_new_tokens": 128, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 4, "prompt_file_sha256": "4078e83c12507ae95723a1b669d3bb27033c033f0463b7334e1dc2935cac5e05", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"},
+    {"batch_count": 2, "batch_size": 2, "case_id": "public-think_bs2", "cell": "think_bs2", "enable_thinking": true, "max_new_tokens": 768, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 4, "prompt_file_sha256": "1643dbda99d84b2c6466307b16ce2a628112e36c2ef12dffd1ac2cd0a279bdc2", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"},
+    {"batch_count": 2, "batch_size": 6, "case_id": "public-mixed_bs6", "cell": "mixed_bs6", "enable_thinking": false, "max_new_tokens": 320, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 12, "prompt_file_sha256": "39ddb13b7eb0b84bcf1ee05bc8756e276bb21d3a4109f4f50345244dfbc4c358", "prompt_visibility": "disclosed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six public smoke cells"}
+  ],
+  "prompt_counts": {
+    "chat_bs2": 4,
+    "code_bs3": 6,
+    "longctx_bs2": 4,
+    "math_bs4": 8,
+    "mixed_bs6": 12,
+    "think_bs2": 4
+  },
+  "role": "public",
+  "run_gates": ["protected_ok", "source_ok", "worker_ok", "o1_ok", "o2_ok", "tiers_ok", "o3_o4_ok", "o5_ok", "wall_ok", "memory_ok", "idle_ok"],
+  "schema_version": 1,
+  "selection_semantics": "candidate-only disclosed smoke evaluator (public_tests/public_eval.py) over the public prompt pools; six public cells whose batch sizes, budgets and prompt sources (UltraChat-200k test_sft, GSM8K train, MBPP sanitized test) differ from the hidden suites and share no prompt with them; same gates and geomean formula; public throughput is feedback only and never a score",
+  "suite_id": "eagle3-spec-decode-public-v2",
+  "warmup": "images/work/workdir/spec_lab/public_prompts/warmup (one batch per cell, untimed)"
+}

@@ -1,0 +1,126 @@
+{
+  "case_counts": {
+    "scored_performance": 17,
+    "total": 17,
+    "zero_weight_hard_gate": 0
+  },
+  "cases": [
+    {"case_id": "lc-012", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 12, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "7108816ae0e7db920ad7bed25550644c9d3f3e206fcb2d200fe0793189c3dc15", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "88b8b4e5ab80438bd53ae46b8a0dfd0cc23b53be0b987f48b561e97d6b128901", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 55.63434958457947, "background_consistency": 96.27694522633273, "image_quality": 74.36030936328483, "subject_consistency": 96.11879238749252}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "lc-185", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 185, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "a23ecd20f3b936bc30d3a085881e3c6718b7a9df9af2513abdca9faf716203dc", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "fe8cf3ac6dc0cce4eeb5c3b2dfd114ed0008fe0621cfb1235db39b6a760ca93b", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 56.027936935424805, "background_consistency": 95.72170481962317, "image_quality": 78.35218307998154, "subject_consistency": 95.91458227266284}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "lc-320", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 320, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "fb84d67fb74a0a77d96b65ca6e3f9e7cd46a0aa2b30b34ad2575206193474496", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "ffb6698a0fb531bb962833104a0d396cc17dd0b22e7d1bf56d6ce5b23e5e76d7", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 54.596906900405884, "background_consistency": 92.20500272863052, "image_quality": 62.481158371810075, "subject_consistency": 94.11127150935286}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "lc-593", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 593, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "ee6f12a14902588bd04ef4240fa5b15e4c6cd98267c848f7bf3fe1699d2ef103", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "c4b6b69ddf9385e7fd1fc31d528b9225dedf8968427b13911eb4118f4b26bb03", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 68.6497688293457, "background_consistency": 91.64294074563419, "image_quality": 79.34177784343342, "subject_consistency": 90.62836158144123}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "lc-893", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 893, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "b6b1c110769f99d87cc3908acc22c98b8820e1624d7a6a32afd33533632ef9c2", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "4de551d77f19e75cee14c1f5123dee39f077b23e7256ca6a1a921f7cbb7130df", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 53.48864197731018, "background_consistency": 99.28903018727023, "image_quality": 63.759952922443766, "subject_consistency": 98.00862650222638}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "lc-894", "workload": "longcat", "role": "performance", "seed": 0, "prompt_index": 894, "prompt_source": "/eval/hidden/prompts/MovieGenVideoBench_extended.txt", "segments": 10, "init_video_sha256": "6b315c423b542ae84d624ffb93daca9028f2588488b80dcc86266dc8abd85cdd", "frame_count": 273, "fidelity_frames": [73, 93], "goldens": {"bf16_frames_sha256": "f78da61de90917b81b71c22e1b612a3eefd2e7ba7ecdb7b157d4415a9a0e8314", "bf16_kv_bytes": 233098444800, "bf16_vbench": {"aesthetic_quality": 70.22190690040588, "background_consistency": 96.15819594439338, "image_quality": 77.37125720907918, "subject_consistency": 94.45739401613965}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 6}},
+    {"case_id": "hy-01", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/1.png @1588e133", "image_sha256": "f038984c1f813182991da14a2d057c4dd2401010c9d490ac5341a790bef82158", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "f219ba114676a58bee87a29461c3b941aabcdb6900a065a551804600b4e21dcc", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 67.342609167099, "background_consistency": 97.27946536641726, "image_quality": 75.90088915908545, "subject_consistency": 94.06944963503892}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-02", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/2.png @1588e133", "image_sha256": "3a25aa2a76576360de0c192dcebf9915ee470abe0587abd41b03935af58b687f", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "dbc819b2600994d45ad78045baa66fd7237984564c9627e83769e74eac9e53f8", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 61.81082725524902, "background_consistency": 97.84597477442782, "image_quality": 68.14003277159574, "subject_consistency": 95.16899254120571}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-03", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/3.png @1588e133", "image_sha256": "18357928b1a73c5a3f299abf0308a9617074db78c45f37e133aaa2dc9a36fcf6", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "b5a3a268d38d66327a3acb79ccf5654ecc612bf31ee683b0f0ea4535384839c3", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 58.750104904174805, "background_consistency": 99.00469712808099, "image_quality": 66.48481162891053, "subject_consistency": 98.27255133382032}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-04", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/4.png @1588e133", "image_sha256": "66f7d73cc196a7635216751004a9632749c09dbbd7d1aaeb80eb23be9b8d5c4b", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "190e8d69fc323bd16630c5c106029b264df4ba336e1400375bed6f67a58d9044", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 81.96017742156982, "background_consistency": 98.33451391945422, "image_quality": 72.69134641948499, "subject_consistency": 97.66959177566247}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-05", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/5.jpeg @1588e133", "image_sha256": "248591cb5e2417453df4cae0236df71e0b0c7f327e0193d021665c726f77f4f8", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "367f2ffcd0ef441be8cfd30aaa56e84d49a9885a346aa52d6fc03437f40f1096", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 77.85570621490479, "background_consistency": 97.61386925066022, "image_quality": 74.89249540630139, "subject_consistency": 95.12806214706998}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-06", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/6.jpeg @1588e133", "image_sha256": "6be24611d008b4f20f4be59456244dc3de01a92d5315fac2deb28a923ee81161", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "d720be0f36648a4f1ac9ab3e14dad4f836b8f40c1f1c8e4fbdfc2eadff4e0653", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 79.06092405319214, "background_consistency": 96.05171311069543, "image_quality": 71.80770749543842, "subject_consistency": 96.47482853959983}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-07", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/7.png @1588e133", "image_sha256": "7fd9379d4e2d9f58d0a08f1cfca3b2666082000a324f74cb1266ba213f50a9f7", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "3e3dec42fa64a57393f2dd1e67d46ff721468069e171b809e2208d4b0151ac02", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 71.69987559318542, "background_consistency": 98.49286146566901, "image_quality": 77.52604370117187, "subject_consistency": 98.67501897921025}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-08", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/8.png @1588e133", "image_sha256": "8dc25e09499b33ddd14b6750bb1ce98c838c5fc6ae9f738b499951a77d1799ca", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "98cec4794772b680d45a4b92200b666a9b3d041d4c792610e093abe80e7356cd", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 84.1450035572052, "background_consistency": 98.8648320587588, "image_quality": 79.65612787614789, "subject_consistency": 98.7833440933429}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-09", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/9.png @1588e133", "image_sha256": "08f32716ef9ff64af12f23bb953d4f1c300ad4c3e803e8733fff2d7a2752b85d", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "83b3c3fc67c85b50ad5e633c4a2852e2a2e16c924dc55a8b8045c8a0d9855015", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 81.7335844039917, "background_consistency": 98.42245612345951, "image_quality": 76.4434620104338, "subject_consistency": 98.78301644619081}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-10", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/10.png @1588e133", "image_sha256": "e734fb1255748c829992298d467c6fed3e2703bc2fdd0302694203ef16e6d1d4", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "f560184c49640fb02b4288377d025eaa91f0b2f267cf9eae85940fa3b6bc2394", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 72.38669991493225, "background_consistency": 95.75049171985034, "image_quality": 71.35422683180424, "subject_consistency": 94.39997485196086}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}},
+    {"case_id": "hy-qvg", "workload": "hy_worldplay_8b", "role": "performance", "seed": 0, "image_source": "HY-WorldPlay assets/img/test.png @1588e133", "image_sha256": "c4a7f5418f852ffa7f98ea2a7e18f9123b26b62a495aeb65b75e04bd37ae1c9b", "video_length": 285, "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7", "frame_count": 285, "fidelity_frames": [29, 45], "goldens": {"bf16_frames_sha256": "a8ee4657df167b536ef6ecc6d6f1e9d03daab6e7108aeadbff7edd7aa80a3398", "bf16_kv_bytes": 160101826560, "bf16_vbench": {"aesthetic_quality": 73.5620379447937, "background_consistency": 97.73370447293134, "image_quality": 76.29064869127775, "subject_consistency": 97.88400392297288}}, "measurement_mode": "summed_persistent_kv_bytes_with_mean_and_case_floor_gates", "weight": {"numerator": 1, "denominator": 11}}
+  ],
+  "counts_per_workload": {
+    "hy_worldplay_8b": 11,
+    "longcat": 6
+  },
+  "hidden_inputs": "external artifact root (QVG_ARTIFACT_ROOT): the hidden model weights, mounted read-only into the Judge only, and one Judge-only hidden tree mounted read-only at /eval/hidden (MovieGen prompts, the six LongCat init videos, the eleven HY case images and the 17 BF16 goldens, generated by scripts/stage_eval_inputs.py); every input and golden is bound by SHA-256 in the release",
+  "orchestration_timeouts": {
+    "standalone_final_evaluation_seconds": 9000
+  },
+  "release_sha256": "b7449b06180ea03aaaa02e02325fad19b4dd0933815f8a7f790d43e3b9048103",
+  "release_status": "calibrated",
+  "role": "final",
+  "run_gates": ["release_calibrated", "source_admission", "candidate_isolation", "own_device_only", "hardware_envelope", "frozen_bf16_kv_bytes", "cumulative_kv_bytes", "frame_shape", "mean_psnr", "mean_ssim", "mean_lpips", "mean_vbench_aesthetic_quality", "mean_vbench_background_consistency", "mean_vbench_image_quality", "mean_vbench_subject_consistency", "case_psnr", "case_ssim", "case_lpips", "case_vbench_aesthetic_quality", "case_vbench_background_consistency", "case_vbench_image_quality", "case_vbench_subject_consistency", "case_wall_time"],
+  "same_suite_for_interactive_and_final": true,
+  "schema_version": 1,
+  "selection_semantics": "the 17 hidden cases run under one admitted source, spread over 1-8 identical Judge devices (static heaviest-first plan; a device runs its cases one after another, each case's generation then its fidelity and VBench metrics); per workload the case-mean gates, and on every case the per-case floor gates and the wall budget, must pass; score = sqrt(longcat_ratio x (1 + longcat_q) x hy_worldplay_8b_ratio x (1 + hy_worldplay_8b_q)) with each ratio pooled over the workload's cases and each q from its case means; an uncalibrated release records every reading and returns valid=false",
+  "suite_gate_timeouts": {
+    "case_overhead_seconds": 120,
+    "controller_overhead_seconds": 300,
+    "controller_seconds": 8720,
+    "max_gpu_count": 8,
+    "min_gpu_count": 1,
+    "start_stagger_seconds": 20,
+    "workloads": {
+      "hy_worldplay_8b": {
+        "fidelity_metric_seconds": 600,
+        "stage_seconds": 1500,
+        "vbench_metric_seconds": 900
+      },
+      "longcat": {
+        "fidelity_metric_seconds": 600,
+        "stage_seconds": 4500,
+        "vbench_metric_seconds": 1200
+      }
+    }
+  },
+  "suite_id": "quant-videogen-hidden-v4",
+  "timeout_semantics": "stage and metric budgets are per-model deployment budgets enforced by the controller on every device inside the envelope, not device measurements; controller_seconds is the bound on max_gpu_count devices (every case at its full budget, list-scheduled heaviest first with staggered starts) and grows when fewer devices are given",
+  "weight_semantics": "within a workload the cases are pooled by bytes: ratio = sum of bf16_kv_bytes / sum of stored_kv_bytes over the workload's cases, so a case's weight is its share of those sums (1/case count while, as here, every case of a workload has the same shape-determined BF16 byte count); the two quality-weighted workload ratios enter the score as a geometric mean (workload_exponents)",
+  "workload_exponents": {
+    "hy_worldplay_8b": {
+      "denominator": 2,
+      "numerator": 1
+    },
+    "longcat": {
+      "denominator": 2,
+      "numerator": 1
+    }
+  },
+  "workload_gates": {
+    "hy_worldplay_8b": {
+      "case_floor": {
+        "lpips_max": "0.13044387355446815",
+        "psnr_min": "24.700027465820312",
+        "ssim_min": "0.8357015860080719",
+        "vbench_allowed_drop": {
+          "aesthetic_quality": "7.28936243057251",
+          "background_consistency": "2.772914832746494",
+          "image_quality": "7.342211325126797",
+          "subject_consistency": "4.528273804087036"
+        }
+      },
+      "mean": {
+        "lpips_max": "0.05341680893843824",
+        "psnr_min": "30.805255456404254",
+        "ssim_min": "0.9372466243397106",
+        "vbench_allowed_drop": {
+          "aesthetic_quality": "2.055054231123492",
+          "background_consistency": "1.5112182773487461",
+          "image_quality": "2.4153582364558304",
+          "subject_consistency": "1.9839883982830173"
+        }
+      },
+      "wall_seconds_max": 1500
+    },
+    "longcat": {
+      "case_floor": {
+        "lpips_max": "0.16200816363096238",
+        "psnr_min": "18.26136589050293",
+        "ssim_min": "0.7119474840164184",
+        "vbench_allowed_drop": {
+          "aesthetic_quality": "7.420027732849121",
+          "background_consistency": "6.365299000459572",
+          "image_quality": "28.658913413246907",
+          "subject_consistency": "10.569782549844064"
+        }
+      },
+      "mean": {
+        "lpips_max": "0.10385171542565028",
+        "psnr_min": "23.38738028208415",
+        "ssim_min": "0.8626679011185965",
+        "vbench_allowed_drop": {
+          "aesthetic_quality": "1.8726288874944146",
+          "background_consistency": "2.685063979204955",
+          "image_quality": "6.174210416819449",
+          "subject_consistency": "4.196428990101069"
+        }
+      },
+      "wall_seconds_max": 4500
+    }
+  }
+}

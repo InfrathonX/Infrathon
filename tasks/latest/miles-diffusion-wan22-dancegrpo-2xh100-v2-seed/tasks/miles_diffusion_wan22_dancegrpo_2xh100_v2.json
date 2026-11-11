@@ -1,0 +1,92 @@
+{
+  "task_id": "miles_diffusion_wan22_dancegrpo_2xh100_v2",
+  "name": "Miles Wan2.2-TI2V-5B DanceGRPO · 2×H100",
+  "category": "Training / System",
+  "base_image": "miles_diffusion_wan_runtime",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/miles_lab",
+  "submit_paths": [
+    "repo",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "__pycache__/",
+    "*.pyc",
+    "*.safetensors",
+    "*.pt",
+    "*.bin",
+    "*.ckpt",
+    "*.npz",
+    "*.npy",
+    "checkpoints/",
+    "outputs/",
+    "logs/",
+    "wandb/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/miles_lab",
+    "cpu_limit": 24,
+    "mem_limit": "256g",
+    "agent_query": "Read AGENT_TASK.md and docs/INTERFACE.md. AGENT_TASK.md specifies a DanceGRPO training recipe for Wan2.2-TI2V-5B completely (the Dance-SDE transition, seed groups with a canonical RNG, the official HPSv3 video reward, the advantage, the loss and the optimizer). Implement it exactly in the supplied miles_diffusion checkout (repo/, including repo/task_entry.py and the whitelisted engine files under repo/engine_overlay/). That is the entry condition, not the score: the score is 0 unless every check passes and the final model of your real training run keeps its held-out HPSv3 reward no more than 0.28 below the original model's (a gate, not a multiplier). Then maximize the score: how many times per hour the part you own of the fixed replay (reward scoring, old-log-prob recompute, CFG training, AdamW, full-weight publication) completes on the two H100 GPUs (3600 / T), without changing what is sampled or trained. Check your work with python /opt/wan_public/run_public.py (suites cpu, score, probe, small, perf, full; outputs under /scratch/public). Keep notes in notes.md. Submit with sforge-submit; in shared mode, where the Judge uses your two GPUs, stop every GPU process before submitting."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/wan_judge/judge/run_judge.py --submission /app/workdir/miles_lab/repo --private /judge_private --out /logs/verifier",
+    "eval_timeout": 5000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/wan_judge.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 24,
+    "mem_limit": "256g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "dual-cuda-sm90-nccl": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 96636764160,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl"
+        ],
+        "notes": "Work and Judge serialize on the same leased pair; the Judge pauses Work while it runs. Floor 90 GiB per card (P3, measured on the H100 NVL qualification pair): the reference's per-card peak is 87780 MiB (85.7 GiB) in the replays, with the Judge-owned engine and the colocated HPSv3 worker on the same card, so an 80 GB card cannot run it. The Judge's held-out quality eval (after the candidate stopped) peaks at 75835 MiB on GPU 0 (a clean engine plus HPSv3)."
+      },
+      "dual-cuda-sm90-nccl-80g": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "9.0",
+        "interconnect": "NCCL peer transport",
+        "features": [
+          "cuda",
+          "bf16",
+          "nccl"
+        ],
+        "notes": "The 80 GB H100 SXM pair (NV18, 700 W; 81559 MiB per card). Qualified separately (2026-10-10): runtime/qualification.dual-cuda-sm90-nccl-80g.json and the private root md-wandance/private/v2-h100-80g (the v2-h100 data and thresholds, its qualification.json naming this profile); scores are comparable only within this profile. The reference fits only with reference/miles_diffusion_wan_h100_80g.patch (the run's own engine keeps its text encoder in host memory; the colocated HPSv3 weights leave the GPU between scorings): per-card peaks 79993 MiB in RUN (untimed), 72012 MiB in the timed SERVE replays, 75840 MiB in the Judge's quality eval."
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_hardware_fixed_workload",
+        "baseline_policy": "cached_once_per_campaign"
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "dual-cuda-sm90-nccl"
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:5f0d0014206b7d14ac1396af1250cd7bb785de0743f658abf194390fb3cb38db",
+      "judge_public_tag": "h100-80gb-700w-llada-h100-decoder-optimization-v2-vanilla-seed-judge",
+      "work": "sha256:0195bc08114cae9226a74f0d068e274410e0fbb9c551484d5c863423a6ccd2fb",
+      "work_tag": "h100-80gb-700w-llada-h100-decoder-optimization-v2-vanilla-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:5f0d0014206b7d14ac1396af1250cd7bb785de0743f658abf194390fb3cb38db",
+      "judge_public_tag": "h100-94gb-400w-llada-h100-decoder-optimization-v2-vanilla-seed-judge",
+      "work": "sha256:0195bc08114cae9226a74f0d068e274410e0fbb9c551484d5c863423a6ccd2fb",
+      "work_tag": "h100-94gb-400w-llada-h100-decoder-optimization-v2-vanilla-seed-work"
+    }
+  },
+  "source_digest": "13b855a725f489b294f5adf66791db726dabb222af54f6b73211271fbe3bfaf7"
+}

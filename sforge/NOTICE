@@ -1,0 +1,7 @@
+SForge, the Infrathon evaluation harness
+Copyright (c) 2026 the Infrathon authors
+Licensed under the Apache License, Version 2.0 (sforge/LICENSE).
+
+SForge is adapted from the evaluation harness released with EdgeBench by
+ByteDance Seed (https://github.com/ByteDance-Seed/EdgeBench; Copyright (c) 2026
+ByteDance Ltd. and/or its affiliates; Apache License 2.0).

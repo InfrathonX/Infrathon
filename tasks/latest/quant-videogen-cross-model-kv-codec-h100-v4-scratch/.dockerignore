@@ -1,0 +1,22 @@
+*
+!assets/
+!assets/**
+!configs/
+!configs/**
+!images/
+!images/**
+!judge/
+!judge/**
+# Judge-only inputs are mounted at run time (/eval/hidden), never baked.
+judge/private/
+!metrics/
+!metrics/**
+!policy/
+!policy/**
+!runtime/
+!runtime/**
+!upstream/
+!upstream/**
+**/__pycache__/
+**/*.pyc
+**/.pytest_cache/

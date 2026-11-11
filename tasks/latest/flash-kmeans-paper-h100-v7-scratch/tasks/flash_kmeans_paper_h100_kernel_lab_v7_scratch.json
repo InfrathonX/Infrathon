@@ -1,0 +1,152 @@
+{
+  "task_id": "flash_kmeans_paper_h100_kernel_lab_v7_scratch",
+  "name": "Flash-KMeans Portable CUDA Kernel Optimization Lab v7 Scratch",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:98f6676731e19072a555d20faac4c15297a7837149ed674d126abc5b98de8064"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch271_cu128",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/flash_kmeans_lab",
+  "submit_paths": [
+    "kernels",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "kernels",
+    "file_pattern": "flash_kmeans_v([0-9]{3})\\.py",
+    "selector_file": "FINAL_VERSION"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "flash-kmeans-lloyd-iteration-v7",
+      "definition": {
+        "operation": "one_lloyd_kmeans_iteration",
+        "stages": ["assign", "update", "full"]
+      },
+      "interface": {
+        "assign": "assign(x_fp16_b_n_d,centroids_fp16_b_k_d,x_squared_fp32_b_n)->integer_labels_b_n",
+        "source_path": "kernels/flash_kmeans_vNNN.py",
+        "update": "update(x_fp16_b_n_d,labels_integer_b_n,old_centroids_fp16_b_k_d)->counts_integer_b_k,new_centroids_fp16_b_k_d",
+        "version_selector": "FINAL_VERSION"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under kernels",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "nearest-centroid assignment uses fp32 squared Euclidean ordering",
+        "exact ties select the smallest cluster identifier",
+        "cluster counts are exact",
+        "centroid accumulation is fp32 within the declared oracle tolerance",
+        "empty clusters retain their old centroid exactly",
+        "inputs are not mutated",
+        "the full batch-point-cluster distance tensor is forbidden"
+      ],
+      "resource_manifest_sha256": "sha256:f0a65177f653741cdc82cf0fcc13ba949876fa01655e4fdb2af717e749ef8b5a"
+    },
+    "evaluation_suites": {
+      "v7-family-tail60": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:0b08760587ce9d320de06ebda67cea04d1bf01e8d3ba4570cd8e762fb3cbeb09",
+            "case_count": 11
+          },
+          "final": {
+            "manifest_sha256": "sha256:488c92bcac30d86875cd02aabf4d02f27decdd7b95a224b38a1abb6408018464",
+            "case_count": 22
+          }
+        },
+        "oracle": {
+          "protocol_id": "exact-lloyd-reference-v7",
+          "spec_sha256": "sha256:c395d4fff36e276384bb8d3ffd0f95ffb544f5148155a24d95f91d05cabbd62e"
+        },
+        "selection": {
+          "protocol_id": "fixed-manifest-all-cases-v7",
+          "spec_sha256": "sha256:918bedc30274d99afd0d4b71cc9464d6ce947a55a10bee25b4139084af443fbc"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-80g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 84825604096,
+        "min_compute_capability": "8.0",
+        "features": ["cuda", "fp16", "fp32", "triton"],
+        "software_abi": {
+          "protocol_id": "pytorch271-cu128-triton-source-v1",
+          "spec_sha256": "sha256:9705156b1c2e672ccf045a30edea518703b6a3705ab72490bdf74e988f1b64c0"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-latency-v7",
+          "spec_sha256": "sha256:ab3f4d219a59ded0608be7223d09b90a923719aeebcc8ee011fb4d1f8966d735"
+        }
+      }
+    },
+    "metrics": {
+      "family-first-latency": {
+        "direction": "minimize",
+        "unit": "milliseconds",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "v7-family-tail60",
+          "spec": {
+            "formula": "weighted_geometric_mean_of_group_geometric_means",
+            "fresh_process_first_run_weight_basis_points": 0,
+            "group_weight_basis_points": {
+              "assign": 1000,
+              "deploy_control": 1000,
+              "deploy_large_k": 2500,
+              "deploy_large_n_high_d": 2500,
+              "full": 2000,
+              "update": 1000
+            }
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "v7-family-tail60",
+      "execution_profile_id": "single-cuda-sm80-80g",
+      "metric_id": "family-first-latency"
+    }
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/flash_kmeans_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md. The workspace intentionally contains no candidate, K-Means reference implementation, baseline, oracle, formal performance cases, or timing denominator, and it provides no starter code. Create a complete kernels/flash_kmeans_v001.py exporting assign and update, write 1 to FINAL_VERSION, and optimize both operations shape-generically for the GPU allocated to this run. Preserve the exact numerical ABI, tie and empty-cluster behavior, input integrity, and bounded-memory requirement; never materialize the full B*N*K distance tensor. The visible public tests use literal golden fixtures, sampled correctness checks, and candidate-only diagnostic timings. Control, large-K, and large-N/high-D deployment proxies run in isolated fresh processes with empty per-case compilation caches, and the full run includes scale ladders for large-K and large-N/high-D. Use their first-call diagnostics, warmed timings, raw effective throughput, relative scaling ratios, and sampled checks as development diagnostics. Treat Judge as authoritative and never hard-code public tuples. Optimize shape-generically, explicitly considering work, memory traffic, launch count, and compilation behavior when N, K, or D becomes very large, including large-N/high-D combinations; all stages are scored and hard-gated. Judge minimizes a family-first weighted geometric mean in milliseconds with public group weights assign 0.10, update 0.10, full 0.20, fresh-process control 0.10, large-K 0.25, and large-N/high-D 0.25; rows are combined privately within each group, first-run latency is diagnostic, and only warmed latency is scored. Keep every retained version complete and policy-compliant, record experiments in notes.md, and keep FINAL_VERSION on the best Judge-passing version. Before each manual submission, wait for all public-test and compiler workers, then run sforge-submit --details on complete candidates. An authoritative invalid evaluation may return only passed, failed, or not_reached status for the coarse large-K and large-N/high-D families, without family timing. A fully valid evaluation may additionally return coarse large-K and large-N/high-D deployment latency bands and a categorical trend against the best earlier valid manual-submission band. Exact formal shapes remain hidden; per-case timings, weights, seeds, case names, and family membership remain hidden, as do exact family timings and member counts. Infrastructure-invalid evaluations omit family feedback. Manual submissions are count-unlimited with a 300-second cooldown; after repairing or optimizing, submit again. If Judge invalidates the selected source, restore FINAL_VERSION to the best previously Judge-passing version; if none exists, select the simplest locally correct version and continue the repair in a new file. The runner disables in-run automatic hidden evaluation: only manual submissions run the Judge while you work. The workspace is evaluated once more after Work ends, and retained checkpoints may be replayed offline without sending feedback to you. Your final result is the best valid score you reach within the time budget. This is a clean-room task: the submission uses only the installed PyTorch and Triton and must not copy or call another K-Means implementation."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/flash_kmeans_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 3600,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/flash_kmeans_results.json",
+    "score_direction": "minimize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "32g"
+  }
+}

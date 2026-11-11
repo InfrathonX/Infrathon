@@ -1,0 +1,4 @@
+**/__pycache__/
+**/*.pyc
+# Judge-only inputs enter only the holdout layer (Dockerfile.private).
+private_data/

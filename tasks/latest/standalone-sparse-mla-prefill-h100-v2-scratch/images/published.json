@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:d659af785c658100f91119b23aec593965bf2ddff98ca2e44926e1fb71416b97",
+      "judge_public_tag": "h100-80gb-700w-standalone-sparse-mla-prefill-h100-v2-scratch-judge",
+      "work": "sha256:fd02c034d2c0685b011146a3aa828eb24351f4156c41ed48568d8a2bc0072d52",
+      "work_tag": "h100-80gb-700w-standalone-sparse-mla-prefill-h100-v2-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:d659af785c658100f91119b23aec593965bf2ddff98ca2e44926e1fb71416b97",
+      "judge_public_tag": "h100-94gb-400w-standalone-sparse-mla-prefill-h100-v2-scratch-judge",
+      "work": "sha256:fd02c034d2c0685b011146a3aa828eb24351f4156c41ed48568d8a2bc0072d52",
+      "work_tag": "h100-94gb-400w-standalone-sparse-mla-prefill-h100-v2-scratch-work"
+    }
+  },
+  "source_digest": "b5ec6245e14cce3c3a1a3122f183cdadcd8637f73779e0d2a5fb33f9d11984f6"
+}

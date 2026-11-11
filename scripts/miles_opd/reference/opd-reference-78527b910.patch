@@ -1,0 +1,250 @@
+diff --git a/examples/opd_task/run-qwen3-1.7B-opd.sh b/examples/opd_task/run-qwen3-1.7B-opd.sh
+new file mode 100755
+index 000000000..ff754895d
+--- /dev/null
++++ b/examples/opd_task/run-qwen3-1.7B-opd.sh
+@@ -0,0 +1,144 @@
++#!/bin/bash
++# Oracle run for the OPD-from-scratch task: unmodified upstream Miles OPD
++# (sampled-token reverse KL, --opd-type sglang, K=0). Qwen3-1.7B student,
++# frozen Qwen3-4B teacher served by a separate SGLang server. Two GPUs:
++# Megatron trainer + student SGLang engine; the teacher server shares GPU0.
++#
++# Environment (container): MILES=/workspace/miles, SCRATCH=/scratch,
++# STUDENT_HF, TEACHER_HF, STUDENT_MEGATRON, DATA=<dir with train.jsonl>.
++set -euxo pipefail
++
++MILES=${MILES:-/workspace/miles}
++SCRATCH=${SCRATCH:-/scratch}
++RUN_NAME=${RUN_NAME:-opd-oracle-dev}
++NUM_ROLLOUT=${NUM_ROLLOUT:-8}
++ROLLOUT_BATCH=${ROLLOUT_BATCH:-32}
++N_SAMPLES=${N_SAMPLES:-1}
++MAX_RESP=${MAX_RESP:-512}
++LR=${LR:-5e-6}
++OPD_KL_COEF=${OPD_KL_COEF:-1.0}
++SAVE_INTERVAL=${SAVE_INTERVAL:-1000000}
++SEED=${SEED:-1234}
++TEACHER_PORT=${TEACHER_PORT:-30010}
++TEACHER_MEM=${TEACHER_MEM:-0.15}
++STUDENT_MEM=${STUDENT_MEM:-0.5}
++TRAIN_SCRIPT=${TRAIN_SCRIPT:-train.py}
++# 0 = round r trains on lines [r*B, (r+1)*B) of the training file (the task contract)
++ROLLOUT_SHUFFLE=${ROLLOUT_SHUFFLE:-0}
++EXTRA_ARGS=${EXTRA_ARGS:-}
++
++export PYTHONUNBUFFERED=1
++export PYTHONPATH=${MILES}:/root/Megatron-LM
++cd "${MILES}"
++mkdir -p "${SCRATCH}/${RUN_NAME}"
++
++CUDA_VISIBLE_DEVICES=0 python3 -m sglang.launch_server \
++   --model-path "${TEACHER_HF}" \
++   --host 127.0.0.1 --port "${TEACHER_PORT}" \
++   --tp 1 --mem-fraction-static "${TEACHER_MEM}" \
++   > "${SCRATCH}/${RUN_NAME}/teacher_server.log" 2>&1 &
++TEACHER_PID=$!
++trap 'kill ${TEACHER_PID} 2>/dev/null || true; ray stop --force || true' EXIT
++until curl -sf "http://127.0.0.1:${TEACHER_PORT}/health_generate" > /dev/null; do
++   kill -0 ${TEACHER_PID} || { tail -50 "${SCRATCH}/${RUN_NAME}/teacher_server.log"; exit 1; }
++   sleep 5
++done
++
++MODEL_ARGS_LINE="$(python3 miles/utils/external_utils/model_args_utils.py qwen3-1.7B)"
++read -ra MODEL_ARGS <<< "${MODEL_ARGS_LINE}"
++
++CKPT_ARGS=(
++   --hf-checkpoint "${STUDENT_HF}"
++   --ref-load "${STUDENT_MEGATRON}"
++   --load "${SCRATCH}/${RUN_NAME}/checkpoints"
++   --save "${SCRATCH}/${RUN_NAME}/checkpoints"
++   --save-interval "${SAVE_INTERVAL}"
++)
++
++ROLLOUT_ARGS=(
++   --prompt-data "${DATA}/train.jsonl"
++   --input-key content
++   --label-key answer
++   --apply-chat-template
++   --apply-chat-template-kwargs '{"enable_thinking": false}'
++   --num-rollout "${NUM_ROLLOUT}"
++   --rollout-batch-size "${ROLLOUT_BATCH}"
++   --n-samples-per-prompt "${N_SAMPLES}"
++   --rollout-max-response-len "${MAX_RESP}"
++   --rollout-temperature 1
++   --rollout-top-p 1
++   --seed "${SEED}"
++   --global-batch-size $((ROLLOUT_BATCH * N_SAMPLES))
++)
++if [ "${ROLLOUT_SHUFFLE}" = "1" ]; then ROLLOUT_ARGS+=(--rollout-shuffle); fi
++
++RM_ARGS=(
++   --custom-rm-path miles.rollout.on_policy_distillation.reward_func
++   --custom-reward-post-process-path miles.rollout.on_policy_distillation.post_process_rewards
++   --rm-url "http://127.0.0.1:${TEACHER_PORT}/generate"
++)
++
++OPD_ARGS=(
++   --advantage-estimator grpo
++   --use-opd
++   --opd-type sglang
++   --opd-kl-coef "${OPD_KL_COEF}"
++   --opd-log-prob-top-k 0
++   --kl-coef 0.0
++   --entropy-coef 0.0
++)
++
++OPTIMIZER_ARGS=(
++   --optimizer adam
++   --lr "${LR}"
++   --lr-decay-style constant
++   --weight-decay 0.01
++   --adam-beta1 0.9
++   --adam-beta2 0.999
++   --adam-eps 1e-8
++   --clip-grad 1.0
++)
++
++PERF_ARGS=(
++   --tensor-model-parallel-size 1
++   --pipeline-model-parallel-size 1
++   --context-parallel-size 1
++   --recompute-granularity full
++   --recompute-method uniform
++   --recompute-num-layers 1
++   --use-dynamic-batch-size
++   --max-tokens-per-gpu 16384
++)
++
++SGLANG_ARGS=(
++   --rollout-num-gpus-per-engine 1
++   --sglang-mem-fraction-static "${STUDENT_MEM}"
++)
++
++MISC_ARGS=(
++   --attention-dropout 0.0
++   --hidden-dropout 0.0
++   --accumulate-allreduce-grads-in-fp32
++   --attention-softmax-in-fp32
++   --attention-backend flash
++)
++
++export MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
++ray start --head --node-ip-address "${MASTER_ADDR}" --num-gpus 2 --disable-usage-stats --dashboard-host=0.0.0.0 --dashboard-port=8265
++
++ray job submit --address="http://127.0.0.1:8265" \
++   --runtime-env-json="{\"env_vars\": {\"PYTHONPATH\": \"${MILES}:/root/Megatron-LM/\", \"CUDA_DEVICE_MAX_CONNECTIONS\": \"1\"}}" \
++   -- python3 "${TRAIN_SCRIPT}" \
++   --actor-num-nodes 1 \
++   --actor-num-gpus-per-node 1 \
++   --rollout-num-gpus 1 \
++   "${MODEL_ARGS[@]}" \
++   "${CKPT_ARGS[@]}" \
++   "${ROLLOUT_ARGS[@]}" \
++   "${RM_ARGS[@]}" \
++   "${OPD_ARGS[@]}" \
++   "${OPTIMIZER_ARGS[@]}" \
++   "${PERF_ARGS[@]}" \
++   "${SGLANG_ARGS[@]}" \
++   "${MISC_ARGS[@]}" \
++   ${EXTRA_ARGS}
+diff --git a/miles/backends/megatron_utils/actor.py b/miles/backends/megatron_utils/actor.py
+index 86971f8b9..549f30cf0 100644
+--- a/miles/backends/megatron_utils/actor.py
++++ b/miles/backends/megatron_utils/actor.py
+@@ -584,6 +584,11 @@ class MegatronTrainRayActor(TrainRayActor):
+ 
+             self.prof.step(rollout_id=rollout_id)
+ 
++            if os.environ.get("OPD_STEP_DUMP_DIR"):
++                from miles.opd_task.step_dump import write_step_dump
++
++                write_step_dump(self.args, rollout_id, rollout_data)
++
+         train_dump_utils.save_debug_train_data(self.args, rollout_id=rollout_id, rollout_data=rollout_data)
+ 
+         for m in all_replay_managers:
+diff --git a/miles/opd_task/__init__.py b/miles/opd_task/__init__.py
+new file mode 100644
+index 000000000..e69de29bb
+diff --git a/miles/opd_task/step_dump.py b/miles/opd_task/step_dump.py
+new file mode 100644
+index 000000000..4b1b49a22
+--- /dev/null
++++ b/miles/opd_task/step_dump.py
+@@ -0,0 +1,59 @@
++"""Per-step training record required by the OPD-from-scratch task contract.
++
++Not part of upstream Miles: the task's reference is upstream on-policy distillation
++(sampled-token, ``--opd-type sglang``, K=0) plus this writer. One file per data-parallel
++rank, ``{OPD_STEP_DUMP_DIR}/step_{k:03d}_rank_{dp}.pt``, holding what that rank trained on.
++"""
++
++import os
++from argparse import Namespace
++from pathlib import Path
++
++import torch
++import torch.distributed as dist
++
++from miles.backends.training_utils.parallel import get_parallel_state
++from miles.utils.types import RolloutBatch
++
++
++def _cpu(xs):
++    return [x.detach().float().cpu() if torch.is_tensor(x) else torch.as_tensor(x) for x in xs]
++
++
++def write_step_dump(args: Namespace, rollout_id: int, rollout_data: RolloutBatch) -> None:
++    out = os.environ.get("OPD_STEP_DUMP_DIR")
++    if not out:
++        return
++    ps = get_parallel_state()
++    if ps.cp.size != 1:
++        raise NotImplementedError("the reference step dump assumes context parallel size 1")
++    old = rollout_data["log_probs"]
++    teacher = rollout_data["teacher_log_probs"]
++    masks = rollout_data["loss_masks"]
++    # Objective at the pre-update weights: per-sequence token mean of (log p_old - log p_teacher),
++    # averaged over every sequence of the step (all DP ranks).
++    per_seq = [
++        float(((o.float().cpu() - t.float().cpu()) * m.float().cpu()).sum() / m.float().sum().clamp_min(1).cpu())
++        for o, t, m in zip(old, teacher, masks, strict=True)
++    ]
++    totals = torch.tensor([sum(per_seq), len(per_seq)], dtype=torch.float64, device=torch.cuda.current_device())
++    if ps.intra_dp.size > 1:
++        dist.all_reduce(totals, group=ps.intra_dp.group)
++    if ps.tp.rank != 0 or not ps.is_pp_last_stage:
++        return
++    record = {
++        "step": rollout_id,
++        "loss": float(totals[0] / totals[1].clamp_min(1)),
++        "num_sequences": int(totals[1]),
++        "tokens": [torch.as_tensor(t, dtype=torch.int64).cpu() for t in rollout_data["tokens"]],
++        "response_lengths": [int(r) for r in rollout_data["response_lengths"]],
++        "loss_masks": [torch.as_tensor(m).cpu() for m in masks],
++        "old_logprobs": _cpu(old),
++        "teacher_logprobs": _cpu(teacher),
++        "advantages": _cpu(rollout_data["advantages"]),
++    }
++    path = Path(out) / f"step_{rollout_id:03d}_rank_{ps.intra_dp.rank}.pt"
++    path.parent.mkdir(parents=True, exist_ok=True)
++    tmp = path.with_suffix(".tmp")
++    torch.save(record, tmp)
++    tmp.replace(path)
+diff --git a/miles/ray/rollout/metrics.py b/miles/ray/rollout/metrics.py
+index 14261be89..88cbf7d59 100644
+--- a/miles/ray/rollout/metrics.py
++++ b/miles/ray/rollout/metrics.py
+@@ -177,6 +177,11 @@ def _compute_zero_std_metrics(args, all_samples: list[Sample]):
+         rewards = [sample.get_reward_value(args) for sample in samples]
+         return len(rewards) == 0 or all(rewards[0] == r for r in rewards)
+ 
++    # Custom reward functions may return structured (non-numeric) rewards; there is no
++    # meaningful zero-std bucket for those.
++    if not all(isinstance(sample.get_reward_value(args), (int, float)) for sample in all_samples):
++        return {}
++
+     all_sample_groups = group_by(all_samples, lambda s: s.group_index)
+     interesting_sample_groups = [g for g in all_sample_groups.values() if _is_zero_std(g)]
+ 

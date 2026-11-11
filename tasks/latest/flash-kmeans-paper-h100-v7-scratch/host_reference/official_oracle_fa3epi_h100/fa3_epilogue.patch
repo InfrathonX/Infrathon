@@ -1,0 +1,50 @@
+--- a/generated_task_adapter.py
++++ b/generated_task_adapter.py
+@@ -1,4 +1,4 @@
+-"""Independent official flash-kmeans HEAD task-ABI adapter.
++"""Independent official flash-kmeans HEAD task-ABI adapter + fa3-branch no-x_sq epilogue.
+ 
+ Generated from:
+   commit: b2c1c83b49301dda4807990d0a90ae4bf9cdd3b0
+@@ -860,9 +860,6 @@
+     x_tile = tl.load(x_ptrs, mask=n_mask[:, None] & d_mask[None, :], other=0.0)
+     x_tile = x_tile  # compute in f32
+ 
+-    # Pre-load x_sq for the tile  (BLOCK_N,)
+-    xsq_ptrs = x_sq_ptr + pid_b * stride_xsq_b + n_offsets * stride_xsq_n
+-    x_sq_tile = tl.load(xsq_ptrs, mask=n_mask, other=0.0).to(tl.float32)
+ 
+     # Init best distance / index
+     best_dist = tl.full((BLOCK_N,), 3.4e38, tl.float32)  # large number
+@@ -897,8 +894,8 @@
+         cross = tl.dot(x_tile, c_tile).to(tl.float32)  # float32
+ 
+         # Squared Euclidean distance
+-        dist = x_sq_tile[:, None] + cent_sq[None, :] - 2.0 * cross
+-        dist = tl.maximum(dist, 0.0)
++        # fa3 branch 39be82a: shifted distance ||y||^2 - 2 x.y (no x_sq, no clamp)
++        dist = cent_sq[None, :] - 2.0 * cross
+ 
+         # Mask out invalid centroid columns before reduction
+         dist = tl.where(k_mask[None, :], dist, 3.4e38)
+@@ -973,9 +970,6 @@
+ 
+     offs_d = tl.arange(0, BLOCK_D).to(tl.int64)
+ 
+-    # Pre-load x_sq for the tile (BLOCK_N,)
+-    xsq_ptrs = x_sq_ptr + pid_b * stride_xsq_b + n_offsets * stride_xsq_n
+-    x_sq_tile = tl.load(xsq_ptrs, mask=n_mask, other=0.0).to(tl.float32)
+ 
+     best_dist = tl.full((BLOCK_N,), 3.4e38, tl.float32)
+     best_idx = tl.zeros((BLOCK_N,), tl.int32)
+@@ -1021,8 +1015,8 @@
+ 
+             cross += tl.dot(x_chunk, c_chunk).to(tl.float32)
+ 
+-        dist = x_sq_tile[:, None] + cent_sq[None, :] - 2.0 * cross
+-        dist = tl.maximum(dist, 0.0)
++        # fa3 branch 39be82a: shifted distance ||y||^2 - 2 x.y (no x_sq, no clamp)
++        dist = cent_sq[None, :] - 2.0 * cross
+         dist = tl.where(k_mask[None, :], dist, 3.4e38)
+ 
+         curr_min = tl.min(dist, axis=1)

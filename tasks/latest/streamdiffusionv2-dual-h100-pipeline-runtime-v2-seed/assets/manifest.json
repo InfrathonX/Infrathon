@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "task_directory": "streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed",
+  "note": "Goldens are measured on the card, so they are per hardware type (hw/<hardware>/), as is the Judge's hash manifest images/judge/protected_hashes/<hardware>.txt; scripts/build_images.sh picks this host's. judge/ and hw/<hardware>/judge/ go into the host-built Judge holdout layer. $SDV2_BUILD_ROOT is the task's build/ directory on the host that generated it and $SDV2_ASSETS_ROOT the staged asset root (scripts/stage_assets.py). Weights, the flash-attn wheel, the upstream smoke checkout and the public embeddings/clips (the Work and public Judge build inputs) still come from SDV2_ASSETS_ROOT and are added here in a later step.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "6001b507ad020f776f90e1a4bb5315e36ced21376af260f17dd2c9b63340f3a8",
+      "size": 5349,
+      "consumer": "judge",
+      "description": "final holdout case definitions (scripts/write_suite_manifests.py)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/embeddings/hidden/",
+      "sha256": "8ac60e3031fee50c15bfee1061ade7380f40e535e6a101532f845a2c5e4c8e5e",
+      "size": 50347176,
+      "files": 12,
+      "consumer": "judge",
+      "description": "hidden prompt embeddings (pinned umT5, final tier only)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/clips/",
+      "sha256": "77ba66117f35b9c0d574c2cc5ded301ddd492550231b0817a43980e921d91321",
+      "size": 1699978860,
+      "files": 8,
+      "consumer": "judge",
+      "description": "video clips cut from the Blender Foundation films (CC BY 3.0; scripts/fetch_clips.py reproduces them)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-80gb-700w/judge/goldens_judge/",
+      "sha256": "22ef4241b7d82fb15054b3e00f59d9ac4579b1ea28709adfc0e17aaeb961018b",
+      "size": 5536424585,
+      "files": 49,
+      "consumer": "judge",
+      "description": "final-case goldens measured on H100 SXM 80GB; bound by images/judge/protected_hashes/h100-80gb-700w.txt",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-94gb-400w/judge/goldens_judge/",
+      "sha256": "75733c83781234a78f67322ca8056a2887a61f775cae46c73ff85a2a7174c291",
+      "size": 5536424592,
+      "files": 49,
+      "consumer": "judge",
+      "description": "final-case goldens measured on H100 NVL; bound by images/judge/protected_hashes/h100-94gb-400w.txt",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

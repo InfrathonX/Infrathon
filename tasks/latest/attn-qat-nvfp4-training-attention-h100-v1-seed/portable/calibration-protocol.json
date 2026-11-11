@@ -1,0 +1,9 @@
+{
+  "clock": "max_of_cuda_event_and_synchronized_host_wall_per_call",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "not_required_fresh_inputs_and_nan_poisoned_outputs_per_trial",
+  "protocol_id": "cuda-event-host-wall-max-median-v1",
+  "schema_version": 1,
+  "timing_statistic": "median_of_declared_trials",
+  "warmup": "case_warmup_on_fresh_tensors_before_measured_trials"
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "task_directory": "standalone-sparse-mla-prefill-h100-v2-scratch",
+  "note": "No external models or datasets; the Judge-only holdouts are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private).",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "9c7603a6ecca4442bc22a69c789e1b611e9b61bf8bf4e85bbe09819113f8f106",
+      "size": 612744,
+      "consumer": "judge",
+      "description": "final holdout (997 scored cases)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/edge_cases.json",
+      "sha256": "59cafdee45b42d252b130a6a9e14e5a0005a862bed4944032d12fe8cb45d2090",
+      "size": 175610,
+      "consumer": "judge",
+      "description": "private edge cases (470)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

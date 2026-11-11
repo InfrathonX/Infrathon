@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:d894b83cf04b4313f8463cd6add567beabaccb341561750527390024da1da8fb",
+      "judge_public_tag": "h100-80gb-700w-qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed-judge",
+      "work": "sha256:dd82c28f4a1bdd14ce842d872cad63180322f73025c024c200a88ef81ae6d4c2",
+      "work_tag": "h100-80gb-700w-qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:d894b83cf04b4313f8463cd6add567beabaccb341561750527390024da1da8fb",
+      "judge_public_tag": "h100-94gb-400w-qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed-judge",
+      "work": "sha256:dd82c28f4a1bdd14ce842d872cad63180322f73025c024c200a88ef81ae6d4c2",
+      "work_tag": "h100-94gb-400w-qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed-work"
+    }
+  },
+  "source_digest": "0a5f916f208dfe7d7337d6d33eed1d283fccbd62a1d6a567024fcf1a5954fceb"
+}

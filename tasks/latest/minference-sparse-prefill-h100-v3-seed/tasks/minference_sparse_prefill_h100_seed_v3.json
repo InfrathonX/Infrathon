@@ -1,0 +1,214 @@
+{
+  "task_id": "minference_sparse_prefill_h100_seed_v3",
+  "name": "MInference RULER Sparse BF16 Prefill H100 Seed v3",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:b6d2a3b74be31f134a13f8aad9131ce9666c1de294e1bf2a08fc8f9a4bb9d671"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/minference_prefill_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/minference_prefill_lab",
+    "cpu_limit": 8,
+    "mem_limit": "48g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md. Optimize the native-GQA five-argument attention kernel for any N from 64 to 131072 under the error budget. Recompute patterns and outputs on every call. Your score comes from hidden test cases on the Judge, and the public tests are for getting the kernel working. Your final result is the best valid score you reach within the time budget, so leave FINAL_VERSION on your strongest candidate."
+  },
+  "judge": {
+    "private_bootstrap": "minference-kernel-prefill-v3",
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/minference_prefill_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 7200,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/minference_prefill_h100_seed_v3_results.json",
+    "private_artifact_paths": [
+      "/logs/verifier/minference_prefill_h100_seed_v3_results.json",
+      "/logs/verifier/evaluation_nonce.json",
+      "/logs/verifier/kernel-worker-result.json"
+    ],
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "48g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "minference-kernel-only-prefill-v3",
+      "definition": {
+        "operation": "sparse_prefill_attention_bf16_native_gqa",
+        "query_heads": 32,
+        "kv_heads": 8,
+        "head_dim": 128,
+        "ruler_tasks": [
+          "niah_single_2",
+          "niah_multikey_1",
+          "vt",
+          "fwe"
+        ],
+        "context_budgets": [
+          32768,
+          65536,
+          131072
+        ],
+        "real_variable_lengths": true,
+        "layers": [
+          1,
+          4,
+          15,
+          27
+        ],
+        "unscored_warmup_layer": 2,
+        "scored_groups": 48,
+        "trials_per_group": 3,
+        "sparsity_pattern": "chosen_by_the_candidate",
+        "kernel_input_preparation": {
+          "protocol": "minference-single-real-prompt-qkv-v1",
+          "persistent_qkv_files": 0,
+          "scratch_limit_bytes": 8589934592,
+          "capture_backend": "flash_attention_2",
+          "preparation_timed_in_score": false
+        },
+        "evaluation_kind": "kernel-only-v3",
+        "untimed_boundary_lengths": [
+          64,
+          65,
+          511,
+          1889,
+          2047,
+          2048,
+          2049,
+          4095,
+          4096,
+          4097,
+          8193
+        ]
+      },
+      "interface": {
+        "entry_point": "minference_sparse_prefill_bf16(q,k,v,softmax_scale,out)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "python_triton_source_with_static_admission"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates (any sparsity pattern)",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "Five-argument BF16 ABI; causal output; fully written finite out and unchanged Q/K/V.",
+        "Real RULER-derived dense-trajectory activations; no synthetic noise or prompt padding.",
+        "Every input-dependent pattern and output is recomputed within each call; shape-only scratch reuse is allowed.",
+        "Score is equal-weight geometric mean of each group median real-N dense-equivalent TFLOPS; no seed-relative scoring."
+      ],
+      "resource_manifest_sha256": "sha256:9caa2efbf6f28ef6c9046ba3edb5d4947d539ee88f755cf0d6ea98363c757ced"
+    },
+    "evaluation_suites": {
+      "minference-prefill-v3": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:27c836f3183a0c43c624ab1b1061dc595feb5d10fea6b827a790a4181d273429",
+            "case_count": 48
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:1611c189a3f06e8c46ae057c61137f606d5967e48c0037704fbb934b87b019d4",
+            "case_count": 48
+          },
+          "final": {
+            "manifest_sha256": "sha256:28996a16165d8a7903d45ca232a9b287cfd8df3cb310a2ddcff30372cfc398c6",
+            "case_count": 48
+          }
+        },
+        "oracle": {
+          "protocol_id": "kernel-fidelity-then-throughput-v3",
+          "spec_sha256": "sha256:a472826f43b2b692d94db3c573efa22a69aa17116f670b1e412725393b93a793"
+        },
+        "selection": {
+          "protocol_id": "kernel-fidelity-then-throughput-v3",
+          "spec_sha256": "sha256:a472826f43b2b692d94db3c573efa22a69aa17116f670b1e412725393b93a793"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-80gb": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 80000000000,
+        "min_compute_capability": "9.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-source-v1",
+          "spec_sha256": "sha256:b9aeaa1ae276b75039826891005fb8358396843d0004b6a04afa503674d07709"
+        },
+        "calibration_protocol": {
+          "protocol_id": "real-input-host-event-max-v3",
+          "spec_sha256": "sha256:72a487c67af89193ca607a2d2bb1cad6a79765527b9bdc8c6f11593d4fe33794"
+        }
+      }
+    },
+    "metrics": {
+      "dense-equivalent-tflops-geomean": {
+        "direction": "maximize",
+        "unit": "dense_equivalent_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "group-median-real-length-geomean-v3",
+          "spec": {
+            "formula": "geomean over 48 groups of median of 3 real-N trial TFLOPS",
+            "dense_flops": "2*32*128*n*(n+1)",
+            "trials": 3
+          }
+        },
+        "baseline_policy": "cached_once_per_campaign",
+        "baseline": {
+          "protocol_id": "pinned-fa3-public-paired-author-baseline-v3",
+          "spec_sha256": "sha256:a7f577ecadffab7e0777c04cd6b4069c6b235bc4b5419a59d89a7a68fce77606"
+        }
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "minference-prefill-v3",
+      "execution_profile_id": "single-cuda-80gb",
+      "metric_id": "dense-equivalent-tflops-geomean"
+    }
+  },
+  "qualification_status": "kernel-only-qualified-local-unpublished",
+  "qualification_evidence_path": "qualification/qualification_evidence.json",
+  "scientific_artifacts": {
+    "schema_version": 1,
+    "contract_protocol": "minference-kernel-only-prefill-v3",
+    "manifest_sha256": "sha256:fb7c1cc7bc62c77d6e0f8e6380596523d7a3fed2b1911ccf59369104a8dafe44"
+  }
+}

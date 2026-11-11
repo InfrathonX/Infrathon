@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "protocol_id": "pytorch280-cu129-triton340-source-v1",
+  "language": "python3",
+  "source_runtime": [
+    "pytorch-2.8.0+cu129",
+    "triton-3.4.0"
+  ],
+  "transformers": "4.57.1",
+  "required_dtypes": [
+    "bf16",
+    "fp32"
+  ],
+  "forbidden_packages": [
+    "minference",
+    "sgl_kernel",
+    "sglang",
+    "vllm",
+    "vllm_flash_attn",
+    "flash_attn",
+    "flash_attn_3",
+    "flashinfer",
+    "xformers"
+  ],
+  "entrypoint": "minference_sparse_prefill_bf16(q,k,v,softmax_scale,out)->None",
+  "layout": "q[1,32,N,128],k/v[1,8,N,128], real variable N",
+  "scratch": "shape-only allocations may be reused; numerical patterns and output must be recomputed each call",
+  "images": "exact Work/Judge IDs and actual CPU/GPU execution evidence are deployment qualification; FA3 author extension is absent from both"
+}

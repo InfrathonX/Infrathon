@@ -1,0 +1,38 @@
+{
+  "boundary": {
+    "excludes": [
+      "the frozen holdout items (rebuilt at image build from judge/private/final_manifest.json)"
+    ],
+    "includes": "image build inputs, Work lab files, launch adapters and contract tooling",
+    "kind": "delivery"
+  },
+  "resources": [
+    {"path": "tasks/BENCHMARK.yaml", "sha256": "sha256:5e35734afa46d8d148a5edefd95f6453e5c9a945b9a060a5b4999cdf3d916be8"},
+    {"path": "images/judge/Dockerfile", "sha256": "sha256:ccc93845a92e49b1c42071706e7a6fe2a7391bcc9e69222b0a15b9357b9c7fcf"},
+    {"path": "images/judge/Dockerfile.private", "sha256": "sha256:ded2bedb373cbec6751f4f617738197a0f8c32e05c8ba4b4548b2e8feb4723d0"},
+    {"path": "images/judge/.dockerignore", "sha256": "sha256:6c89405dcc0c6e04816ad61f586e33f2083e8d36af6d21645aad81f5a25d0db3"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:9747e2970dd92e418eff7c3980b65bcdcef535d254ad3cf8dbc8932a26bf0d33"},
+    {"path": "images/work/Dockerfile", "sha256": "sha256:b808ca760486b3423d289f1b638b01ad3c534277fbe24e37edf5d1ca6a38272e"},
+    {"path": "images/work/.dockerignore", "sha256": "sha256:cbc07c07aa2c15e791140f8179fc1406730d1c459271f41813be5283ffadc30a"},
+    {"path": "images/work/codex-config.toml", "sha256": "sha256:acd95016d537be1a54a16d253a3a7c5cbcefd624e545bb14a651fb47e37fe8d3"},
+    {"path": "images/work/benchmark/run_public_tests.sh", "sha256": "sha256:583f67bf1c2d215dddd8e7910dc6ea8f04edbd51c552a41ac29fea0eb18e077e"},
+    {"path": "images/work/benchmark/prepare_submit.sh", "sha256": "sha256:9d72fa1b867e2fdfb5c5f9104a48243311f66a3ebf4b8e06ab96bde10612a354"},
+    {"path": "images/work/workdir/kv_scoring_lab/FINAL_VERSION", "sha256": "sha256:4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"},
+    {"path": "images/work/workdir/kv_scoring_lab/notes.md", "sha256": "sha256:862e1f40bfe648df2fedc4bf90d331cc908d42ad2b5e72bdb79bd708837b2361"},
+    {"path": "images/work/workdir/kv_scoring_lab/candidates/scorer_v001/submission.py", "sha256": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"},
+    {"path": "images/work/workdir/kv_scoring_lab/tools/run_one.sh", "sha256": "sha256:fe16fc7136ebc237befbb72720245238ab4f5e3f87187648d1a630266d5ec971"},
+    {"path": "images/work/workdir/kv_scoring_lab/tools/run_public_tests.sh", "sha256": "sha256:d833d6e3b4d74ccf467e8133252242885458c439900e67ab5e7520c7c9fdd232"},
+    {"path": "images/work/workdir/kv_scoring_lab/tools/check_submission_size.sh", "sha256": "sha256:01cf9e8ae2a729a3eb7b369becd5b19a77369d15ae7251cd06995a102771869e"},
+    {"path": "corpus/public/MANIFEST.json", "sha256": "sha256:981325b93e294450b9217d9b3fe430b30d5275fc578725f211c8dbb9ddbd29cf"},
+    {"path": "scripts/lib.sh", "sha256": "sha256:3c5baae7380cae519e0bbab272e1eec55b700997a1c25b498063e456e0900d22"},
+    {"path": "scripts/build_images.sh", "sha256": "sha256:9c14d3a36a5ee1c55eae5a4a8b6d8c50fcacdee31fb928b33ff4883ced13b902"},
+    {"path": "scripts/eval_archive.sh", "sha256": "sha256:87b4a476aca42c4a7331237ce48eab941947ebcb199fd9448c134cfabedfd309"},
+    {"path": "scripts/sforge_entry.py", "sha256": "sha256:873f5b26c559527b708462338f6166c38f6f5ae770b77e3527f86d63ffa6778d"},
+    {"path": "scripts/prepare_released_weights_fingerprint.py", "sha256": "sha256:384f64e4284bdd862b2f81f174f02f9e298b0d28f27dbc3e8b0bca260a7258dd"},
+    {"path": "scripts/validate_layout.py", "sha256": "sha256:4314034eccf296b0db4ed7eef7ca8cf256ec7abe5c4e3a1802d25c82c740c847"},
+    {"path": "scripts/update_protected_hashes.py", "sha256": "sha256:0e043eb67fc30a1fad05b86ec52cc3e4e607b228e203d8b40d8e61b37e7b0df1"},
+    {"path": "scripts/write_portable_manifests.py", "sha256": "sha256:5bc4b7ac4daa264ffd91c1a2e1734c93c59d0fc2284bbc830e5bacc86279227f"},
+    {"path": "scripts/refresh_portable_manifests.py", "sha256": "sha256:64691f860aa8423c4a66de0f9424941c1e8c7c415b7e872160e87e2a73148b78"}
+  ],
+  "schema_version": 1
+}

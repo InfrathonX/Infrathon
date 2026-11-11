@@ -1,0 +1,15 @@
+**
+!Dockerfile
+!.dockerignore
+!AGENT_TASK.md
+!RUNTIME_CONTRACT.json
+!RUN_BUDGET.json
+!codex-config.toml
+!submission/
+!submission/**
+!protocol_tests/
+!protocol_tests/**
+!public_benchmark/
+!public_benchmark/**
+**/__pycache__/
+**/*.pyc

@@ -1,0 +1,84 @@
+{
+  "schema_version": 1,
+  "task_directory": "llada-h100-decoder-optimization-v2-vanilla-seed",
+  "note": "GSAI-ML/LLaDA-8B-Instruct@6059b30c (Hugging Face) is mounted read-only at run time and is added here in a later step. private_data/ (hidden cases, quality references for each GPU model under reference_cache/, policies) is Judge-only and goes into the host-built Judge holdout layer.",
+  "assets": [
+    {
+      "path": "judge/private_data/hidden_cases.json.gz",
+      "sha256": "f55459509f74d063d62aa7d71cd7ceb08977e3cb382faee9663739685ffcc299",
+      "size": 112746,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/memory_policy.json",
+      "sha256": "26425b0a564721ddb7cb750604a7194b784665c643206b90af7f28288a87b3b2",
+      "size": 1652,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/quality_controls.json",
+      "sha256": "3777e5f150f6657879cd041a86da549dd3010e9ba4374544905eff886ae6e3fd",
+      "size": 1981,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/reference_cache/865a4df508f3fc285414cfd77e4546179e1b2f65e26486f69e01c2ba44b21c62.json",
+      "sha256": "eb508564d039e3b1d7aee3693c4f04b85e97a5e57f2e78dd0eb9168e9fcde715",
+      "size": 114431,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/reference_cache/e0c0c006ec76c66b188fb155471697647c6727c754d900bb8ccfcf042db66e0e.json",
+      "sha256": "af8e0512cb637a6ec0a8270ef5a4c3587f8039e2bd7b76c37e0828fdb0a52aeb",
+      "size": 114195,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/reference_quality.json",
+      "sha256": "eb508564d039e3b1d7aee3693c4f04b85e97a5e57f2e78dd0eb9168e9fcde715",
+      "size": 114431,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private_data/workload_policy.json",
+      "sha256": "ee67acde094420a929c0f7214d515e3a52177cbc6ed95de57909c7dd51612f92",
+      "size": 13344,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--GSAI-ML--LLaDA-8B-Instruct/",
+      "sha256": "4763a2ec16f8cb7bf81458ef17634498f78639e8153637da77094d0c3b7e66e1",
+      "size": 16037449215,
+      "files": 16,
+      "consumer": "work+judge",
+      "description": "frozen model (LLADA_MODEL_REPO, the cache repository folder)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "GSAI-ML/LLaDA-8B-Instruct",
+        "repo_type": "model",
+        "revision": "6059b30c9531767ce47e0ca6a8161a6bb0c67693"
+      }
+    }
+  ]
+}

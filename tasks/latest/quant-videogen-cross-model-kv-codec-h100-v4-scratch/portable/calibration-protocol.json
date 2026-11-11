@@ -1,0 +1,17 @@
+{
+  "comparability": "portable_score_device_dependent_validity",
+  "fresh_process": "each case runs as a fresh process under its device slot's candidate UID (23001-23008) with a fresh HOME/cache boundary, bound to one device and threads_per_slot CPUs; a device runs its cases one after another",
+  "gate_calibration": {
+    "bf16_references": "bf16_vbench is run_vbench.py on each case golden; bf16_kv_bytes is copied per case from a trusted-oracle profile (shape-only)",
+    "case_floor_gates": "one floor per workload that every case's oracle readings clear after loosening by PSNR -1.0 dB, SSIM -0.03, LPIPS +0.03 and a VBench allowed drop of 2 x (worst case drop + 0.25); frozen after calibration",
+    "controls": "the paper's RTN-INT2 baseline must fail and RTN-INT4 must pass",
+    "mean_gates": "over the per-run case means: psnr / ssim = min(worst - margin, mean - 3 sd) with margins 0.25 dB / 0.0075, lpips = max(worst + 0.0075, mean + 3 sd), VBench allowed drop from the case-mean BF16 reading set the same way with a 1.0-point margin (VBench scores identical frames differently run to run; LongCat 6-case means moved up to 0.65 points between two oracle runs)",
+    "runs": "the trusted oracle over the full 17-case suite at least 2 times, on the sharded Judge as deployed; the worst reading over runs sets each gate",
+    "uncalibrated_release": "while the release status is calibrating, gates are placeholders that admit everything, the Judge runs every case and records every reading, and the result is valid=false (uncalibrated_release)"
+  },
+  "goldens_provenance": "generated once per measurement profile by scripts/stage_eval_inputs.py on the qualification profile (Hopper + FA3 numerics); moving to a non-Hopper device requires regenerating goldens and gates with the same protocol",
+  "protocol_id": "summed-byte-ratio-score-budget-gated-wall-v4",
+  "schema_version": 1,
+  "score_measurement": "unique persistent CUDA-storage bytes reachable from each payload, counted by the trusted payload walker per compression call and summed over every call of a case and every case of a workload, scaled per workload by 1 + q, the quality term from the same fidelity and VBench readings the gates use (zero point: the official Quant-VideoGen codec's frozen case means); no timing or throughput term",
+  "wall_measurement": "end-to-end stage wall including model load, measured per case by the root controller and compared with the workload's stage budget, with up to max_gpu_count cases running at once on separate devices"
+}

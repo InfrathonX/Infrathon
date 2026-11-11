@@ -1,0 +1,15 @@
+# Private Judge layer: the public Judge plus the Judge-only final suite (final-holdout-v3).
+# Built only on the host that runs the task, never published; the input comes from the
+# Judge-only build context scripts/build_images.sh stages.  The 139 scored real layers
+# (about 60 GB) are not part of any image: scripts/sforge_judge_entry.py mounts them
+# read-only at /opt/sageattention_quant_attention_judge/fixtures/real_layers when SForge
+# starts a Judge container, and the runtime checks every file against its capture manifest
+# and every manifest against the recipe shipped in this image.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=final_cases final_cases.json /opt/sageattention_quant_attention_judge/private/final_cases.json
+
+RUN chown -R root:root /opt/sageattention_quant_attention_judge/private \
+    && chmod 0500 /opt/sageattention_quant_attention_judge/private \
+    && chmod 0400 /opt/sageattention_quant_attention_judge/private/final_cases.json

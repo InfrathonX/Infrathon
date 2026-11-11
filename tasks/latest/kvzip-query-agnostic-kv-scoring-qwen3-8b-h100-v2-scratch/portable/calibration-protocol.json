@@ -1,0 +1,10 @@
+{
+  "aggregation": "sum_over_layers_per_row",
+  "clock": "max_of_synchronized_host_wall_and_cuda_event per score call; only the pass on the row's own tensors is timed, after an untimed pass on random tensors of the same shapes and before an untimed determinism pass on fresh copies",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "per shard: Phase A and Phase B are separate processes on the same GPU",
+  "overhead_reference": "trusted plain prefill of the same row re-measured in Phase B on the same device",
+  "protocol_id": "host-wall-cuda-event-three-pass-v2",
+  "schema_version": 1,
+  "warmup": "untimed fully gated passes over all layers on 2048- and 128-token random decoys"
+}

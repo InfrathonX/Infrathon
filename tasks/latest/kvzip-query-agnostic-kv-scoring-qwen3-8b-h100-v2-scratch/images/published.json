@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:cd12df4f567ffdeaaa0481c60070cb9e11b770c6d574dc94befbab68804012df",
+      "judge_public_tag": "h100-80gb-700w-kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch-judge",
+      "work": "sha256:f9ba637d1dc68fe10531ac513df458cb628858dd41e13c4193f19996a9294ffc",
+      "work_tag": "h100-80gb-700w-kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:cd12df4f567ffdeaaa0481c60070cb9e11b770c6d574dc94befbab68804012df",
+      "judge_public_tag": "h100-94gb-400w-kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch-judge",
+      "work": "sha256:f9ba637d1dc68fe10531ac513df458cb628858dd41e13c4193f19996a9294ffc",
+      "work_tag": "h100-94gb-400w-kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch-work"
+    }
+  },
+  "source_digest": "6843fb92ac1ed4b384f13deece6bc83172cd7dbc1282b0adc442e576c9117c9a"
+}

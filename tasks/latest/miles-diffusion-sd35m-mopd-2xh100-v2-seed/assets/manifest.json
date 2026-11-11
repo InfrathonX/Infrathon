@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "task_directory": "miles-diffusion-sd35m-mopd-2xh100-v2-seed",
+  "note": "Hugging Face models are laid out flat under public/models and public/scorers; scripts/miles_common/host_config.py maps MDOPD_* there when INFRATHON_ASSETS_ROOT is set. public/data and judge/private are ours; the private root is mounted into the Judge at run time.",
+  "assets": [
+    {
+      "path": "public/models/sd35m/stable-diffusion-3.5-medium/",
+      "sha256": "d6c91a035589bfc95f85e3a0d488aed434a12a8083fcd89db27fe7c40b04b42d",
+      "size": 16274901411,
+      "files": 27,
+      "consumer": "work+judge",
+      "description": "student base model, an ungated mirror whose files equal stabilityai/stable-diffusion-3.5-medium@b940f670 (MDOPD_ASSETS/sd35m -> /models/sd35m)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "adamo1139/stable-diffusion-3.5-medium-ungated",
+        "repo_type": "model",
+        "revision": "1cb9becf522803da9d25c2713d1a82b41bc6198d",
+        "layout": "flat",
+        "allow_patterns": [
+          "LICENSE.md",
+          "model_index.json",
+          "scheduler/scheduler_config.json",
+          "text_encoder/config.json",
+          "text_encoder/model.safetensors",
+          "text_encoder_2/config.json",
+          "text_encoder_2/model.safetensors",
+          "text_encoder_3/config.json",
+          "text_encoder_3/model-00001-of-00002.safetensors",
+          "text_encoder_3/model-00002-of-00002.safetensors",
+          "text_encoder_3/model.safetensors.index.json",
+          "tokenizer/merges.txt",
+          "tokenizer/special_tokens_map.json",
+          "tokenizer/tokenizer_config.json",
+          "tokenizer/vocab.json",
+          "tokenizer_2/merges.txt",
+          "tokenizer_2/special_tokens_map.json",
+          "tokenizer_2/tokenizer_config.json",
+          "tokenizer_2/vocab.json",
+          "tokenizer_3/special_tokens_map.json",
+          "tokenizer_3/spiece.model",
+          "tokenizer_3/tokenizer.json",
+          "tokenizer_3/tokenizer_config.json",
+          "transformer/config.json",
+          "transformer/diffusion_pytorch_model.safetensors",
+          "vae/config.json",
+          "vae/diffusion_pytorch_model.safetensors"
+        ]
+      }
+    },
+    {
+      "path": "public/models/teachers/DiffusionOPD-38686355/",
+      "sha256": "1e8b24333ed6e6371899462130b55f13bfe90683431e228e2b03e0bcccaebc80",
+      "size": 150329884,
+      "files": 7,
+      "consumer": "work+judge",
+      "description": "OCR and aesthetic teacher LoRAs (MDOPD_ASSETS/teachers -> /models/teachers)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "quanhaol/DiffusionOPD",
+        "repo_type": "model",
+        "revision": "38686355c604cf1eaa4495257a5e8092d9959fb6",
+        "layout": "flat",
+        "allow_patterns": [
+          "AesTeacher/lora/README.md",
+          "AesTeacher/lora/adapter_config.json",
+          "AesTeacher/lora/adapter_model.safetensors",
+          "OCRTeacher/lora/README.md",
+          "OCRTeacher/lora/adapter_config.json",
+          "OCRTeacher/lora/adapter_model.safetensors",
+          "README.md"
+        ]
+      }
+    },
+    {
+      "path": "public/scorers/PickScore_v1/",
+      "sha256": "34bccfa607551f56f3f78364cad2e1c49809e584f96b7e9cd1d17bf2a32dfe9b",
+      "size": 3948172846,
+      "files": 9,
+      "consumer": "work+judge",
+      "description": "task-metric scorer (MDOPD_V2_SCORERS -> /models/scorers)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "yuvalkirstain/PickScore_v1",
+        "repo_type": "model",
+        "revision": "a4e4367c6dfa7288a00c550414478f865b875800",
+        "layout": "flat",
+        "allow_patterns": [
+          "README.md",
+          "config.json",
+          "merges.txt",
+          "model.safetensors",
+          "preprocessor_config.json",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ]
+      }
+    },
+    {
+      "path": "public/scorers/CLIP-ViT-H-14-processor/",
+      "sha256": "b898cefeb90977891585be32277ba15b02ec67fdca0e80206ba942f9dcc087dd",
+      "size": 3625530,
+      "files": 8,
+      "consumer": "work+judge",
+      "description": "PickScore's processor and tokenizer files only",
+      "source": {
+        "kind": "hf",
+        "repo_id": "laion/CLIP-ViT-H-14-laion2B-s32B-b79K",
+        "repo_type": "model",
+        "revision": "1c2b8495b28150b8a4922ee1c8edee224c284c0c",
+        "layout": "flat",
+        "allow_patterns": [
+          "README.md",
+          "config.json",
+          "merges.txt",
+          "preprocessor_config.json",
+          "special_tokens_map.json",
+          "tokenizer.json",
+          "tokenizer_config.json",
+          "vocab.json"
+        ]
+      }
+    },
+    {
+      "path": "public/data/",
+      "sha256": "e61d24a70050a76498c4fc48e8d2feafb4f643cd755be49f29676ff160afd5a1",
+      "size": 3498644184,
+      "files": 97,
+      "consumer": "work",
+      "description": "public data (scripts/miles_diffusion_opd/assemble_public.py, cut by trim_public.py): probe/ and replay/ mounted into Work; rows.jsonl, student_init.safetensors and heldout.jsonl baked into Work",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/private/",
+      "sha256": "267eb6b2e128703b6bb7fcde9599d2809932828b47f14d6d2de4851192a9927a",
+      "size": 11418964708,
+      "files": 312,
+      "consumer": "judge",
+      "description": "private Judge root (scripts/miles_diffusion_opd/assemble_private.py); mounted at /judge_private; must not be owned by uid 1001 (the container agent) and must be go-rwx",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "owner": "root"
+    }
+  ]
+}

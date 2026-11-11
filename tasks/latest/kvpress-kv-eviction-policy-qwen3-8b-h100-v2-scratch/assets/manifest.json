@@ -1,0 +1,86 @@
+{
+  "schema_version": 1,
+  "task_directory": "kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch",
+  "note": "Qwen/Qwen3-8B and the pinned Hugging Face datasets the final items are materialized from at build time (scripts/prepare_items.py) are added here in a later step. The materialized items are third-party text and are not redistributed: every host rebuilds them and checks each item against the frozen manifest.",
+  "assets": [
+    {
+      "path": "judge/final_manifest.json",
+      "sha256": "e0bf8572a0a9ca37195af0aa8ac963388a4d389fb20339e4e60115965e08ed65",
+      "size": 1612674,
+      "consumer": "judge (build)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-8B/",
+      "sha256": "e47b9aca03bbdb25886318a0f1bea76e13303f2971c21ecb8e0ffe69029172bb",
+      "size": 16397461266,
+      "files": 15,
+      "consumer": "work+judge",
+      "description": "frozen target model (KV_EVICTION_MODEL_REPO, the cache repository folder)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-8B",
+        "repo_type": "model",
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+      }
+    },
+    {
+      "path": "public/hf/datasets--simonjegou--ruler/",
+      "sha256": "75b07fed748689ac15f438700041b793411c66cb97bae8dcb5afb51dcb820cf4",
+      "size": 281427456,
+      "files": 5,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_EVICTION_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "simonjegou/ruler",
+        "repo_type": "dataset",
+        "revision": "24adceac8a0e6532936e8d721cd9e9084d2e4686"
+      }
+    },
+    {
+      "path": "public/hf/datasets--Xnhyacinth--LongBench/",
+      "sha256": "7bfe41382ea71203dd5750633e10884d109a7e3c9388baaae3a14a655046d69d",
+      "size": 161258574,
+      "files": 36,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_EVICTION_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Xnhyacinth/LongBench",
+        "repo_type": "dataset",
+        "revision": "2e9ade51ebf45d98942056c0716234f9d5d257d5"
+      }
+    },
+    {
+      "path": "public/hf/datasets--simonjegou--loogle/",
+      "sha256": "224f21f0873332ba5c8246e8fed0bdbe91ea56a57c8b64a7df763cfee569c234",
+      "size": 51939233,
+      "files": 6,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_EVICTION_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "simonjegou/loogle",
+        "repo_type": "dataset",
+        "revision": "6e3eaf28d24ce34933170c85de36be2448d0d2a7"
+      }
+    },
+    {
+      "path": "public/hf/datasets--simonjegou--zero_scrolls/",
+      "sha256": "f86e53ea5e0b42c4a0599bfd6322a6b56a799d5d15d53e9559d5a12aae05cf90",
+      "size": 239728303,
+      "files": 4,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_EVICTION_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "simonjegou/zero_scrolls",
+        "repo_type": "dataset",
+        "revision": "1994930942afa252f7707cb9c74253b774d7ed8d"
+      }
+    }
+  ]
+}

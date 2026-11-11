@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!run_judge.py
+!verify_minference_prefill.py
+!candidate_worker.py
+!source_admission.py
+!submission_loader.py
+!protected_hashes.txt

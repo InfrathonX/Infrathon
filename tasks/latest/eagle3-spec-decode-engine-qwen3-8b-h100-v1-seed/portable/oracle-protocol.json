@@ -1,0 +1,56 @@
+{
+  "acceptance": "every run-wide gate passes and the policy status is QUALIFIED; otherwise the score is 0",
+  "gates": {
+    "labels": {
+      "idle_ok": "post-call CUDA idleness",
+      "memory_ok": "per-cell peak-memory caps",
+      "o1_ok": "teacher-forced hard-margin oracle",
+      "o2_ok": "global argmax-disagreement rate",
+      "o3_o4_ok": "termination, shape, range, and prefix contract",
+      "o5_ok": "determinism and request isolation",
+      "protected_ok": "protected Judge/runtime identities",
+      "source_ok": "submission source admission",
+      "tiers_ok": "tiered margin-CDF oracle",
+      "wall_ok": "per-cell wall caps",
+      "worker_ok": "isolated worker protocol"
+    },
+    "names": ["protected_ok", "source_ok", "worker_ok", "o1_ok", "o2_ok", "tiers_ok", "o3_o4_ok", "o5_ok", "wall_ok", "memory_ok", "idle_ok"]
+  },
+  "integrity": ["protected_identities", "source_admission", "isolated_worker_protocol", "device_idle_after_generation"],
+  "policy": {
+    "attn_implementation": "eager",
+    "build_cap_s": 600,
+    "eps_hard": "24.0",
+    "memory_cap_headroom_bytes": 8589934592,
+    "memory_cap_seed_multiple": "1.1",
+    "oracle_rate_seed_multiple": "3.0",
+    "p_soft": "0.03284789994157488",
+    "resource_cap_mode": "seed_relative_same_run",
+    "scope": "global_run",
+    "tiers": [
+      {"margin": "0.0", "max_rate": "0.03284789994157488"},
+      {"margin": "0.25", "max_rate": "0.001034126163391934"},
+      {"margin": "0.5", "max_rate": "0.00031023784901758014"},
+      {"margin": "0.75", "max_rate": "0.00020682523267838676"},
+      {"margin": "1.0", "max_rate": "0.00020682523267838676"},
+      {"margin": "1.5", "max_rate": "0.00015511892450879007"},
+      {"margin": "2.0", "max_rate": "0.0001"},
+      {"margin": "3.0", "max_rate": "0.0001"}
+    ],
+    "wall_cap_seed_multiple": "8.0",
+    "worker_timeout_s": 4800
+  },
+  "protocol_id": "teacher-forced-greedy-margin-cdf-seed-relative-v1",
+  "reference": {
+    "draft_head": "frozen Tengyunw EAGLE-3 head",
+    "o1": "hard logit margin eps_hard",
+    "o2": "global argmax-disagreement rate",
+    "o3": "termination",
+    "o4": "shape / prefix / range",
+    "o5": "determinism and isolation (repeat requests outside the score window)",
+    "seed_relative": "the Judge runs the unmodified seed engine on its own device in the same evaluation; wall caps = wall_cap_seed_multiple x the extrapolated full-batch seed wall, memory caps = ceil(memory_cap_seed_multiple x seed peak) + headroom, tier rates and p_soft are floors relaxed only to oracle_rate_seed_multiple x the same-run seed disagreement rate",
+    "target": "frozen BF16 Qwen3-8B (eager attention) teacher-forced over every emitted token",
+    "tiers": "eight-level margin-CDF rates (global run scope)"
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "recipe_id": "attn-qat-public-llm-layer-v1",
+  "identity": "per-deployment-capture",
+  "manifest_name": "capture.llm.source.json",
+  "note": "The public real LLM layer: a different model, text and geometry from every Judge capture.",
+  "sanity_bands": {
+    "public_llm": {
+      "do": {
+        "finite_fraction_min": 1.0,
+        "rms_min": 8.36e-07,
+        "rms_max": 3.344e-06,
+        "abs_max_min": 3.457e-05,
+        "abs_max_max": 0.0005531
+      },
+      "k": {
+        "finite_fraction_min": 1.0,
+        "rms_min": 1.258,
+        "rms_max": 5.031,
+        "abs_max_min": 10.69,
+        "abs_max_max": 171.0
+      },
+      "q": {
+        "finite_fraction_min": 1.0,
+        "rms_min": 0.8244,
+        "rms_max": 3.298,
+        "abs_max_min": 10.0,
+        "abs_max_max": 160.0
+      },
+      "v": {
+        "finite_fraction_min": 1.0,
+        "rms_min": 0.958,
+        "rms_max": 3.832,
+        "abs_max_min": 44.0,
+        "abs_max_max": 704.0
+      }
+    }
+  },
+  "sources": {
+    "public_llm": {
+      "kind": "llm",
+      "model": {
+        "repo_id": "Qwen/Qwen3-1.7B",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+      },
+      "seq_len": 7168,
+      "layers": [
+        14
+      ],
+      "texts": {
+        "1": {
+          "repo_id": "Xnhyacinth/LongBench",
+          "revision": "2e9ade51ebf45d98942056c0716234f9d5d257d5",
+          "column": "context",
+          "file": "narrativeqa/test-00000-of-00001.parquet",
+          "rows": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15
+          ]
+        }
+      },
+      "layer_format": "public-llm-layer"
+    }
+  }
+}

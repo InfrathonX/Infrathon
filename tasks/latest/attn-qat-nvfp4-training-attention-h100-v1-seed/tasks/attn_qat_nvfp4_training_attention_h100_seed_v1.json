@@ -1,0 +1,261 @@
+{
+  "task_id": "attn_qat_nvfp4_training_attention_h100_seed_v1",
+  "name": "FastVideo-derived Attn-QAT NVFP4 Training Attention BF16 Portable CUDA Seeded Lab v1",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:9bd2a1df23c1d2f4cc5156434f75d1b75b02bc7aec10c289bbfce9731017447c"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/attn_qat_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/attn_qat_lab",
+    "cpu_limit": 8,
+    "mem_limit": "48g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. Starting from the correct seed in candidates/kernel_v001, optimize the exact two-entry-point NVFP4 fake-quantized training attention (forward and backward) with self-contained Triton, correct across the whole contract, including its causal and grouped-query cases, without changing what it computes. Your score comes from hidden test cases on the Judge, which differ from the public tests and can be much larger. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Before finishing, run the full public suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; existing attention kernels may not be used in the submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run uses part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/attn_qat_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 4200,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/attn_qat_v1_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "48g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "attn-qat-nvfp4-training-attention-v1",
+      "definition": {
+        "operation": "nvfp4_fake_quantized_training_attention_forward_and_backward",
+        "families": {
+          "wan13b": {
+            "sweep": 15,
+            "recipe": 3
+          },
+          "wan14b": {
+            "sweep": 22,
+            "recipe": 1
+          },
+          "ltx2": {
+            "sweep": 11,
+            "recipe": 1
+          },
+          "kandinsky5": {
+            "sweep": 16,
+            "recipe": 2
+          },
+          "cogvideox": {
+            "sweep": 18,
+            "recipe": 2
+          },
+          "hunyuan": {
+            "sweep": 15
+          },
+          "real_video": {
+            "real": 42
+          },
+          "llm_pretrain": {
+            "recipe": 1,
+            "sweep": 32
+          },
+          "llm_long": {
+            "sweep": 14
+          },
+          "llm_sft": {
+            "sweep": 36
+          },
+          "llm_d256": {
+            "sweep": 20
+          },
+          "real_llm": {
+            "real": 36
+          }
+        },
+        "head_dims": [
+          64,
+          128,
+          256
+        ],
+        "domains": {
+          "video": [
+            "wan13b",
+            "wan14b",
+            "ltx2",
+            "kandinsky5",
+            "cogvideox",
+            "hunyuan",
+            "real_video"
+          ],
+          "llm": [
+            "llm_pretrain",
+            "llm_long",
+            "llm_sft",
+            "llm_d256",
+            "real_llm"
+          ]
+        },
+        "attention_modes": [
+          "non_causal_multi_head",
+          "causal_grouped_query"
+        ]
+      },
+      "interface": {
+        "forward": "attn_qat_fwd(...)->saved_bundle",
+        "backward": "attn_qat_bwd(...)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_triton_source_with_statically_checked_host_subset",
+        "authoritative_abi": "images/work/AGENT_TASK.md section 2"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "forward and backward of the NVFP4 fake-quantized attention with e4m3 block scales produced by e4m3 conversion",
+        "grouped-query attention reads key/value head h // (H / H_kv) and sums dk, dv over each group; causal attention masks keys after the query row to -inf",
+        "o, dq, dk, dv are fully written; q, k, v, do are byte-identical across both calls; o is byte-identical between forward end and backward end",
+        "the saved bundle is bounded by bytes(q)+bytes(k)+bytes(v)+bytes(o)+4*B*H*S_q and carries no callables",
+        "every relative-L2 limit against the fp32 golden holds on every case; fixtures carry their own disclosed rows",
+        "host code obeys the statically checked subset; kernels are self-contained Triton",
+        "the 15 disclosed edge fixtures are hard gates that never enter the score"
+      ],
+      "resource_manifest_sha256": "sha256:39e97c80f8ca7972ebdb245dfeb2a395e2a98ed04e066672f0006beb3d5da4a8"
+    },
+    "evaluation_suites": {
+      "attn-qat-train-v1": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:e6a0b51073d891c754cb074cb527513e132e4896445f514ffc0a8e8ed7c9108f",
+            "case_count": 44
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:cbba942ccd0458ccada50d57ab8de368729609e73b19dd0be746ab888e25ee61",
+            "case_count": 302
+          },
+          "final": {
+            "manifest_sha256": "sha256:8d3f0f44c38d384c8b340357cd1dc7b232512fd8eaf1a1047536c7c9b5caf211",
+            "case_count": 302
+          }
+        },
+        "oracle": {
+          "protocol_id": "fp32-golden-nvfp4-fake-quant-training-attention-v1",
+          "spec_sha256": "sha256:6b78e07dcdf309004d45d902f284a556939fd68dabb30e30e6b2cdab040dd83c"
+        },
+        "selection": {
+          "protocol_id": "attn-qat-shared-final-v3",
+          "spec_sha256": "sha256:fac09cd5ff1a5ac299a5bad0fd1ad4d6f3d16475036866d96000caf5dd1aff2e"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm89-40g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 42949672960,
+        "min_compute_capability": "8.9",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp8-e4m3",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-fp8-source-v1",
+          "spec_sha256": "sha256:d7854c3b40b45f74258216f939d56ba0d0a6434d5e9dfb8d3fdaea30088dfb19"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-v1",
+          "spec_sha256": "sha256:566447902434c848fbbc492aa0d90daaffdd4a57df6482e77fb231a01082ca10"
+        }
+      }
+    },
+    "metrics": {
+      "family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "domain-family-tier-geomean-v3",
+          "spec": {
+            "formula": "geomean_over_domains_of_geomean_over_families_of_geomean_over_tiers_of_geomean_over_cases",
+            "families": [
+              "wan13b",
+              "wan14b",
+              "ltx2",
+              "kandinsky5",
+              "cogvideox",
+              "hunyuan",
+              "real_video",
+              "llm_pretrain",
+              "llm_long",
+              "llm_sft",
+              "llm_d256",
+              "real_llm"
+            ],
+            "case_statistic": "median_trial_tflops",
+            "effective_work": "26*B*H*pairs*D, pairs = S_q*S_kv or S*(S+1)/2 when causal",
+            "measured_time": "2*t_fwd+t_bwd",
+            "domains": {
+              "video": [
+                "wan13b",
+                "wan14b",
+                "ltx2",
+                "kandinsky5",
+                "cogvideox",
+                "hunyuan",
+                "real_video"
+              ],
+              "llm": [
+                "llm_pretrain",
+                "llm_long",
+                "llm_sft",
+                "llm_d256",
+                "real_llm"
+              ]
+            }
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "attn-qat-train-v1",
+      "execution_profile_id": "single-cuda-sm89-40g",
+      "metric_id": "family-geomean-effective-tflops"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+artifacts/
+build/
+private/
+*final*cases*.json
+*edge*cases*.json
+# The frozen final holdout and the frozen private edge cases are part of the
+# distribution: they live on the Judge-only path and never reach the Work
+# build context (scripts/validate_layout.py proves it).  The public edge cases
+# ship in the Work build context.
+!judge/private/
+!judge/private/final_cases.json
+!judge/private/edge_cases.json
+!images/work/benchmark/public_edge_cases.json
+.pytest_cache/
+__pycache__/
+*.pyc

@@ -1,0 +1,11 @@
+name: kvbench_qwen36
+base_images:
+  ubuntu2404:
+    official_image: ubuntu:24.04
+    extra_packages:
+      - bash
+      - ca-certificates
+      - curl
+      - jq
+      - python3
+

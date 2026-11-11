@@ -1,0 +1,28 @@
+{
+  "boundary": {
+    "excludes": "launch and deployment plumbing (build-resource-manifest.json)",
+    "includes": "scientific contract: runtime, trusted Judge code, briefs, public items, frozen holdout manifest, item generator, integrity policy",
+    "kind": "task_core"
+  },
+  "resources": [
+    {"path": "runtime/kv_scoring_runtime.py", "sha256": "sha256:6a88429c16367f4618c738d6a2cfc077b9a76390a6f534d1e31396f8d10f2658"},
+    {"path": "runtime/kv_scoring_metric.py", "sha256": "sha256:c2c4d34b9a9bb9e72dc358cb734b0949b83865978e3a4bd95fb19e67a89f17ae"},
+    {"path": "images/judge/verify_kv_scoring.py", "sha256": "sha256:d1b2ea71402a9bda28188bd2e54c8c08670e42b7f73795e4f8ef9f7c2e5868c7"},
+    {"path": "images/judge/candidate_worker.py", "sha256": "sha256:5fe81b67bc5a61257f1ebdbcdbbc84ba36cece4c4f9a460cef7324579daab49b"},
+    {"path": "images/judge/trusted_replay.py", "sha256": "sha256:ca30ddebafc7714ae7253d195e7ef6df80becc0f70bdd097bfb35d5421c1ba55"},
+    {"path": "images/judge/judge_shards.py", "sha256": "sha256:77b405966d8a711a4d98c226438c84216b8a6c35a8e0473d957ef6e998fc6b0a"},
+    {"path": "images/judge/released_weights_gate.py", "sha256": "sha256:8b8270525637768ececb2bff72d943e9517cbbc311456cf6d9cc833ff0cae351"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:9824ed1990adb31b849466fd2c9f7300cdbb37218d5484330895f14275a2917c"},
+    {"path": "images/judge/source_admission.py", "sha256": "sha256:f07a3be2bd085cf265ceb7ee3003ed118994bcfe08786fe0853d77dcd886998f"},
+    {"path": "images/work/benchmark/source_admission.py", "sha256": "sha256:f07a3be2bd085cf265ceb7ee3003ed118994bcfe08786fe0853d77dcd886998f"},
+    {"path": "images/work/benchmark/public_runner.py", "sha256": "sha256:2217b97acb607046f5008790020c41b5934d38edca3a0c3a4b6db71b94da4cd1"},
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:de3ae1706a0d1bb1e33cc5d8b554c25b4ff2f52b3071d92e33094bedfd9c7b1f"},
+    {"path": "images/work/workdir/kv_scoring_lab/README_AGENT.md", "sha256": "sha256:d4a9aeb86897ff101c52a72d747870463855bffb2a974f91a6ac63f14c7c740a"},
+    {"path": "corpus/public/items_public.jsonl", "sha256": "sha256:7ede4c7b26350678e467441e2234ee31adce275c4cf170fcc9bad016762749ce"},
+    {"path": "judge/private/final_manifest.json", "sha256": "sha256:d3e69ab7a4aa17fc30fc089439e6ea8be4ab473e386d9e636e793caa8aca38b9"},
+    {"path": "judge/private/needle_private.json", "sha256": "sha256:51b496d2477e7c1ac7c4f4a4e607a6a9ae6c6425143a3cd4b326f1ae6b7b472e"},
+    {"path": "scripts/prepare_items.py", "sha256": "sha256:62e4b903c6d6ecff3f0bfc5ae2b143bd215b0f569f25ad9e04996a137e61919f"},
+    {"path": "llm_judge/POLICY.md", "sha256": "sha256:a793be39b182df6ba2f7e110b477da09409c500795483887c14568171d8f75a4"}
+  ],
+  "schema_version": 1
+}

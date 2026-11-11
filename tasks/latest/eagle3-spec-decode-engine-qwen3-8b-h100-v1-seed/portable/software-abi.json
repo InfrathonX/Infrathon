@@ -1,0 +1,18 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible",
+  "agent_runtime": "host-provided Codex runtime mounted read-only; node v20.18.0",
+  "attention_implementation": "eager",
+  "candidate_runtime_import": "runtime.api only",
+  "language": "python3",
+  "model_binding": {
+    "adapter": "scripts/sforge_h100_entry.py",
+    "draft_head": "Tengyunw EAGLE-3 head read-only at /opt/models/eagle3-head",
+    "offline": true,
+    "target": "Qwen/Qwen3-8B pinned snapshot read-only at /opt/models/qwen3-8b-hf"
+  },
+  "protocol_id": "pytorch280-cu129-transformers4531-eager-multiarch-v1",
+  "required_dtypes": ["bf16", "fp32"],
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.8.0", "triton-3.4.0", "transformers-4.53.1", "tokenizers-0.21.4", "safetensors-0.8.0", "accelerate-1.14.0", "numpy-2.4.6", "huggingface-hub-0.33.5"],
+  "torch_cuda_arch_list": "8.0;8.6;8.9;9.0;10.0"
+}

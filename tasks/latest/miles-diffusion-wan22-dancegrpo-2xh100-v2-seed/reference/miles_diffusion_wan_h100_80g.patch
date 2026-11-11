@@ -1,0 +1,173 @@
+From 57ed7e9ef3835ffe09f51aebca5dfd52a390aecd Mon Sep 17 00:00:00 2001
+From: Infrathon <infrathon@users.noreply.github.com>
+Date: Sat, 10 Oct 2026 17:47:15 +0000
+Subject: [PATCH] Wan2.2 DanceGRPO reference: fit one pair of H100 SXM (80 GB)
+
+Applies on top of the H100 NVL tree (miles_diffusion_wan.patch, then miles_diffusion_wan_h100.patch). What is
+sampled, scored and trained is unchanged; only memory placement changes, in the untimed `run` phase and in the
+colocated HPSv3 worker:
+- task_entry.py `run`: the run's own engine keeps the UMT5 text encoder (21 GiB, fp32) in host memory between
+  prompts (--sglang-cpu-offload-components text_encoder; it still encodes on the GPU, as the Judge's engines do).
+  Miles forwards every --sglang-* field, so cpu_offload_components arrives explicitly as None (everything resident)
+  and overrides --sglang-text-encoder-cpu-offload: the component has to be named.
+- miles/rollout/rm_hub/hpsv3.py, on cards below 90 GiB: the HPSv3 weights leave the GPU between score_batch calls.
+  In `run` (offload_train) they are dropped and reloaded from the checkpoint on each call (no host copy: the
+  container's 256 GB limit is nearly full there), checked against a per-parameter digest on the first reload;
+  in `serve` they sit in one exact-size host buffer registered with cudaHostRegister (torch's pinned allocator
+  rounds each block up to a power of two) and are copied back for each call.
+Measured on H100 SXM GPU 4/5 (81559 MiB per card), three reference Judges: per-card NVML peak 79993 MiB in RUN,
+72012 MiB in SERVE (the timed replays), 75840 MiB in QUALITY.
+---
+ miles/rollout/rm_hub/hpsv3.py | 90 ++++++++++++++++++++++++++++++++++-
+ task_entry.py                 |  5 ++
+ 2 files changed, 93 insertions(+), 2 deletions(-)
+
+diff --git a/miles/rollout/rm_hub/hpsv3.py b/miles/rollout/rm_hub/hpsv3.py
+index 12a2d56..f562d9d 100644
+--- a/miles/rollout/rm_hub/hpsv3.py
++++ b/miles/rollout/rm_hub/hpsv3.py
+@@ -205,8 +205,27 @@ def _video_to_fhwc_uint8(output: torch.Tensor) -> np.ndarray:
+     return np.ascontiguousarray(output.permute(1, 2, 3, 0).cpu().numpy())
+ 
+ 
++def _malloc_trim() -> None:
++    import ctypes
++
++    try:
++        ctypes.CDLL("libc.so.6").malloc_trim(0)
++    except OSError:
++        pass
++
++
++def _param_digest(named_params) -> list[int]:
++    """Exact per-parameter fingerprint: the raw bits summed as int64 (equal bytes give equal sums)."""
++    out = []
++    for _, p in named_params:
++        bits = p.data.contiguous().view(torch.int16 if p.element_size() == 2 else torch.int32)
++        out.append(int(bits.sum(dtype=torch.int64)))
++    return out
++
++
+ class HPSv3RewardActor:
+-    def __init__(self, *, checkpoint_path: str, base_config_path: str, frame_batch_size: int = 16) -> None:
++    def __init__(self, *, checkpoint_path: str, base_config_path: str, frame_batch_size: int = 16,
++                 reload_from_checkpoint: bool = False) -> None:
+         use_cuda = bool(ray.get_gpu_ids()) and torch.cuda.is_available()
+         device = "cuda" if use_cuda else "cpu"
+         if use_cuda:
+@@ -223,6 +242,68 @@ class HPSv3RewardActor:
+             self.model.to("cpu")
+             torch.cuda.empty_cache()
+             self.model.to("cuda")
++        # On cards below 90 GiB (H100 SXM 80 GB) the colocated trainer and the Judge's engine leave no room for the
++        # resident reward model (~15.7 GiB): its frozen weights then live in pinned host memory and are copied to the
++        # GPU for each score_batch only (same bytes, same kernels, so the same rewards).
++        self._host_params = None
++        self._reload = None
++        small_card = use_cuda and torch.cuda.get_device_properties(0).total_memory < 90 * 2**30
++        if small_card and reload_from_checkpoint:
++            # `run` (untimed; the trainer and the engines are offloaded to host memory between phases): no host copy at
++            # all, each score_batch reads the checkpoint back onto the GPU, cast to each parameter's dtype exactly as
++            # build_model's load_state_dict did
++            self._checkpoint_path = checkpoint_path
++            self._reload = list(self.model.named_parameters())
++            self._reload_digest = _param_digest(self._reload)  # the first reload must reproduce these bytes
++            self._offload()
++            _malloc_trim()
++        elif small_card:
++            # One exactly sized host buffer, page-locked with cudaHostRegister: torch's pinned allocator rounds every
++            # block up to a power of two (~30 GB for these 16.6 GB), and the container's 256 GB also holds the
++            # sleeping trainer and engines. The parameters become views into it.
++            params = list(self.model.parameters())
++            sizes = [(p.numel() * p.element_size() + 511) // 512 * 512 for p in params]
++            self._host_buffer = torch.empty(sum(sizes), dtype=torch.uint8)
++            rc = torch.cuda.cudart().cudaHostRegister(self._host_buffer.data_ptr(), self._host_buffer.numel(), 0)
++            if int(rc) != 0:
++                raise RuntimeError(f"cudaHostRegister failed: {rc}")
++            self._host_params, off = [], 0
++            for p, n in zip(params, sizes, strict=True):
++                nbytes = p.numel() * p.element_size()
++                host = self._host_buffer[off : off + nbytes].view(p.dtype).view(p.shape)
++                host.copy_(p.data)
++                self._host_params.append((p, host))
++                off += n
++            self._offload()
++            _malloc_trim()
++
++    def _offload(self) -> None:
++        if self._reload is not None:
++            for _, p in self._reload:
++                p.data = torch.empty(0, dtype=p.dtype, device="cuda")
++        else:
++            for p, host in self._host_params:
++                p.data = host
++        torch.cuda.empty_cache()
++
++    def _onload(self) -> None:
++        if self._reload is not None:
++            from safetensors.torch import load_file
++
++            sd = load_file(self._checkpoint_path, device="cuda")
++            sd = _remap_state_dict(sd, [n for n, _ in self._reload])
++            for n, p in self._reload:
++                t = sd.pop(n)
++                p.data = t if t.dtype == p.dtype else t.to(p.dtype)
++            del sd
++            if self._reload_digest is not None:
++                if _param_digest(self._reload) != self._reload_digest:
++                    raise RuntimeError("HPSv3 weights reloaded from the checkpoint differ from the ones built at start")
++                self._reload_digest = None
++        else:
++            for p, host in self._host_params:
++                p.data = host.to("cuda", non_blocking=True)
++        torch.cuda.synchronize()
+ 
+     @torch.no_grad()
+     def score_batch(self, outputs: list[torch.Tensor], prompts: list[str]) -> list[list[float]]:
+@@ -233,6 +314,8 @@ class HPSv3RewardActor:
+                 frames.append(resize_frame(video[f]))
+                 fprompts.append(prompt)
+         mus = []
++        if self._host_params is not None or self._reload is not None:
++            self._onload()
+         for s in range(0, len(frames), self.frame_batch_size):
+             inp = processor_inputs(self.processor, frames[s : s + self.frame_batch_size], fprompts[s : s + self.frame_batch_size])
+             inp = {k: v.to(self.device) for k, v in inp.items()}
+@@ -242,7 +325,9 @@ class HPSv3RewardActor:
+             )
+             mus.extend(logits[:, 0].float().cpu().tolist())
+             del inp, logits
+-        if self.device == "cuda":
++        if self._host_params is not None or self._reload is not None:
++            self._offload()
++        elif self.device == "cuda":
+             # return the scoring activations' cache: the colocated trainer uses that memory next
+             torch.cuda.empty_cache()
+         n = len(FRAME_INDICES)
+@@ -257,6 +342,7 @@ class AsyncHPSv3Pool(AsyncRewardActorPool, metaclass=SingletonMeta):
+                 "checkpoint_path": args.hpsv3_checkpoint_path,
+                 "base_config_path": args.hpsv3_base_config_path,
+                 "frame_batch_size": args.hpsv3_frame_batch_size,
++                "reload_from_checkpoint": bool(getattr(args, "offload_train", False)),
+             },
+             num_workers=args.hpsv3_num_workers,
+             batch_size=args.hpsv3_batch_size,
+diff --git a/task_entry.py b/task_entry.py
+index 4779f06..3247119 100644
+--- a/task_entry.py
++++ b/task_entry.py
+@@ -187,6 +187,11 @@ def cmd_run(a) -> None:
+         "--num-steps-per-rollout", str(r["optimizer_steps_per_round"]), "--num-rollout", str(R),
+         "--rollout-seed", str(r["run_seed"]), "--diffusion-canonical-rng",
+         "--pair-log-dir", str(out / "pairs"),
++        # H100 SXM 80 GB: the run's own engine keeps the UMT5 text encoder (21 GiB) in host memory between prompts
++        # (component CPU offload; it still encodes on the GPU, the placement of the Judge's engines). Miles forwards
++        # every --sglang-* field, so cpu_offload_components arrives explicitly as None (= everything resident) and
++        # overrides --sglang-text-encoder-cpu-offload: name the component here instead.
++        "--sglang-cpu-offload-components", "text_encoder",
+     ]
+     start_ray()
+     ray.init(address="auto", runtime_env={"env_vars": ray_env(engine_python)})
+-- 
+2.43.0
+

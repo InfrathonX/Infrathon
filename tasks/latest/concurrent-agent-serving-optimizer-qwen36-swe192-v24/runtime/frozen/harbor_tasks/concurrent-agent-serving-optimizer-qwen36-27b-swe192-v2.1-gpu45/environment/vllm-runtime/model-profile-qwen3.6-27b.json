@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "profile_id": "qwen3.6-27b-6a9e13bd-h100-nvl-tp2-kv30g-v2",
+  "source": {
+    "repository": "Qwen/Qwen3.6-27B",
+    "revision": "6a9e13bd6fc8f0983b9b99948120bc37f49c13e9"
+  },
+  "required_files": {
+    "chat_template.jinja": "e84f32a23fdda27689f868aa4a1a5621f41133e51a48d7f3efcbea2839574259",
+    "config.json": "69db4eb7196bc8190813231b3018ca05d8c2e3abc7b1af19d55c157af44a9d9c",
+    "generation_config.json": "e70c136c1b78ddc1fb0905bac8e733a4dc448d4f852a5dd75143fffc70be550e",
+    "model.safetensors.index.json": "a8ad2c26fb707ff8c245806315b03e3b4b74595528492423af5dae0ce39b4d9b",
+    "tokenizer.json": "5f9e4d4901a92b997e463c1f46055088b6cca5ca61a6522d1b9f64c4bb81cb42",
+    "tokenizer_config.json": "5186f0defcd7f232382c7f0aebcd2252d073bb921ab240e407b7ae8745d2b29b"
+  },
+  "weights": {
+    "shard_count": 15,
+    "index_tensor_count": 1199,
+    "index_total_size": 55562855904,
+    "stat_total_size": 55563006400,
+    "hf_symlink_manifest_sha256": "91241d609ad30b9ed110284ea48e2ea740a2cba9ecb248a107fbd6295a62f4bb"
+  },
+  "config_contract": {
+    "architectures": [
+      "Qwen3_5ForConditionalGeneration"
+    ],
+    "model_type": "qwen3_5",
+    "language_model_only": false,
+    "text_model_type": "qwen3_5_text",
+    "text_dtype": "bfloat16",
+    "num_hidden_layers": 64,
+    "num_attention_heads": 24,
+    "num_key_value_heads": 4,
+    "head_dim": 256,
+    "full_attention_interval": 4,
+    "full_attention_layer_count": 16,
+    "max_position_embeddings": 262144,
+    "quantization_method": null
+  },
+  "gpu_contract": {
+    "count": 2,
+    "min_compute_capability": "8.0",
+    "minimum_memory_mib": 95000,
+    "qualified_on_device_names": [
+      "NVIDIA H100 NVL"
+    ],
+    "qualified_on_compute_capability": "9.0"
+  },
+  "runtime": {
+    "runtime_image_ref": "harbor-kv/vllm-qwen36-27b:v3-recipe",
+    "runtime_image_id": "sha256:55e81244ebb7d124b8f5bbb6f2daba163d4d506fc803dd6a19ae1f09139d6e1a",
+    "vllm_package_version": "0.24.0",
+    "vllm_engine_version": "0.24.0+ee0da84ab9e04ac7610e28580af62c365e898389",
+    "served_model_name": "target-model",
+    "tensor_parallel_size": 2,
+    "preserve_checkpoint_quantization": false,
+    "checkpoint_quantization_method": null,
+    "dtype": "bfloat16",
+    "model_impl": "vllm",
+    "runner": "generate",
+    "kv_cache_dtype": "fp8",
+    "enable_prefix_caching": true,
+    "enable_chunked_prefill": true,
+    "mamba_cache_mode": "align",
+    "mamba_ssm_cache_dtype": "float32",
+    "gdn_prefill_backend": "triton",
+    "load_format": "safetensors",
+    "safetensors_load_strategy": "lazy",
+    "mm_processor_cache_gb": 0,
+    "block_size": 16,
+    "max_model_len": 262144,
+    "max_num_seqs": 192,
+    "max_num_batched_tokens": 8192,
+    "kv_cache_memory_bytes": 32212254720,
+    "gpu_memory_utilization": 0.9,
+    "generation_config": "vllm",
+    "fail_on_environ_validation": false,
+    "server_dev_mode": true,
+    "language_model_only": true,
+    "tool_call_parser": null,
+    "reasoning_parser": "qwen3",
+    "runtime_image_recipe": {
+      "kind": "docker-build-recipe-v1",
+      "dockerfile": "images/backend/Dockerfile",
+      "dockerfile_sha256": "35284c86fe5325c35d8dffacab4ea4e84b18c7f747fcee9edcb25b486a673082",
+      "base_image": "vllm/vllm-openai:v0.24.0",
+      "base_image_digest": "sha256:f9de5cd9fa907fbf6dbba691eb7db095d48ad58ea283e3eba7142f9a91e186e8",
+      "base_image_platform": "linux/amd64",
+      "vllm_package_version": "0.24.0",
+      "vllm_engine_version": "0.24.0+ee0da84ab9e04ac7610e28580af62c365e898389"
+    }
+  }
+}

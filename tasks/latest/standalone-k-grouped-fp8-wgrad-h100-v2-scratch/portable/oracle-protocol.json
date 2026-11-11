@@ -1,0 +1,34 @@
+{
+  "acceptance": "finite, fully written output; every element within 0.05 of its product scale R = sqrt(sum_k (a s_a)^2 (b s_b)^2) (plus 2^-20 |c|) of the exact FP64 product; per-group normalized error against the exact product below 2e-7; upstream normalized error against the BF16 source below 1e-3 on every group (or pool of small groups) with at least 16384 elements",
+  "integrity": [
+    "complete_write",
+    "inputs_unchanged_byte_exact_edge_fingerprinted_scored",
+    "guard_bands_intact",
+    "decoy_precall_fresh_measured_tensors",
+    "nan_poisoned_outputs",
+    "current_stream_dispatch",
+    "harness_sentinel",
+    "compute_sanitizer_memcheck_subset"
+  ],
+  "protocol_id": "fp8-exact-elementwise-and-bf16-source-normalized-error-v3",
+  "quantization": {
+    "operands": "fp8_e4m3fn_with_one_fp32_scale_per_128_row_k_block_and_column",
+    "scale_block": 128,
+    "scale_rule": "max(abs(block), 1e-4) / 448"
+  },
+  "reference": {
+    "exact": "c plus the fp64_product_of_the_dequantized_fp8_operands, accumulated in 8192-row K chunks",
+    "provenance": "moe-training-synthetic-v3",
+    "source": "c plus the bf16_gemm_of_the_unquantized_bf16_source_operands"
+  },
+  "schema_version": 1,
+  "tolerances": {
+    "element_addend_relative": "2^-20",
+    "element_ratio_limit": "0.05",
+    "exact_error_limit": "0.0000002",
+    "normalized_error": "1 - 2*dot(candidate, reference) / (sum(candidate^2) + sum(reference^2))",
+    "normalized_error_limit": "0.001",
+    "scale_block": 128,
+    "source_check_min_elements": 16384
+  }
+}

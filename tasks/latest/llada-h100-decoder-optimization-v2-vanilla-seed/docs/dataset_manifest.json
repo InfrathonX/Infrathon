@@ -1,0 +1,1248 @@
+{
+  "context_validation": {
+    "candidate_pool_after_filter": {
+      "gsm8k": 1319,
+      "humaneval": 164,
+      "math": 5000,
+      "mbpp": 499
+    },
+    "documented_exclusions": [
+      {
+        "benchmark": "mbpp",
+        "reason": "prompt_plus_generation_exceeds_4096",
+        "record_id": "test:482/task:493"
+      }
+    ],
+    "excluded_candidate_counts": {
+      "gsm8k": 0,
+      "humaneval": 0,
+      "math": 0,
+      "mbpp": 1
+    },
+    "excluded_candidates": {
+      "gsm8k": [],
+      "humaneval": [],
+      "math": [],
+      "mbpp": [
+        {
+          "benchmark": "mbpp",
+          "record_id": "test:482/task:493",
+          "violations": [
+            {
+              "gen_length": 256,
+              "prompt_token_count": 4321,
+              "row_id": "table1_mbpp_3shot_g256",
+              "total_tokens": 4577
+            },
+            {
+              "gen_length": 512,
+              "prompt_token_count": 4321,
+              "row_id": "table1_mbpp_3shot_g512",
+              "total_tokens": 4833
+            }
+          ]
+        }
+      ]
+    },
+    "maximum_hidden_total_tokens": 2430,
+    "policy": "before stratification, exclude a target if any retained row for its benchmark has exact_prompt_tokens + gen_length > 4096",
+    "validated_hidden_cases": 520
+  },
+  "coverage_policy": "stratified_130_per_dataset_without_replacement",
+  "datasets": {
+    "gsm8k": {
+      "config": "main",
+      "dataset": "openai/gsm8k",
+      "revision": "e53f048856ff4f594e959d75785d2c2d37b678ee"
+    },
+    "humaneval": {
+      "config": "openai_humaneval",
+      "dataset": "openai/openai_humaneval",
+      "revision": "7dce6050a7d6d172f3cc5c32aa97f52fa1a2e544"
+    },
+    "math": {
+      "dataset": "EleutherAI/hendrycks_math",
+      "revision": "21a5633873b6a120296cce3e2df9d5550074f4a3"
+    },
+    "mbpp": {
+      "config": "full",
+      "dataset": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c"
+    }
+  },
+  "fast_dllm_revision": "a9b81e4caa240c8cad4f7dc1889ff4852a0fca5b",
+  "generation_count": 520,
+  "generator_sha256": "522a6d21c69de12597be748276b1f910121c011c1b0c156eec548ce972429cbb",
+  "hidden_cases": 520,
+  "hidden_row_counts": {
+    "table1_gsm8k_5shot_g256": 39,
+    "table1_gsm8k_5shot_g512": 39,
+    "table1_humaneval_0shot_g256": 65,
+    "table1_humaneval_0shot_g512": 65,
+    "table1_math_4shot_g256": 65,
+    "table1_math_4shot_g512": 65,
+    "table1_mbpp_3shot_g256": 65,
+    "table1_mbpp_3shot_g512": 65,
+    "table4_gsm8k_5shot_g1024": 13,
+    "table5_gsm8k_8shot_g1024": 13,
+    "table5_gsm8k_8shot_g256": 13,
+    "table5_gsm8k_8shot_g512": 13
+  },
+  "hidden_row_order": [
+    "table1_gsm8k_5shot_g256",
+    "table1_gsm8k_5shot_g512",
+    "table1_math_4shot_g256",
+    "table1_math_4shot_g512",
+    "table1_humaneval_0shot_g256",
+    "table1_humaneval_0shot_g512",
+    "table1_mbpp_3shot_g256",
+    "table1_mbpp_3shot_g512",
+    "table4_gsm8k_5shot_g1024",
+    "table5_gsm8k_8shot_g256",
+    "table5_gsm8k_8shot_g512",
+    "table5_gsm8k_8shot_g1024"
+  ],
+  "hidden_sha256": "d0c4084b570d27ba0318fed1d66732f27c4a60a434095506015e2a8029fda64e",
+  "hidden_storage": {
+    "canonical_uncompressed_sha256": "d0c4084b570d27ba0318fed1d66732f27c4a60a434095506015e2a8029fda64e",
+    "compressed_sha256": "f55459509f74d063d62aa7d71cd7ceb08977e3cb382faee9663739685ffcc299",
+    "compression": "gzip-9-mtime0",
+    "path": "images/judge/private_data/hidden_cases.json.gz"
+  },
+  "hidden_target_counts": {
+    "gsm8k": 130,
+    "humaneval": 130,
+    "math": 130,
+    "mbpp": 130
+  },
+  "lm_eval_revision": "6d2abda4fd171e68a8789330c4149e37c1ca0bda",
+  "ordering_seed_sha256": "d6bf180decc6e5e642eda324be566e52129aed012409076b662f92297dca2d50",
+  "public_cases": 44,
+  "public_fixture_policy": {
+    "fewshot_sources": {
+      "gsm8k": [
+        "train:0",
+        "train:1",
+        "train:2",
+        "train:3",
+        "train:4",
+        "train:5",
+        "train:6",
+        "train:7"
+      ],
+      "humaneval": [],
+      "math": [
+        "algebra/train:0",
+        "algebra/train:1",
+        "algebra/train:2",
+        "algebra/train:3",
+        "counting_and_probability/train:0",
+        "counting_and_probability/train:1",
+        "counting_and_probability/train:2",
+        "counting_and_probability/train:3",
+        "geometry/train:0",
+        "geometry/train:1",
+        "geometry/train:2",
+        "geometry/train:3",
+        "intermediate_algebra/train:0",
+        "intermediate_algebra/train:1",
+        "intermediate_algebra/train:2",
+        "intermediate_algebra/train:3",
+        "number_theory/train:0",
+        "number_theory/train:1",
+        "number_theory/train:2",
+        "number_theory/train:3",
+        "prealgebra/train:0",
+        "prealgebra/train:1",
+        "prealgebra/train:2",
+        "prealgebra/train:3",
+        "precalculus/train:0",
+        "precalculus/train:1",
+        "precalculus/train:2",
+        "precalculus/train:3"
+      ],
+      "mbpp": [
+        "prompt:1/task:2",
+        "prompt:2/task:3",
+        "prompt:3/task:4"
+      ]
+    },
+    "official_test_records": 0,
+    "quick_reuses_one_full_target_per_dataset": true,
+    "sources": [
+      {
+        "benchmark": "gsm8k",
+        "index": 8,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 9,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 10,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 11,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 12,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 13,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 14,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 15,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 16,
+        "split": "train"
+      },
+      {
+        "benchmark": "gsm8k",
+        "index": 17,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "algebra",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "algebra",
+        "index": 5,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "counting_and_probability",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "counting_and_probability",
+        "index": 5,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "geometry",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "geometry",
+        "index": 5,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "intermediate_algebra",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "number_theory",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "prealgebra",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "math",
+        "config": "precalculus",
+        "index": 4,
+        "split": "train"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_sum_squares_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_clamp_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_count_vowels_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_pair_differences_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_is_palindrome_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_flatten_pairs_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_gcd_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_rotate_left_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_word_lengths_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "humaneval",
+        "id": "mlsysforge_unique_stable_v1",
+        "split": "synthetic"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 10,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 11,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 12,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 13,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 14,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 15,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 16,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 17,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 18,
+        "split": "train"
+      },
+      {
+        "benchmark": "mbpp",
+        "index": 19,
+        "split": "train"
+      }
+    ],
+    "target_disjoint_from_fewshot": true,
+    "target_disjoint_from_hidden": true
+  },
+  "public_full_row_counts": {
+    "table1_gsm8k_5shot_g256": 3,
+    "table1_gsm8k_5shot_g512": 3,
+    "table1_humaneval_0shot_g256": 5,
+    "table1_humaneval_0shot_g512": 5,
+    "table1_math_4shot_g256": 5,
+    "table1_math_4shot_g512": 5,
+    "table1_mbpp_3shot_g256": 5,
+    "table1_mbpp_3shot_g512": 5,
+    "table4_gsm8k_5shot_g1024": 1,
+    "table5_gsm8k_8shot_g1024": 1,
+    "table5_gsm8k_8shot_g256": 1,
+    "table5_gsm8k_8shot_g512": 1
+  },
+  "public_profile_counts": {
+    "full": 40,
+    "quick": 4
+  },
+  "public_sha256": "cde46815812b860ac4a4732bb800f40fce49c9caec53d5e4e76a3eb4899b6163",
+  "public_target_counts": {
+    "gsm8k": 10,
+    "humaneval": 10,
+    "math": 10,
+    "mbpp": 10
+  },
+  "public_unique_targets": 40,
+  "requested_slots": 216320,
+  "row_requested_slots": {
+    "table1_gsm8k_5shot_g256": 9984,
+    "table1_gsm8k_5shot_g512": 19968,
+    "table1_humaneval_0shot_g256": 16640,
+    "table1_humaneval_0shot_g512": 33280,
+    "table1_math_4shot_g256": 16640,
+    "table1_math_4shot_g512": 33280,
+    "table1_mbpp_3shot_g256": 16640,
+    "table1_mbpp_3shot_g512": 33280,
+    "table4_gsm8k_5shot_g1024": 13312,
+    "table5_gsm8k_8shot_g1024": 13312,
+    "table5_gsm8k_8shot_g256": 3328,
+    "table5_gsm8k_8shot_g512": 6656
+  },
+  "schema_version": 5,
+  "selected_record_sets": {
+    "gsm8k": {
+      "record_count": 130,
+      "record_set_sha256": "35f164c5198a4a2ffd7572ec8834d33d56e0d0b32dc48106af7add30aca02abc",
+      "row_counts": {
+        "table1_gsm8k_5shot_g256": 39,
+        "table1_gsm8k_5shot_g512": 39,
+        "table4_gsm8k_5shot_g1024": 13,
+        "table5_gsm8k_8shot_g1024": 13,
+        "table5_gsm8k_8shot_g256": 13,
+        "table5_gsm8k_8shot_g512": 13
+      },
+      "rows": [
+        "table1_gsm8k_5shot_g256",
+        "table1_gsm8k_5shot_g512",
+        "table4_gsm8k_5shot_g1024",
+        "table5_gsm8k_8shot_g256",
+        "table5_gsm8k_8shot_g512",
+        "table5_gsm8k_8shot_g1024"
+      ]
+    },
+    "humaneval": {
+      "record_count": 130,
+      "record_set_sha256": "2929f4ee287b0f41405400ecbd6ffdad01ac58114c8916a7cb1222976d39a443",
+      "row_counts": {
+        "table1_humaneval_0shot_g256": 65,
+        "table1_humaneval_0shot_g512": 65
+      },
+      "rows": [
+        "table1_humaneval_0shot_g256",
+        "table1_humaneval_0shot_g512"
+      ]
+    },
+    "math": {
+      "record_count": 130,
+      "record_set_sha256": "51d614ac8da5713225303012ac09e78c074fce7876d2a5cc3e540c9986f7a669",
+      "row_counts": {
+        "table1_math_4shot_g256": 65,
+        "table1_math_4shot_g512": 65
+      },
+      "rows": [
+        "table1_math_4shot_g256",
+        "table1_math_4shot_g512"
+      ]
+    },
+    "mbpp": {
+      "record_count": 130,
+      "record_set_sha256": "a5519a32971b9876cf6358cfd990a586a68cc6da873a19e5650e500498e2ccb9",
+      "row_counts": {
+        "table1_mbpp_3shot_g256": 65,
+        "table1_mbpp_3shot_g512": 65
+      },
+      "rows": [
+        "table1_mbpp_3shot_g256",
+        "table1_mbpp_3shot_g512"
+      ]
+    }
+  },
+  "selection": {
+    "gsm_public": [
+      [
+        "train",
+        8
+      ],
+      [
+        "train",
+        9
+      ],
+      [
+        "train",
+        10
+      ],
+      [
+        "train",
+        11
+      ],
+      [
+        "train",
+        12
+      ],
+      [
+        "train",
+        13
+      ],
+      [
+        "train",
+        14
+      ],
+      [
+        "train",
+        15
+      ],
+      [
+        "train",
+        16
+      ],
+      [
+        "train",
+        17
+      ]
+    ],
+    "hidden_by_row": {
+      "table1_gsm8k_5shot_g256": [
+        "test:1180",
+        "test:429",
+        "test:162",
+        "test:564",
+        "test:562",
+        "test:421",
+        "test:736",
+        "test:933",
+        "test:1071",
+        "test:1068",
+        "test:633",
+        "test:617",
+        "test:273",
+        "test:549",
+        "test:545",
+        "test:63",
+        "test:386",
+        "test:621",
+        "test:404",
+        "test:1192",
+        "test:1127",
+        "test:844",
+        "test:514",
+        "test:756",
+        "test:107",
+        "test:654",
+        "test:543",
+        "test:947",
+        "test:115",
+        "test:848",
+        "test:168",
+        "test:830",
+        "test:54",
+        "test:1268",
+        "test:78",
+        "test:493",
+        "test:297",
+        "test:666",
+        "test:513"
+      ],
+      "table1_gsm8k_5shot_g512": [
+        "test:691",
+        "test:1166",
+        "test:1185",
+        "test:1128",
+        "test:225",
+        "test:856",
+        "test:845",
+        "test:3",
+        "test:313",
+        "test:722",
+        "test:71",
+        "test:1140",
+        "test:448",
+        "test:525",
+        "test:578",
+        "test:1290",
+        "test:1083",
+        "test:622",
+        "test:568",
+        "test:884",
+        "test:112",
+        "test:93",
+        "test:97",
+        "test:321",
+        "test:986",
+        "test:1247",
+        "test:481",
+        "test:1076",
+        "test:855",
+        "test:57",
+        "test:43",
+        "test:178",
+        "test:390",
+        "test:798",
+        "test:906",
+        "test:437",
+        "test:1125",
+        "test:1284",
+        "test:104"
+      ],
+      "table1_humaneval_0shot_g256": [
+        "HumanEval/101",
+        "HumanEval/124",
+        "HumanEval/37",
+        "HumanEval/48",
+        "HumanEval/79",
+        "HumanEval/111",
+        "HumanEval/9",
+        "HumanEval/139",
+        "HumanEval/25",
+        "HumanEval/160",
+        "HumanEval/3",
+        "HumanEval/36",
+        "HumanEval/137",
+        "HumanEval/152",
+        "HumanEval/128",
+        "HumanEval/23",
+        "HumanEval/154",
+        "HumanEval/17",
+        "HumanEval/71",
+        "HumanEval/11",
+        "HumanEval/108",
+        "HumanEval/116",
+        "HumanEval/90",
+        "HumanEval/83",
+        "HumanEval/64",
+        "HumanEval/153",
+        "HumanEval/18",
+        "HumanEval/13",
+        "HumanEval/86",
+        "HumanEval/81",
+        "HumanEval/5",
+        "HumanEval/65",
+        "HumanEval/0",
+        "HumanEval/148",
+        "HumanEval/91",
+        "HumanEval/2",
+        "HumanEval/133",
+        "HumanEval/141",
+        "HumanEval/134",
+        "HumanEval/39",
+        "HumanEval/10",
+        "HumanEval/123",
+        "HumanEval/42",
+        "HumanEval/53",
+        "HumanEval/145",
+        "HumanEval/88",
+        "HumanEval/80",
+        "HumanEval/131",
+        "HumanEval/33",
+        "HumanEval/144",
+        "HumanEval/70",
+        "HumanEval/16",
+        "HumanEval/63",
+        "HumanEval/94",
+        "HumanEval/135",
+        "HumanEval/75",
+        "HumanEval/54",
+        "HumanEval/127",
+        "HumanEval/62",
+        "HumanEval/52",
+        "HumanEval/158",
+        "HumanEval/68",
+        "HumanEval/19",
+        "HumanEval/155",
+        "HumanEval/147"
+      ],
+      "table1_humaneval_0shot_g512": [
+        "HumanEval/95",
+        "HumanEval/89",
+        "HumanEval/97",
+        "HumanEval/21",
+        "HumanEval/107",
+        "HumanEval/51",
+        "HumanEval/15",
+        "HumanEval/41",
+        "HumanEval/110",
+        "HumanEval/92",
+        "HumanEval/35",
+        "HumanEval/99",
+        "HumanEval/87",
+        "HumanEval/121",
+        "HumanEval/162",
+        "HumanEval/106",
+        "HumanEval/112",
+        "HumanEval/58",
+        "HumanEval/114",
+        "HumanEval/96",
+        "HumanEval/129",
+        "HumanEval/4",
+        "HumanEval/59",
+        "HumanEval/125",
+        "HumanEval/109",
+        "HumanEval/161",
+        "HumanEval/102",
+        "HumanEval/118",
+        "HumanEval/113",
+        "HumanEval/50",
+        "HumanEval/24",
+        "HumanEval/122",
+        "HumanEval/119",
+        "HumanEval/93",
+        "HumanEval/44",
+        "HumanEval/136",
+        "HumanEval/149",
+        "HumanEval/8",
+        "HumanEval/57",
+        "HumanEval/84",
+        "HumanEval/159",
+        "HumanEval/104",
+        "HumanEval/55",
+        "HumanEval/100",
+        "HumanEval/32",
+        "HumanEval/56",
+        "HumanEval/150",
+        "HumanEval/76",
+        "HumanEval/105",
+        "HumanEval/140",
+        "HumanEval/82",
+        "HumanEval/73",
+        "HumanEval/126",
+        "HumanEval/7",
+        "HumanEval/27",
+        "HumanEval/103",
+        "HumanEval/120",
+        "HumanEval/146",
+        "HumanEval/98",
+        "HumanEval/43",
+        "HumanEval/74",
+        "HumanEval/163",
+        "HumanEval/85",
+        "HumanEval/46",
+        "HumanEval/130"
+      ],
+      "table1_math_4shot_g256": [
+        "prealgebra/test:792",
+        "geometry/test:149",
+        "counting_and_probability/test:47",
+        "number_theory/test:270",
+        "precalculus/test:529",
+        "intermediate_algebra/test:434",
+        "algebra/test:860",
+        "prealgebra/test:714",
+        "geometry/test:48",
+        "counting_and_probability/test:264",
+        "number_theory/test:449",
+        "precalculus/test:540",
+        "intermediate_algebra/test:376",
+        "algebra/test:565",
+        "prealgebra/test:433",
+        "geometry/test:406",
+        "counting_and_probability/test:75",
+        "number_theory/test:58",
+        "precalculus/test:18",
+        "intermediate_algebra/test:386",
+        "algebra/test:903",
+        "prealgebra/test:104",
+        "geometry/test:398",
+        "counting_and_probability/test:101",
+        "number_theory/test:40",
+        "precalculus/test:198",
+        "intermediate_algebra/test:213",
+        "algebra/test:922",
+        "prealgebra/test:539",
+        "geometry/test:133",
+        "counting_and_probability/test:336",
+        "number_theory/test:216",
+        "precalculus/test:483",
+        "intermediate_algebra/test:603",
+        "algebra/test:1151",
+        "prealgebra/test:526",
+        "geometry/test:220",
+        "counting_and_probability/test:312",
+        "number_theory/test:511",
+        "precalculus/test:205",
+        "intermediate_algebra/test:36",
+        "algebra/test:408",
+        "prealgebra/test:454",
+        "geometry/test:152",
+        "counting_and_probability/test:387",
+        "number_theory/test:202",
+        "precalculus/test:101",
+        "intermediate_algebra/test:337",
+        "algebra/test:206",
+        "prealgebra/test:235",
+        "geometry/test:449",
+        "counting_and_probability/test:286",
+        "number_theory/test:291",
+        "precalculus/test:189",
+        "intermediate_algebra/test:192",
+        "algebra/test:625",
+        "prealgebra/test:405",
+        "geometry/test:272",
+        "counting_and_probability/test:74",
+        "number_theory/test:275",
+        "precalculus/test:152",
+        "intermediate_algebra/test:419",
+        "algebra/test:579",
+        "prealgebra/test:282",
+        "geometry/test:61"
+      ],
+      "table1_math_4shot_g512": [
+        "counting_and_probability/test:243",
+        "number_theory/test:119",
+        "precalculus/test:122",
+        "intermediate_algebra/test:619",
+        "algebra/test:663",
+        "prealgebra/test:542",
+        "geometry/test:293",
+        "counting_and_probability/test:100",
+        "number_theory/test:262",
+        "precalculus/test:379",
+        "intermediate_algebra/test:45",
+        "algebra/test:77",
+        "prealgebra/test:510",
+        "geometry/test:371",
+        "counting_and_probability/test:7",
+        "number_theory/test:60",
+        "precalculus/test:206",
+        "intermediate_algebra/test:794",
+        "algebra/test:1036",
+        "prealgebra/test:135",
+        "geometry/test:130",
+        "counting_and_probability/test:10",
+        "number_theory/test:532",
+        "precalculus/test:538",
+        "intermediate_algebra/test:98",
+        "algebra/test:839",
+        "prealgebra/test:392",
+        "geometry/test:248",
+        "counting_and_probability/test:132",
+        "number_theory/test:492",
+        "precalculus/test:443",
+        "intermediate_algebra/test:332",
+        "algebra/test:966",
+        "prealgebra/test:774",
+        "geometry/test:452",
+        "counting_and_probability/test:178",
+        "number_theory/test:155",
+        "precalculus/test:523",
+        "intermediate_algebra/test:648",
+        "algebra/test:347",
+        "prealgebra/test:590",
+        "geometry/test:241",
+        "counting_and_probability/test:72",
+        "number_theory/test:289",
+        "precalculus/test:235",
+        "intermediate_algebra/test:160",
+        "algebra/test:1138",
+        "prealgebra/test:27",
+        "geometry/test:212",
+        "counting_and_probability/test:424",
+        "number_theory/test:239",
+        "precalculus/test:140",
+        "intermediate_algebra/test:531",
+        "algebra/test:655",
+        "prealgebra/test:735",
+        "geometry/test:473",
+        "counting_and_probability/test:168",
+        "number_theory/test:49",
+        "precalculus/test:138",
+        "intermediate_algebra/test:127",
+        "algebra/test:95",
+        "prealgebra/test:643",
+        "geometry/test:156",
+        "counting_and_probability/test:330",
+        "number_theory/test:190"
+      ],
+      "table1_mbpp_3shot_g256": [
+        "test:298/task:309",
+        "test:375/task:386",
+        "test:481/task:492",
+        "test:382/task:393",
+        "test:456/task:467",
+        "test:301/task:312",
+        "test:410/task:421",
+        "test:240/task:251",
+        "test:255/task:266",
+        "test:191/task:202",
+        "test:408/task:419",
+        "test:454/task:465",
+        "test:45/task:56",
+        "test:376/task:387",
+        "test:87/task:98",
+        "test:20/task:31",
+        "test:235/task:246",
+        "test:327/task:338",
+        "test:220/task:231",
+        "test:230/task:241",
+        "test:245/task:256",
+        "test:358/task:369",
+        "test:436/task:447",
+        "test:473/task:484",
+        "test:498/task:509",
+        "test:47/task:58",
+        "test:403/task:414",
+        "test:350/task:361",
+        "test:354/task:365",
+        "test:215/task:226",
+        "test:157/task:168",
+        "test:497/task:508",
+        "test:300/task:311",
+        "test:225/task:236",
+        "test:271/task:282",
+        "test:379/task:390",
+        "test:74/task:85",
+        "test:104/task:115",
+        "test:463/task:474",
+        "test:303/task:314",
+        "test:490/task:501",
+        "test:391/task:402",
+        "test:269/task:280",
+        "test:86/task:97",
+        "test:488/task:499",
+        "test:50/task:61",
+        "test:123/task:134",
+        "test:150/task:161",
+        "test:116/task:127",
+        "test:265/task:276",
+        "test:107/task:118",
+        "test:136/task:147",
+        "test:37/task:48",
+        "test:241/task:252",
+        "test:389/task:400",
+        "test:342/task:353",
+        "test:17/task:28",
+        "test:364/task:375",
+        "test:186/task:197",
+        "test:322/task:333",
+        "test:69/task:80",
+        "test:55/task:66",
+        "test:404/task:415",
+        "test:38/task:49",
+        "test:201/task:212"
+      ],
+      "table1_mbpp_3shot_g512": [
+        "test:316/task:327",
+        "test:351/task:362",
+        "test:1/task:12",
+        "test:188/task:199",
+        "test:33/task:44",
+        "test:10/task:21",
+        "test:194/task:205",
+        "test:112/task:123",
+        "test:285/task:296",
+        "test:27/task:38",
+        "test:208/task:219",
+        "test:278/task:289",
+        "test:176/task:187",
+        "test:381/task:392",
+        "test:479/task:490",
+        "test:224/task:235",
+        "test:127/task:138",
+        "test:172/task:183",
+        "test:357/task:368",
+        "test:137/task:148",
+        "test:338/task:349",
+        "test:429/task:440",
+        "test:451/task:462",
+        "test:337/task:348",
+        "test:348/task:359",
+        "test:262/task:273",
+        "test:453/task:464",
+        "test:477/task:488",
+        "test:140/task:151",
+        "test:214/task:225",
+        "test:64/task:75",
+        "test:124/task:135",
+        "test:35/task:46",
+        "test:313/task:324",
+        "test:141/task:152",
+        "test:260/task:271",
+        "test:217/task:228",
+        "test:347/task:358",
+        "test:390/task:401",
+        "test:341/task:352",
+        "test:113/task:124",
+        "test:209/task:220",
+        "test:296/task:307",
+        "test:71/task:82",
+        "test:466/task:477",
+        "test:474/task:485",
+        "test:145/task:156",
+        "test:336/task:347",
+        "test:318/task:329",
+        "test:243/task:254",
+        "test:205/task:216",
+        "test:268/task:279",
+        "test:333/task:344",
+        "test:175/task:186",
+        "test:295/task:306",
+        "test:203/task:214",
+        "test:480/task:491",
+        "test:108/task:119",
+        "test:221/task:232",
+        "test:276/task:287",
+        "test:385/task:396",
+        "test:420/task:431",
+        "test:226/task:237",
+        "test:249/task:260",
+        "test:366/task:377"
+      ],
+      "table4_gsm8k_5shot_g1024": [
+        "test:400",
+        "test:583",
+        "test:764",
+        "test:89",
+        "test:1109",
+        "test:787",
+        "test:702",
+        "test:5",
+        "test:1141",
+        "test:807",
+        "test:173",
+        "test:546",
+        "test:822"
+      ],
+      "table5_gsm8k_8shot_g1024": [
+        "test:468",
+        "test:73",
+        "test:588",
+        "test:442",
+        "test:835",
+        "test:674",
+        "test:290",
+        "test:494",
+        "test:896",
+        "test:105",
+        "test:1052",
+        "test:770",
+        "test:819"
+      ],
+      "table5_gsm8k_8shot_g256": [
+        "test:156",
+        "test:114",
+        "test:92",
+        "test:817",
+        "test:861",
+        "test:108",
+        "test:1280",
+        "test:1298",
+        "test:309",
+        "test:924",
+        "test:629",
+        "test:1049",
+        "test:771"
+      ],
+      "table5_gsm8k_8shot_g512": [
+        "test:128",
+        "test:834",
+        "test:238",
+        "test:1028",
+        "test:936",
+        "test:483",
+        "test:767",
+        "test:982",
+        "test:431",
+        "test:116",
+        "test:393",
+        "test:987",
+        "test:648"
+      ]
+    },
+    "humaneval_public": [
+      "synthetic:mlsysforge_sum_squares_v1",
+      "synthetic:mlsysforge_clamp_v1",
+      "synthetic:mlsysforge_count_vowels_v1",
+      "synthetic:mlsysforge_pair_differences_v1",
+      "synthetic:mlsysforge_is_palindrome_v1",
+      "synthetic:mlsysforge_flatten_pairs_v1",
+      "synthetic:mlsysforge_gcd_v1",
+      "synthetic:mlsysforge_rotate_left_v1",
+      "synthetic:mlsysforge_word_lengths_v1",
+      "synthetic:mlsysforge_unique_stable_v1"
+    ],
+    "math_public": [
+      [
+        "algebra",
+        "train",
+        4
+      ],
+      [
+        "algebra",
+        "train",
+        5
+      ],
+      [
+        "counting_and_probability",
+        "train",
+        4
+      ],
+      [
+        "counting_and_probability",
+        "train",
+        5
+      ],
+      [
+        "geometry",
+        "train",
+        4
+      ],
+      [
+        "geometry",
+        "train",
+        5
+      ],
+      [
+        "intermediate_algebra",
+        "train",
+        4
+      ],
+      [
+        "number_theory",
+        "train",
+        4
+      ],
+      [
+        "prealgebra",
+        "train",
+        4
+      ],
+      [
+        "precalculus",
+        "train",
+        4
+      ]
+    ],
+    "mbpp_public": [
+      [
+        "train",
+        10
+      ],
+      [
+        "train",
+        11
+      ],
+      [
+        "train",
+        12
+      ],
+      [
+        "train",
+        13
+      ],
+      [
+        "train",
+        14
+      ],
+      [
+        "train",
+        15
+      ],
+      [
+        "train",
+        16
+      ],
+      [
+        "train",
+        17
+      ],
+      [
+        "train",
+        18
+      ],
+      [
+        "train",
+        19
+      ]
+    ]
+  },
+  "standard_test_data": {
+    "classification": "public_reproducible_judge_only",
+    "effective_batch_size": 1,
+    "eligible_record_counts": {
+      "gsm8k": 1319,
+      "humaneval": 164,
+      "math": 5000,
+      "mbpp": 499
+    },
+    "implicit_limit": 130,
+    "mounted_in_work": false,
+    "repeats": 1,
+    "source_record_counts": {
+      "gsm8k": 1319,
+      "humaneval": 164,
+      "math": 5000,
+      "mbpp": 500
+    }
+  },
+  "stratification": {
+    "gsm8k": [
+      "prompt_length_rank_quartile",
+      "answer_length_rank_quartile"
+    ],
+    "humaneval": [
+      "prompt_length_rank_quartile"
+    ],
+    "length_metric": "dependency_free_lexical_token_count",
+    "math": [
+      "subject",
+      "difficulty"
+    ],
+    "mbpp": [
+      "prompt_length_rank_quartile",
+      "assertion_count_rank_quartile"
+    ]
+  },
+  "task_id": "llada_h100_decoder_optimization_v2",
+  "tokenizer": {
+    "files": {
+      "config.json": [
+        1385,
+        "5f99fefe855fdb5100bb6cadb57bdb09fae723ad54811f95c00ecacf29d58a6a"
+      ],
+      "special_tokens_map.json": [
+        747,
+        "e9f1f0f6fa133da3169ae69b1969c51cced047a900050893d7a0711c6bd063aa"
+      ],
+      "tokenizer.json": [
+        6098988,
+        "071eb20fe7bd601550b1b7838ff696d6c93b88f51257f753303d3df23163c381"
+      ],
+      "tokenizer_config.json": [
+        51692,
+        "b9a6102c39a4f42f47f0d63fc6cee58a2381199d90f2a4f39b3f6871f32b4119"
+      ]
+    },
+    "model_context_limit": 4096,
+    "prompt_encoding": "apply_chat_template(user, add_generation_prompt=True, tokenize=False); tokenizer(rendered, add_special_tokens=False)",
+    "repo_id": "GSAI-ML/LLaDA-8B-Instruct",
+    "revision": "6059b30c9531767ce47e0ca6a8161a6bb0c67693",
+    "tokenizers_version": "0.21.0",
+    "transformers_version": "4.49.0"
+  },
+  "workload_profile": "fast_dllm_v1_llada_12row_stratified520_batch1"
+}

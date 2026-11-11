@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "paper": {
+    "title": "Quant VideoGen: Auto-Regressive Long Video Generation via 2-Bit KV-Cache Quantization",
+    "source_pdf_sha256": "1fb924786a55b263ea58e092bdb658473f1212dbb8cd196acdb1fccafef1321f",
+    "hardware": "NVIDIA H100",
+    "cuda": "12.8",
+    "resolution": [480, 832],
+    "prompt_suite": "MovieGenVideoBench_extended.txt",
+    "prompt_revision": "33593df3e81fa3ec10239271dd2c100facac6de1",
+    "public_prompt_records": [0, 5],
+    "public_prompt_records_sha256": "8ee4339584b042e0cbda30048e4709899ebebe8d0f632f7f832fbcea351467f1",
+    "qvg_int2": {
+      "quant_type": "triton-nstages-kmeans-int2",
+      "num_prq_stages": 1,
+      "quant_block_size": 64,
+      "k_centroids": 256,
+      "v_centroids": 256,
+      "assignment_dtype": "uint8",
+      "scale_dtype": "float8_e4m3fn"
+    },
+    "released_implementation_profiles": {
+      "self_forcing_kmeans_max_iters": 2,
+      "self_forcing_compression_span_latents": 24,
+      "self_forcing_compression_span_tokens": 37440,
+      "longcat_kmeans_max_iters": 100,
+      "hy_worldplay_kmeans_max_iters": 2
+    },
+    "metrics": [
+      "kv_cache_compression_ratio",
+      "end_to_end_generation_overhead",
+      "psnr_vs_bf16",
+      "ssim_vs_bf16",
+      "lpips_vs_bf16",
+      "vbench_background_consistency",
+      "vbench_image_quality",
+      "vbench_subject_consistency",
+      "vbench_aesthetic_quality"
+    ],
+    "models": {
+      "self_forcing": {
+        "model": "Self-Forcing-Wan-1.3B",
+        "history": "entire_history",
+        "paper_chunk_frames": 16,
+        "public_repo_latent_frames": 180,
+        "public_repo_decoded_frames": 717,
+        "paper_vbench_prefixes": [350, 700],
+        "appendix_vbench_prefixes": [350, 700, 1050, 1400]
+      },
+      "longcat": {
+        "model": "LongCat-Video-13B",
+        "context_frames": 73,
+        "next_frames_per_segment": 20,
+        "segments": 10,
+        "total_frames": 273
+      },
+      "hy_worldplay": {
+        "model": "HY-WorldPlay-8B",
+        "history": "entire_history",
+        "paper_chunk_frames": 12,
+        "total_frames": 285,
+        "required_backbone": "HunyuanVideo-1.5-8B",
+        "forbidden_substitute": "Wan2.2-TI2V-5B-Diffusers",
+        "mlsysforge_adapter_note": "The released QVG HY launcher targets the later Wan-5B compatibility path. MLSys Forge instead wires the official HunyuanVideo-1.5 8B action model named by the paper; this adapter must be calibrated and is not represented as released paper code.",
+        "mlsysforge_cache_policy": {
+          "key_cache": "pre_rope_pre_prope",
+          "key_cache_source": "paper section 5.1: pre-RoPE key caching; RoPE and the camera PRoPE transform are re-applied after decode",
+          "newest_chunk": "bf16_outside_codec",
+          "newest_chunk_latents": 4,
+          "newest_chunk_source": "released HY integration (experiments/HY-WorldPlay/wan, QUANT_FACTOR=2) compresses history with a lag and keeps the newest chunks in full precision",
+          "score_scope": "tensors passed to encode only; the BF16 newest chunk and the text KV are outside the ratio"
+        }
+      }
+    }
+  },
+  "mlsysforge": {
+    "public_model": "self_forcing",
+    "hidden_models": ["longcat", "hy_worldplay"],
+    "synthetic_tests_are_gate_only": true,
+    "fidelity_windows": {
+      "longcat": [73, 93],
+      "hy_worldplay_8b": [29, 45],
+      "rule": "frames [start, end) of the first chunk generated from compressed KV, the same window for every case of a model; paper section 5.1 scores similarity on the first generated chunk because autoregressive content diverges afterwards, and leaves long-horizon quality to VBench on all frames"
+    },
+    "hidden_suite": {
+      "longcat": {
+        "cases": 6,
+        "prompt_suite": "MovieGenVideoBench_extended.txt",
+        "prompt_records_one_based": [12, 185, 320, 593, 893, 894],
+        "prompt_selection": "record 12 carries over from v3; the other five are random.Random(\"qvg-v4-longcat-20261006\").sample(records 1..1003 without the public records 1 and 6 and without 12, 5)",
+        "init": "one frozen 73-frame BF16 opening video per prompt (480p_init, seed 0)",
+        "segments": 10,
+        "frames": "73 context + 10x20 generated = 273 frames at 480p",
+        "upstream_source": "paper section 5.1 (MovieGen prompt set); scripts/LongCat/run_qvg.sh num_segments=10"
+      },
+      "hy_worldplay_8b": {
+        "cases": 11,
+        "image_cases": "the 10 image + caption pairs of HY-WorldPlay assets/test_case.csv (assets/img/1..10) plus the QVG run.sh case (assets/img/test.png with its whitespace-normalised prompt)",
+        "image_revision": "Tencent-Hunyuan/HY-WorldPlay-github 1588e1336e842b03b0a7860c654ebd7c46bb065e",
+        "frames": "285 decoded frames at 480p, seed 0",
+        "pose": "w-8,s-8,a-8,d-8,up-8,down-8,w-8,s-8,a-7",
+        "pose_source": "test_case.csv carries no trajectory; every case uses the paper / QVG run.sh 285-frame trajectory"
+      }
+    },
+    "kv_byte_accounting": {
+      "scope": "per case, accumulated over every compression call of the whole generation: every LongCat quantize_kv_cache call in all 10 segments, every HY cache_vision forward",
+      "per_call": "the payloads of all layers of one call are counted once as one tree of unique CUDA storages; calls are then summed",
+      "aggregation": "R_m = sum over the model's cases of bf16_kv_bytes / sum over the same cases of stored_kv_bytes; score = sqrt(R_longcat * R_hy_worldplay_8b)",
+      "frozen_denominator": "bf16_kv_bytes depends only on the case shape; the release freezes it per case and a candidate must report it exactly",
+      "v3_difference": "v3 kept only the last compression call, which a multi-segment run could exploit by compressing only the final segment"
+    },
+    "score_objective": "absolute geometric mean of the two per-model summed-byte persistent-KV compression ratios after per-model mean gates and per-case floor gates on fidelity, VBench and end-to-end latency",
+    "score_unit": "x_persistent_kv_compression",
+    "qvg_reference_is_scoring_input": false,
+    "gate_policy": "per-model mean gates over the model's cases and looser per-case floor gates, calibrated from at least 3 trusted-oracle runs of the full suite before freeze"
+  },
+  "model_revisions": {
+    "Wan-AI/Wan2.1-T2V-1.3B": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "gdhe17/Self-Forcing": "2f8b779212da279d212c22a509b66ad6552f350e",
+    "meituan-longcat/LongCat-Video": "03b55529b1d1d4045f5fbe14d65c8c6e8116b278",
+    "tencent/HY-WorldPlay": "f4c29235647707b571479a69b569e4166f9f5bf8",
+    "tencent/HunyuanVideo-1.5": "9b49404b3f5df2a8f0b31df27a0c7ab872e7b038",
+    "Qwen/Qwen2.5-VL-7B-Instruct": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+    "google/byt5-small": "68377bdc18a2ffec8a0533fef03b1c513a4dd49d",
+    "black-forest-labs/FLUX.1-Redux-dev": "c95859fbf7703ca4d6824b4da4407d7cd0434f81",
+    "Vchitect/VBench": "45e79ec14e69a2187202c675d2dbce1a71843d53"
+  },
+  "mlsysforge_supplemental_revisions": {
+    "Tencent-Hunyuan/HY-WorldPlay-github": "1588e1336e842b03b0a7860c654ebd7c46bb065e",
+    "ModelScope/Glyph-SDXL-v2": "b51a8604c03c9a4e71a389f4c7deeb526320f2e6",
+    "facebookresearch/dino": "7c446df5b9f45747937fb0d72314eb9f7b66930a"
+  },
+  "vbench_assets_sha256": {
+    "clip_vit_b32": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+    "clip_vit_l14": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836",
+    "dino_vitb16": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+    "aesthetic_linear": "2cd4e60f4f24ae3bcd57b847b13c1f3ba27edc28cc1a7f9ce74ee9f421243cba",
+    "musiq_spaq": "358bb6af275e28ea56821d44fb55c6cb83645db11f394d3ad65b2d149965ab50",
+    "qvg_lpips_vgg16_imagenet": "397923af8e79cdbb6a7127f12361acd7a2f83e06b05044ddf496e83de57a5bf0"
+  }
+}

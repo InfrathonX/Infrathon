@@ -1,0 +1,163 @@
+From c623d94476f279c774c66ce80b21c0d52e0307bc Mon Sep 17 00:00:00 2001
+From: Infrathon <infrathon@users.noreply.github.com>
+Date: Fri, 25 Sep 2026 12:26:52 +0000
+Subject: [PATCH] Wan DanceGRPO reference engine overlay (Dance-SDE branch,
+ separate SDE-noise generator)
+
+Whitelisted sglang-diffusion files changed for the miles_diffusion_wan22_dancegrpo_2xh100_v1 reference, on
+sglang-miles-h3 859a278e python/. Legacy sde/cps/ode branches stay bitwise unchanged (Judge J0).
+
+---
+ .../configs/post_training/rl_rollout.py       |  2 +-
+ .../configs/sample/sampling_params.py         | 14 +++++
+ .../runtime/post_training/rl_dataclasses.py   |  2 +
+ .../post_training/scheduler_rl_mixin.py       | 54 +++++++++++++++++++
+ 4 files changed, 71 insertions(+), 1 deletion(-)
+
+diff --git a/python/sglang/multimodal_gen/configs/post_training/rl_rollout.py b/python/sglang/multimodal_gen/configs/post_training/rl_rollout.py
+index 9103832..15737cc 100644
+--- a/python/sglang/multimodal_gen/configs/post_training/rl_rollout.py
++++ b/python/sglang/multimodal_gen/configs/post_training/rl_rollout.py
+@@ -11,7 +11,7 @@ from typing import Any, Callable
+ 
+ from sglang.multimodal_gen.utils import StoreBoolean
+ 
+-_VALID_ROLLOUT_SDE_TYPES = ("sde", "cps", "ode")
++_VALID_ROLLOUT_SDE_TYPES = ("sde", "cps", "ode", "dance")
+ 
+ 
+ @dataclass
+diff --git a/python/sglang/multimodal_gen/configs/sample/sampling_params.py b/python/sglang/multimodal_gen/configs/sample/sampling_params.py
+index f28227f..5ad9217 100644
+--- a/python/sglang/multimodal_gen/configs/sample/sampling_params.py
++++ b/python/sglang/multimodal_gen/configs/sample/sampling_params.py
+@@ -276,6 +276,10 @@ class SamplingParams:
+     # 0-indexed denoising-loop step filters; None = all steps.
+     rollout_sde_step_indices: list[int] | None = None
+     rollout_return_step_indices: list[int] | None = None
++    # Canonical per-request SDE noise key: when set, SDE-step noise is drawn from a dedicated CPU generator seeded
++    # with this value (one (1, ...) fp32 draw per SDE step, in step order), independent of the initial-latent
++    # generator. Requires num_outputs_per_prompt == 1. None keeps the legacy behaviour (batch.generator).
++    rollout_sde_noise_seed: int | None = field(default=None, metadata={"batch_sig_exclude": True})
+     # if True, disallow user params to override subclass-defined protected fields
+     no_override_protected_fields: bool = field(
+         default=False, metadata={"batch_sig_exclude": True}
+@@ -502,6 +506,16 @@ class SamplingParams:
+                 f"seed must be a non-negative int or list of ints, got {self.seed!r}"
+             )
+ 
++        if self.rollout_sde_noise_seed is not None:
++            if (
++                isinstance(self.rollout_sde_noise_seed, bool)
++                or not isinstance(self.rollout_sde_noise_seed, int)
++                or not 0 <= self.rollout_sde_noise_seed < 2**63
++            ):
++                raise ValueError(
++                    f"rollout_sde_noise_seed must be an int in [0, 2**63), got {self.rollout_sde_noise_seed!r}"
++                )
++
+         # Used by seconds() and video writer; fps <= 0 is always invalid.
+         if not isinstance(self.fps, int) or self.fps <= 0:
+             raise ValueError(f"fps must be a positive int, got {self.fps!r}")
+diff --git a/python/sglang/multimodal_gen/runtime/post_training/rl_dataclasses.py b/python/sglang/multimodal_gen/runtime/post_training/rl_dataclasses.py
+index c48a4fc..51965d6 100644
+--- a/python/sglang/multimodal_gen/runtime/post_training/rl_dataclasses.py
++++ b/python/sglang/multimodal_gen/runtime/post_training/rl_dataclasses.py
+@@ -18,6 +18,8 @@ class RolloutSessionData:
+     sigma_max: float = 0.0
+     latents_shape: tuple | None = None
+     noise_buffer: torch.Tensor | None = None
++    # dedicated SDE-noise generator (CPU) when the request carries rollout_sde_noise_seed
++    sde_noise_generator: torch.Generator | None = None
+ 
+     local_log_prob_sum: list[torch.Tensor] = field(default_factory=list)
+     local_log_prob_count: list[torch.Tensor] = field(default_factory=list)
+diff --git a/python/sglang/multimodal_gen/runtime/post_training/scheduler_rl_mixin.py b/python/sglang/multimodal_gen/runtime/post_training/scheduler_rl_mixin.py
+index 3777ad4..ad3e0ab 100644
+--- a/python/sglang/multimodal_gen/runtime/post_training/scheduler_rl_mixin.py
++++ b/python/sglang/multimodal_gen/runtime/post_training/scheduler_rl_mixin.py
+@@ -46,6 +46,17 @@ class SchedulerRLMixin(SchedulerRLDebugMixin):
+                 tuple(batch.latents.shape) if batch.latents is not None else None
+             ),
+         )
++        sde_noise_seed = getattr(batch, "rollout_sde_noise_seed", None)
++        if sde_noise_seed is not None:
++            latents_shape = batch._rollout_session_data.latents_shape
++            if latents_shape is None or latents_shape[0] != 1:
++                raise ValueError(
++                    "rollout_sde_noise_seed requires exactly one output per request, "
++                    f"got latents shape {latents_shape}"
++                )
++            batch._rollout_session_data.sde_noise_generator = torch.Generator(
++                device="cpu"
++            ).manual_seed(int(sde_noise_seed))
+ 
+     def already_prepared_rollout(self, batch) -> bool:
+         return getattr(batch, "_rollout_session_data", None) is not None
+@@ -95,6 +106,24 @@ class SchedulerRLMixin(SchedulerRLDebugMixin):
+         buffer = self._get_or_create_rollout_noise_buffer(
+             rollout_session_data, rollout_session_data.latents_shape, device, dtype
+         )
++        if rollout_session_data.sde_noise_generator is not None:
++            # Canonical key: one fp32 (1, ...) CPU draw per SDE step, independent of the init-latent generator.
++            noise = torch.randn(
++                rollout_session_data.latents_shape,
++                generator=rollout_session_data.sde_noise_generator,
++                dtype=torch.float32,
++                device="cpu",
++            )
++            buffer.copy_(noise.to(device=device, dtype=dtype))
++            sharded_noise, _ = rollout_session_data.pipeline_config.shard_latents_for_sp(
++                batch=batch, latents=buffer
++            )
++            if tuple(sharded_noise.shape) != local_shape:
++                raise ValueError(
++                    "Rollout SP noise shape mismatch after shard. "
++                    f"Expected local_shape={local_shape}, got {tuple(sharded_noise.shape)}."
++                )
++            return sharded_noise
+         for i in range(B):
+             torch.randn(
+                 rollout_session_data.latents_shape,
+@@ -128,6 +157,7 @@ class SchedulerRLMixin(SchedulerRLDebugMixin):
+         1. ``"sde"``: Standard stochastic differential equation transition (Gaussian).
+         2. ``"cps"``: Coupled Particle Sampling.
+         3. ``"ode"``: Deterministic ODE step (no diffusion noise).
++        4. ``"dance"``: DanceGRPO SDE (std = eta*sqrt(sigma - sigma_next)).
+         """
+         rollout_session_data = self._get_rollout_session_data(batch)
+         sde_type = batch.rollout_sde_type
+@@ -215,6 +245,30 @@ class SchedulerRLMixin(SchedulerRLDebugMixin):
+             prev_sample = prev_sample_mean + weighted_variance_noise
+             log_prob_no_const_val = -((full_variance_noise * noise_std_dev) ** 2)
+ 
++        elif effective_sde_type == "dance":
++            # DanceGRPO transition (XueZeyue/DanceGRPO flux_step; verl-omni dance_sde):
++            #   x0 = x - sigma*v;  mu = x + dt*v + 0.5*eta^2*(x - x0*(1-sigma))/sigma^2*dt;  std = eta*sqrt(-dt)
++            # No sigma/(1-sigma) factor, so sigma == 1 needs no guard.
++            model_output = model_output.float()
++            sample = sample.float()
++            variance_noise = self._rollout_variance_noise(
++                batch, model_output, generator
++            )
++            full_variance_noise = rollout_session_data.noise_buffer
++            noise_std_dev = noise_level * torch.sqrt(-1 * dt)
++            pred_original_sample = sample - current_sigma * model_output
++            score_term = (
++                0.5
++                * noise_level**2
++                * (sample - pred_original_sample * (1 - current_sigma))
++                / current_sigma**2
++            )
++            prev_sample_mean = sample + dt * model_output + score_term * dt
++
++            weighted_variance_noise = variance_noise * noise_std_dev
++            prev_sample = prev_sample_mean + weighted_variance_noise
++            log_prob_no_const_val = -((full_variance_noise * noise_std_dev) ** 2)
++
+         elif effective_sde_type == "ode":
+             prev_sample = sample + dt * model_output
+             prev_sample_mean = prev_sample
+-- 
+2.43.0
+

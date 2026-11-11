@@ -1,0 +1,27 @@
+{
+ "model": "/models/sd35m/stable-diffusion-3.5-medium",
+ "teachers_dir": "/models/teachers",
+ "replay_port": 18080,
+ "setup_cap_seconds": 600,
+ "timeouts": {
+  "session_p": 1500,
+  "session_r": 2700
+ },
+ "thresholds": {
+  "e_T_median": 0.02,
+  "e_T_p90": 0.035,
+  "e_S_median": 0.02,
+  "e_S_p90": 0.035,
+  "grad_cos": 0.95,
+  "grad_rel_l2": 0.3,
+  "sign_agree": 0.9,
+  "adam_v_rel": 0.0001,
+  "adam_clip_rel": 0.0001,
+  "adam_theta_rel": 0.01
+ },
+ "note": "The checks' thresholds and limits. The public KL and task-metric values are in published_reference.json.",
+ "scorers": {
+  "pickscore_model": "/models/scorers/PickScore_v1",
+  "pickscore_processor": "/models/scorers/CLIP-ViT-H-14-processor"
+ }
+}

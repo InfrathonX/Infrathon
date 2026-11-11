@@ -1,0 +1,9 @@
+**
+!images/
+!images/judge/
+!images/judge/Dockerfile
+!judge/
+!judge/run_judge.py
+!judge/run_public.py
+!scripts/
+!scripts/run_public_candidate.py

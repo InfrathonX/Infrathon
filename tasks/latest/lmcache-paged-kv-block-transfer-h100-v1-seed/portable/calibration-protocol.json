@@ -1,0 +1,22 @@
+{
+ "bandwidth_envelope": {
+  "margin": "1.1",
+  "min_device_gbps": "100.0",
+  "min_host_gbps": "4.0",
+  "probe_bytes": 268435456,
+  "probe_repeats": 5,
+  "protocol": "same-run-cudamemcpy-zerocopy-duplex-probe-v3",
+  "semantics": "probed on the evaluation device and host in the same run before the candidate loads: contiguous D2D copy, pinned cudaMemcpy H2D/D2H, an SM-driven zero-copy stream over the same pinned buffer compiled with the frozen nvcc command, and concurrent H2D plus D2H copies on two streams; the host envelope is the best of the four one-way host probes and the duplex envelope the best of the concurrent probe and those; device, duplex and other host-memory cases are checked against device, duplex and host envelopes; any case whose implied bandwidth exceeds envelope x margin invalidates the run"
+ },
+ "clock": "max_of_cuda_event_and_synchronized_host_wall_per_trial",
+ "comparability": "same_measurement_profile_including_host_platform",
+ "device_settle_seconds": "0.05",
+ "duplex": "store calls on one trusted stream and retrieve calls on another, interleaved, each stream with its own scratch arena; the trial ends when both streams are done",
+ "fresh_process": "not_required_fresh_addresses_and_payloads_per_call",
+ "overlap": "trusted foreground on a second stream (gemm, hbm) sized to 3.0x the transfer's own time and re-run doubled until it covers the transfer; loss = (foreground time with transfer - alone) / transfer time, clamped to [0, 0.95]",
+ "protocol_id": "settled-cuda-event-host-wall-max-median-v2",
+ "schema_version": 1,
+ "settle_seconds": "0.1",
+ "timing_statistic": "median_of_declared_trials",
+ "warmup": "untimed_verified_precall_then_timed_verified_trials"
+}

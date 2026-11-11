@@ -1,0 +1,24 @@
+{
+  "accelerator_runtime": "cuda-12.8-compatible",
+  "agent_runtime": "host-provided Codex runtime mounted read-only; native web search through the allowlisted proxy chain",
+  "allowed_import_roots": ["__future__", "codec", "collections", "dataclasses", "einops", "enum", "functools", "itertools", "math", "operator", "torch", "triton", "typing"],
+  "base_image": "pytorch280_cu128 (task-owned Work base built by images/work/base/Dockerfile from pytorch/pytorch:2.8.0-cuda12.8-cudnn9-devel pinned by digest plus images/work/base/requirements.lock; the Work image carries no codec reference and no agent toolchain)",
+  "codec_abi": {
+    "entry_module": "mlsysforge_codec.py",
+    "functions": ["encode(k, v) -> payload", "decode(payload_k, payload_v) -> (k, v)"],
+    "payload": "plain CUDA-tensor tree; each payload independently decodable"
+  },
+  "forbidden_call_names": ["__import__", "breakpoint", "compile", "eval", "exec", "getattr", "globals", "input", "locals", "open", "setattr", "vars"],
+  "language": "python3",
+  "max_total_bytes": 4194304,
+  "model_binding": {
+    "adapter": "scripts/sforge_runtime_entry.py",
+    "hidden": "LongCat-Video and HY-WorldPlay-8B weights mounted read-only into the Judge only",
+    "model_lock": "locks/model-lock.json verified by scripts/verify_models.py",
+    "public": "Self-Forcing checkpoints and VBench assets mounted read-only into Work"
+  },
+  "policy_schema_version": 4,
+  "protocol_id": "pytorch280-cu128-v2-base-codec-abi-v3",
+  "required_dtypes": ["bf16"],
+  "schema_version": 1
+}

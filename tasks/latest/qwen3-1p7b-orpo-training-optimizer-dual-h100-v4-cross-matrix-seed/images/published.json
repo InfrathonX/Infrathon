@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:e2c741d6faf76e823fe29a57c9e2fdfdcd46d086c02e6d5dc3cc37af5114f7f9",
+      "judge_public_tag": "h100-80gb-700w-qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed-judge",
+      "work": "sha256:ebe1e777b9adda0289e417ad02846a6b691ccc51b8ba5e843c010c27f3591327",
+      "work_tag": "h100-80gb-700w-qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:e2c741d6faf76e823fe29a57c9e2fdfdcd46d086c02e6d5dc3cc37af5114f7f9",
+      "judge_public_tag": "h100-94gb-400w-qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed-judge",
+      "work": "sha256:ebe1e777b9adda0289e417ad02846a6b691ccc51b8ba5e843c010c27f3591327",
+      "work_tag": "h100-94gb-400w-qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed-work"
+    }
+  },
+  "source_digest": "004ab80c4919e6f843d52a600b69a05993e8c7e36d27351167972f0bd1af3cb0"
+}

@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_alfworld_agentic_rl_2xh100_v1",
+  "status": "QUALIFIED on the dual-cuda-sm90-nccl-80g profile (2x H100 SXM 80GB) under metric v2 with the Judge's 24-CPU budget: three reference Judges passed all 13 checks and the 15-point gate: quality +36.18 / +31.04 / +17.17 points, T 1791.6 / 1847.8 / 2711.4 s, scores 72.71 / 60.47 / 22.79; the starter (probe_exit), ctl-adv-sign (probe_dump) and ctl-wrong-lr (probe provenance M2) are valid with score 0. The spread of the reference scores is single-run training variance (the third learned less, played more turns and ran longer).",
+  "note": "Tracked qualification record of this profile (scripts/miles_common/qualification.py); the Judge image carries runtime/qualification.json, so metric (frozen base quality and gate), timeouts and the Judge's limits here are copied from it unchanged. scripts/run_task.py refuses a formal run while status is PENDING, on another execution profile, or with the Judge under another CPU pinning policy.",
+  "measurement": "Three reference Judges, the starter and two negative controls through the harness Judge's command (scripts/judge_archive.sh, 24 CPUs, no network) on two H100 SXM 80GB GPUs, pinned under cpu_pinning; the base quality is the frozen value of the metric block, not re-measured.",
+  "metric": {
+    "version": 2,
+    "formula": "quality_score * 3600 / T if correct and quality_score >= 15.0 else 0",
+    "score_scale_seconds": 3600,
+    "quality_repeats": 3,
+    "quality_protocol": {
+      "eval": "eval_alfworld.py --repeats 3 (Judge copy public/eval_alfworld.py) on the Judge's scored_model: the non-weight files of the pinned Qwen3-4B snapshot plus the candidate's final_hf safetensors and index",
+      "games": "private/eval_hidden.jsonl: the 1134 hidden games (heldout train[2553:] and valid_unseen), each played once per repeat",
+      "decoding": "greedy (temperature 0, top_p 1); the contract's system prompt, rendering, max_steps 30, max_turn_tokens 256 and enable_thinking=false; the first <action>...</action> is sent to the game",
+      "engine": "one SGLang server per Judge GPU (--random-seed 0, --mem-fraction-static 0.85, --context-length 40960), games round-robin over the servers, 96 worker processes",
+      "repeat": "quality of a repeat = 100 x games won / 1134; the 3 repeats use the same protocol and differ only by engine scheduling nondeterminism"
+    },
+    "quality_unit": "success-rate points",
+    "quality_gate_min": 15.0,
+    "base_quality_per_repeat": [
+      25.044091710758376,
+      25.308641975308642,
+      25.132275132275133
+    ],
+    "base_quality": 25.16166960611405
+  },
+  "timeouts": {
+    "probe": 1800,
+    "run": 7300
+  },
+  "oracle_limits": {
+    "logprob_mean_abs_err": 0.02,
+    "loss_abs_err_rel_adv": 0.02
+  },
+  "grad_limits": {
+    "cos_min": 0.9,
+    "slice_ratio": [
+      0.75,
+      1.33
+    ],
+    "norm_ratio": [
+      0.75,
+      1.33
+    ]
+  },
+  "execution_profile_id": "dual-cuda-sm90-nccl-80g",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind",
+    "cpu_count": 24,
+    "cpu_quota": 24,
+    "cpuset_cpus": "32-37,40-45,96-101,104-109",
+    "cpuset_mems": "1",
+    "note": "SFORGE_CPUSET=auto: the Judge's 24-CPU budget (runtime/sforge_entry.py nano_cpus) is planned inside the GPU pair's local slice (24 CPUs, NUMA-local), so no undersize=allow is needed."
+  },
+  "sxm_qualification": {
+    "runs": {
+      "sxm-alfw-ref-02": {
+        "valid": true,
+        "score": 72.70814512867545,
+        "checks": "13/13 passed",
+        "T_seconds": 1791.6087672710419,
+        "quality_score": 36.1845972957084
+      },
+      "sxm-alfw-ref-03": {
+        "valid": true,
+        "score": 60.47486930837576,
+        "checks": "13/13 passed",
+        "T_seconds": 1847.8093962669373,
+        "quality_score": 31.040564373897706
+      },
+      "sxm-alfw-ref-04": {
+        "valid": true,
+        "score": 22.792061597674238,
+        "checks": "13/13 passed",
+        "T_seconds": 2711.423954963684,
+        "quality_score": 17.166372721928273
+      },
+      "sxm-alfw-starter-02": {
+        "valid": true,
+        "score": 0.0,
+        "checks": "0/1 passed; failed: probe_exit"
+      },
+      "sxm-alfw-ctl-adv-sign": {
+        "valid": true,
+        "score": 0.0,
+        "checks": "3/4 passed; failed: probe_dump"
+      },
+      "sxm-alfw-ctl-wrong-lr": {
+        "valid": true,
+        "score": 0.0,
+        "checks": "3/4 passed; failed: probe_provenance"
+      }
+    }
+  }
+}

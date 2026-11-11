@@ -1,0 +1,49 @@
+{
+  "approval_id": "owner-delegated-20261004-llada-requal-r1-quality-controls",
+  "hidden_cases_sha256": "d0c4084b570d27ba0318fed1d66732f27c4a60a434095506015e2a8029fda64e",
+  "historical_a6000_controls_applicability": "NONE",
+  "methodology": {
+    "control_measurement_floor_ppm": 1,
+    "final_policy": "hard_gate_after_control_qualification",
+    "formula": "producer_relative_min_retention_ppm_v1",
+    "interactive_policy": "same_as_final",
+    "margin_selection": "producer_derived_after_precommitted_controls",
+    "metric": "producer_relative_min_retention_ppm_v1",
+    "minimum_separation_ppm": 10000,
+    "threshold_derivation": "midpoint_min_positive_max_negative_v1"
+  },
+  "negative_controls": [
+    {
+      "acceptance_target": {
+        "expected": "REJECT",
+        "metric": "producer_relative_min_retention_ppm_v1"
+      },
+      "archive": "artifacts/negative-quality-control.tar.gz",
+      "archive_sha256": "273ea6b5c8849f25f413802c47306a6b8fbbbf7a6541ebd50320e2d189f4f585",
+      "expected_classification": "REJECT",
+      "id": "negative-degraded-output"
+    }
+  ],
+  "positive_controls": [
+    {
+      "acceptance_target": {
+        "expected": "ACCEPT",
+        "metric": "producer_relative_min_retention_ppm_v1"
+      },
+      "archive": "artifacts/positive-near-threshold-control.tar.gz",
+      "archive_sha256": "75c25297714e0c9ab0fb62a4f48a8ef4da4ca94472c606a9acf2a3b66d0f2bf4",
+      "expected_classification": "ACCEPT",
+      "id": "positive-threshold-085"
+    }
+  ],
+  "producer_calibration": {
+    "archive": "artifacts/corrected-decoder-reference.tar.gz",
+    "archive_sha256": "35204b0c9ce6e2b4f0f01b2689e98637d693e49855a57148e2f60aea73e30a78",
+    "expected_mode": "calibration"
+  },
+  "profile": "fast_dllm_v1_llada_12row_stratified520_batch1",
+  "schema_version": 1,
+  "status": "PRECOMMITTED",
+  "task_id": "llada_h100_decoder_optimization_v2",
+  "workload_policy_sha256": "9751df204ef9350bd6fea1c1b6fd2384b3541d102c61c9b770227b5ea8831750"
+}

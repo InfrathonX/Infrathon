@@ -1,0 +1,6 @@
+*
+!Dockerfile
+!run_judge.py
+!verify_sdv2_pipeline.py
+!candidate_worker.py
+!source_admission.py

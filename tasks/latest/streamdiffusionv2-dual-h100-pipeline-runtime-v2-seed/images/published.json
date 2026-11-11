@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:c1392f605d4c064cbba043711ba15fa2fc3a8f4340d79edcfbac28a46f4db57d",
+      "judge_public_tag": "h100-80gb-700w-streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed-judge",
+      "work": "sha256:bc0749372a6daeae84d9a0310a5598998a337692623e07a1da5be68850c59b18",
+      "work_tag": "h100-80gb-700w-streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:c1392f605d4c064cbba043711ba15fa2fc3a8f4340d79edcfbac28a46f4db57d",
+      "judge_public_tag": "h100-94gb-400w-streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed-judge",
+      "work": "sha256:bc0749372a6daeae84d9a0310a5598998a337692623e07a1da5be68850c59b18",
+      "work_tag": "h100-94gb-400w-streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed-work"
+    }
+  },
+  "source_digest": "1d1a4a0927e74ab3a5b49f4784b96ef8c3127b16e4c07f369ad4be9c91339008"
+}

@@ -1,0 +1,11 @@
+logs/*
+!logs/.gitkeep
+!logs/build/
+logs/build/*
+!logs/build/.gitkeep
+artifacts/*.tar.gz
+runtime/evals/
+__pycache__/
+*.pyc
+.pytest_cache/
+

@@ -1,0 +1,17 @@
+{
+  "status": "PASS",
+  "mode": "cpu-only",
+  "source_admission": {
+    "ok": true,
+    "final_version": 1,
+    "candidate_version": 1,
+    "versions": [
+      1
+    ],
+    "num_candidate_versions": 1,
+    "selected_sha256": "3f0027304f0eb0f14b216f01afd7412d4ecde82c4060bbad4638e651a2d451b3",
+    "errors": [],
+    "warnings": [],
+    "mode": "workspace"
+  }
+}

@@ -1,0 +1,12 @@
+artifacts/
+build/
+private/
+*final*cases*.json
+# The frozen qualification draw of the final holdout is part of the
+# distribution: it lives on the Judge-only path and never reaches the Work
+# build context (scripts/validate_layout.py proves it).
+!judge/private/
+!judge/private/final_cases.json
+.pytest_cache/
+__pycache__/
+*.pyc

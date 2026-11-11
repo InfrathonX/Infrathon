@@ -1,0 +1,12 @@
+build/
+artifacts/
+private/
+# The Judge-only evaluation inputs live under judge/private/ (they never
+# reach the Work build context).
+!judge/private/
+corpus/private/
+*final*cases*.json
+.pytest_cache/
+__pycache__/
+*.pyc
+

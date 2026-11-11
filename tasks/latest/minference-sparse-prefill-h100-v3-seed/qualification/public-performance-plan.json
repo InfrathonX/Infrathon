@@ -1,0 +1,2595 @@
+{
+  "bindings": {
+    "prompt_manifest_sha256": "190db6bbd2224a737acb6c3a4afb0c57d2a36ebdd2f838a2f1d86408cf47864f",
+    "source_commit": "a4eb395f949ea39e871f9bc586d683390692c6be",
+    "status": "awaiting-dense-capture",
+    "tokenizer_sha256": {
+      "config.json": "29e4c210b0d6ac178b16b2a255a568bdb23b581e50ca1ef6a6d071dd85704e6e",
+      "special_tokens_map.json": "6f38c73729248f6c127296386e3cdde96e254636cc58b4169d3fd32328d9a8ec",
+      "tokenizer.json": "79e3e522635f3171300913bb421464a87de6222182a0570b9b2ccba2a964b2b4",
+      "tokenizer_config.json": "24e8a6dc2547164b7002e3125f10b415105644fcf02bf9ad8b674c87b1eaaed6"
+    }
+  },
+  "capture_state": "on-demand-fixed-input-plan-v1",
+  "case_groups": [
+    {
+      "case_id": "public-niah_single_2-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-32768-r0-L1",
+        "public-niah_single_2-32768-r1-L1",
+        "public-niah_single_2-32768-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_single_2-32768-r0-L2",
+        "public-niah_single_2-32768-r1-L2",
+        "public-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-32768-r0-L4",
+        "public-niah_single_2-32768-r1-L4",
+        "public-niah_single_2-32768-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_single_2-32768-r0-L2",
+        "public-niah_single_2-32768-r1-L2",
+        "public-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-32768-r0-L15",
+        "public-niah_single_2-32768-r1-L15",
+        "public-niah_single_2-32768-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_single_2-32768-r0-L2",
+        "public-niah_single_2-32768-r1-L2",
+        "public-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-32768-r0-L27",
+        "public-niah_single_2-32768-r1-L27",
+        "public-niah_single_2-32768-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_single_2-32768-r0-L2",
+        "public-niah_single_2-32768-r1-L2",
+        "public-niah_single_2-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-65536-r0-L1",
+        "public-niah_single_2-65536-r1-L1",
+        "public-niah_single_2-65536-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_single_2-65536-r0-L2",
+        "public-niah_single_2-65536-r1-L2",
+        "public-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-65536-r0-L4",
+        "public-niah_single_2-65536-r1-L4",
+        "public-niah_single_2-65536-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_single_2-65536-r0-L2",
+        "public-niah_single_2-65536-r1-L2",
+        "public-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-65536-r0-L15",
+        "public-niah_single_2-65536-r1-L15",
+        "public-niah_single_2-65536-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_single_2-65536-r0-L2",
+        "public-niah_single_2-65536-r1-L2",
+        "public-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-65536-r0-L27",
+        "public-niah_single_2-65536-r1-L27",
+        "public-niah_single_2-65536-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_single_2-65536-r0-L2",
+        "public-niah_single_2-65536-r1-L2",
+        "public-niah_single_2-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-131072-r0-L1",
+        "public-niah_single_2-131072-r1-L1",
+        "public-niah_single_2-131072-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_single_2-131072-r0-L2",
+        "public-niah_single_2-131072-r1-L2",
+        "public-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-131072-r0-L4",
+        "public-niah_single_2-131072-r1-L4",
+        "public-niah_single_2-131072-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_single_2-131072-r0-L2",
+        "public-niah_single_2-131072-r1-L2",
+        "public-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-131072-r0-L15",
+        "public-niah_single_2-131072-r1-L15",
+        "public-niah_single_2-131072-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_single_2-131072-r0-L2",
+        "public-niah_single_2-131072-r1-L2",
+        "public-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_single_2-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "niah_single_2",
+      "trials": [
+        "public-niah_single_2-131072-r0-L27",
+        "public-niah_single_2-131072-r1-L27",
+        "public-niah_single_2-131072-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_single_2-131072-r0-L2",
+        "public-niah_single_2-131072-r1-L2",
+        "public-niah_single_2-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-32768-r0-L1",
+        "public-niah_multikey_1-32768-r1-L1",
+        "public-niah_multikey_1-32768-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-32768-r0-L2",
+        "public-niah_multikey_1-32768-r1-L2",
+        "public-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-32768-r0-L4",
+        "public-niah_multikey_1-32768-r1-L4",
+        "public-niah_multikey_1-32768-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-32768-r0-L2",
+        "public-niah_multikey_1-32768-r1-L2",
+        "public-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-32768-r0-L15",
+        "public-niah_multikey_1-32768-r1-L15",
+        "public-niah_multikey_1-32768-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-32768-r0-L2",
+        "public-niah_multikey_1-32768-r1-L2",
+        "public-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-32768-r0-L27",
+        "public-niah_multikey_1-32768-r1-L27",
+        "public-niah_multikey_1-32768-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-32768-r0-L2",
+        "public-niah_multikey_1-32768-r1-L2",
+        "public-niah_multikey_1-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-65536-r0-L1",
+        "public-niah_multikey_1-65536-r1-L1",
+        "public-niah_multikey_1-65536-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-65536-r0-L2",
+        "public-niah_multikey_1-65536-r1-L2",
+        "public-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-65536-r0-L4",
+        "public-niah_multikey_1-65536-r1-L4",
+        "public-niah_multikey_1-65536-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-65536-r0-L2",
+        "public-niah_multikey_1-65536-r1-L2",
+        "public-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-65536-r0-L15",
+        "public-niah_multikey_1-65536-r1-L15",
+        "public-niah_multikey_1-65536-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-65536-r0-L2",
+        "public-niah_multikey_1-65536-r1-L2",
+        "public-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-65536-r0-L27",
+        "public-niah_multikey_1-65536-r1-L27",
+        "public-niah_multikey_1-65536-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-65536-r0-L2",
+        "public-niah_multikey_1-65536-r1-L2",
+        "public-niah_multikey_1-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-131072-r0-L1",
+        "public-niah_multikey_1-131072-r1-L1",
+        "public-niah_multikey_1-131072-r2-L1"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-131072-r0-L2",
+        "public-niah_multikey_1-131072-r1-L2",
+        "public-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-131072-r0-L4",
+        "public-niah_multikey_1-131072-r1-L4",
+        "public-niah_multikey_1-131072-r2-L4"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-131072-r0-L2",
+        "public-niah_multikey_1-131072-r1-L2",
+        "public-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-131072-r0-L15",
+        "public-niah_multikey_1-131072-r1-L15",
+        "public-niah_multikey_1-131072-r2-L15"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-131072-r0-L2",
+        "public-niah_multikey_1-131072-r1-L2",
+        "public-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-niah_multikey_1-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "niah_multikey_1",
+      "trials": [
+        "public-niah_multikey_1-131072-r0-L27",
+        "public-niah_multikey_1-131072-r1-L27",
+        "public-niah_multikey_1-131072-r2-L27"
+      ],
+      "warmups": [
+        "public-niah_multikey_1-131072-r0-L2",
+        "public-niah_multikey_1-131072-r1-L2",
+        "public-niah_multikey_1-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "public-vt-32768-r0-L1",
+        "public-vt-32768-r1-L1",
+        "public-vt-32768-r2-L1"
+      ],
+      "warmups": [
+        "public-vt-32768-r0-L2",
+        "public-vt-32768-r1-L2",
+        "public-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "public-vt-32768-r0-L4",
+        "public-vt-32768-r1-L4",
+        "public-vt-32768-r2-L4"
+      ],
+      "warmups": [
+        "public-vt-32768-r0-L2",
+        "public-vt-32768-r1-L2",
+        "public-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "public-vt-32768-r0-L15",
+        "public-vt-32768-r1-L15",
+        "public-vt-32768-r2-L15"
+      ],
+      "warmups": [
+        "public-vt-32768-r0-L2",
+        "public-vt-32768-r1-L2",
+        "public-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "public-vt-32768-r0-L27",
+        "public-vt-32768-r1-L27",
+        "public-vt-32768-r2-L27"
+      ],
+      "warmups": [
+        "public-vt-32768-r0-L2",
+        "public-vt-32768-r1-L2",
+        "public-vt-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "public-vt-65536-r0-L1",
+        "public-vt-65536-r1-L1",
+        "public-vt-65536-r2-L1"
+      ],
+      "warmups": [
+        "public-vt-65536-r0-L2",
+        "public-vt-65536-r1-L2",
+        "public-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "public-vt-65536-r0-L4",
+        "public-vt-65536-r1-L4",
+        "public-vt-65536-r2-L4"
+      ],
+      "warmups": [
+        "public-vt-65536-r0-L2",
+        "public-vt-65536-r1-L2",
+        "public-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "public-vt-65536-r0-L15",
+        "public-vt-65536-r1-L15",
+        "public-vt-65536-r2-L15"
+      ],
+      "warmups": [
+        "public-vt-65536-r0-L2",
+        "public-vt-65536-r1-L2",
+        "public-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "public-vt-65536-r0-L27",
+        "public-vt-65536-r1-L27",
+        "public-vt-65536-r2-L27"
+      ],
+      "warmups": [
+        "public-vt-65536-r0-L2",
+        "public-vt-65536-r1-L2",
+        "public-vt-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "vt",
+      "trials": [
+        "public-vt-131072-r0-L1",
+        "public-vt-131072-r1-L1",
+        "public-vt-131072-r2-L1"
+      ],
+      "warmups": [
+        "public-vt-131072-r0-L2",
+        "public-vt-131072-r1-L2",
+        "public-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "vt",
+      "trials": [
+        "public-vt-131072-r0-L4",
+        "public-vt-131072-r1-L4",
+        "public-vt-131072-r2-L4"
+      ],
+      "warmups": [
+        "public-vt-131072-r0-L2",
+        "public-vt-131072-r1-L2",
+        "public-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "vt",
+      "trials": [
+        "public-vt-131072-r0-L15",
+        "public-vt-131072-r1-L15",
+        "public-vt-131072-r2-L15"
+      ],
+      "warmups": [
+        "public-vt-131072-r0-L2",
+        "public-vt-131072-r1-L2",
+        "public-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-vt-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "vt",
+      "trials": [
+        "public-vt-131072-r0-L27",
+        "public-vt-131072-r1-L27",
+        "public-vt-131072-r2-L27"
+      ],
+      "warmups": [
+        "public-vt-131072-r0-L2",
+        "public-vt-131072-r1-L2",
+        "public-vt-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n32768-L1",
+      "context_budget": 32768,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-32768-r0-L1",
+        "public-fwe-32768-r1-L1",
+        "public-fwe-32768-r2-L1"
+      ],
+      "warmups": [
+        "public-fwe-32768-r0-L2",
+        "public-fwe-32768-r1-L2",
+        "public-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n32768-L4",
+      "context_budget": 32768,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-32768-r0-L4",
+        "public-fwe-32768-r1-L4",
+        "public-fwe-32768-r2-L4"
+      ],
+      "warmups": [
+        "public-fwe-32768-r0-L2",
+        "public-fwe-32768-r1-L2",
+        "public-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n32768-L15",
+      "context_budget": 32768,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-32768-r0-L15",
+        "public-fwe-32768-r1-L15",
+        "public-fwe-32768-r2-L15"
+      ],
+      "warmups": [
+        "public-fwe-32768-r0-L2",
+        "public-fwe-32768-r1-L2",
+        "public-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n32768-L27",
+      "context_budget": 32768,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-32768-r0-L27",
+        "public-fwe-32768-r1-L27",
+        "public-fwe-32768-r2-L27"
+      ],
+      "warmups": [
+        "public-fwe-32768-r0-L2",
+        "public-fwe-32768-r1-L2",
+        "public-fwe-32768-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n65536-L1",
+      "context_budget": 65536,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-65536-r0-L1",
+        "public-fwe-65536-r1-L1",
+        "public-fwe-65536-r2-L1"
+      ],
+      "warmups": [
+        "public-fwe-65536-r0-L2",
+        "public-fwe-65536-r1-L2",
+        "public-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n65536-L4",
+      "context_budget": 65536,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-65536-r0-L4",
+        "public-fwe-65536-r1-L4",
+        "public-fwe-65536-r2-L4"
+      ],
+      "warmups": [
+        "public-fwe-65536-r0-L2",
+        "public-fwe-65536-r1-L2",
+        "public-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n65536-L15",
+      "context_budget": 65536,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-65536-r0-L15",
+        "public-fwe-65536-r1-L15",
+        "public-fwe-65536-r2-L15"
+      ],
+      "warmups": [
+        "public-fwe-65536-r0-L2",
+        "public-fwe-65536-r1-L2",
+        "public-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n65536-L27",
+      "context_budget": 65536,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-65536-r0-L27",
+        "public-fwe-65536-r1-L27",
+        "public-fwe-65536-r2-L27"
+      ],
+      "warmups": [
+        "public-fwe-65536-r0-L2",
+        "public-fwe-65536-r1-L2",
+        "public-fwe-65536-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n131072-L1",
+      "context_budget": 131072,
+      "layer": 1,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-131072-r0-L1",
+        "public-fwe-131072-r1-L1",
+        "public-fwe-131072-r2-L1"
+      ],
+      "warmups": [
+        "public-fwe-131072-r0-L2",
+        "public-fwe-131072-r1-L2",
+        "public-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n131072-L4",
+      "context_budget": 131072,
+      "layer": 4,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-131072-r0-L4",
+        "public-fwe-131072-r1-L4",
+        "public-fwe-131072-r2-L4"
+      ],
+      "warmups": [
+        "public-fwe-131072-r0-L2",
+        "public-fwe-131072-r1-L2",
+        "public-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n131072-L15",
+      "context_budget": 131072,
+      "layer": 15,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-131072-r0-L15",
+        "public-fwe-131072-r1-L15",
+        "public-fwe-131072-r2-L15"
+      ],
+      "warmups": [
+        "public-fwe-131072-r0-L2",
+        "public-fwe-131072-r1-L2",
+        "public-fwe-131072-r2-L2"
+      ]
+    },
+    {
+      "case_id": "public-fwe-n131072-L27",
+      "context_budget": 131072,
+      "layer": 27,
+      "task": "fwe",
+      "trials": [
+        "public-fwe-131072-r0-L27",
+        "public-fwe-131072-r1-L27",
+        "public-fwe-131072-r2-L27"
+      ],
+      "warmups": [
+        "public-fwe-131072-r0-L2",
+        "public-fwe-131072-r1-L2",
+        "public-fwe-131072-r2-L2"
+      ]
+    }
+  ],
+  "fixtures": {
+    "public-fwe-131072-r0-L1": {
+      "actual_n": 124120,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r0-L1.safetensors",
+      "input_token_sha256": "37d9a2351b1386491f4de7f8a8ee34fa0e8f7212505dfc30f87cb474467b8bc8",
+      "layer": 1,
+      "prompt_id": "public-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r0-L15": {
+      "actual_n": 124120,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r0-L15.safetensors",
+      "input_token_sha256": "37d9a2351b1386491f4de7f8a8ee34fa0e8f7212505dfc30f87cb474467b8bc8",
+      "layer": 15,
+      "prompt_id": "public-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r0-L2": {
+      "actual_n": 124120,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r0-L2.safetensors",
+      "input_token_sha256": "37d9a2351b1386491f4de7f8a8ee34fa0e8f7212505dfc30f87cb474467b8bc8",
+      "layer": 2,
+      "prompt_id": "public-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r0-L27": {
+      "actual_n": 124120,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r0-L27.safetensors",
+      "input_token_sha256": "37d9a2351b1386491f4de7f8a8ee34fa0e8f7212505dfc30f87cb474467b8bc8",
+      "layer": 27,
+      "prompt_id": "public-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r0-L4": {
+      "actual_n": 124120,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r0-L4.safetensors",
+      "input_token_sha256": "37d9a2351b1386491f4de7f8a8ee34fa0e8f7212505dfc30f87cb474467b8bc8",
+      "layer": 4,
+      "prompt_id": "public-fwe-131072-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r1-L1": {
+      "actual_n": 128468,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r1-L1.safetensors",
+      "input_token_sha256": "3d5a347a0d02ef52a0bd5e7171c175733c8a9880dd07bd8846b76e560ee2f2f3",
+      "layer": 1,
+      "prompt_id": "public-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r1-L15": {
+      "actual_n": 128468,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r1-L15.safetensors",
+      "input_token_sha256": "3d5a347a0d02ef52a0bd5e7171c175733c8a9880dd07bd8846b76e560ee2f2f3",
+      "layer": 15,
+      "prompt_id": "public-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r1-L2": {
+      "actual_n": 128468,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r1-L2.safetensors",
+      "input_token_sha256": "3d5a347a0d02ef52a0bd5e7171c175733c8a9880dd07bd8846b76e560ee2f2f3",
+      "layer": 2,
+      "prompt_id": "public-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r1-L27": {
+      "actual_n": 128468,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r1-L27.safetensors",
+      "input_token_sha256": "3d5a347a0d02ef52a0bd5e7171c175733c8a9880dd07bd8846b76e560ee2f2f3",
+      "layer": 27,
+      "prompt_id": "public-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r1-L4": {
+      "actual_n": 128468,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r1-L4.safetensors",
+      "input_token_sha256": "3d5a347a0d02ef52a0bd5e7171c175733c8a9880dd07bd8846b76e560ee2f2f3",
+      "layer": 4,
+      "prompt_id": "public-fwe-131072-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r2-L1": {
+      "actual_n": 126589,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r2-L1.safetensors",
+      "input_token_sha256": "1d7932ec9f022a15a323febc97ddade08b593bf1c60b1ef3a0b1f9c8b4133b65",
+      "layer": 1,
+      "prompt_id": "public-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r2-L15": {
+      "actual_n": 126589,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r2-L15.safetensors",
+      "input_token_sha256": "1d7932ec9f022a15a323febc97ddade08b593bf1c60b1ef3a0b1f9c8b4133b65",
+      "layer": 15,
+      "prompt_id": "public-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r2-L2": {
+      "actual_n": 126589,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r2-L2.safetensors",
+      "input_token_sha256": "1d7932ec9f022a15a323febc97ddade08b593bf1c60b1ef3a0b1f9c8b4133b65",
+      "layer": 2,
+      "prompt_id": "public-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r2-L27": {
+      "actual_n": 126589,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r2-L27.safetensors",
+      "input_token_sha256": "1d7932ec9f022a15a323febc97ddade08b593bf1c60b1ef3a0b1f9c8b4133b65",
+      "layer": 27,
+      "prompt_id": "public-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-131072-r2-L4": {
+      "actual_n": 126589,
+      "context_budget": 131072,
+      "file": "public-fwe-131072-r2-L4.safetensors",
+      "input_token_sha256": "1d7932ec9f022a15a323febc97ddade08b593bf1c60b1ef3a0b1f9c8b4133b65",
+      "layer": 4,
+      "prompt_id": "public-fwe-131072-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r0-L1": {
+      "actual_n": 31583,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r0-L1.safetensors",
+      "input_token_sha256": "444274532cba6486f1a88ba37127a933222f03a6da5a1eb4492f0168b294f782",
+      "layer": 1,
+      "prompt_id": "public-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r0-L15": {
+      "actual_n": 31583,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r0-L15.safetensors",
+      "input_token_sha256": "444274532cba6486f1a88ba37127a933222f03a6da5a1eb4492f0168b294f782",
+      "layer": 15,
+      "prompt_id": "public-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r0-L2": {
+      "actual_n": 31583,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r0-L2.safetensors",
+      "input_token_sha256": "444274532cba6486f1a88ba37127a933222f03a6da5a1eb4492f0168b294f782",
+      "layer": 2,
+      "prompt_id": "public-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r0-L27": {
+      "actual_n": 31583,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r0-L27.safetensors",
+      "input_token_sha256": "444274532cba6486f1a88ba37127a933222f03a6da5a1eb4492f0168b294f782",
+      "layer": 27,
+      "prompt_id": "public-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r0-L4": {
+      "actual_n": 31583,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r0-L4.safetensors",
+      "input_token_sha256": "444274532cba6486f1a88ba37127a933222f03a6da5a1eb4492f0168b294f782",
+      "layer": 4,
+      "prompt_id": "public-fwe-32768-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r1-L1": {
+      "actual_n": 32510,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r1-L1.safetensors",
+      "input_token_sha256": "a2c00e00ace002df1cafd35da9c75cd3638c02d43af033d60619f5d68abe1b0c",
+      "layer": 1,
+      "prompt_id": "public-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r1-L15": {
+      "actual_n": 32510,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r1-L15.safetensors",
+      "input_token_sha256": "a2c00e00ace002df1cafd35da9c75cd3638c02d43af033d60619f5d68abe1b0c",
+      "layer": 15,
+      "prompt_id": "public-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r1-L2": {
+      "actual_n": 32510,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r1-L2.safetensors",
+      "input_token_sha256": "a2c00e00ace002df1cafd35da9c75cd3638c02d43af033d60619f5d68abe1b0c",
+      "layer": 2,
+      "prompt_id": "public-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r1-L27": {
+      "actual_n": 32510,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r1-L27.safetensors",
+      "input_token_sha256": "a2c00e00ace002df1cafd35da9c75cd3638c02d43af033d60619f5d68abe1b0c",
+      "layer": 27,
+      "prompt_id": "public-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r1-L4": {
+      "actual_n": 32510,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r1-L4.safetensors",
+      "input_token_sha256": "a2c00e00ace002df1cafd35da9c75cd3638c02d43af033d60619f5d68abe1b0c",
+      "layer": 4,
+      "prompt_id": "public-fwe-32768-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r2-L1": {
+      "actual_n": 31397,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r2-L1.safetensors",
+      "input_token_sha256": "7d26961c975d8e6d7ebebcd0b357b7d5ebf2136f65f83d4e52b114d811cc764a",
+      "layer": 1,
+      "prompt_id": "public-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r2-L15": {
+      "actual_n": 31397,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r2-L15.safetensors",
+      "input_token_sha256": "7d26961c975d8e6d7ebebcd0b357b7d5ebf2136f65f83d4e52b114d811cc764a",
+      "layer": 15,
+      "prompt_id": "public-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r2-L2": {
+      "actual_n": 31397,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r2-L2.safetensors",
+      "input_token_sha256": "7d26961c975d8e6d7ebebcd0b357b7d5ebf2136f65f83d4e52b114d811cc764a",
+      "layer": 2,
+      "prompt_id": "public-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r2-L27": {
+      "actual_n": 31397,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r2-L27.safetensors",
+      "input_token_sha256": "7d26961c975d8e6d7ebebcd0b357b7d5ebf2136f65f83d4e52b114d811cc764a",
+      "layer": 27,
+      "prompt_id": "public-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-32768-r2-L4": {
+      "actual_n": 31397,
+      "context_budget": 32768,
+      "file": "public-fwe-32768-r2-L4.safetensors",
+      "input_token_sha256": "7d26961c975d8e6d7ebebcd0b357b7d5ebf2136f65f83d4e52b114d811cc764a",
+      "layer": 4,
+      "prompt_id": "public-fwe-32768-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r0-L1": {
+      "actual_n": 63193,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r0-L1.safetensors",
+      "input_token_sha256": "84ee5b02559246e0cf055ba1dcfa18b018635b6c8099b5c1a663c76e75ad0406",
+      "layer": 1,
+      "prompt_id": "public-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r0-L15": {
+      "actual_n": 63193,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r0-L15.safetensors",
+      "input_token_sha256": "84ee5b02559246e0cf055ba1dcfa18b018635b6c8099b5c1a663c76e75ad0406",
+      "layer": 15,
+      "prompt_id": "public-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r0-L2": {
+      "actual_n": 63193,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r0-L2.safetensors",
+      "input_token_sha256": "84ee5b02559246e0cf055ba1dcfa18b018635b6c8099b5c1a663c76e75ad0406",
+      "layer": 2,
+      "prompt_id": "public-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r0-L27": {
+      "actual_n": 63193,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r0-L27.safetensors",
+      "input_token_sha256": "84ee5b02559246e0cf055ba1dcfa18b018635b6c8099b5c1a663c76e75ad0406",
+      "layer": 27,
+      "prompt_id": "public-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r0-L4": {
+      "actual_n": 63193,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r0-L4.safetensors",
+      "input_token_sha256": "84ee5b02559246e0cf055ba1dcfa18b018635b6c8099b5c1a663c76e75ad0406",
+      "layer": 4,
+      "prompt_id": "public-fwe-65536-r0",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r1-L1": {
+      "actual_n": 62920,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r1-L1.safetensors",
+      "input_token_sha256": "be306ebd0a288f3fbd6e5af311107c6809dca70bf0370f34bb39fe6e2752032b",
+      "layer": 1,
+      "prompt_id": "public-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r1-L15": {
+      "actual_n": 62920,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r1-L15.safetensors",
+      "input_token_sha256": "be306ebd0a288f3fbd6e5af311107c6809dca70bf0370f34bb39fe6e2752032b",
+      "layer": 15,
+      "prompt_id": "public-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r1-L2": {
+      "actual_n": 62920,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r1-L2.safetensors",
+      "input_token_sha256": "be306ebd0a288f3fbd6e5af311107c6809dca70bf0370f34bb39fe6e2752032b",
+      "layer": 2,
+      "prompt_id": "public-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r1-L27": {
+      "actual_n": 62920,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r1-L27.safetensors",
+      "input_token_sha256": "be306ebd0a288f3fbd6e5af311107c6809dca70bf0370f34bb39fe6e2752032b",
+      "layer": 27,
+      "prompt_id": "public-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r1-L4": {
+      "actual_n": 62920,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r1-L4.safetensors",
+      "input_token_sha256": "be306ebd0a288f3fbd6e5af311107c6809dca70bf0370f34bb39fe6e2752032b",
+      "layer": 4,
+      "prompt_id": "public-fwe-65536-r1",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r2-L1": {
+      "actual_n": 63210,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r2-L1.safetensors",
+      "input_token_sha256": "c28c6390532dd8d3ba037ddf269da3a1bd3a35fea1dfd774f08c9cb5c37a1942",
+      "layer": 1,
+      "prompt_id": "public-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r2-L15": {
+      "actual_n": 63210,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r2-L15.safetensors",
+      "input_token_sha256": "c28c6390532dd8d3ba037ddf269da3a1bd3a35fea1dfd774f08c9cb5c37a1942",
+      "layer": 15,
+      "prompt_id": "public-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r2-L2": {
+      "actual_n": 63210,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r2-L2.safetensors",
+      "input_token_sha256": "c28c6390532dd8d3ba037ddf269da3a1bd3a35fea1dfd774f08c9cb5c37a1942",
+      "layer": 2,
+      "prompt_id": "public-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r2-L27": {
+      "actual_n": 63210,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r2-L27.safetensors",
+      "input_token_sha256": "c28c6390532dd8d3ba037ddf269da3a1bd3a35fea1dfd774f08c9cb5c37a1942",
+      "layer": 27,
+      "prompt_id": "public-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-fwe-65536-r2-L4": {
+      "actual_n": 63210,
+      "context_budget": 65536,
+      "file": "public-fwe-65536-r2-L4.safetensors",
+      "input_token_sha256": "c28c6390532dd8d3ba037ddf269da3a1bd3a35fea1dfd774f08c9cb5c37a1942",
+      "layer": 4,
+      "prompt_id": "public-fwe-65536-r2",
+      "task": "fwe",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r0-L1": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r0-L1.safetensors",
+      "input_token_sha256": "c640f93783470bd37058f9a50f62cc3f35cc6cdbb4259a2767f0d674e353d0d0",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r0-L15": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r0-L15.safetensors",
+      "input_token_sha256": "c640f93783470bd37058f9a50f62cc3f35cc6cdbb4259a2767f0d674e353d0d0",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r0-L2": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r0-L2.safetensors",
+      "input_token_sha256": "c640f93783470bd37058f9a50f62cc3f35cc6cdbb4259a2767f0d674e353d0d0",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r0-L27": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r0-L27.safetensors",
+      "input_token_sha256": "c640f93783470bd37058f9a50f62cc3f35cc6cdbb4259a2767f0d674e353d0d0",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r0-L4": {
+      "actual_n": 130411,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r0-L4.safetensors",
+      "input_token_sha256": "c640f93783470bd37058f9a50f62cc3f35cc6cdbb4259a2767f0d674e353d0d0",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-131072-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r1-L1": {
+      "actual_n": 130409,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r1-L1.safetensors",
+      "input_token_sha256": "801ce4aee455e629595c41838c46beb79edf0b28aa43a21ac447a6bdd13fb899",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r1-L15": {
+      "actual_n": 130409,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r1-L15.safetensors",
+      "input_token_sha256": "801ce4aee455e629595c41838c46beb79edf0b28aa43a21ac447a6bdd13fb899",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r1-L2": {
+      "actual_n": 130409,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r1-L2.safetensors",
+      "input_token_sha256": "801ce4aee455e629595c41838c46beb79edf0b28aa43a21ac447a6bdd13fb899",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r1-L27": {
+      "actual_n": 130409,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r1-L27.safetensors",
+      "input_token_sha256": "801ce4aee455e629595c41838c46beb79edf0b28aa43a21ac447a6bdd13fb899",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r1-L4": {
+      "actual_n": 130409,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r1-L4.safetensors",
+      "input_token_sha256": "801ce4aee455e629595c41838c46beb79edf0b28aa43a21ac447a6bdd13fb899",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-131072-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r2-L1": {
+      "actual_n": 130412,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r2-L1.safetensors",
+      "input_token_sha256": "2fa360040fdcffa6ebe6ca23214256f562cdd606406b0cad396edc85bd065f91",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r2-L15": {
+      "actual_n": 130412,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r2-L15.safetensors",
+      "input_token_sha256": "2fa360040fdcffa6ebe6ca23214256f562cdd606406b0cad396edc85bd065f91",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r2-L2": {
+      "actual_n": 130412,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r2-L2.safetensors",
+      "input_token_sha256": "2fa360040fdcffa6ebe6ca23214256f562cdd606406b0cad396edc85bd065f91",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r2-L27": {
+      "actual_n": 130412,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r2-L27.safetensors",
+      "input_token_sha256": "2fa360040fdcffa6ebe6ca23214256f562cdd606406b0cad396edc85bd065f91",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-131072-r2-L4": {
+      "actual_n": 130412,
+      "context_budget": 131072,
+      "file": "public-niah_multikey_1-131072-r2-L4.safetensors",
+      "input_token_sha256": "2fa360040fdcffa6ebe6ca23214256f562cdd606406b0cad396edc85bd065f91",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-131072-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r0-L1": {
+      "actual_n": 32221,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r0-L1.safetensors",
+      "input_token_sha256": "e2105041e68081256d603d9dadbfb9f99b2c42e274f78ffec3c0c702a97539b6",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r0-L15": {
+      "actual_n": 32221,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r0-L15.safetensors",
+      "input_token_sha256": "e2105041e68081256d603d9dadbfb9f99b2c42e274f78ffec3c0c702a97539b6",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r0-L2": {
+      "actual_n": 32221,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r0-L2.safetensors",
+      "input_token_sha256": "e2105041e68081256d603d9dadbfb9f99b2c42e274f78ffec3c0c702a97539b6",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r0-L27": {
+      "actual_n": 32221,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r0-L27.safetensors",
+      "input_token_sha256": "e2105041e68081256d603d9dadbfb9f99b2c42e274f78ffec3c0c702a97539b6",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r0-L4": {
+      "actual_n": 32221,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r0-L4.safetensors",
+      "input_token_sha256": "e2105041e68081256d603d9dadbfb9f99b2c42e274f78ffec3c0c702a97539b6",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-32768-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r1-L1": {
+      "actual_n": 32222,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r1-L1.safetensors",
+      "input_token_sha256": "bcefcb1efed924edeeb94487cc4903aa8109b497eb16efd944da37a5a7b72d0a",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r1-L15": {
+      "actual_n": 32222,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r1-L15.safetensors",
+      "input_token_sha256": "bcefcb1efed924edeeb94487cc4903aa8109b497eb16efd944da37a5a7b72d0a",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r1-L2": {
+      "actual_n": 32222,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r1-L2.safetensors",
+      "input_token_sha256": "bcefcb1efed924edeeb94487cc4903aa8109b497eb16efd944da37a5a7b72d0a",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r1-L27": {
+      "actual_n": 32222,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r1-L27.safetensors",
+      "input_token_sha256": "bcefcb1efed924edeeb94487cc4903aa8109b497eb16efd944da37a5a7b72d0a",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r1-L4": {
+      "actual_n": 32222,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r1-L4.safetensors",
+      "input_token_sha256": "bcefcb1efed924edeeb94487cc4903aa8109b497eb16efd944da37a5a7b72d0a",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-32768-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r2-L1": {
+      "actual_n": 32225,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r2-L1.safetensors",
+      "input_token_sha256": "47826f0cbef5c227a083ed30a2971f18b807deef75cac87b72ace563c623d020",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r2-L15": {
+      "actual_n": 32225,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r2-L15.safetensors",
+      "input_token_sha256": "47826f0cbef5c227a083ed30a2971f18b807deef75cac87b72ace563c623d020",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r2-L2": {
+      "actual_n": 32225,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r2-L2.safetensors",
+      "input_token_sha256": "47826f0cbef5c227a083ed30a2971f18b807deef75cac87b72ace563c623d020",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r2-L27": {
+      "actual_n": 32225,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r2-L27.safetensors",
+      "input_token_sha256": "47826f0cbef5c227a083ed30a2971f18b807deef75cac87b72ace563c623d020",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-32768-r2-L4": {
+      "actual_n": 32225,
+      "context_budget": 32768,
+      "file": "public-niah_multikey_1-32768-r2-L4.safetensors",
+      "input_token_sha256": "47826f0cbef5c227a083ed30a2971f18b807deef75cac87b72ace563c623d020",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-32768-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r0-L1": {
+      "actual_n": 65055,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r0-L1.safetensors",
+      "input_token_sha256": "00dea34ba4db2e26dbad959cf2d1987d5de4246a90df9f8b274177e6a9674ace",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r0-L15": {
+      "actual_n": 65055,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r0-L15.safetensors",
+      "input_token_sha256": "00dea34ba4db2e26dbad959cf2d1987d5de4246a90df9f8b274177e6a9674ace",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r0-L2": {
+      "actual_n": 65055,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r0-L2.safetensors",
+      "input_token_sha256": "00dea34ba4db2e26dbad959cf2d1987d5de4246a90df9f8b274177e6a9674ace",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r0-L27": {
+      "actual_n": 65055,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r0-L27.safetensors",
+      "input_token_sha256": "00dea34ba4db2e26dbad959cf2d1987d5de4246a90df9f8b274177e6a9674ace",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r0-L4": {
+      "actual_n": 65055,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r0-L4.safetensors",
+      "input_token_sha256": "00dea34ba4db2e26dbad959cf2d1987d5de4246a90df9f8b274177e6a9674ace",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-65536-r0",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r1-L1": {
+      "actual_n": 65057,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r1-L1.safetensors",
+      "input_token_sha256": "b0c349f119bcc511854856f7eb02814cca6dc2ee229284342b7adbc4c658d803",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r1-L15": {
+      "actual_n": 65057,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r1-L15.safetensors",
+      "input_token_sha256": "b0c349f119bcc511854856f7eb02814cca6dc2ee229284342b7adbc4c658d803",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r1-L2": {
+      "actual_n": 65057,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r1-L2.safetensors",
+      "input_token_sha256": "b0c349f119bcc511854856f7eb02814cca6dc2ee229284342b7adbc4c658d803",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r1-L27": {
+      "actual_n": 65057,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r1-L27.safetensors",
+      "input_token_sha256": "b0c349f119bcc511854856f7eb02814cca6dc2ee229284342b7adbc4c658d803",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r1-L4": {
+      "actual_n": 65057,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r1-L4.safetensors",
+      "input_token_sha256": "b0c349f119bcc511854856f7eb02814cca6dc2ee229284342b7adbc4c658d803",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-65536-r1",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r2-L1": {
+      "actual_n": 65056,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r2-L1.safetensors",
+      "input_token_sha256": "062073839f267218f80b67653e13100384c7c7b90d80f1eb2f1387bbbdca7d00",
+      "layer": 1,
+      "prompt_id": "public-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r2-L15": {
+      "actual_n": 65056,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r2-L15.safetensors",
+      "input_token_sha256": "062073839f267218f80b67653e13100384c7c7b90d80f1eb2f1387bbbdca7d00",
+      "layer": 15,
+      "prompt_id": "public-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r2-L2": {
+      "actual_n": 65056,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r2-L2.safetensors",
+      "input_token_sha256": "062073839f267218f80b67653e13100384c7c7b90d80f1eb2f1387bbbdca7d00",
+      "layer": 2,
+      "prompt_id": "public-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r2-L27": {
+      "actual_n": 65056,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r2-L27.safetensors",
+      "input_token_sha256": "062073839f267218f80b67653e13100384c7c7b90d80f1eb2f1387bbbdca7d00",
+      "layer": 27,
+      "prompt_id": "public-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_multikey_1-65536-r2-L4": {
+      "actual_n": 65056,
+      "context_budget": 65536,
+      "file": "public-niah_multikey_1-65536-r2-L4.safetensors",
+      "input_token_sha256": "062073839f267218f80b67653e13100384c7c7b90d80f1eb2f1387bbbdca7d00",
+      "layer": 4,
+      "prompt_id": "public-niah_multikey_1-65536-r2",
+      "task": "niah_multikey_1",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r0-L1": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r0-L1.safetensors",
+      "input_token_sha256": "b8bc1b27a3b0cb465891fd874a1e80c7bc1192d1db3958201373bc058b1e4eef",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r0-L15": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r0-L15.safetensors",
+      "input_token_sha256": "b8bc1b27a3b0cb465891fd874a1e80c7bc1192d1db3958201373bc058b1e4eef",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r0-L2": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r0-L2.safetensors",
+      "input_token_sha256": "b8bc1b27a3b0cb465891fd874a1e80c7bc1192d1db3958201373bc058b1e4eef",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r0-L27": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r0-L27.safetensors",
+      "input_token_sha256": "b8bc1b27a3b0cb465891fd874a1e80c7bc1192d1db3958201373bc058b1e4eef",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r0-L4": {
+      "actual_n": 130360,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r0-L4.safetensors",
+      "input_token_sha256": "b8bc1b27a3b0cb465891fd874a1e80c7bc1192d1db3958201373bc058b1e4eef",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-131072-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r1-L1": {
+      "actual_n": 130354,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r1-L1.safetensors",
+      "input_token_sha256": "417567a562b38b88de5d03d71132ba3817642e09d1a2c9cda4d3a23fc5dc7546",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r1-L15": {
+      "actual_n": 130354,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r1-L15.safetensors",
+      "input_token_sha256": "417567a562b38b88de5d03d71132ba3817642e09d1a2c9cda4d3a23fc5dc7546",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r1-L2": {
+      "actual_n": 130354,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r1-L2.safetensors",
+      "input_token_sha256": "417567a562b38b88de5d03d71132ba3817642e09d1a2c9cda4d3a23fc5dc7546",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r1-L27": {
+      "actual_n": 130354,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r1-L27.safetensors",
+      "input_token_sha256": "417567a562b38b88de5d03d71132ba3817642e09d1a2c9cda4d3a23fc5dc7546",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r1-L4": {
+      "actual_n": 130354,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r1-L4.safetensors",
+      "input_token_sha256": "417567a562b38b88de5d03d71132ba3817642e09d1a2c9cda4d3a23fc5dc7546",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-131072-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r2-L1": {
+      "actual_n": 130357,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r2-L1.safetensors",
+      "input_token_sha256": "fb574de0e554bf38bacf36a1d1c2b7659b6e8f4ce6baa2a899354ffa7c7f248c",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r2-L15": {
+      "actual_n": 130357,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r2-L15.safetensors",
+      "input_token_sha256": "fb574de0e554bf38bacf36a1d1c2b7659b6e8f4ce6baa2a899354ffa7c7f248c",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r2-L2": {
+      "actual_n": 130357,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r2-L2.safetensors",
+      "input_token_sha256": "fb574de0e554bf38bacf36a1d1c2b7659b6e8f4ce6baa2a899354ffa7c7f248c",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r2-L27": {
+      "actual_n": 130357,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r2-L27.safetensors",
+      "input_token_sha256": "fb574de0e554bf38bacf36a1d1c2b7659b6e8f4ce6baa2a899354ffa7c7f248c",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-131072-r2-L4": {
+      "actual_n": 130357,
+      "context_budget": 131072,
+      "file": "public-niah_single_2-131072-r2-L4.safetensors",
+      "input_token_sha256": "fb574de0e554bf38bacf36a1d1c2b7659b6e8f4ce6baa2a899354ffa7c7f248c",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-131072-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r0-L1": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r0-L1.safetensors",
+      "input_token_sha256": "29ea5aadc118389e1b3fb732990fe2c9e4ca5edffcf6ce3feb20110bb001490d",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r0-L15": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r0-L15.safetensors",
+      "input_token_sha256": "29ea5aadc118389e1b3fb732990fe2c9e4ca5edffcf6ce3feb20110bb001490d",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r0-L2": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r0-L2.safetensors",
+      "input_token_sha256": "29ea5aadc118389e1b3fb732990fe2c9e4ca5edffcf6ce3feb20110bb001490d",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r0-L27": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r0-L27.safetensors",
+      "input_token_sha256": "29ea5aadc118389e1b3fb732990fe2c9e4ca5edffcf6ce3feb20110bb001490d",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r0-L4": {
+      "actual_n": 32172,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r0-L4.safetensors",
+      "input_token_sha256": "29ea5aadc118389e1b3fb732990fe2c9e4ca5edffcf6ce3feb20110bb001490d",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-32768-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r1-L1": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r1-L1.safetensors",
+      "input_token_sha256": "beffeeeffc80fc93b25d3ddf561dc6525f366f3a5099426f694685adfff1cc39",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r1-L15": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r1-L15.safetensors",
+      "input_token_sha256": "beffeeeffc80fc93b25d3ddf561dc6525f366f3a5099426f694685adfff1cc39",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r1-L2": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r1-L2.safetensors",
+      "input_token_sha256": "beffeeeffc80fc93b25d3ddf561dc6525f366f3a5099426f694685adfff1cc39",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r1-L27": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r1-L27.safetensors",
+      "input_token_sha256": "beffeeeffc80fc93b25d3ddf561dc6525f366f3a5099426f694685adfff1cc39",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r1-L4": {
+      "actual_n": 32175,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r1-L4.safetensors",
+      "input_token_sha256": "beffeeeffc80fc93b25d3ddf561dc6525f366f3a5099426f694685adfff1cc39",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-32768-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r2-L1": {
+      "actual_n": 32166,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r2-L1.safetensors",
+      "input_token_sha256": "32b8f1d574f1d0e81ec7bce614c5794a388f18922d073205df98634b56ac5234",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r2-L15": {
+      "actual_n": 32166,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r2-L15.safetensors",
+      "input_token_sha256": "32b8f1d574f1d0e81ec7bce614c5794a388f18922d073205df98634b56ac5234",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r2-L2": {
+      "actual_n": 32166,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r2-L2.safetensors",
+      "input_token_sha256": "32b8f1d574f1d0e81ec7bce614c5794a388f18922d073205df98634b56ac5234",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r2-L27": {
+      "actual_n": 32166,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r2-L27.safetensors",
+      "input_token_sha256": "32b8f1d574f1d0e81ec7bce614c5794a388f18922d073205df98634b56ac5234",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-32768-r2-L4": {
+      "actual_n": 32166,
+      "context_budget": 32768,
+      "file": "public-niah_single_2-32768-r2-L4.safetensors",
+      "input_token_sha256": "32b8f1d574f1d0e81ec7bce614c5794a388f18922d073205df98634b56ac5234",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-32768-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r0-L1": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r0-L1.safetensors",
+      "input_token_sha256": "e9fb0fb63bf28bab5de8c237561101c973e87060d0a6d9d73183ccb6e80b00ab",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r0-L15": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r0-L15.safetensors",
+      "input_token_sha256": "e9fb0fb63bf28bab5de8c237561101c973e87060d0a6d9d73183ccb6e80b00ab",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r0-L2": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r0-L2.safetensors",
+      "input_token_sha256": "e9fb0fb63bf28bab5de8c237561101c973e87060d0a6d9d73183ccb6e80b00ab",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r0-L27": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r0-L27.safetensors",
+      "input_token_sha256": "e9fb0fb63bf28bab5de8c237561101c973e87060d0a6d9d73183ccb6e80b00ab",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r0-L4": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r0-L4.safetensors",
+      "input_token_sha256": "e9fb0fb63bf28bab5de8c237561101c973e87060d0a6d9d73183ccb6e80b00ab",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-65536-r0",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r1-L1": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r1-L1.safetensors",
+      "input_token_sha256": "f7041888c1f8c4e8df8101c27e8e4240e6aa36184d5c6460d8032ebe66bff589",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r1-L15": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r1-L15.safetensors",
+      "input_token_sha256": "f7041888c1f8c4e8df8101c27e8e4240e6aa36184d5c6460d8032ebe66bff589",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r1-L2": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r1-L2.safetensors",
+      "input_token_sha256": "f7041888c1f8c4e8df8101c27e8e4240e6aa36184d5c6460d8032ebe66bff589",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r1-L27": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r1-L27.safetensors",
+      "input_token_sha256": "f7041888c1f8c4e8df8101c27e8e4240e6aa36184d5c6460d8032ebe66bff589",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r1-L4": {
+      "actual_n": 65002,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r1-L4.safetensors",
+      "input_token_sha256": "f7041888c1f8c4e8df8101c27e8e4240e6aa36184d5c6460d8032ebe66bff589",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-65536-r1",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r2-L1": {
+      "actual_n": 65005,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r2-L1.safetensors",
+      "input_token_sha256": "4ad4777da3aa31418348a72563d1648703d052d1f2d3fd26a5c41ef22269b4b3",
+      "layer": 1,
+      "prompt_id": "public-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r2-L15": {
+      "actual_n": 65005,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r2-L15.safetensors",
+      "input_token_sha256": "4ad4777da3aa31418348a72563d1648703d052d1f2d3fd26a5c41ef22269b4b3",
+      "layer": 15,
+      "prompt_id": "public-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r2-L2": {
+      "actual_n": 65005,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r2-L2.safetensors",
+      "input_token_sha256": "4ad4777da3aa31418348a72563d1648703d052d1f2d3fd26a5c41ef22269b4b3",
+      "layer": 2,
+      "prompt_id": "public-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r2-L27": {
+      "actual_n": 65005,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r2-L27.safetensors",
+      "input_token_sha256": "4ad4777da3aa31418348a72563d1648703d052d1f2d3fd26a5c41ef22269b4b3",
+      "layer": 27,
+      "prompt_id": "public-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-niah_single_2-65536-r2-L4": {
+      "actual_n": 65005,
+      "context_budget": 65536,
+      "file": "public-niah_single_2-65536-r2-L4.safetensors",
+      "input_token_sha256": "4ad4777da3aa31418348a72563d1648703d052d1f2d3fd26a5c41ef22269b4b3",
+      "layer": 4,
+      "prompt_id": "public-niah_single_2-65536-r2",
+      "task": "niah_single_2",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r0-L1": {
+      "actual_n": 130802,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r0-L1.safetensors",
+      "input_token_sha256": "b96168c3d5481cdfb0171ce020618a7868155e5797d0b0d278c1adb4e00d8fc9",
+      "layer": 1,
+      "prompt_id": "public-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r0-L15": {
+      "actual_n": 130802,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r0-L15.safetensors",
+      "input_token_sha256": "b96168c3d5481cdfb0171ce020618a7868155e5797d0b0d278c1adb4e00d8fc9",
+      "layer": 15,
+      "prompt_id": "public-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r0-L2": {
+      "actual_n": 130802,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r0-L2.safetensors",
+      "input_token_sha256": "b96168c3d5481cdfb0171ce020618a7868155e5797d0b0d278c1adb4e00d8fc9",
+      "layer": 2,
+      "prompt_id": "public-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r0-L27": {
+      "actual_n": 130802,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r0-L27.safetensors",
+      "input_token_sha256": "b96168c3d5481cdfb0171ce020618a7868155e5797d0b0d278c1adb4e00d8fc9",
+      "layer": 27,
+      "prompt_id": "public-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r0-L4": {
+      "actual_n": 130802,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r0-L4.safetensors",
+      "input_token_sha256": "b96168c3d5481cdfb0171ce020618a7868155e5797d0b0d278c1adb4e00d8fc9",
+      "layer": 4,
+      "prompt_id": "public-vt-131072-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r1-L1": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r1-L1.safetensors",
+      "input_token_sha256": "d31c2fb686648fc81570fc68a0dbecf2418cee6561ddb9816c2d23f49e57d5b2",
+      "layer": 1,
+      "prompt_id": "public-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r1-L15": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r1-L15.safetensors",
+      "input_token_sha256": "d31c2fb686648fc81570fc68a0dbecf2418cee6561ddb9816c2d23f49e57d5b2",
+      "layer": 15,
+      "prompt_id": "public-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r1-L2": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r1-L2.safetensors",
+      "input_token_sha256": "d31c2fb686648fc81570fc68a0dbecf2418cee6561ddb9816c2d23f49e57d5b2",
+      "layer": 2,
+      "prompt_id": "public-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r1-L27": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r1-L27.safetensors",
+      "input_token_sha256": "d31c2fb686648fc81570fc68a0dbecf2418cee6561ddb9816c2d23f49e57d5b2",
+      "layer": 27,
+      "prompt_id": "public-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r1-L4": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r1-L4.safetensors",
+      "input_token_sha256": "d31c2fb686648fc81570fc68a0dbecf2418cee6561ddb9816c2d23f49e57d5b2",
+      "layer": 4,
+      "prompt_id": "public-vt-131072-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r2-L1": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r2-L1.safetensors",
+      "input_token_sha256": "ad9a5e3c8fc553b9faf0eb62edd3ecba5cf3116a0b482c7acf27e972df52f5c7",
+      "layer": 1,
+      "prompt_id": "public-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r2-L15": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r2-L15.safetensors",
+      "input_token_sha256": "ad9a5e3c8fc553b9faf0eb62edd3ecba5cf3116a0b482c7acf27e972df52f5c7",
+      "layer": 15,
+      "prompt_id": "public-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r2-L2": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r2-L2.safetensors",
+      "input_token_sha256": "ad9a5e3c8fc553b9faf0eb62edd3ecba5cf3116a0b482c7acf27e972df52f5c7",
+      "layer": 2,
+      "prompt_id": "public-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r2-L27": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r2-L27.safetensors",
+      "input_token_sha256": "ad9a5e3c8fc553b9faf0eb62edd3ecba5cf3116a0b482c7acf27e972df52f5c7",
+      "layer": 27,
+      "prompt_id": "public-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-131072-r2-L4": {
+      "actual_n": 130804,
+      "context_budget": 131072,
+      "file": "public-vt-131072-r2-L4.safetensors",
+      "input_token_sha256": "ad9a5e3c8fc553b9faf0eb62edd3ecba5cf3116a0b482c7acf27e972df52f5c7",
+      "layer": 4,
+      "prompt_id": "public-vt-131072-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r0-L1": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r0-L1.safetensors",
+      "input_token_sha256": "293b75c042fa63bcc363f0ff33127d03a6e5eaad13e8a3f6fa949d22882aab36",
+      "layer": 1,
+      "prompt_id": "public-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r0-L15": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r0-L15.safetensors",
+      "input_token_sha256": "293b75c042fa63bcc363f0ff33127d03a6e5eaad13e8a3f6fa949d22882aab36",
+      "layer": 15,
+      "prompt_id": "public-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r0-L2": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r0-L2.safetensors",
+      "input_token_sha256": "293b75c042fa63bcc363f0ff33127d03a6e5eaad13e8a3f6fa949d22882aab36",
+      "layer": 2,
+      "prompt_id": "public-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r0-L27": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r0-L27.safetensors",
+      "input_token_sha256": "293b75c042fa63bcc363f0ff33127d03a6e5eaad13e8a3f6fa949d22882aab36",
+      "layer": 27,
+      "prompt_id": "public-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r0-L4": {
+      "actual_n": 32640,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r0-L4.safetensors",
+      "input_token_sha256": "293b75c042fa63bcc363f0ff33127d03a6e5eaad13e8a3f6fa949d22882aab36",
+      "layer": 4,
+      "prompt_id": "public-vt-32768-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r1-L1": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r1-L1.safetensors",
+      "input_token_sha256": "f608b7f80f8f506d723e14c79263f7fc59f5ad4a0120d5f3122dad19f87c021a",
+      "layer": 1,
+      "prompt_id": "public-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r1-L15": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r1-L15.safetensors",
+      "input_token_sha256": "f608b7f80f8f506d723e14c79263f7fc59f5ad4a0120d5f3122dad19f87c021a",
+      "layer": 15,
+      "prompt_id": "public-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r1-L2": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r1-L2.safetensors",
+      "input_token_sha256": "f608b7f80f8f506d723e14c79263f7fc59f5ad4a0120d5f3122dad19f87c021a",
+      "layer": 2,
+      "prompt_id": "public-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r1-L27": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r1-L27.safetensors",
+      "input_token_sha256": "f608b7f80f8f506d723e14c79263f7fc59f5ad4a0120d5f3122dad19f87c021a",
+      "layer": 27,
+      "prompt_id": "public-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r1-L4": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r1-L4.safetensors",
+      "input_token_sha256": "f608b7f80f8f506d723e14c79263f7fc59f5ad4a0120d5f3122dad19f87c021a",
+      "layer": 4,
+      "prompt_id": "public-vt-32768-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r2-L1": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r2-L1.safetensors",
+      "input_token_sha256": "ba12b5404fcc1286fa83a71b01ec5c5699e12c36d2b57514cc6bb45ca675b4fa",
+      "layer": 1,
+      "prompt_id": "public-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r2-L15": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r2-L15.safetensors",
+      "input_token_sha256": "ba12b5404fcc1286fa83a71b01ec5c5699e12c36d2b57514cc6bb45ca675b4fa",
+      "layer": 15,
+      "prompt_id": "public-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r2-L2": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r2-L2.safetensors",
+      "input_token_sha256": "ba12b5404fcc1286fa83a71b01ec5c5699e12c36d2b57514cc6bb45ca675b4fa",
+      "layer": 2,
+      "prompt_id": "public-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r2-L27": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r2-L27.safetensors",
+      "input_token_sha256": "ba12b5404fcc1286fa83a71b01ec5c5699e12c36d2b57514cc6bb45ca675b4fa",
+      "layer": 27,
+      "prompt_id": "public-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-32768-r2-L4": {
+      "actual_n": 32634,
+      "context_budget": 32768,
+      "file": "public-vt-32768-r2-L4.safetensors",
+      "input_token_sha256": "ba12b5404fcc1286fa83a71b01ec5c5699e12c36d2b57514cc6bb45ca675b4fa",
+      "layer": 4,
+      "prompt_id": "public-vt-32768-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r0-L1": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r0-L1.safetensors",
+      "input_token_sha256": "ba4f2b5aaaf38c36cccf64a4cc8bccbdd2de1c15bb277aeacdb44350b06b67cd",
+      "layer": 1,
+      "prompt_id": "public-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r0-L15": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r0-L15.safetensors",
+      "input_token_sha256": "ba4f2b5aaaf38c36cccf64a4cc8bccbdd2de1c15bb277aeacdb44350b06b67cd",
+      "layer": 15,
+      "prompt_id": "public-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r0-L2": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r0-L2.safetensors",
+      "input_token_sha256": "ba4f2b5aaaf38c36cccf64a4cc8bccbdd2de1c15bb277aeacdb44350b06b67cd",
+      "layer": 2,
+      "prompt_id": "public-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r0-L27": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r0-L27.safetensors",
+      "input_token_sha256": "ba4f2b5aaaf38c36cccf64a4cc8bccbdd2de1c15bb277aeacdb44350b06b67cd",
+      "layer": 27,
+      "prompt_id": "public-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r0-L4": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r0-L4.safetensors",
+      "input_token_sha256": "ba4f2b5aaaf38c36cccf64a4cc8bccbdd2de1c15bb277aeacdb44350b06b67cd",
+      "layer": 4,
+      "prompt_id": "public-vt-65536-r0",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r1-L1": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r1-L1.safetensors",
+      "input_token_sha256": "42034eeb45066a9abb773678f792fbeec0908e80d4554f287871b624e3d8cecb",
+      "layer": 1,
+      "prompt_id": "public-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r1-L15": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r1-L15.safetensors",
+      "input_token_sha256": "42034eeb45066a9abb773678f792fbeec0908e80d4554f287871b624e3d8cecb",
+      "layer": 15,
+      "prompt_id": "public-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r1-L2": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r1-L2.safetensors",
+      "input_token_sha256": "42034eeb45066a9abb773678f792fbeec0908e80d4554f287871b624e3d8cecb",
+      "layer": 2,
+      "prompt_id": "public-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r1-L27": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r1-L27.safetensors",
+      "input_token_sha256": "42034eeb45066a9abb773678f792fbeec0908e80d4554f287871b624e3d8cecb",
+      "layer": 27,
+      "prompt_id": "public-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r1-L4": {
+      "actual_n": 65282,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r1-L4.safetensors",
+      "input_token_sha256": "42034eeb45066a9abb773678f792fbeec0908e80d4554f287871b624e3d8cecb",
+      "layer": 4,
+      "prompt_id": "public-vt-65536-r1",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r2-L1": {
+      "actual_n": 65286,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r2-L1.safetensors",
+      "input_token_sha256": "fd9073283ccacd781400073dbdbd3a0de9f0a45022a3684c05f9ab368fcf00f2",
+      "layer": 1,
+      "prompt_id": "public-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r2-L15": {
+      "actual_n": 65286,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r2-L15.safetensors",
+      "input_token_sha256": "fd9073283ccacd781400073dbdbd3a0de9f0a45022a3684c05f9ab368fcf00f2",
+      "layer": 15,
+      "prompt_id": "public-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r2-L2": {
+      "actual_n": 65286,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r2-L2.safetensors",
+      "input_token_sha256": "fd9073283ccacd781400073dbdbd3a0de9f0a45022a3684c05f9ab368fcf00f2",
+      "layer": 2,
+      "prompt_id": "public-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r2-L27": {
+      "actual_n": 65286,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r2-L27.safetensors",
+      "input_token_sha256": "fd9073283ccacd781400073dbdbd3a0de9f0a45022a3684c05f9ab368fcf00f2",
+      "layer": 27,
+      "prompt_id": "public-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    },
+    "public-vt-65536-r2-L4": {
+      "actual_n": 65286,
+      "context_budget": 65536,
+      "file": "public-vt-65536-r2-L4.safetensors",
+      "input_token_sha256": "fd9073283ccacd781400073dbdbd3a0de9f0a45022a3684c05f9ab368fcf00f2",
+      "layer": 4,
+      "prompt_id": "public-vt-65536-r2",
+      "task": "vt",
+      "trajectory": "dense-flash-attention-2"
+    }
+  },
+  "input_bindings": {
+    "prompt_manifest_sha256": "190db6bbd2224a737acb6c3a4afb0c57d2a36ebdd2f838a2f1d86408cf47864f",
+    "prompts_sha256": "a15ec54db7742961d8c0030b2d926bf63c9c308640213aea87302b7103e54767",
+    "recipe_sha256": "e7b51951af71c2aeaa65bb1291e1f36efc1273bb9d6fe597548381cacfaa1062"
+  },
+  "partition": "public",
+  "protocol": "minference-single-real-prompt-qkv-v1",
+  "schema_version": 3,
+  "warmup_scope": "same real prompt and N at unscored L2; no timed output or input-dependent pattern reuse permitted"
+}

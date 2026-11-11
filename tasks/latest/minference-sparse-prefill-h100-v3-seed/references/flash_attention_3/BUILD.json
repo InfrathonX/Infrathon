@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "protocol": "minference-fa3-source-build-v1",
+  "status": "cpu-source-build-and-binary-checks-passed",
+  "gpu_qualification": false,
+  "source": {
+    "repo": "https://github.com/Dao-AILab/flash-attention",
+    "tag": "v2.8.3",
+    "commit": "060c9188beec3a8b62b33a3bfa6d5d2d44975fab",
+    "cutlass_commit": "dc4817921edda44a549197ff3a9dcf5df0636e7b",
+    "hopper_setup_sha256": "e186d06dce663a3550141f86a90daffbf77593b78a9a4c9ee409ccce2212ae7b"
+  },
+  "base": {
+    "image": "pytorch/pytorch@sha256:cf5aa3f7045a68c10d80f546746591c5ccae6a33729e5e32625ff76bd2c036fe",
+    "image_id": "sha256:cf5aa3f7045a68c10d80f546746591c5ccae6a33729e5e32625ff76bd2c036fe",
+    "python": "3.11.13 | packaged by conda-forge | (main, Jun  4 2025, 14:48:23) [GCC 13.3.0]",
+    "torch": "2.8.0+cu129",
+    "triton": "3.4.0",
+    "cuda": "12.9",
+    "cxx11abi": true,
+    "gcc": "g++ (Ubuntu 11.4.0-1ubuntu1~22.04) 11.4.0",
+    "system_nvcc": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Tue_May_27_02:21:03_PDT_2025\nCuda compilation tools, release 12.9, V12.9.86\nBuild cuda_12.9.r12.9/compiler.36037853_0\n",
+    "python_build_packages": {
+      "pip": "25.1.1",
+      "setuptools": "79.0.1",
+      "wheel": "0.45.1",
+      "ninja": "1.11.1.4",
+      "packaging": "25.0"
+    },
+    "git_package": "1:2.34.1-1ubuntu1.17"
+  },
+  "resource_limits": {
+    "cpus": 8,
+    "memory_bytes": 68719476736,
+    "gpu_device_requests": []
+  },
+  "environment": {
+    "NVIDIA_VISIBLE_DEVICES": "void",
+    "CUDA_VISIBLE_DEVICES": "",
+    "MAX_JOBS": "4",
+    "NVCC_THREADS": "2",
+    "TORCH_CUDA_ARCH_LIST": "9.0a",
+    "FLASH_ATTENTION_FORCE_BUILD": "TRUE",
+    "FLASH_ATTENTION_DISABLE_BACKWARD": "TRUE",
+    "FLASH_ATTENTION_DISABLE_PAGEDKV": "TRUE",
+    "FLASH_ATTENTION_DISABLE_APPENDKV": "TRUE",
+    "FLASH_ATTENTION_DISABLE_LOCAL": "TRUE",
+    "FLASH_ATTENTION_DISABLE_SOFTCAP": "TRUE",
+    "FLASH_ATTENTION_DISABLE_FP16": "TRUE",
+    "FLASH_ATTENTION_DISABLE_FP8": "TRUE",
+    "FLASH_ATTENTION_DISABLE_VARLEN": "TRUE",
+    "FLASH_ATTENTION_DISABLE_SM80": "TRUE",
+    "FLASH_ATTENTION_DISABLE_HDIM64": "TRUE",
+    "FLASH_ATTENTION_DISABLE_HDIM96": "TRUE",
+    "FLASH_ATTENTION_DISABLE_HDIM192": "TRUE",
+    "FLASH_ATTENTION_DISABLE_HDIM256": "TRUE"
+  },
+  "wheel": {
+    "name": "flash_attn_3-3.0.0b1-cp39-abi3-linux_x86_64.whl",
+    "sha256": "39f00434791b257e59c171ce265220caf02ae98871432d89f0789d6d42800150",
+    "bytes": 1761144
+  },
+  "vendored_toolchain": [
+    {
+      "file": "nvcc",
+      "sha256": "874d5124e3a7a32f68873fc7fcb0d8ad41b3fb2730fb18e3bb45544b14c8173d",
+      "version": "nvcc: NVIDIA (R) Cuda compiler driver\nCopyright (c) 2005-2024 NVIDIA Corporation\nBuilt on Tue_Oct_29_23:50:19_PDT_2024\nCuda compilation tools, release 12.6, V12.6.85\nBuild cuda_12.6.r12.6/compiler.35059454_0\n"
+    },
+    {
+      "file": "ptxas",
+      "sha256": "c960a4f238b17d5c5d3c01ad2bbc1ebd2c5aecc459cb4d223bff10b45f9b8fca",
+      "version": "ptxas: NVIDIA (R) Ptx optimizing assembler\nCopyright (c) 2005-2025 NVIDIA Corporation\nBuilt on Fri_Feb_21_20:21:21_PST_2025\nCuda compilation tools, release 12.8, V12.8.93\nBuild cuda_12.8.r12.8/compiler.35583870_0\n"
+    }
+  ],
+  "interface_files": [
+    {
+      "file": "flash_attn_interface.py",
+      "sha256": "69cfa291e4f21f1dc0c4281557fd2cb5fb349bfb68f12b2596d779ba473d6c4a",
+      "bytes": 29676
+    }
+  ],
+  "cpu_binary_check": {
+    "torch": "2.8.0+cu129",
+    "package_version": "3.0.0b1",
+    "binary_sha256": "bbfd19aaefb1f149b13db5f9cfd40ae4b1663b5ea0044788ac4ee5c34837701f",
+    "binary_bytes": 9253608,
+    "bf16_hdim128_forward_symbol_count": 32,
+    "sm90a_elf_present": true,
+    "cuda_initialized": false,
+    "signature": "(q, k, v, softmax_scale=None, causal=False, qv=None, q_descale=None, k_descale=None, v_descale=None, window_size=(-1, -1), attention_chunk=0, softcap=0.0, num_splits=1, pack_gqa=None, deterministic=False, sm_margin=0)",
+    "elf_sections": [
+      "ELF file    1: flash_fwd_combine.sm_90a.cubin",
+      "ELF file    2: flash_fwd_combine.sm_80.cubin",
+      "ELF file    3: flash_prepare_scheduler.sm_90a.cubin",
+      "ELF file    4: flash_prepare_scheduler.sm_80.cubin",
+      "ELF file    5: flash_fwd_hdimall_bf16_packgqa_sm90.sm_90a.cubin",
+      "ELF file    6: flash_fwd_hdimall_bf16_sm90.sm_90a.cubin",
+      "ELF file    7: flash_fwd_hdimall_bf16_split_sm90.sm_90a.cubin",
+      "ELF file    8: flash_fwd_hdimdiff_bf16_packgqa_sm90.sm_90a.cubin",
+      "ELF file    9: flash_fwd_hdimdiff_bf16_sm90.sm_90a.cubin",
+      "ELF file   10: flash_fwd_hdimdiff_bf16_split_sm90.sm_90a.cubin"
+    ]
+  },
+  "wheel_record_check": {
+    "protocol": "minference-fa3-wheel-record-check-v1",
+    "status": "passed",
+    "wheel_sha256": "39f00434791b257e59c171ce265220caf02ae98871432d89f0789d6d42800150",
+    "record_file_count": 6,
+    "all_files_covered": true,
+    "all_record_sizes_and_hashes_match": true
+  },
+  "source_build_image_id": "sha256:7d1e725e8fa254b731d9b396a5a4f6f445b92f733916ecf3ad1879c9f2af0f60",
+  "build_elapsed_seconds": 112.98894953727722,
+  "started_utc": "2026-10-04T21:22:47Z",
+  "finished_utc": "2026-10-04T21:25:43Z",
+  "cuda_initialized_before": false,
+  "cuda_initialized_after": false,
+  "evidence_sha256": {
+    "launch-receipt.json": "a20a43842aa4f8dd4b88a4d7f9a361d72147f8d7159e26e190a2c5c750dbe3b2",
+    "build-result.json": "82d3b7af4924cbe6ed35e0b6af9bbdbdec9110caaf52dbd8e998b4112b199ab0",
+    "cpu-binary-check.json": "bf3ca89d61e22fc5e36cf4a23436bda158dab11b4dc5720a6245715b6609d0e9",
+    "wheel-record-check.json": "b9413bd20fda82f04b2f390599ee171861774277e73afdd383db57f1c8319f1f",
+    "build.log": "7b6e2c6acfbfaa067579f20fc077649a08a9b34e6f65b29ca2f84f0a0149f616"
+  },
+  "limitations": [
+    "CPU build and import evidence only; GPU accuracy and throughput require separate paired benchmark evidence.",
+    "FA3 extension is author-only and not present in candidate Work/Judge images.",
+    "Rebuild network dependencies include Ubuntu package repositories and pinned upstream CUDA compiler downloads; compiler installed-byte hashes must be verified."
+  ]
+}

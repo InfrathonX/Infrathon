@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "recipe_id": "e7-wan13b-qad-stage1-grad-b29-t1-s8192-v1",
+  "fixture_name": "e7_wan13b_grad_b29_t1_s8192.pt",
+  "case_id": "edge-e7-wan-grad-capture",
+  "identity": "per-deployment-capture",
+  "summary": "First 8192 tokens of the self-attention of block 29 of a real Wan2.1-T2V-1.3B QAD stage-1 flow-matching training step at sigma 0.5, carrying q, k, v, the attention output o and the recorded attention-output gradient do in [1, S, 12, 128] bf16.",
+  "model": {
+    "repo_id": "Wan-AI/Wan2.1-T2V-1.3B",
+    "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+    "config_key": "t2v-1.3B",
+    "files": {
+      "config.json": "ab37994c43740513f94b3ba6233a784035a67b43c8cde83c8f31aa90468c67ce",
+      "diffusion_pytorch_model.safetensors": "96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f",
+      "models_t5_umt5-xxl-enc-bf16.pth": "7cace0da2b446bbbbc57d031ab6cf163a3d59b366da94e5afe36745b746fd81d",
+      "google/umt5-xxl/special_tokens_map.json": "7b8a9f5040adb67b5805abdfd42c1f8d0f3d0e711f10726580eb3789cd0ad61d",
+      "google/umt5-xxl/spiece.model": "e3909a67b780650b35cf529ac782ad2b6b26e6d1f849d3fbb6a872905f452458",
+      "google/umt5-xxl/tokenizer.json": "6e197b4d3dbd71da14b4eb255f4fa91c9c1f2068b20a2de2472967ca3d22602b",
+      "google/umt5-xxl/tokenizer_config.json": "ed9a3a8b0faa71a70a32847e0435fe036e6e112d4df4edb7bb48a921e344dc05"
+    }
+  },
+  "upstream": {
+    "repo": "https://github.com/Wan-Video/Wan2.1.git",
+    "commit": "9737cba9c1c3c4d04b33fcad41c111989865d315",
+    "modules_used": [
+      "wan.configs",
+      "wan.modules.model",
+      "wan.modules.t5",
+      "wan.utils.fm_solvers_unipc"
+    ],
+    "notes": "The only executable dependency of the capture besides torch and diffusers. No fused attention package is installed: both stages route every attention call through torch SDPA."
+  },
+  "prompt": "A bustling city street at night, filled with the glow of car headlights and the ambient light of streetlights. The scene is a blur of motion, with cars speeding by and pedestrians navigating the crosswalks. The cityscape is a mix of towering buildings and illuminated signs, creating a vibrant and dynamic atmosphere. The perspective of the video is from a high angle, providing a bird's eye view of the street and its surroundings. The overall style of the video is dynamic and energetic, capturing the essence of urban life at night.",
+  "negative_prompt": "WAN_CONFIGS['t2v-1.3B'].sample_neg_prompt of the pinned upstream commit",
+  "geometry": {
+    "frames": 81,
+    "width": 832,
+    "height": 480,
+    "latent_t": 21,
+    "latent_h": 60,
+    "latent_w": 104,
+    "patch_size": [1, 2, 2],
+    "grid_sizes": [[21, 30, 52]],
+    "seq_len": 32760
+  },
+  "latent": {
+    "role": "x0, the clean latent the training step interpolates from",
+    "method": "flow-matching sample of the pinned model itself, in latent space; the decoder is never run",
+    "sampler": "wan.utils.fm_solvers_unipc.FlowUniPCMultistepScheduler(num_train_timesteps=1000, shift=1, use_dynamic_shifting=False)",
+    "steps": 30,
+    "shift": 3.0,
+    "guidance_scale": 5.0,
+    "seed": 4100,
+    "shape": [16, 21, 60, 104],
+    "dtype": "torch.float32",
+    "autocast": "cuda bf16",
+    "rotary_embedding": "float64 real-arithmetic equivalent of wan.modules.model.rope_apply",
+    "attention": "torch SDPA in bf16, non-causal, scale = 1/sqrt(D), for both the self-attention and the cross-attention path"
+  },
+  "training_step": {
+    "recipe": "FastVideo QAD stage-1 attention-QAT finetune, weighting scheme uniform with the draw replaced by a pinned sigma",
+    "scheduler": "diffusers FlowMatchEulerDiscreteScheduler(shift=1.0)",
+    "scheduler_index": 500,
+    "sigma": 0.5,
+    "timestep": 500.0,
+    "noise_seed": 4107,
+    "x_t": "((1 - sigma) * x0 + sigma * eps).to(bfloat16).requires_grad_(True)",
+    "target": "eps - x0 (precondition_outputs = False)",
+    "loss": "F.mse_loss(pred.float(), target.float())  [mean over all latent elements]",
+    "gradient_checkpointing": "full, torch.utils.checkpoint with use_reentrant=False, on every transformer block",
+    "autocast": "cuda bf16",
+    "matmul_tf32": false,
+    "reference_loss_value": 0.08720545470714569
+  },
+  "capture": {
+    "attn_kind": "self",
+    "block_index": 29,
+    "hook": "forward records q, k, v, o; a tensor hook on o records do = dL/do from the first, graph-carrying forward (non-reentrant checkpointing runs the block twice)",
+    "kept_tokens": 8192,
+    "tensors": ["q", "k", "v", "o", "do"],
+    "shape": [1, 8192, 12, 128],
+    "dtype": "torch.bfloat16",
+    "tensor_layout": "B,S,H,D contiguous; permute(0, 2, 1, 3) for the [B, H, S, D] kernel contract",
+    "post_rope_qk": true,
+    "qk_norm": true,
+    "o_role": "orientation material only; the golden reference recomputes its own attention output",
+    "do_role": "dL/do of a mean-reduced MSE loss, so its absolute scale is ~1e-8 and is a loss normalisation constant, not an operator property"
+  },
+  "sanity_bands": {
+    "note": "Measured on the H100 reference capture and widened by x/2 on the RMS and x/4 on the absolute maximum. The runtime enforces them on every load so a wrong capture fails closed even though the bytes differ across GPUs.",
+    "q": {"rms_min": 1.2534, "rms_max": 5.0137, "abs_max_min": 24.75, "abs_max_max": 396.0, "finite_fraction_min": 1.0},
+    "k": {"rms_min": 1.4946, "rms_max": 5.9786, "abs_max_min": 23.375, "abs_max_max": 374.0, "finite_fraction_min": 1.0},
+    "v": {"rms_min": 0.5739, "rms_max": 2.2957, "abs_max_min": 2.75, "abs_max_max": 44.0, "finite_fraction_min": 1.0},
+    "o": {"rms_min": 0.4208, "rms_max": 1.6833, "abs_max_min": 2.75, "abs_max_max": 44.0, "finite_fraction_min": 1.0},
+    "do": {"rms_min": 6.6615e-09, "rms_max": 2.6646e-08, "abs_max_min": 9.4529e-08, "abs_max_max": 1.5125e-06, "finite_fraction_min": 1.0}
+  },
+  "reference_capture": {
+    "role": "provenance only; no deployment is required to reproduce these bytes",
+    "sha256": "58a7773f93f4a8e6a9a9a2ac7e5750d5762536a3a8620f121ebe73a14b0ce6fe",
+    "bytes": 125834293,
+    "gpu": "NVIDIA H100",
+    "captured": "2026-09-06",
+    "tensor_stats": {
+      "q": {"rms": 2.506847e+00, "abs_max": 9.9e+01},
+      "k": {"rms": 2.989265e+00, "abs_max": 9.35e+01},
+      "v": {"rms": 1.147826e+00, "abs_max": 1.1e+01},
+      "o": {"rms": 8.416240e-01, "abs_max": 1.1e+01},
+      "do": {"rms": 1.332299e-08, "abs_max": 3.781170e-07}
+    }
+  }
+}

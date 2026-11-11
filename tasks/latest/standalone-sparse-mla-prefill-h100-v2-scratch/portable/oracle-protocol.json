@@ -1,0 +1,55 @@
+{
+ "acceptance": "an element passes when its absolute or relative error is inside tolerance; the whole-tensor cosine difference (combined-norm form, accumulated over row chunks) must also stay inside its limit; positions of +inf, -inf and NaN must match the reference exactly and any NaN (an unwritten element included) fails; scored cases, the native edge cases (two calls each) and the sanitizer subset use the same rule, except that a numeric failure under memcheck defers the case's verdict to its native run",
+ "integrity": [
+  "complete_write",
+  "inputs_unchanged_byte_exact",
+  "guard_bands_intact",
+  "soft_landing_metadata_guards",
+  "decoy_precall_fresh_measured_tensors",
+  "l2_flush_before_timed_call",
+  "nan_poisoned_outputs",
+  "current_stream_dispatch",
+  "harness_sentinel",
+  "compute_sanitizer_memcheck_subset"
+ ],
+ "memory_safety": {
+  "guard": {
+   "fill_byte": 165,
+   "min_bytes": 1048576,
+   "rows": 128
+  },
+  "sanitizer": "compute-sanitizer --tool memcheck --padding 4194304 --destroy-on-device-error context, torch/cuBLAS kernels excluded by name, PYTORCH_NO_CUDA_MEMORY_CACHING=1, plain allocations, one process, one call per sanitize case, stop at the first fatal CUDA error; only invalid __global__/__shared__/__local__ or misaligned reports fail",
+  "soft_landing": {
+   "indices": 0,
+   "topk_length": 0
+  }
+ },
+ "protocol_id": "chunked-fp32-sparse-prefill-reference-v2",
+ "reference": {
+  "arithmetic": "fp32",
+  "chunk_bytes": 1073741824,
+  "provenance": "flashmla-ba89a34-derived-sparse-prefill-v2-judge-port",
+  "tf32": "disabled"
+ },
+ "schema_version": 1,
+ "special_values": "positions of +inf, -inf and NaN must match the reference exactly; any NaN fails",
+ "tolerances": {
+  "lse": {
+   "abs": "1e-6",
+   "cos": "1e-7",
+   "rel": "2.01/65536",
+   "abs_scaling": "abs limit multiplied by max(1, sm_scale / 0.5); upstream calibrated 1e-6 only at sm_scale 0.5"
+  },
+  "max_logits": {
+   "abs": "1e-6",
+   "cos": "1e-7",
+   "rel": "2.01/65536",
+   "abs_scaling": "abs limit multiplied by max(1, sm_scale / 0.5); upstream calibrated 1e-6 only at sm_scale 0.5"
+  },
+  "out": {
+   "abs": "8e-4",
+   "cos": "7e-6",
+   "rel": "3.01/128"
+  }
+ }
+}

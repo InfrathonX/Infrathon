@@ -1,0 +1,15 @@
+name: quant_videogen_h100_scratch_v4
+base_images:
+  pytorch280_cu128:
+    official_image: pytorch/pytorch:2.8.0-cuda12.8-cudnn9-devel
+    extra_packages:
+      - ca-certificates
+      - curl
+      - ffmpeg
+      - git
+      - jq
+      - ninja-build
+      - procps
+      - ripgrep
+      - sudo
+      - xz-utils

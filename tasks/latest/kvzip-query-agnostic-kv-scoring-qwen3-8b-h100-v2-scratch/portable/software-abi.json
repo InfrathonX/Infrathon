@@ -1,0 +1,39 @@
+{
+  "accelerator_runtime": "cuda-12.9-compatible",
+  "attention_implementation": "sdpa",
+  "forbidden_packages": [
+    "kvzip",
+    "flash_attn",
+    "xformers",
+    "flashinfer"
+  ],
+  "language": "python3",
+  "model_binding": {
+    "adapter": "scripts/sforge_entry.py",
+    "model_id": "Qwen/Qwen3-8B",
+    "mount": "/opt/models/qwen3-8b (read-only)",
+    "offline": true
+  },
+  "policy_assets": {
+    "file": "candidates/scorer_vNNN/assets.pt or a single-hop assets.ref",
+    "loader": "torch.load(weights_only=True) string-to-tensor dict, gzip transport allowed",
+    "max_bytes": 134217728,
+    "max_expanded_bytes": 268435456
+  },
+  "protocol_id": "pytorch280-cu129-transformers4571-sdpa-v2",
+  "required_dtypes": [
+    "bf16",
+    "fp32"
+  ],
+  "schema_version": 1,
+  "source_runtime": [
+    "pytorch-2.8.0",
+    "cuda-12.9",
+    "triton-3.4.0",
+    "transformers-4.57.1",
+    "accelerate-1.10.1",
+    "rouge-1.0.1",
+    "tree-sitter-languages-1.10.2",
+    "nltk-3.9.1"
+  ]
+}

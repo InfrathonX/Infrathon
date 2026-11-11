@@ -1,0 +1,27 @@
+{
+  "candidate_selection": {
+    "final_and_host_replay": "FINAL_VERSION or a validated host candidate_version override",
+    "interactive": "FINAL_VERSION; candidate_version override forbidden"
+  },
+  "case_count": 12,
+  "protocol_id": "sdv2-pipeline-v2-full-final",
+  "public_diagnostics": "Public inputs are diagnostic only; they never select a shorter formal scoring suite.",
+  "reference": "pristine runtime_v001 re-measured on the same devices in every evaluation",
+  "schema_version": 1,
+  "score": {
+    "direction": "maximize",
+    "formula": "geomean(steady_fps * (in_run_seed_p99 / candidate_p99) ** 0.25)",
+    "latency": "emit(chunk) - controller push(chunk), chunks 12..end",
+    "name": "latency_weighted_fps",
+    "steady_fps": "frames(chunks 12..end) / (emit(last chunk) - controller push(chunk 12))",
+    "unit": "fps"
+  },
+  "selected_manifest_sha256": "6001b507ad020f776f90e1a4bb5315e36ced21376af260f17dd2c9b63340f3a8",
+  "selection": "Every admitted formal round runs all 12 frozen private cases. Round identity changes lifecycle and delivery only.",
+  "suite_id": "sdv2-pipeline-final-v2",
+  "timeouts": {
+    "judge_controller_seconds": 4200,
+    "outer_judge_seconds": 4200,
+    "worker_pass_seconds": 1800
+  }
+}

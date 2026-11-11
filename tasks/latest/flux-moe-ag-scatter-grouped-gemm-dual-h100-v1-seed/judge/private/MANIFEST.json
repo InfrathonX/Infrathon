@@ -1,0 +1,36 @@
+{
+  "schema_version": 2,
+  "suite_id": "final-holdout-v2",
+  "case_count": 967,
+  "edge_case_count": 19,
+  "generator": "scripts/generate_final_manifest.py",
+  "note": "Flux has no portable/*.json layer, and the task JSON's portable block is parsed as an exact-keyed capability envelope (sforge/harness/portable_spec.py::parse_capability_envelope) that rejects extra fields. This file therefore plays the role portable/final-suite-manifest.json plays for the tasks with a portable layer: it is the task's final-suite record. It carries no holdout content - only the digest of the instance beside it - and scripts/validate_layout.py checks the two agree.",
+  "frozen_instance": {
+    "path": "judge/private/final_cases.json",
+    "sha256": "7efc8533b1bb47101f675ef608ab259efabd1b494ba9f3b4c9b4e893d1dc9908",
+    "provenance": "the draw of final-holdout-v2 by scripts/generate_final_manifest.py with its default seed (sha256('final-holdout-v2|flux_moe_ag_scatter_grouped_gemm_dual_h100_seed_v1')[:8]), frozen in-tree as the default build input"
+  },
+  "draw_policy": {
+    "default": "frozen-instance-by-default: scripts/build_images.sh reads judge/private/final_cases.json unless FINAL_CASES_PATH names another instance, so every host that builds from this tree scores the same cases",
+    "composition": "paper experiment points (Comet arXiv:2502.19811 v3, FLUX arXiv:2406.06858 v5, bytedance/flux @ 19831ca2) at the papers' non-gated N = I/TP; real model configurations (Hugging Face config.json) in tensor, expert and hybrid parallel deployments at gated N = 2*I/TP over training/prefill, decode and multi-layer token regimes with synthetic routing; the same deployments of four captured models replaying token windows of their own router decisions on mixed real text (judge/private/routing, pinned by sha256 here and in every case); correctness-only edge cases",
+    "privacy": "the instance and its routing fixtures live on the Judge-only path judge/private/, are staged mode 0600 into a root-only Judge build context and are never present in the Work image; the public suite (images/work/benchmark/public_cases.json, routing fixtures of other models in images/work/benchmark/routing) shares no (K, N, E_rank, topk) identity, seed or model with it",
+    "redraw": "scripts/generate_final_manifest.py --redraw [--seed <int>] draws a reproducible new instance from a seeded random.Random; a redraw is a NEW suite identity: frozen_instance must be re-recorded here and no earlier score is comparable to it."
+  },
+  "evaluation_policy": "full-final-shared-v3",
+  "selection_protocol_id": "flux-moe-ag-shared-final-v3",
+  "interactive": {
+    "suite_id": "final-holdout-v2",
+    "case_count": 967,
+    "hard_gate_case_count": 19,
+    "trials": 7,
+    "warmups": 1,
+    "frozen_instance_sha256": "7efc8533b1bb47101f675ef608ab259efabd1b494ba9f3b4c9b4e893d1dc9908",
+    "candidate_version_override": "forbidden; evaluate submitted FINAL_VERSION"
+  },
+  "routing_fixtures": {
+    "gpt-oss-20b": "fb709ad00e976caec2edc0513a7141534ed684fa68a8330579e76b96501ca3dd",
+    "phi-3.5-moe": "727c0919bce8117ecff15d84eab6f59e836d34cc269c24ddb994882eec728d56",
+    "mixtral-8x7b": "87360f5df7643ad932e500d741410d0febdea0b3c4e4e72f1b4bb15e86b064ea",
+    "granite-3.1-3b-a800m": "7b09271a58bb709aab8ca9e18691b0f66bc80857576568a51d5e44258506f19a"
+  }
+}

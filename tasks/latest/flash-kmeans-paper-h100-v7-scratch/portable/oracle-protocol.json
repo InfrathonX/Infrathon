@@ -1,0 +1,18 @@
+{
+  "assignment": {
+    "distance_arithmetic": "fp32",
+    "metric": "squared_euclidean",
+    "output": "cuda_integer_labels_b_n",
+    "tie_break": "smallest_cluster_id"
+  },
+  "input_integrity": "no_mutation",
+  "protocol_id": "exact-lloyd-reference-v7",
+  "schema_version": 1,
+  "update": {
+    "accumulation": "fp32",
+    "centroid_output": "cuda_fp16_b_k_d",
+    "counts": "exact_cuda_integer_b_k",
+    "empty_cluster": "retain_old_centroid_exactly",
+    "tolerance": "0.003_plus_0.003_abs_mean_plus_fp32_conditioning"
+  }
+}

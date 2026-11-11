@@ -1,0 +1,10 @@
+{
+  "clock": "max_of_cuda_event_and_synchronized_host_wall_per_trial_via_references_captured_before_candidate_import",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "not_required_decoy_precall_on_distinct_same_shape_tensors_released_before_the_measured_tensors_exist_then_nan_poisoned_outputs_and_a_256_MiB_l2_flush_per_trial",
+  "integrity": "harness_sentinel_after_every_candidate_call_and_per_capability_dense_bf16_plausibility_bound",
+  "protocol_id": "cuda-event-host-wall-max-median-decoy-l2flush-v2",
+  "schema_version": 1,
+  "timing_statistic": "median_of_declared_trials",
+  "warmup": "case_warmup_on_its_own_fresh_tensors_before_measured_trials"
+}

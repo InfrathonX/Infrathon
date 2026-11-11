@@ -1,0 +1,494 @@
+diff --git a/examples/alfworld/alfworld_agent.py b/examples/alfworld/alfworld_agent.py
+new file mode 100644
+index 000000000..34ad5fcbe
+--- /dev/null
++++ b/examples/alfworld/alfworld_agent.py
+@@ -0,0 +1,65 @@
++"""ALFWorld agent function for miles.rollout.generate_hub.agentic_tool_call.
++
++One call plays one game: the observation (plus admissible actions) is the user
++turn, the policy answers through the session server's chat endpoint, and the
++text inside <action></action> is sent to the game verbatim.
++"""
++
++import os
++import re
++
++import httpx
++
++from alfworld_env import MAX_STEPS, format_observation, get_pool
++
++_DEFAULT_SYSTEM_PROMPT = (
++    "You are an expert agent operating in the ALFRED embodied household environment. "
++    "Each turn you receive an observation and the list of admissible actions. "
++    "Reply with at most two short sentences of reasoning, then the chosen action inside <action></action>, "
++    "for example <action>go to shelf 1</action>. The action must be exactly one of the admissible actions."
++)
++SYSTEM_PROMPT = os.environ.get("ALFWORLD_SYSTEM_PROMPT", _DEFAULT_SYSTEM_PROMPT)
++_ACTION = re.compile(r"<action>(.*?)</action>", re.S)
++DATA_ROOT = os.environ.get("ALFWORLD_DATA", "/assets/alfworld_data")
++
++
++def parse_action(text: str) -> str:
++    m = _ACTION.search(text)
++    return m.group(1).strip() if m else ""
++
++
++async def run(base_url, prompt, request_kwargs=None, metadata=None, **kwargs):
++    metadata = metadata or {}
++    gamefile = os.path.join(DATA_ROOT, metadata.get("game") or prompt)
++    pool = get_pool()
++    handle, (obs, admissible, _, _, _) = await pool.open(gamefile)
++    messages = [
++        {"role": "system", "content": SYSTEM_PROMPT},
++        {"role": "user", "content": format_observation(obs, admissible)},
++    ]
++    actions, won = [], False
++    try:
++        async with httpx.AsyncClient(timeout=None) as client:
++            for _ in range(MAX_STEPS):
++                resp = await client.post(
++                    f"{base_url}/v1/chat/completions",
++                    json={"model": "default", "messages": messages, **(request_kwargs or {})},
++                )
++                resp.raise_for_status()
++                text = resp.json()["choices"][0]["message"]["content"] or ""
++                messages.append({"role": "assistant", "content": text})
++                action = parse_action(text)
++                actions.append(action)
++                obs, admissible, _, done, won = await pool.step(handle, action)
++                if done or won:
++                    break
++                messages.append({"role": "user", "content": format_observation(obs, admissible)})
++    finally:
++        await pool.close(handle)
++    return {"reward": 1.0 if won else 0.0, "won": won, "actions": actions, "num_steps": len(actions)}
++
++
++async def reward_func(args, samples, **kwargs):
++    if isinstance(samples, list):
++        return [s.metadata.get("reward", 0.0) for s in samples]
++    return samples.metadata.get("reward", 0.0)
+diff --git a/examples/alfworld/alfworld_env.py b/examples/alfworld/alfworld_env.py
+new file mode 100644
+index 000000000..1856950f9
+--- /dev/null
++++ b/examples/alfworld/alfworld_env.py
+@@ -0,0 +1,106 @@
++"""ALFWorld (TextWorld) episodes hosted in worker processes.
++
++TextWorld's PDDL backend is CPU bound and not safe to share between threads, so
++each worker process owns the environments of the episodes pinned to it and
++serves reset/step requests serially over a pipe.
++"""
++
++import asyncio
++import itertools
++import multiprocessing as mp
++import os
++
++MAX_STEPS = int(os.environ.get("ALFWORLD_MAX_STEPS", "30"))
++
++
++def format_observation(obs: str, admissible: list[str]) -> str:
++    admissible = [a for a in admissible if a not in ("look", "inventory")] + ["look", "inventory"]
++    return obs.strip() + "\n\nAdmissible actions: " + ", ".join(admissible)
++
++
++def _make_env(gamefile: str):
++    import textworld
++    import textworld.gym
++    from alfworld.agents.environment.alfred_tw_env import AlfredDemangler, AlfredInfos
++
++    infos = textworld.EnvInfos(won=True, admissible_commands=True, extras=["gamefile"])
++    env_id = textworld.gym.register_games(
++        [gamefile],
++        infos,
++        batch_size=1,
++        asynchronous=False,
++        max_episode_steps=MAX_STEPS,
++        wrappers=[AlfredDemangler(shuffle=False), AlfredInfos],
++    )
++    return textworld.gym.make(env_id)
++
++
++def _worker(conn):
++    envs = {}
++    while True:
++        msg = conn.recv()
++        if msg is None:
++            break
++        op, eid, arg = msg
++        try:
++            if op == "reset":
++                env = envs[eid] = _make_env(arg)
++                obs, info = env.reset()
++                out = (obs[0], list(info["admissible_commands"][0]), 0.0, False, False)
++            elif op == "step":
++                obs, reward, done, info = envs[eid].step([arg])
++                out = (obs[0], list(info["admissible_commands"][0]), float(reward[0]), bool(done[0]), bool(info["won"][0]))
++            elif op == "close":
++                env = envs.pop(eid, None)
++                if env is not None:
++                    env.close()
++                out = None
++            conn.send(("ok", out))
++        except Exception as e:  # report to the caller, keep serving
++            conn.send(("err", repr(e)))
++
++
++class EnvPool:
++    def __init__(self, num_workers: int):
++        ctx = mp.get_context("spawn")
++        self._conns, self._locks, self._load = [], [], []
++        for _ in range(num_workers):
++            parent, child = ctx.Pipe()
++            ctx.Process(target=_worker, args=(child,), daemon=True).start()
++            self._conns.append(parent)
++            self._locks.append(asyncio.Lock())
++            self._load.append(0)
++        self._ids = itertools.count()
++
++    async def _call(self, w: int, op: str, eid: int, arg=None):
++        async with self._locks[w]:
++            self._conns[w].send((op, eid, arg))
++            status, out = await asyncio.to_thread(self._conns[w].recv)
++        if status != "ok":
++            raise RuntimeError(f"alfworld worker {w} {op} failed: {out}")
++        return out
++
++    async def open(self, gamefile: str):
++        w = min(range(len(self._conns)), key=self._load.__getitem__)
++        self._load[w] += 1
++        eid = next(self._ids)
++        return (w, eid), await self._call(w, "reset", eid, gamefile)
++
++    async def step(self, handle, action: str):
++        return await self._call(handle[0], "step", handle[1], action)
++
++    async def close(self, handle):
++        try:
++            await self._call(handle[0], "close", handle[1])
++        finally:
++            self._load[handle[0]] -= 1
++
++
++_POOL = None
++
++
++def get_pool() -> EnvPool:
++    global _POOL
++    if _POOL is None:
++        _POOL = EnvPool(int(os.environ.get("ALFWORLD_ENV_WORKERS", "32")))
++    return _POOL
+diff --git a/examples/alfworld/dump_loss.py b/examples/alfworld/dump_loss.py
+new file mode 100644
+index 000000000..0312892ef
+--- /dev/null
++++ b/examples/alfworld/dump_loss.py
+@@ -0,0 +1,94 @@
++"""GRPO policy loss with the ALFWorld task's per-step training dump.
++
++Use with ``--loss-type custom_loss --custom-loss-function-path dump_loss.policy_loss_with_dump``
++and ``ALFWORLD_STEP_DUMP_DIR``. The loss itself is Miles' ``policy_loss_function``; this
++wrapper only records, per trained sequence, what the backward pass saw (tokens, loss
++mask, engine log-probs, the trainer's pre-update log-probs, advantage) and writes one
++``step_{k:03d}_rank_{r}.pt`` per optimizer step and data-parallel rank.
++"""
++
++import os
++from pathlib import Path
++
++import torch
++
++from miles.backends.training_utils.loss_hub import losses as _losses
++from miles.backends.training_utils.parallel import get_parallel_state
++
++_CAPTURE = {}
++_orig_get_log_probs_and_entropy = _losses.get_log_probs_and_entropy
++
++
++def _capturing_get_log_probs_and_entropy(*args, **kwargs):
++    out = _orig_get_log_probs_and_entropy(*args, **kwargs)
++    _CAPTURE["log_probs"] = [lp.detach() for lp in out["log_probs"]]
++    return out
++
++
++_losses.get_log_probs_and_entropy = _capturing_get_log_probs_and_entropy
++
++_STEP = {"index": 0, "records": []}
++
++
++def _grpo_terms(lp, old, adv, mask, eps_low, eps_high):
++    ratio = torch.exp(lp - old)
++    pg = torch.maximum(-adv * ratio, -adv * ratio.clamp(1 - eps_low, 1 + eps_high))
++    return float((pg * mask).sum()), float(mask.sum())
++
++
++def _flush(args):
++    ps = get_parallel_state()
++    recs = _STEP["records"]
++    num = sum(r["pg_sum"] for r in recs)
++    den = sum(r["mask_sum"] for r in recs)
++    totals = torch.tensor([num, den], dtype=torch.float64, device=torch.cuda.current_device())
++    if ps.intra_dp.size > 1:
++        torch.distributed.all_reduce(totals, group=ps.intra_dp.group)
++    k = _STEP["index"]
++    _STEP["index"] += 1
++    _STEP["records"] = []
++    if ps.tp.rank != 0 or not ps.is_pp_last_stage:
++        return
++    out = Path(os.environ["ALFWORLD_STEP_DUMP_DIR"])
++    out.mkdir(parents=True, exist_ok=True)
++    record = {
++        "step": k,
++        "loss": float(totals[0] / totals[1].clamp_min(1)),
++        "loss_tokens": float(totals[1]),
++        "tokens": [r["tokens"] for r in recs],
++        "response_lengths": [r["response_length"] for r in recs],
++        "loss_masks": [r["loss_mask"] for r in recs],
++        "engine_logprobs": [r["engine_logprobs"] for r in recs],
++        "train_logprobs": [r["train_logprobs"] for r in recs],
++        "advantages": [r["advantage"] for r in recs],
++    }
++    path = out / f"step_{k:03d}_rank_{ps.intra_dp.rank}.pt"
++    tmp = path.with_suffix(".tmp")
++    torch.save(record, tmp)
++    tmp.replace(path)
++
++
++def policy_loss_with_dump(args, batch, logits, sum_of_sample_mean):
++    loss, metrics = _losses.policy_loss_function(args, batch, logits, sum_of_sample_mean)
++    if os.environ.get("ALFWORLD_STEP_DUMP_DIR"):
++        assert get_parallel_state().cp.size == 1, "the step dump assumes context-parallel size 1"
++        lps = _CAPTURE.pop("log_probs")
++        for i, lp in enumerate(lps):
++            adv = batch["advantages"][i].detach().to(torch.float64)
++            old = batch["rollout_log_probs"][i].detach().to(torch.float64)
++            mask = batch["loss_masks"][i].detach().to(torch.float64)
++            pg_sum, mask_sum = _grpo_terms(lp.to(torch.float64), old, adv, mask, args.eps_clip, args.eps_clip_high)
++            _STEP["records"].append({
++                "tokens": batch["unconcat_tokens"][i].detach().cpu(),
++                "response_length": int(batch["response_lengths"][i]),
++                "loss_mask": batch["loss_masks"][i].detach().cpu(),
++                "engine_logprobs": batch["rollout_log_probs"][i].detach().float().cpu(),
++                "train_logprobs": lp.float().cpu(),
++                "advantage": float(adv[0]) if adv.numel() else 0.0,
++                "pg_sum": pg_sum,
++                "mask_sum": mask_sum,
++            })
++        per_rank = args.global_batch_size // get_parallel_state().intra_dp.size
++        if len(_STEP["records"]) >= per_rank:
++            _flush(args)
++    return loss, metrics
+diff --git a/examples/alfworld/prepare_data.py b/examples/alfworld/prepare_data.py
+new file mode 100644
+index 000000000..7ab481a96
+--- /dev/null
++++ b/examples/alfworld/prepare_data.py
+@@ -0,0 +1,33 @@
++"""Write ALFWorld game lists as miles prompt jsonl (one row per game, fixed order)."""
++
++import argparse
++import glob
++import json
++import os
++import random
++
++
++def solvable_games(data_root: str, split: str) -> list[str]:
++    out = []
++    for gf in sorted(glob.glob(f"{data_root}/json_2.1.1/{split}/*/*/game.tw-pddl")):
++        root = os.path.dirname(gf)
++        if "movable" in root or "Sliced" in root:
++            continue
++        if json.load(open(gf)).get("solvable"):
++            out.append(os.path.relpath(gf, data_root))
++    return out
++
++
++if __name__ == "__main__":
++    p = argparse.ArgumentParser()
++    p.add_argument("--data-root", required=True)
++    p.add_argument("--split", default="train")
++    p.add_argument("--seed", type=int, default=0)
++    p.add_argument("--out", required=True)
++    a = p.parse_args()
++    games = solvable_games(a.data_root, a.split)
++    random.Random(a.seed).shuffle(games)
++    with open(a.out, "w") as f:
++        for i, g in enumerate(games):
++            f.write(json.dumps({"prompt": g, "metadata": {"game": g, "row": i}}) + "\n")
++    print(f"{len(games)} games -> {a.out}")
+diff --git a/examples/alfworld/run-qwen3-4B-alfworld.sh b/examples/alfworld/run-qwen3-4B-alfworld.sh
+new file mode 100755
+index 000000000..9318162ff
+--- /dev/null
++++ b/examples/alfworld/run-qwen3-4B-alfworld.sh
+@@ -0,0 +1,134 @@
++#!/bin/bash
++# ALFWorld agentic GRPO reference run: Qwen3-4B, two GPUs (GPU0 = Megatron trainer,
++# GPU1 = SGLang rollout engine). Episodes run through the session server (TITO), so
++# the trained tokens are exactly the tokens the engine produced.
++#
++# Environment (container): MILES=/workspace/miles, ASSETS=/assets, SCRATCH=/scratch,
++# POLICY_HF=<HF snapshot dir>, POLICY_MEGATRON=<torch_dist dir>, DATA=<train jsonl>.
++set -euxo pipefail
++
++MILES=${MILES:-/workspace/miles}
++ASSETS=${ASSETS:-/assets}
++SCRATCH=${SCRATCH:-/scratch}
++RUN_NAME=${RUN_NAME:-alfworld-dev}
++NUM_ROLLOUT=${NUM_ROLLOUT:-4}
++ROLLOUT_BATCH=${ROLLOUT_BATCH:-16}
++N_SAMPLES=${N_SAMPLES:-8}
++MAX_TURN_TOKENS=${MAX_TURN_TOKENS:-256}
++MAX_SEQ_LEN=${MAX_SEQ_LEN:-24576}
++LR=${LR:-1e-6}
++SAVE_INTERVAL=${SAVE_INTERVAL:-1000}
++SEED=${SEED:-1234}
++TRAIN_SCRIPT=${TRAIN_SCRIPT:-train.py}
++EXTRA_ARGS=${EXTRA_ARGS:-}
++export ALFWORLD_DATA=${ALFWORLD_DATA:-${ASSETS}/alfworld_data}
++export ALFWORLD_ENV_WORKERS=${ALFWORLD_ENV_WORKERS:-32}
++
++export PYTHONUNBUFFERED=1
++ALFWORLD_SITE=${ALFWORLD_SITE:-${ASSETS}/venv/lib/python3.12/site-packages}
++export PYTHONPATH=${MILES}:/root/Megatron-LM:${MILES}/examples/alfworld:${ALFWORLD_SITE}
++cd "${MILES}"
++
++MODEL_ARGS_LINE="$(python3 miles/utils/external_utils/model_args_utils.py qwen3-4B)"
++read -ra MODEL_ARGS <<< "${MODEL_ARGS_LINE}"
++
++CKPT_ARGS=(
++   --hf-checkpoint "${POLICY_HF}"
++   --ref-load "${POLICY_MEGATRON}"
++   --load "${SCRATCH}/${RUN_NAME}/checkpoints"
++   --save "${SCRATCH}/${RUN_NAME}/checkpoints"
++   --save-interval "${SAVE_INTERVAL}"
++)
++
++ROLLOUT_ARGS=(
++   --prompt-data "${DATA}"
++   --input-key prompt
++   --metadata-key metadata
++   --apply-chat-template-kwargs '{"enable_thinking": false}'
++   --num-rollout "${NUM_ROLLOUT}"
++   --rollout-batch-size "${ROLLOUT_BATCH}"
++   --n-samples-per-prompt "${N_SAMPLES}"
++   --rollout-max-response-len "${MAX_TURN_TOKENS}"
++   --rollout-temperature 1
++   --rollout-top-p 1
++   --seed "${SEED}"
++   --global-batch-size $((ROLLOUT_BATCH * N_SAMPLES))
++)
++
++AGENT_ARGS=(
++   --custom-generate-function-path miles.rollout.generate_hub.agentic_tool_call.generate
++   --custom-agent-function-path alfworld_agent.run
++   --custom-rm-path alfworld_agent.reward_func
++   --dynamic-sampling-filter-path miles.rollout.filter_hub.dynamic_sampling_filters.check_no_aborted
++   --use-session-server
++   --session-server-ip 127.0.0.1
++   --session-server-port 30100
++   --tito-model qwen3
++   --max-seq-len "${MAX_SEQ_LEN}"
++)
++
++GRPO_ARGS=(
++   --advantage-estimator grpo
++   --calculate-per-token-loss
++   --eps-clip 0.2
++   --eps-clip-high 0.28
++   --kl-coef 0.0
++   --entropy-coef 0.0
++)
++
++OPTIMIZER_ARGS=(
++   --optimizer adam
++   --lr "${LR}"
++   --lr-decay-style constant
++   --weight-decay 0.01
++   --adam-beta1 0.9
++   --adam-beta2 0.999
++   --adam-eps 1e-8
++   --clip-grad 1.0
++)
++
++PERF_ARGS=(
++   --tensor-model-parallel-size 1
++   --pipeline-model-parallel-size 1
++   --context-parallel-size 1
++   --recompute-granularity full
++   --recompute-method uniform
++   --recompute-num-layers 1
++   --use-dynamic-batch-size
++   --max-tokens-per-gpu "${MAX_SEQ_LEN}"
++)
++
++SGLANG_ARGS=(
++   --rollout-num-gpus-per-engine 1
++   --sglang-mem-fraction-static 0.8
++)
++
++MISC_ARGS=(
++   --attention-dropout 0.0
++   --hidden-dropout 0.0
++   --accumulate-allreduce-grads-in-fp32
++   --attention-softmax-in-fp32
++   --attention-backend flash
++)
++
++export MASTER_ADDR=${MASTER_ADDR:-"127.0.0.1"}
++ray start --head --node-ip-address "${MASTER_ADDR}" --num-gpus 2 --disable-usage-stats --dashboard-host=0.0.0.0 --dashboard-port=8265
++
++ray job submit --address="http://127.0.0.1:8265" \
++   --runtime-env-json="{\"env_vars\": {\"PYTHONPATH\": \"${PYTHONPATH}\", \"CUDA_DEVICE_MAX_CONNECTIONS\": \"1\", \"ALFWORLD_DATA\": \"${ALFWORLD_DATA}\", \"ALFWORLD_ENV_WORKERS\": \"${ALFWORLD_ENV_WORKERS}\"}}" \
++   -- python3 "${TRAIN_SCRIPT}" \
++   --actor-num-nodes 1 \
++   --actor-num-gpus-per-node 1 \
++   --rollout-num-gpus 1 \
++   "${MODEL_ARGS[@]}" \
++   "${CKPT_ARGS[@]}" \
++   "${ROLLOUT_ARGS[@]}" \
++   "${AGENT_ARGS[@]}" \
++   "${GRPO_ARGS[@]}" \
++   "${OPTIMIZER_ARGS[@]}" \
++   "${PERF_ARGS[@]}" \
++   "${SGLANG_ARGS[@]}" \
++   "${MISC_ARGS[@]}" \
++   ${EXTRA_ARGS}
++
++ray stop --force
+diff --git a/miles/rollout/session/server.py b/miles/rollout/session/server.py
+index e4e2004c6..ebf77d7e2 100644
+--- a/miles/rollout/session/server.py
++++ b/miles/rollout/session/server.py
+@@ -87,4 +87,13 @@ def run_session_server(args, backend_url: str):
+         args.session_server_port,
+         backend_url,
+     )
+-    uvicorn.run(server.app, host=args.session_server_ip, port=args.session_server_port, log_level="info")
++    # Keep idle connections open longer than the httpx client's 5 s keepalive expiry, so
++    # the client always retires a pooled connection before the server closes it; with
++    # equal 5 s limits a reused connection can be closed mid-request (ReadError on collect).
++    uvicorn.run(
++        server.app,
++        host=args.session_server_ip,
++        port=args.session_server_port,
++        log_level="info",
++        timeout_keep_alive=75,
++    )
+diff --git a/miles/utils/chat_template_utils/tito_tokenizer.py b/miles/utils/chat_template_utils/tito_tokenizer.py
+index 151b25011..c3a21970c 100644
+--- a/miles/utils/chat_template_utils/tito_tokenizer.py
++++ b/miles/utils/chat_template_utils/tito_tokenizer.py
+@@ -284,4 +284,8 @@ class Qwen3TITOTokenizer(TITOTokenizer):
+         prefix = list(pretokenized_token_ids)
+         if prefix and prefix[-1] == self._im_end_id:
+             prefix.append(self._newline_id)
++        elif prefix:
++            # The assistant turn did not end with <|im_end|> (cut at the length limit, or stopped on
++            # another EOS such as <|endoftext|>): the chat template closes it before the next message.
++            prefix.extend((self._im_end_id, self._newline_id))
+         return prefix + incremental

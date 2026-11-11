@@ -1,0 +1,172 @@
+{
+  "status": "QUALIFIED under metric v3 on the dual-cuda-sm90-nccl-80g profile (2x H100 SXM 80GB): four reference Judges passed all 15 checks, the per-route KL gate and the closure gate: scores 23.198 / 21.933 / 23.269 / 22.491 (quality 0.5681 / 0.5701 / 0.5754 / 0.5675, T 88.16 / 93.58 / 89.03 / 90.84 s; the second shared the host with the third); the starter is valid with score 0 (session_p_exit); drop_pick_real and drop_ocr_real pass every correctness check and fail the KL gate, teacher_final fails final_lora: all valid with score 0. The probe oracle runs micro 4 on cards below 80 GiB (judge_v2/probe_check.py).",
+  "note": "Tracked qualification record (scripts/miles_common/qualification.py). The Judge image carries runtime/qualification.json and reads model, teachers_dir, scorers, replay_port, timeouts, setup_cap_seconds, thresholds and metric from it; scripts/run_task.py refuses a formal run while status is PENDING, on another execution profile, or under another CPU pinning policy, CPU count or quota. metric, thresholds, timeouts and the other Judge inputs are copied unchanged from runtime/qualification.json (the record of the default profile).",
+  "measurement": "Four reference Judges, the starter and three negative controls through the real SForge eval on two H100 SXM 80GB GPUs, pinned under cpu_pinning; the frozen base and teacher values are those of the default profile, not re-measured.",
+  "execution_profile_id": "dual-cuda-sm90-nccl-80g",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind",
+    "cpu_count": 32,
+    "cpu_quota": 32,
+    "cpuset_cpus": "32-47,96-111",
+    "cpuset_mems": "1",
+    "note": "SFORGE_CPUSET=auto: Work and the Judge share the GPU pair's local CPU slice (32 CPUs, memory on the pair's NUMA node); quota run_task.pinned_quota(32) = 32."
+  },
+  "task_id": "miles_diffusion_sd35m_mopd_2xh100_v2",
+  "model": "/models/sd35m/stable-diffusion-3.5-medium",
+  "teachers_dir": "/models/teachers",
+  "replay_port": 18080,
+  "setup_cap_seconds": 600,
+  "timeouts": {
+    "session_p": 1500,
+    "session_r": 2700
+  },
+  "thresholds": {
+    "e_T_median": 0.02,
+    "e_T_p90": 0.035,
+    "e_S_median": 0.02,
+    "e_S_p90": 0.035,
+    "grad_cos": 0.95,
+    "grad_rel_l2": 0.3,
+    "sign_agree": 0.9,
+    "adam_v_rel": 0.0001,
+    "adam_clip_rel": 0.0001,
+    "adam_theta_rel": 0.01
+  },
+  "scorers": {
+    "pickscore_model": "/models/scorers/PickScore_v1",
+    "pickscore_processor": "/models/scorers/CLIP-ViT-H-14-processor"
+  },
+  "metric": {
+    "version": 3,
+    "formula": "mean_r closure_r * 3600 / T if correct, the per-route KL gate passes and every closure_r >= 0.25 else 0; closure_r = (S_r - B_r) / (T_r - B_r)",
+    "score_scale_seconds": 3600,
+    "quality_unit": "mean per-route closure of the original-to-teacher gap in task metric",
+    "closure_gate_min": 0.25,
+    "task_quality": {
+      "evaluator": "task_quality_eval.py (Judge copy judge/task_quality_eval.py) on session R's final_lora.safetensors, which check final_lora binds bit for bit to the last step's lora_post; the official DiffusionOPD evaluation pipeline (ali-vilab/DiffusionOPD@0c85bf0 scripts/evaluation.py): diffusers StableDiffusion3Pipeline, transformer and text encoders fp16, VAE fp32, fp16 autocast, LoRA merged (fp64 W0 + alpha/r B A over the fp32 checkpoint, cast to fp16)",
+      "prompts": "private heldout_task.jsonl: the official ocr/test.txt and pickscore/test.txt minus the 14 prompts any contract row uses",
+      "prompts_sha256": "144d1d672e0326c23d1adb5b77c6d9128a4108b54143e82e641ed6d030c8c46a",
+      "route_counts": {
+        "ocr": 1012,
+        "pickscore": 2040
+      },
+      "cfg": 1.0,
+      "steps": 40,
+      "res": 512,
+      "case_seed": 0,
+      "batch": 16,
+      "ocr_workers_per_gpu": 8,
+      "seeds": "image i uses a CPU generator seeded from sha256('sd35m-mopd-v2:<case_seed>:<i>') (task_quality_eval.item_seed); the prompts are dealt over the visible GPUs by index (i mod n), batches of 16 within a route",
+      "routes": {
+        "ocr": {
+          "metric": "ocr",
+          "base": 0.11028179597715607,
+          "teacher": 0.7410471145917246,
+          "base_se": 0.006104734884681144,
+          "teacher_se": 0.008091941703635695,
+          "n": 1012
+        },
+        "pickscore": {
+          "metric": "pickscore",
+          "base": 19.9119127591451,
+          "teacher": 21.59792709350586,
+          "base_se": 0.033255340316924085,
+          "teacher_se": 0.034411985147582896,
+          "n": 2040
+        }
+      }
+    },
+    "kl_gate": {
+      "evaluator": "quality_eval.py (v1's Judge evaluator, unchanged) on the final LoRA, one case seed per GPU",
+      "prompts": "private heldout_kl.jsonl (v1's heldout.jsonl: 128 ocr + 128 pickscore)",
+      "prompts_sha256": "312f7fa7ecc3638eb8b6fca268d7cc6c7d421eb90b4d155e5c56a3255d3830c0",
+      "case_seeds": [
+        0,
+        1
+      ],
+      "samples": 2,
+      "base_kl_per_repeat": [
+        {
+          "case_seed": 0,
+          "per_route": {
+            "ocr": {
+              "kl": 0.00012724825860818754,
+              "n": 768
+            },
+            "pickscore": {
+              "kl": 0.0007363873404593683,
+              "n": 768
+            }
+          },
+          "kl_pooled": 0.00043181779953377786
+        },
+        {
+          "case_seed": 1,
+          "per_route": {
+            "ocr": {
+              "kl": 0.00012675993756120025,
+              "n": 768
+            },
+            "pickscore": {
+              "kl": 0.0007397837568196707,
+              "n": 768
+            }
+          },
+          "kl_pooled": 0.00043327184719043547
+        }
+      ],
+      "min_route_gain": {
+        "ocr": 0.364,
+        "pickscore": 0.69
+      }
+    }
+  },
+  "v1_history": {
+    "metric": {
+      "base_kl_per_repeat": [
+        {
+          "case_seed": 0,
+          "per_route": {
+            "ocr": {
+              "kl": 0.00012724825860818754,
+              "n": 768
+            },
+            "pickscore": {
+              "kl": 0.0007363873404593683,
+              "n": 768
+            }
+          },
+          "kl_pooled": 0.00043181779953377786
+        },
+        {
+          "case_seed": 1,
+          "per_route": {
+            "ocr": {
+              "kl": 0.00012675993756120025,
+              "n": 768
+            },
+            "pickscore": {
+              "kl": 0.0007397837568196707,
+              "n": 768
+            }
+          },
+          "kl_pooled": 0.00043327184719043547
+        },
+        {
+          "case_seed": 2,
+          "per_route": {
+            "ocr": {
+              "kl": 0.00012677554994892272,
+              "n": 768
+            },
+            "pickscore": {
+              "kl": 0.0007305649697881165,
+              "n": 768
+            }
+          },
+          "kl_pooled": 0.00042867025986851963
+        }
+      ]
+    }
+  }
+}

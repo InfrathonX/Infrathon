@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "suite_id": "eagle3-spec-decode-public-v2",
+  "selection_seed": "eagle3-spec-decode-public-v2",
+  "sources": {
+    "ultrachat_test_sft": {
+      "repo": "HuggingFaceH4/ultrachat_200k",
+      "revision": "8049631c405ae6576f93f445c6b8166f76f5505a",
+      "file": "data/test_sft-00000-of-00001-f7dfac4afe5b93f4.parquet",
+      "sha256": "c18fd6e77395577652bdefbc5a87044ea799e989451ecfca5c6cf977ae5c6f70",
+      "license": "MIT"
+    },
+    "gsm8k_train": {
+      "repo": "openai/gsm8k",
+      "revision": "740312add88f781978c0658806c59bc2815b9866",
+      "file": "main/train-00000-of-00001.parquet",
+      "sha256": "ea82612ea9582142387730c793eb67d3b12849002bc0b7fa6f8efafa7351419d",
+      "license": "MIT"
+    },
+    "mbpp_sanitized_test": {
+      "repo": "google-research-datasets/mbpp",
+      "revision": "4bb6404fdc6cacfda99d4ac4205087b89d32030c",
+      "file": "sanitized/test-00000-of-00001.parquet",
+      "sha256": "e9e9efa2c0d59ef5e55537a9d126b8f875d5ac010a8d75628d76824884e15850",
+      "license": "CC-BY-4.0"
+    }
+  },
+  "cells": [
+    {
+      "cell": "chat_bs2",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/chat_bs2.jsonl",
+      "sha256": "2e07305b6c72b68b3d68e6adbc20491cdb389c8cdc3cdd7f299c727b2d216bb1",
+      "count": 2,
+      "batch_size": 2,
+      "max_new_tokens": 384,
+      "enable_thinking": false
+    },
+    {
+      "cell": "math_bs4",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/math_bs4.jsonl",
+      "sha256": "a7aa30cbbfcafafcea9bb8785c20bd4a5e16780b326196aee6a41306529f092d",
+      "count": 2,
+      "batch_size": 4,
+      "max_new_tokens": 256,
+      "enable_thinking": false
+    },
+    {
+      "cell": "code_bs3",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/code_bs3.jsonl",
+      "sha256": "c7656e5ba681b65da8bfd6383c26b7cd07af2f0b6d49e70abca0b46c2d66b5c6",
+      "count": 2,
+      "batch_size": 3,
+      "max_new_tokens": 384,
+      "enable_thinking": false
+    },
+    {
+      "cell": "longctx_bs2",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/longctx_bs2.jsonl",
+      "sha256": "4078e83c12507ae95723a1b669d3bb27033c033f0463b7334e1dc2935cac5e05",
+      "count": 2,
+      "batch_size": 2,
+      "max_new_tokens": 128,
+      "enable_thinking": false
+    },
+    {
+      "cell": "think_bs2",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/think_bs2.jsonl",
+      "sha256": "1643dbda99d84b2c6466307b16ce2a628112e36c2ef12dffd1ac2cd0a279bdc2",
+      "count": 2,
+      "batch_size": 2,
+      "max_new_tokens": 768,
+      "enable_thinking": true
+    },
+    {
+      "cell": "mixed_bs6",
+      "path": "tasks/latest/eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed/images/work/workdir/spec_lab/public_prompts/mixed_bs6.jsonl",
+      "sha256": "39ddb13b7eb0b84bcf1ee05bc8756e276bb21d3a4109f4f50345244dfbc4c358",
+      "count": 2,
+      "batch_size": 6,
+      "max_new_tokens": 320,
+      "enable_thinking": false,
+      "row_count": 12
+    }
+  ]
+}

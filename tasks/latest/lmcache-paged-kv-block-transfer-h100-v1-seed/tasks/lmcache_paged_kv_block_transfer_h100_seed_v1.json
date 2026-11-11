@@ -1,0 +1,217 @@
+{
+  "task_id": "lmcache_paged_kv_block_transfer_h100_seed_v1",
+  "name": "LMCache Paged-KV Block Transfer Portable CUDA Optimization Lab v1",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:0906d5c22f0bde357e38d0d08c63b41bc438f5cc0fd57f4e32a4ef902eb6f711"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/kv_transfer_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "transfer_abi.h",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/kv_transfer_lab",
+    "cpu_limit": 8,
+    "mem_limit": "48g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. A correct CUDA implementation of the paged-KV block transfer is already in candidates/kernel_v001. Make it faster without changing what it moves: every destination byte must stay bit-exact and every untouched byte must stay untouched, across the whole support domain. Your score comes from hidden test cases on the Judge, which differ from the public tests and can be much larger; the public tests are for getting the kernel working. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Before finishing, run the full public suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; external implementations and solution material may not be copied into the submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run uses part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/lmcache_kv_transfer_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 4800,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/lmcache_kv_transfer_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "64g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "lmcache-paged-kv-block-transfer-v2",
+      "definition": {
+        "operation": "paged_kv_block_transfer_between_engine_pages_and_chunk_objects",
+        "arms": [
+          "device",
+          "host",
+          "trace",
+          "overlap",
+          "duplex"
+        ],
+        "layouts": [
+          "split",
+          "fused"
+        ],
+        "directions": [
+          "store",
+          "retrieve"
+        ],
+        "block_maps": "explicit per-call tables replayed from serving traces, rotated by one offset per trial",
+        "page_size_tokens": 16,
+        "element_bytes": 2,
+        "scratch_arena_bytes": 268435456,
+        "families": {
+          "device-large": "device",
+          "device-small": "device",
+          "host-large": "host",
+          "host-small": "host",
+          "host-duplex": "duplex",
+          "trace": "trace",
+          "overlap": "overlap"
+        },
+        "support_domain": {
+          "nl": [
+            1,
+            128
+          ],
+          "nh": [
+            1,
+            32
+          ],
+          "nb": [
+            1,
+            65536
+          ],
+          "objects": [
+            1,
+            4
+          ],
+          "head_sizes": [
+            64,
+            128
+          ],
+          "chunk_tokens": "positive multiple of 16"
+        },
+        "head_sizes": [
+          64,
+          128
+        ]
+      },
+      "interface": {
+        "entry_point": "extern \"C\" void lmcache_paged_kv_block_transfer(const TransferParams* params, cudaStream_t stream)",
+        "abi_header": "runtime/transfer_abi.h",
+        "source_path": "candidates/kernel_vNNN/submission.cu",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "single_cuda_cpp_translation_unit_frozen_nvcc_command"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates (launch geometry, tiling, vector width, cache hints, zero-copy access order over PCIe, use of the Judge-provided scratch arena)",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "every targeted destination byte is bit-exact and every untargeted pool byte keeps its contents; skipped store blocks stay poisoned",
+        "retrieve sources, the block-id table and the pointer array are read-only; all work completes on the given stream",
+        "no allocation APIs; the candidate's device footprint is its static module data plus the Judge-owned scratch arena",
+        "any case whose implied bandwidth exceeds the same-run measured envelope x 1.10 invalidates the run",
+        "the 25 disclosed edge fixtures are hard gates that never enter the score"
+      ],
+      "resource_manifest_sha256": "sha256:995c1ca4777bc21632e5fef61c9e59d33855e50c3666653ccce354808b73cb3b"
+    },
+    "evaluation_suites": {
+      "lmcache-kv-transfer-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:f775b243473a3756818d4ff8176e2601acfa830d2c3b98416f3fbb546480d6d2",
+            "case_count": 180
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:fc3d3d12936c638836daa6d74acff6e1548437e6f7cc59462f2c39b85e29aebc",
+            "case_count": 868
+          },
+          "final": {
+            "manifest_sha256": "sha256:da60c2c8f904c1a5b10328b5fe8c69d2e9355cb6ff531d37a2695d61f0a992a5",
+            "case_count": 868
+          }
+        },
+        "oracle": {
+          "protocol_id": "bit-exact-paged-kv-transfer-reference-v2",
+          "spec_sha256": "sha256:5dc08358b2273c2781d6575905b67f31de6bedbcbcb5b74fcb9d95140766f724"
+        },
+        "selection": {
+          "protocol_id": "lmcache-shared-final-v3",
+          "spec_sha256": "sha256:552dad3d638a3e4306eaefb9fd5d46267de50a6aeb76764778374c646706d415"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-64g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 68719476736,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "nvcc",
+          "pinned-host-memory",
+          "pcie-host-transfer",
+          "bf16-storage"
+        ],
+        "software_abi": {
+          "protocol_id": "cuda129-nvcc-native-sm-shared-cudart-v1",
+          "spec_sha256": "sha256:c11b75a7a0b83d9dabec53d74c3821c1cb1a9e539900cb67ab5db084e61671dd"
+        },
+        "calibration_protocol": {
+          "protocol_id": "settled-cuda-event-host-wall-max-median-v2",
+          "spec_sha256": "sha256:4ede3c9c2ef4e7cf3ac16a42e50f78319e6da54e024b4234ed26d2f1dc9dd1ba"
+        }
+      }
+    },
+    "metrics": {
+      "weighted-group-geomean-payload-gbps": {
+        "direction": "maximize",
+        "unit": "effective_gbps",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "weighted-four-group-stratified-geomean-v4",
+          "spec": {
+            "formula": "device^0.35*host^0.25*trace^0.10*overlap^0.30; device = geomean(device-large, device-small); host = geomean(host-large, host-small, host-duplex); family = tier-balanced geomean of stratum geomeans",
+            "group_weight_basis_points": {
+              "device": 3500,
+              "host": 2500,
+              "trace": 1000,
+              "overlap": 3000
+            },
+            "case_statistic": "median_trial_payload_gbps",
+            "case_value": "logical_payload_bytes/median_seconds; overlap cases times (1 - median clamped foreground loss)",
+            "host_platform_in_comparability_key": true
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "lmcache-kv-transfer-v2",
+      "execution_profile_id": "single-cuda-sm80-64g",
+      "metric_id": "weighted-group-geomean-payload-gbps"
+    }
+  }
+}

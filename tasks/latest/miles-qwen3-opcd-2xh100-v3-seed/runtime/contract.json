@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_opcd_2xh100_v3",
+  "student_hf": "/models/qwen3-1.7b/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "teacher_hf": "/models/qwen3-1.7b/snapshots/70d244cc86ccca08cf5af4e1e306ecf908b1ad5e",
+  "student_megatron": "/data/megatron/Qwen3-1.7B_torch_dist",
+  "context_file": "/data/public/context.txt",
+  "train_data": "/data/public/train.jsonl",
+  "rounds": 32,
+  "prompts_per_round": 512,
+  "max_response_len": 512,
+  "sampling": {"temperature": 1.0, "top_p": 1.0},
+  "max_staleness": 1,
+  "top_k": 256,
+  "optimizer": {"lr": 5e-06, "betas": [0.9, 0.999], "eps": 1e-08, "weight_decay": 0.01, "clip_grad": 1.0},
+  "template_kwargs": {"enable_thinking": false},
+  "seed": 1234,
+  "gpus": 2,
+  "scratch": "/scratch/opcd"
+}

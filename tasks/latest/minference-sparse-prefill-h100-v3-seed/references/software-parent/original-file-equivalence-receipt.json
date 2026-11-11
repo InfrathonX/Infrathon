@@ -1,0 +1,15 @@
+{
+  "created_utc": "2026-10-05T11:51:10.154562+00:00",
+  "clean_image_id": "sha256:ca059ba896ec76b2c638ada87232d2637d2ef217dea217c32b37645f2f19a71a",
+  "diagnostic_source_image_id": "sha256:c790ca30156a2a03a18990443696576af5029296edbbbfda3e670292c9bcf433",
+  "exact_software_files_equal": true,
+  "software_file_count": 5327,
+  "software_file_bytes": 1152358233,
+  "clean_file_manifest_sha256": "106aeea5596144451c6411a77d9482249484358049b9aa3ad3de82040e4627e9",
+  "diagnostic_file_manifest_sha256": "8b2bf5e1145314fe95daea4e14073d6a84f41a282b95a6c210c314a45e3f06ea",
+  "forbidden_paths_present": [],
+  "official_base_layers_shared": 15,
+  "own_cpu_container_removed": true,
+  "gpu_execution": false,
+  "qualified": false
+}

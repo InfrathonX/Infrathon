@@ -1,0 +1,60 @@
+{
+  "case_statistic": "median_trial_tflops",
+  "edge_fixtures": {
+    "case_count": 24,
+    "policy": "all_must_pass_before_any_scored_case",
+    "scored": false
+  },
+  "evaluation_policy": "full-final-shared-v2",
+  "family_weights": {
+    "batch": "1/4",
+    "long": "1/4",
+    "real": "1/4",
+    "serving": "1/4"
+  },
+  "final": {
+    "case_count": 138,
+    "hard_gate_case_count": 24,
+    "hard_gate_policy": "all_must_pass",
+    "real_trials": 1,
+    "rounds": "host manual-/candidate- replays, including sealed deadline re-evaluation; version override allowed only here",
+    "scored_case_count": 138,
+    "suite_id": "tilelang-ssd-final-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "historical_protocol": "v1 scored three bands with slot-drawn holdout lengths on a partly synthetic geometry set; v2 scored the 18 public upstream benchmark shapes (batch 8 or 4, power-of-two lengths) on three deployed geometries; v3 scores 138 withheld cases on 15 deployed geometries in four workload families (batch, serving at batch 1, long context, captured real layers). v1, v2 and v3 scores are not comparable.",
+  "interactive": {
+    "case_count": 138,
+    "hard_gate_case_count": 24,
+    "hard_gate_policy": "all_must_pass",
+    "real_trials": 1,
+    "rounds": "agent-/auto- identities retained; candidate-version override forbidden; complete frozen final suite",
+    "scored_case_count": 138,
+    "suite_id": "tilelang-ssd-final-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "protocol_id": "tilelang-mamba2-v2-shared-final",
+  "public": {
+    "full": {
+      "case_count": 24,
+      "case_ids": "all_public_cases",
+      "trials": 3
+    },
+    "one": {
+      "case_count": 1,
+      "case_id": "public-p1"
+    },
+    "quick": {
+      "case_count": 2,
+      "case_ids": [
+        "public-p1",
+        "public-p20"
+      ],
+      "trials": 3
+    },
+    "warmups": 1
+  },
+  "schema_version": 1
+}

@@ -1,0 +1,357 @@
+{
+ "schema_version": 1,
+ "kind": "diffusion",
+ "recipe_id": "rl-cogvideox2b-p1-s10-v1",
+ "title": "CogVideoX-2B: ten DiT attention layers' Q/K/V (CFG batch 2), prompt 1, denoising step 10",
+ "identity": "per-deployment-capture",
+ "capture_dir": "cogvideox2b-p1-s10",
+ "role": "scored_real_layer",
+ "why": "Later denoising steps of the CogVideoX layers the step-0 capture already covers: the Q/K/V statistics change with the noise level.",
+ "model": {
+  "repo": "zai-org/CogVideoX-2b",
+  "repo_type": "model",
+  "revision": "1137dacfc2c9c012bed6a0793f4ecf2ca8e7ba01",
+  "license": "apache-2.0",
+  "download": "hf download zai-org/CogVideoX-2b --revision 1137dacfc2c9c012bed6a0793f4ecf2ca8e7ba01",
+  "files": {
+   ".gitignore": "adabcb0e276d37c4bd3d79f11d6b763923e925b8444511547f552cbad1131a17",
+   "LICENSE": "4c3f6aeb71e12415a59117dfd35cfc177514424f0356c81798fde1a239d0b6a8",
+   "model_index.json": "c1a0f395ec8dec5411275a71a72ef6bae3b6326277e8a89a0e3791de6c2d3f0d",
+   "scheduler/scheduler_config.json": "577d1b592e965f38b28f562f20d7fae69258e6b5e16fb113be57d52514574a43",
+   "text_encoder/config.json": "82e6880a8f78a2ad50832d82ebe0f3046f33527d9c444acc82caa0592920baf6",
+   "text_encoder/model-00001-of-00002.safetensors": "4f2751ceeb2a96edd693e539dc5d6bba0b8d3814f49a9b3798403a0cec4b2e3d",
+   "text_encoder/model-00002-of-00002.safetensors": "f63154532130422309532ff56f11945fbea8266c958e3133e8e5aef85c6293c7",
+   "text_encoder/model.safetensors.index.json": "3bacec0f0cf392399d4a385908f67dd73df99c9e9cfee669f148858ba9fbdb0a",
+   "tokenizer/added_tokens.json": "ea5a91a3234f66ea642c8e672d67f0f493759a9bee6910ae304ea9b9492118b5",
+   "tokenizer/special_tokens_map.json": "7a1985a994c41886db38c719d2a3d2f40606663cc19d7c5d6a85d349320e06d2",
+   "tokenizer/spiece.model": "d60acb128cf7b7f2536e8f38a5b18a05535c9e14c7a355904270e15b0945ea86",
+   "tokenizer/tokenizer_config.json": "9c4f8a92630f7c6cc082831b291d6f46f18455d69d1a2a52c9b5f5303ab01469",
+   "transformer/config.json": "4d93dcf9f9f526982c4cfcf98083c2da508bad8208f3abab07b70103a30925c0",
+   "transformer/diffusion_pytorch_model.safetensors": "8fbb6a5e67c70885a8ed8e33df144ac61253e45977be5035fa18cfdf77d386c7",
+   "vae/config.json": "fb212585242726f5d963271357731c78481da25cc29bdd5c2b9cb058c43f8688",
+   "vae/diffusion_pytorch_model.safetensors": "a410e48d988c8224cef392b68db0654485cfd41f345f4a3a81d3e6b765bb995e"
+  }
+ },
+ "generation": {
+  "pipeline": "CogVideoXPipeline",
+  "seed": 4242,
+  "call": {
+   "prompt": "A golden retriever runs across a sunlit meadow toward the camera, ears flapping, tall grass swaying in the wind, shallow depth of field, cinematic lighting.",
+   "num_frames": 49,
+   "num_inference_steps": 50,
+   "guidance_scale": 6.0,
+   "num_videos_per_prompt": 1
+  }
+ },
+ "capture": {
+  "points": [
+   [
+    10,
+    0
+   ],
+   [
+    10,
+    3
+   ],
+   [
+    10,
+    6
+   ],
+   [
+    10,
+    9
+   ],
+   [
+    10,
+    12
+   ],
+   [
+    10,
+    15
+   ],
+   [
+    10,
+    18
+   ],
+   [
+    10,
+    21
+   ],
+   [
+    10,
+    24
+   ],
+   [
+    10,
+    27
+   ]
+  ],
+  "calls_per_step": 1,
+  "layers": [
+   0,
+   1,
+   2,
+   3,
+   4,
+   5,
+   6,
+   7,
+   8,
+   9
+  ]
+ },
+ "attention": {
+  "layers": 30,
+  "is_causal": false,
+  "softmax_scale": 0.125,
+  "q_heads": 30,
+  "kv_heads": 30
+ },
+ "tensors": {
+  "layout": "B,L,H,D",
+  "dtype": "torch.bfloat16",
+  "q": [
+   2,
+   17776,
+   30,
+   64
+  ],
+  "k": [
+   2,
+   17776,
+   30,
+   64
+  ],
+  "v": [
+   2,
+   17776,
+   30,
+   64
+  ]
+ },
+ "builder": {
+  "base_image": "pytorch/pytorch:2.8.0-cuda12.9-cudnn9-devel",
+  "torch": "2.8.0+cu129",
+  "cuda": "12.9",
+  "dockerfile": "fixtures/recipe/real_layers/Dockerfile.builder",
+  "pip_packages": [
+   "accelerate==1.14.0",
+   "diffusers==0.40.0",
+   "ftfy==6.3.1",
+   "huggingface_hub==1.33.0",
+   "numpy==1.26.4",
+   "protobuf==6.32.1",
+   "pyarrow==21.0.0",
+   "regex==2026.9.10",
+   "safetensors==0.8.0",
+   "sentencepiece==0.2.1",
+   "tokenizers==0.22.2",
+   "transformers==5.15.1"
+  ]
+ },
+ "sanity_bands": {
+  "note": "reference capture: RMS widened 2x, abs-max 4x",
+  "layers": {
+   "00": {
+    "q": {
+     "rms_min": 0.449695,
+     "rms_max": 1.79878,
+     "abs_max_min": 1.648438,
+     "abs_max_max": 26.375
+    },
+    "k": {
+     "rms_min": 0.491506,
+     "rms_max": 1.966024,
+     "abs_max_min": 1.679688,
+     "abs_max_max": 26.875
+    },
+    "v": {
+     "rms_min": 0.882057,
+     "rms_max": 3.528226,
+     "abs_max_min": 3.734375,
+     "abs_max_max": 59.75
+    }
+   },
+   "01": {
+    "q": {
+     "rms_min": 0.613525,
+     "rms_max": 2.454099,
+     "abs_max_min": 1.984375,
+     "abs_max_max": 31.75
+    },
+    "k": {
+     "rms_min": 0.651973,
+     "rms_max": 2.607892,
+     "abs_max_min": 2.0,
+     "abs_max_max": 32.0
+    },
+    "v": {
+     "rms_min": 0.32106,
+     "rms_max": 1.284239,
+     "abs_max_min": 2.71875,
+     "abs_max_max": 43.5
+    }
+   },
+   "02": {
+    "q": {
+     "rms_min": 0.83473,
+     "rms_max": 3.338922,
+     "abs_max_min": 2.578125,
+     "abs_max_max": 41.25
+    },
+    "k": {
+     "rms_min": 0.840546,
+     "rms_max": 3.362184,
+     "abs_max_min": 2.09375,
+     "abs_max_max": 33.5
+    },
+    "v": {
+     "rms_min": 0.555876,
+     "rms_max": 2.223505,
+     "abs_max_min": 2.015625,
+     "abs_max_max": 32.25
+    }
+   },
+   "03": {
+    "q": {
+     "rms_min": 0.90511,
+     "rms_max": 3.620439,
+     "abs_max_min": 2.53125,
+     "abs_max_max": 40.5
+    },
+    "k": {
+     "rms_min": 0.913125,
+     "rms_max": 3.652498,
+     "abs_max_min": 2.4375,
+     "abs_max_max": 39.0
+    },
+    "v": {
+     "rms_min": 0.659676,
+     "rms_max": 2.638703,
+     "abs_max_min": 2.8125,
+     "abs_max_max": 45.0
+    }
+   },
+   "04": {
+    "q": {
+     "rms_min": 0.956208,
+     "rms_max": 3.824831,
+     "abs_max_min": 2.859375,
+     "abs_max_max": 45.75
+    },
+    "k": {
+     "rms_min": 0.996873,
+     "rms_max": 3.987492,
+     "abs_max_min": 3.375,
+     "abs_max_max": 54.0
+    },
+    "v": {
+     "rms_min": 0.976153,
+     "rms_max": 3.904612,
+     "abs_max_min": 5.125,
+     "abs_max_max": 82.0
+    }
+   },
+   "05": {
+    "q": {
+     "rms_min": 0.972486,
+     "rms_max": 3.889946,
+     "abs_max_min": 2.90625,
+     "abs_max_max": 46.5
+    },
+    "k": {
+     "rms_min": 1.077158,
+     "rms_max": 4.308631,
+     "abs_max_min": 2.640625,
+     "abs_max_max": 42.25
+    },
+    "v": {
+     "rms_min": 1.103636,
+     "rms_max": 4.414545,
+     "abs_max_min": 5.90625,
+     "abs_max_max": 94.5
+    }
+   },
+   "06": {
+    "q": {
+     "rms_min": 0.888495,
+     "rms_max": 3.553981,
+     "abs_max_min": 2.53125,
+     "abs_max_max": 40.5
+    },
+    "k": {
+     "rms_min": 1.79087,
+     "rms_max": 7.163479,
+     "abs_max_min": 3.796875,
+     "abs_max_max": 60.75
+    },
+    "v": {
+     "rms_min": 1.315115,
+     "rms_max": 5.260458,
+     "abs_max_min": 9.8125,
+     "abs_max_max": 157.0
+    }
+   },
+   "07": {
+    "q": {
+     "rms_min": 1.012983,
+     "rms_max": 4.051931,
+     "abs_max_min": 4.8125,
+     "abs_max_max": 77.0
+    },
+    "k": {
+     "rms_min": 2.039149,
+     "rms_max": 8.156596,
+     "abs_max_min": 6.1875,
+     "abs_max_max": 99.0
+    },
+    "v": {
+     "rms_min": 1.414037,
+     "rms_max": 5.656146,
+     "abs_max_min": 12.6875,
+     "abs_max_max": 203.0
+    }
+   },
+   "08": {
+    "q": {
+     "rms_min": 1.339665,
+     "rms_max": 5.358659,
+     "abs_max_min": 3.34375,
+     "abs_max_max": 53.5
+    },
+    "k": {
+     "rms_min": 1.842947,
+     "rms_max": 7.371788,
+     "abs_max_min": 3.703125,
+     "abs_max_max": 59.25
+    },
+    "v": {
+     "rms_min": 1.173097,
+     "rms_max": 4.692389,
+     "abs_max_min": 4.09375,
+     "abs_max_max": 65.5
+    }
+   },
+   "09": {
+    "q": {
+     "rms_min": 1.43052,
+     "rms_max": 5.722082,
+     "abs_max_min": 5.40625,
+     "abs_max_max": 86.5
+    },
+    "k": {
+     "rms_min": 1.962832,
+     "rms_max": 7.851327,
+     "abs_max_min": 5.96875,
+     "abs_max_max": 95.5
+    },
+    "v": {
+     "rms_min": 1.119455,
+     "rms_max": 4.47782,
+     "abs_max_min": 4.5,
+     "abs_max_max": 72.0
+    }
+   }
+  }
+ }
+}

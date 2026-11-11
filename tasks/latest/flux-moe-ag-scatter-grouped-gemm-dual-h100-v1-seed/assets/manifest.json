@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "task_directory": "flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed",
+  "note": "No external models or datasets at run time; the Judge-only inputs (the final manifest and the routing fixtures its captured-routing cases pin) are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private). The fixtures were recorded from open models by scripts/capture_routing.py and trimmed by scripts/build_routing_fixtures.py; their provenance is in each fixture JSON.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "7efc8533b1bb47101f675ef608ab259efabd1b494ba9f3b4c9b4e893d1dc9908",
+      "size": 452685,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/gpt-oss-20b.npy",
+      "sha256": "fb709ad00e976caec2edc0513a7141534ed684fa68a8330579e76b96501ca3dd",
+      "size": 1572992,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/gpt-oss-20b.json",
+      "sha256": "783bab1c868c8041a9f2feee6fa4a69c1a570e122e6473226e6207a760dabc18",
+      "size": 2770,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/phi-3.5-moe.npy",
+      "sha256": "727c0919bce8117ecff15d84eab6f59e836d34cc269c24ddb994882eec728d56",
+      "size": 786560,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/phi-3.5-moe.json",
+      "sha256": "ee2fa7b0911694086fd457b1162d5841aefe87cd306303d137475834a23ee844",
+      "size": 2715,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/mixtral-8x7b.npy",
+      "sha256": "87360f5df7643ad932e500d741410d0febdea0b3c4e4e72f1b4bb15e86b064ea",
+      "size": 786560,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/mixtral-8x7b.json",
+      "sha256": "1ef9a46f969e7f8e337664ea714dff39ac7d3063c5c4ebcab89ca076149005a5",
+      "size": 2712,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/granite-3.1-3b-a800m.npy",
+      "sha256": "7b09271a58bb709aab8ca9e18691b0f66bc80857576568a51d5e44258506f19a",
+      "size": 3145856,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/routing/granite-3.1-3b-a800m.json",
+      "sha256": "fd3dae4cbfceff24b3fbd3564fef7467e00bacae3db743e0fccbfcbb726c5107",
+      "size": 2735,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

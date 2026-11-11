@@ -1,0 +1,82 @@
+{
+  "case_counts": {
+    "scored_performance": 6,
+    "total": 6,
+    "zero_weight_hard_gate": 0
+  },
+  "cases": [
+    {"batch_count": 20, "batch_size": 1, "case_id": "final-chat_bs1", "cell": "chat_bs1", "enable_thinking": false, "max_new_tokens": 512, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 20, "prompt_file_sha256": "20c2896edbce17f49b280e0d4a13120836c010ea26bd55729ce22c1f2e7ce6c2", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"},
+    {"batch_count": 20, "batch_size": 1, "case_id": "final-math_bs1", "cell": "math_bs1", "enable_thinking": false, "max_new_tokens": 512, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 20, "prompt_file_sha256": "31575fb2e30ed3098205931219dbc3722b5ee0eba838acae09867f8a8adfa7a6", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"},
+    {"batch_count": 20, "batch_size": 1, "case_id": "final-code_bs1", "cell": "code_bs1", "enable_thinking": false, "max_new_tokens": 512, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 20, "prompt_file_sha256": "fa221c0a5726a4910e0063df669137962b7447553fb877dbca35134a3f8c13c2", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"},
+    {"batch_count": 20, "batch_size": 1, "case_id": "final-longctx_bs1", "cell": "longctx_bs1", "enable_thinking": false, "max_new_tokens": 256, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 20, "prompt_file_sha256": "50dec9f1c05332acba18b9381d86b39e5d3ef419835c2c9e62131464ad2d7a58", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"},
+    {"batch_count": 20, "batch_size": 1, "case_id": "final-think_bs1", "cell": "think_bs1", "enable_thinking": true, "max_new_tokens": 1024, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 20, "prompt_file_sha256": "0d6cea00d267d00e76b89a4393b4987f0f01b0216049081ac83a60bc35a44a58", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"},
+    {"batch_count": 5, "batch_size": 8, "case_id": "final-mixed_bs8", "cell": "mixed_bs8", "enable_thinking": false, "max_new_tokens": 512, "measurement_mode": "sum_generated_tokens_over_sum_synchronized_wall", "prompt_count": 40, "prompt_file_sha256": "cae4cc9232debbdb5db6b4b522f46ddd9ee3952ed4ce173095f97cf79b271cc0", "prompt_visibility": "hidden_committed", "role": "performance", "weight": {"denominator": 6, "numerator": 1}, "weight_semantics": "equal-weight geometric mean over the six cells"}
+  ],
+  "commitments_sha256": "8104f3df30763890806444245f5e772ee4e53f0fc4d92fdcdd7df7b251835e5a",
+  "orchestration_timeouts": {
+    "standalone_final_evaluation_seconds": 5400
+  },
+  "prompt_counts": {
+    "chat_bs1": 20,
+    "code_bs1": 20,
+    "longctx_bs1": 20,
+    "math_bs1": 20,
+    "mixed_bs8": 40,
+    "think_bs1": 20
+  },
+  "role": "final",
+  "run_gates": ["protected_ok", "source_ok", "worker_ok", "o1_ok", "o2_ok", "tiers_ok", "o3_o4_ok", "o5_ok", "wall_ok", "memory_ok", "idle_ok"],
+  "schema_version": 1,
+  "seed_reference": {
+    "engine": "images/judge/seed_reference (root-only copy of solutions/engine_v001 taken from the Work layer at image build)",
+    "policy": "measured on the same device in the same evaluation before the candidate is imported; every wall and memory cap is a multiple of that measurement",
+    "protected_labels": "seed:solutions/*"
+  },
+  "selection_semantics": "all six final cells with every committed prompt execute; the eleven run-wide gates must all pass; score = geometric mean over cells of total generated tokens / total synchronized wall seconds",
+  "suite_gate_timeouts": {
+    "build_cap_seconds": 600,
+    "final_judge_seconds": 5400,
+    "worker_timeout_seconds": 4800
+  },
+  "suite_id": "eagle3-spec-decode-final-v1",
+  "timeout_semantics": "suite gates and orchestration ceilings qualify the selected execution profile; they do not identify a GPU model",
+  "total_prompts": 140,
+  "warmup": {
+    "chat_bs1": {
+      "batch_count": 1,
+      "batch_size": 1,
+      "prompt_count": 1,
+      "sha256": "0301379e2fa7f350fdc9a18d8e709d813c62212651c6ae242f823a0e14ef1c96"
+    },
+    "code_bs1": {
+      "batch_count": 1,
+      "batch_size": 1,
+      "prompt_count": 1,
+      "sha256": "4c171e44848f3aabfea96a68fe7b1eade2035540f5b482199bba27b60e766c3f"
+    },
+    "longctx_bs1": {
+      "batch_count": 1,
+      "batch_size": 1,
+      "prompt_count": 1,
+      "sha256": "cc353eca095d11971eef5d5dcaf4eb0a97b43bb97aff871f0f000d64442363a6"
+    },
+    "math_bs1": {
+      "batch_count": 1,
+      "batch_size": 1,
+      "prompt_count": 1,
+      "sha256": "24fb8b21dfada35365f81759654c4605858147420704d1fbc167b9cc6d5c7685"
+    },
+    "mixed_bs8": {
+      "batch_count": 1,
+      "batch_size": 8,
+      "prompt_count": 8,
+      "sha256": "4a6e3961adac8bdfa129503cbbd0341da9764425d28963b4d784c2dfada9acad"
+    },
+    "think_bs1": {
+      "batch_count": 1,
+      "batch_size": 1,
+      "prompt_count": 1,
+      "sha256": "79bcf6f00684271a41196cc0a5a1697710f8a1b8609f51cedf668df47afb797f"
+    }
+  }
+}

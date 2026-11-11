@@ -1,0 +1,294 @@
+{
+  "task_id": "llada_h100_decoder_optimization_v2",
+  "name": "LLaDA H100 Decoder Optimization v2 — Stratified H100, Vanilla Seed",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:0bafdfe1942dcfa1bbac7e34b578f2932a45110a0ea740f8377cd8019265885e"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch271_cu128",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/decoder_lab",
+  "submit_paths": [
+    "solutions",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "runtime/",
+    "tests/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/decoder_lab",
+    "cpu_limit": 8,
+    "mem_limit": "48g",
+    "agent_query": "Read AGENT_TASK.md and optimize the supplied correct but deliberately slow deterministic LLaDA decoder on one CUDA GPU. Keep decoder_v001 unchanged, create complete versioned candidates, use the supplied local tests and any run-scoped aggregate submission command described in the instructions, document experiments, and leave FINAL_VERSION on the strongest validated version. By default Work and the Judge run on separate GPUs; before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details. In the shared-GPU (single-accelerator) profile Work and Judge share the single CUDA GPU allocated to this run, and sforge-submit automatically runs the fail-closed root-owned .sforge/prepare_submit.sh hook immediately before admission; run the hook manually only to diagnose remaining GPU holders. The managed run performs no automatic aggregate evaluation while you work, so only manual submissions run the Judge; the captured final state is evaluated after the work session ends and does not send feedback to you."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/decoder_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 7200,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/decoder_private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "48g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "llada-decoder-optimization-v2",
+      "definition": {
+        "operation": "deterministic_masked_token_generation_engine",
+        "checkpoint": "GSAI-ML/LLaDA-8B-Instruct bf16 frozen",
+        "checkpoint_revision": "6059b30c9531767ce47e0ca6a8161a6bb0c67693",
+        "workload_profile": "fast_dllm_v1_llada_12row_stratified520_batch1",
+        "rows": [
+          "table1_gsm8k_5shot_g256",
+          "table1_gsm8k_5shot_g512",
+          "table1_math_4shot_g256",
+          "table1_math_4shot_g512",
+          "table1_humaneval_0shot_g256",
+          "table1_humaneval_0shot_g512",
+          "table1_mbpp_3shot_g256",
+          "table1_mbpp_3shot_g512",
+          "table4_gsm8k_5shot_g1024",
+          "table5_gsm8k_8shot_g256",
+          "table5_gsm8k_8shot_g512",
+          "table5_gsm8k_8shot_g1024"
+        ],
+        "row_counts": {
+          "table1_gsm8k_5shot_g256": 39,
+          "table1_gsm8k_5shot_g512": 39,
+          "table1_math_4shot_g256": 65,
+          "table1_math_4shot_g512": 65,
+          "table1_humaneval_0shot_g256": 65,
+          "table1_humaneval_0shot_g512": 65,
+          "table1_mbpp_3shot_g256": 65,
+          "table1_mbpp_3shot_g512": 65,
+          "table4_gsm8k_5shot_g1024": 13,
+          "table5_gsm8k_8shot_g256": 13,
+          "table5_gsm8k_8shot_g512": 13,
+          "table5_gsm8k_8shot_g1024": 13
+        },
+        "row_shapes": {
+          "table1_gsm8k_5shot_g256": {
+            "benchmark": "gsm8k",
+            "gen_length": 256,
+            "block_length": 32,
+            "fewshot": 5
+          },
+          "table1_gsm8k_5shot_g512": {
+            "benchmark": "gsm8k",
+            "gen_length": 512,
+            "block_length": 32,
+            "fewshot": 5
+          },
+          "table1_math_4shot_g256": {
+            "benchmark": "math",
+            "gen_length": 256,
+            "block_length": 32,
+            "fewshot": 4
+          },
+          "table1_math_4shot_g512": {
+            "benchmark": "math",
+            "gen_length": 512,
+            "block_length": 32,
+            "fewshot": 4
+          },
+          "table1_humaneval_0shot_g256": {
+            "benchmark": "humaneval",
+            "gen_length": 256,
+            "block_length": 32,
+            "fewshot": 0
+          },
+          "table1_humaneval_0shot_g512": {
+            "benchmark": "humaneval",
+            "gen_length": 512,
+            "block_length": 32,
+            "fewshot": 0
+          },
+          "table1_mbpp_3shot_g256": {
+            "benchmark": "mbpp",
+            "gen_length": 256,
+            "block_length": 32,
+            "fewshot": 3
+          },
+          "table1_mbpp_3shot_g512": {
+            "benchmark": "mbpp",
+            "gen_length": 512,
+            "block_length": 32,
+            "fewshot": 3
+          },
+          "table4_gsm8k_5shot_g1024": {
+            "benchmark": "gsm8k",
+            "gen_length": 1024,
+            "block_length": 32,
+            "fewshot": 5
+          },
+          "table5_gsm8k_8shot_g256": {
+            "benchmark": "gsm8k",
+            "gen_length": 256,
+            "block_length": 32,
+            "fewshot": 8
+          },
+          "table5_gsm8k_8shot_g512": {
+            "benchmark": "gsm8k",
+            "gen_length": 512,
+            "block_length": 32,
+            "fewshot": 8
+          },
+          "table5_gsm8k_8shot_g1024": {
+            "benchmark": "gsm8k",
+            "gen_length": 1024,
+            "block_length": 32,
+            "fewshot": 8
+          }
+        },
+        "generation_count": 520,
+        "requested_slots": 216320,
+        "category_counts": {
+          "gsm8k": 130,
+          "math": 130,
+          "humaneval": 130,
+          "mbpp": 130
+        },
+        "effective_batch_size": 1,
+        "maximum_sequence": 4096
+      },
+      "interface": {
+        "entry_point": "candidate.build(model, tokenizer) -> engine; engine.generate(prompt_ids, runtime.api.GenerationSpec) -> runtime.api.GenerationResult",
+        "source_path": "solutions/decoder_vNNN",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "python_torch_triton_source_with_static_admission",
+        "runtime_import": "runtime.api only"
+      },
+      "allowed_changes": [
+        "versioned decoder implementations under solutions",
+        "FINAL_VERSION selector",
+        "notes.md"
+      ],
+      "invariants": [
+        "the frozen checkpoint, the twelve rows, the committed 520-generation stratified workload, the frozen workload/memory/quality-control policies and the trusted controller are unchanged",
+        "every result preserves the prompt prefix, fills every requested slot, contains no mask token, is deterministic and request-isolated, and uses the supplied model",
+        "score = geometric mean over the twelve rows of sum(useful tokens) / sum(controller-timed seconds), uncapped, no baseline",
+        "the memory cap is device-relative (floor(total_device_memory_mib) - memory_reserve_mib) and the quality diagnostic is measured against a producer reference of the same measurement profile",
+        "the run-wide gates are fail-closed; the quality hard gate applies only once the quality policy is QUALIFIED"
+      ],
+      "resource_manifest_sha256": "sha256:ac9b8b119885f89f04c168ec42c70fe1d4c2327ef6a704b36f5f2cd8a9a39b33"
+    },
+    "evaluation_suites": {
+      "llada-decoder-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:447790aadd5e1ca2f5149d04c353be9726796f8f81a8a2e947d1e3db417e7d2f",
+            "case_count": 44
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:cb834c64e52da66d56174313b6d0099a068b1c478985693c12381786b39ef087",
+            "case_count": 12
+          },
+          "final": {
+            "manifest_sha256": "sha256:d8b917b214824a8ac03085ee2c3e4b9cf119c8d29d29813aa7f6fe59e1845488",
+            "case_count": 12
+          }
+        },
+        "oracle": {
+          "protocol_id": "frozen-workload-row-atomic-all-rounds-hard-gates-quality-reference-v3",
+          "spec_sha256": "sha256:41f397432c22065499d5457d04524ba24c8a6588a5472164b632cedb79f050d3"
+        },
+        "selection": {
+          "protocol_id": "twelve-rows-frozen-final-all-rounds-v3",
+          "spec_sha256": "sha256:399b2d2e981b718b696598724c381e22a2984ac92991c4833d3169b6b8708d6c"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-34g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 36507222016,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "nvml",
+          "read-only-model-mount"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch271-cu128-transformers4490-multiarch-v1",
+          "spec_sha256": "sha256:e17d05e439416d3392f8f0f0cc9403d274433eb70ba88a162c25dfdd6fe5f9fc"
+        },
+        "calibration_protocol": {
+          "protocol_id": "controller-timed-rows-per-submission-deadline-profile-keyed-reference-v3",
+          "spec_sha256": "sha256:25e5c5c22f32582a3f0fbb5a7c369ba7a79c679150f21f2443e02bc4b0f26f9f"
+        }
+      },
+      "dual-cuda-sm80-34g": {
+        "vendor": "nvidia",
+        "count": 2,
+        "min_memory_bytes": 36507222016,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "nvml",
+          "read-only-model-mount"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch271-cu128-transformers4490-multiarch-v1",
+          "spec_sha256": "sha256:e17d05e439416d3392f8f0f0cc9403d274433eb70ba88a162c25dfdd6fe5f9fc"
+        },
+        "calibration_protocol": {
+          "protocol_id": "controller-timed-rows-per-submission-deadline-profile-keyed-reference-v3",
+          "spec_sha256": "sha256:25e5c5c22f32582a3f0fbb5a7c369ba7a79c679150f21f2443e02bc4b0f26f9f"
+        }
+      }
+    },
+    "metrics": {
+      "primary": {
+        "direction": "maximize",
+        "unit": "tokens_per_s",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "row-geomean-tokens-per-s-v2",
+          "spec": {
+            "formula": "exp(mean_over_rows(log(sum_useful_tokens / sum_timed_s)))",
+            "rows": [
+              "table1_gsm8k_5shot_g256",
+              "table1_gsm8k_5shot_g512",
+              "table1_math_4shot_g256",
+              "table1_math_4shot_g512",
+              "table1_humaneval_0shot_g256",
+              "table1_humaneval_0shot_g512",
+              "table1_mbpp_3shot_g256",
+              "table1_mbpp_3shot_g512",
+              "table4_gsm8k_5shot_g1024",
+              "table5_gsm8k_8shot_g256",
+              "table5_gsm8k_8shot_g512",
+              "table5_gsm8k_8shot_g1024"
+            ],
+            "row_count": 12
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "llada-decoder-v2",
+      "execution_profile_id": "single-cuda-sm80-34g",
+      "metric_id": "primary"
+    }
+  }
+}

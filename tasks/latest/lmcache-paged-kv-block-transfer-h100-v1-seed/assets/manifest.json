@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "task_directory": "lmcache-paged-kv-block-transfer-h100-v1-seed",
+  "note": "No external models or datasets; the Judge-only inputs are copied into the host-built Judge holdout layer (images/judge/Dockerfile.private).",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "434cab78100ff814a75bde423945deb595384a17b5191b47dccce757db756145",
+      "size": 10717358,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+**
+!Dockerfile
+!run_judge.py
+!verify_kv_scoring.py
+!candidate_worker.py
+!trusted_replay.py
+!judge_shards.py
+!released_weights_gate.py
+!source_admission.py
+!protected_hashes.txt

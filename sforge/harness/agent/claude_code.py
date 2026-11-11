@@ -1,0 +1,141 @@
+"""Claude Code agent — env augmentation, model flag, and stop hook."""
+
+from __future__ import annotations
+
+import json
+import logging
+import shlex
+from pathlib import Path, PurePosixPath
+
+from sforge.harness.agent.base import Agent
+from sforge.harness.backend import ContainerBackend, ContainerHandle
+from sforge.harness.container_files import copy_container_file
+
+
+class ClaudeCodeAgent(Agent):
+
+    name = "claude-code"
+    install_cmds = [
+        "sudo -E bash -c 'NODE_MIRROR=${SFORGE_NODEJS_MIRROR_URL:-https://nodejs.org/dist} && curl -fsSL $NODE_MIRROR/v20.18.0/node-v20.18.0-linux-x64.tar.xz | tar -xJ -C /usr/local --strip-components=1'",
+        "sudo -E npm install -g @anthropic-ai/claude-code@2.1.159",
+    ]
+    run_cmd = (
+        'claude -p "$(cat {prompt_file})"'
+        " --output-format stream-json"
+        " --verbose"
+        " --dangerously-skip-permissions"
+    )
+    resume_cmd = (
+        'claude --continue -p "Continue working."'
+        " --output-format stream-json"
+        " --verbose"
+        " --dangerously-skip-permissions"
+    )
+    api_key_env = "ANTHROPIC_AUTH_TOKEN"
+    api_base_env = "ANTHROPIC_BASE_URL"
+    default_api_base_url = "https://api.anthropic.com"
+    model_env = "ANTHROPIC_MODEL"
+    stop_hook = "claude"
+
+    def augment_env(self, env: dict[str, str], model: str | None) -> None:
+        if self._config.claude_cache_opt:
+            env["CLAUDE_CODE_ATTRIBUTION_HEADER"] = "0"
+        if not self._config.agent_api_base_url and self._config.agent_api_key:
+            env["ANTHROPIC_API_KEY"] = self._config.agent_api_key
+
+    def format_run_cmd(
+        self,
+        prompt_path: str,
+        *,
+        model: str | None = None,
+        cwd: str = "",
+        internet: bool = True,
+        resume: bool = False,
+    ) -> str:
+        cmd = super().format_run_cmd(
+            prompt_path, model=model, cwd=cwd, internet=internet, resume=resume,
+        )
+
+        effective_model = (
+            model or self._config.agent_model or self.default_model
+        )
+        if effective_model:
+            cmd += f" --model {shlex.quote(effective_model)}"
+
+        if not internet:
+            cmd += " --disallowedTools WebSearch,WebFetch"
+
+        if self._config.claude_cache_opt:
+            cmd += (
+                " --exclude-dynamic-system-prompt-sections"
+                """ --settings '{"includeGitInstructions":false}'"""
+            )
+
+        return cmd
+
+    def install_stop_hook(
+        self,
+        backend: ContainerBackend,
+        handle: ContainerHandle,
+        log_dir: Path,
+        logger: logging.Logger,
+    ) -> None:
+        hook_path = "/tmp/sforge-stop-hook.sh"
+
+        hook_script = _generate_stop_hook()
+        local_hook = log_dir / "_stop-hook.sh"
+        local_hook.write_text(hook_script)
+        copy_container_file(
+            backend,
+            handle,
+            local_hook,
+            PurePosixPath(hook_path),
+            owner="root:root",
+            mode=0o755,
+            description="Claude Code stop hook",
+        )
+        logger.info("Installed Claude Code stop hook")
+
+        settings_content = _generate_claude_settings(hook_path)
+        local_settings = log_dir / "_claude_settings.json"
+        local_settings.write_text(settings_content)
+        copy_container_file(
+            backend,
+            handle,
+            local_settings,
+            PurePosixPath("/home/agent/.claude/settings.json"),
+            owner="agent:agent",
+            mode=0o600,
+            description="Claude Code settings",
+        )
+        logger.info("Configured Claude Code settings with hooks")
+
+
+# ---------------------------------------------------------------------------
+# Script generators (private to this module)
+# ---------------------------------------------------------------------------
+
+
+def _generate_stop_hook() -> str:
+    return r"""#!/bin/bash
+cat >/dev/null
+echo '{"decision":"block","reason":"Do not stop. Continue working on the implementation."}'
+"""
+
+
+def _generate_claude_settings(hook_path: str) -> str:
+    settings: dict = {
+        "hooks": {
+            "Stop": [
+                {
+                    "hooks": [
+                        {
+                            "type": "command",
+                            "command": hook_path,
+                        }
+                    ]
+                }
+            ],
+        }
+    }
+    return json.dumps(settings, indent=2)

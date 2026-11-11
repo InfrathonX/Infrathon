@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "correctness": [
+    {
+      "case_id": "cpu_odd_shape_bias",
+      "seed": 1729,
+      "pair_batch": 2,
+      "sequence_length": 7,
+      "hidden_size": 11,
+      "vocab_size": 37,
+      "beta": 0.1,
+      "ignore_index": -100,
+      "bias": true,
+      "separate_nll_target": true,
+      "nll_target_contract": "separate_full_sequence_tensor",
+      "mask_stride": 5
+    },
+    {
+      "case_id": "cpu_uneven_mask_no_bias",
+      "seed": 2718,
+      "pair_batch": 3,
+      "sequence_length": 9,
+      "hidden_size": 13,
+      "vocab_size": 47,
+      "beta": 0.2,
+      "ignore_index": -100,
+      "bias": false,
+      "separate_nll_target": true,
+      "nll_target_contract": "separate_full_sequence_tensor",
+      "mask_stride": 4
+    }
+  ],
+  "gpu_objective": [
+    {
+      "case_id": "qwen3_1p7b_head_t96",
+      "seed": 314159,
+      "pair_batch": 1,
+      "sequence_length": 96,
+      "hidden_size": 2048,
+      "vocab_size": 151936,
+      "beta": 0.1,
+      "ignore_index": -100,
+      "bias": false,
+      "separate_nll_target": true,
+      "nll_target_contract": "separate_full_sequence_tensor",
+      "mask_stride": 11
+    },
+    {
+      "case_id": "qwen3_1p7b_public_path_bt3_t383",
+      "classification": "PUBLIC_OBJECTIVE_STRESS_DIAGNOSTIC_ONLY",
+      "formal": false,
+      "score_eligible": false,
+      "workload_path": "qwen3_full_training_objective",
+      "seed": 32452843,
+      "pair_batch": 3,
+      "sequence_length": 383,
+      "hidden_size": 2048,
+      "vocab_size": 151936,
+      "beta": 0.1,
+      "ignore_index": -100,
+      "bias": false,
+      "separate_nll_target": true,
+      "nll_target_contract": "separate_full_sequence_tensor",
+      "mask_stride": 13
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "public_base_accuracy_per_repeat": [
+    0.29296875,
+    0.2734375,
+    0.296875
+  ],
+  "note": "The original Qwen3-1.7B on the Work image's 256 public test problems with the Judge's protocol ([75, 70, 76] of 256), for comparing the perf suite's accuracy. One problem is 0.39 points and a perf run is far shorter than the scored one: this comparison does not predict the score."
+}

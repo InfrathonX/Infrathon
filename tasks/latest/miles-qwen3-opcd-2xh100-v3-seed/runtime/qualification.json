@@ -1,0 +1,145 @@
+{
+  "schema_version": 1,
+  "task_id": "miles_qwen3_opcd_2xh100_v3",
+  "status": "QUALIFIED on an H100 NVL 94 GB NVLink pair: three reference Judges passed all 13 checks and the 6.5-point gate; the negative control ctl-top1-grad is rejected by oracle_served_steps; the starter is valid with score 0.",
+  "execution_profile_id": "dual-cuda-sm90-nccl",
+  "cpu_pinning": {
+    "policy_id": "auto:gpu-local-l3-v1:mems=bind:undersize=allow",
+    "cpuset_cpus": "24-31,56-63",
+    "cpuset_mems": "1",
+    "cpu_quota": 24
+  },
+  "metric": {
+    "version": 2,
+    "formula": "quality_score * 3600 / T if correct and quality_score >= 6.5 else 0",
+    "score_scale_seconds": 3600,
+    "quality_repeats": 3,
+    "quality_protocol": {
+      "name": "S1",
+      "eval": "eval_medmcqa.py (Judge copy public/eval_medmcqa.py; command opcd_checks.quality_eval_cmd, scripts/miles_opcd/v3) on the Judge's scored_model: the non-weight files of the pinned Qwen3-1.7B snapshot plus the candidate's final_hf safetensors and index; prompts rendered with the pinned tokenizer's chat template, enable_thinking=false, no context",
+      "questions": "private/eval.jsonl: the 2436 hidden MedMCQA questions (rebuilt from openlifescienceai/medmcqa; the same prompts and answers as v2's file sha256 3039286d...), sha256 a48d912b2dcaf37a18e476836f0b3bac687be93a289e02752834d63a0e5124e5",
+      "scoring": "the last <answer>X</answer> tag, case-insensitive, ()[] stripped; a missing tag is wrong",
+      "temperature": 1.0,
+      "top_p": 1.0,
+      "top_k": -1,
+      "max_new_tokens": 512,
+      "mem_fraction_static": 0.6,
+      "seed_mode": "request",
+      "seeds": [
+        0,
+        1,
+        2
+      ],
+      "deterministic_inference": true,
+      "sampling_seed": "per request: seed * 1000003 + row index",
+      "engine": "one SGLang offline engine (tp_size 1, random_seed 0, enable_deterministic_inference); 3 generate passes over all questions, the radix cache flushed between passes; top_k is SGLang's default -1 (Engine.generate does not apply generation_config.json)",
+      "repeat": "quality of repeat r = 100 x correct / 2436 with seed r",
+      "reproducibility": "bit-identical predictions in a new process, on another H100 NVL, at mem_fraction 0.35 vs 0.6, in a shared vs a separate engine, and with the OPD task's eval script (metric-v2 measurement, 2026-09-30)"
+    },
+    "quality_unit": "accuracy points",
+    "quality_gate_min": 6.5,
+    "quality_gate_source": "Cross-task rule, about half the reference's mean quality gain under the same protocol: the S0 reference trainings with the v3 teacher (reference implementation unchanged, contract teacher_hf = the student snapshot; v2 Work image, no evaluator hooks, H100 NVL pair, 2026-10-07; S1 on the 2436 hidden questions) gained +14.053 / +14.286 / +11.111 points (s0 ref-a / ref-b / ref-c), mean 13.150, SD 1.770 across trainings, half 6.575, set to 6.5. The v2 gate (15) was half of the 4B-teacher gain (28.07); the same-size teacher moves the student half as far.",
+    "base_quality_per_repeat": [
+      22.536945812807883,
+      22.906403940886698,
+      22.742200328407225
+    ],
+    "base_quality": 22.72851669403393,
+    "base_quality_source": "Original Qwen3-1.7B snapshot 70d244cc86ccca08cf5af4e1e306ecf908b1ad5e (the pinned student) under quality_protocol: 549 / 558 / 554 of 2436 correct, x 100. Measured for v2 on 2026-09-30 (Judge image f955d22b5ac3) and re-measured on the v3 Judge image with the v3 eval script and the questions rebuilt from MedMCQA on 2026-10-07 (s0 refeval base_s1): the same counts and the same predictions, so the frozen value carries over unchanged.",
+    "report_only_references": {
+      "base_answer_tag_rate": 0.47564,
+      "base_tagged_accuracy": 0.47789,
+      "in_context_accuracy": 0.33867,
+      "in_context_accuracy_per_repeat": [
+        0.3436,
+        0.34236,
+        0.33005
+      ],
+      "in_context_answer_tag_rate": 0.65613,
+      "in_context_tagged_accuracy": 0.51613,
+      "paper_protocol_base_accuracy": 0.262,
+      "paper_protocol_in_context_accuracy": 0.342,
+      "paper_protocol_base_answer_tag_rate": 0.496,
+      "paper_protocol_in_context_answer_tag_rate": 0.676
+    },
+    "report_only_references_source": "Never scored; frozen once on the v3 Judge image (2026-10-07, s0 refeval): the original student without and with the context c (In-Context, the teacher itself) under quality_protocol on the 2436 hidden questions (means of 3 repeats; in-context 837 / 834 / 804 correct), and under the paper-protocol diagnostic (opcd_checks.DIAG_PROTOCOL: temperature 1, top_p 0.95, top_k 20, 512 tokens, one seeded pass) on the paper's 500 test questions (base 131, in-context 171 correct). tagged_accuracy = correct / answers carrying an <answer> tag."
+  },
+  "timeouts": {
+    "probe": 1800,
+    "run": 3600
+  },
+  "grad_limits": {
+    "cos_min": 0.8,
+    "slice_ratio": [
+      0.7,
+      1.4
+    ],
+    "norm_ratio": [
+      0.8,
+      1.25
+    ]
+  },
+  "teacher_error_limit": 0.05,
+  "loss_tolerance": {
+    "rel": 0.01,
+    "abs": 0.015,
+    "rule": "|logged loss - fp32 oracle loss| <= max(0.01 x oracle loss, 0.015) at the probe (opcd_probe_check P3) and at step 0 and the served-weight steps (opcd_checks.oracle_verdict); v1/v2 used 0.01 relative only",
+    "evidence": "v3's loss is about 0.19 at step 0 and 0.015 at the last steps (s0 ref-a), v2's 1.08 -> 0.73, while the bf16 error is absolute: honest |logged - oracle| over ~70 v2 oracle runs 0.0002-0.0058 (probe 0.0036-0.0058, public small 16 rows up to 0.0048, Judge full-batch steps 0.0006-0.0028); the first v3 Judge probe (v3q-wronglr-01, the reference's step-0 numerics with a doubled lr) measured 0.0040 = 2.2 % of 0.1798 and failed v2's 1 % rule. 0.015 is about 2.6 x the largest honest value. The logged loss stays bound to the dumped tensors at 1e-3 relative (P2, steps check), the teacher log-probs at 0.05 and the applied gradient by the cosine/norm checks."
+  },
+  "reference_scores": {
+    "v3f-ref-01": {
+      "T_seconds": 740.5141241550446,
+      "excluded_seconds": 11.009875774383545,
+      "final_quality_per_repeat": [
+        32.96387520525452,
+        33.004926108374384,
+        34.11330049261084
+      ],
+      "quality_score": 10.632183908045977,
+      "score": 51.688226895928246,
+      "answer_tag_rate": 0.6481937602627258,
+      "tagged_accuracy": 0.514666767932081,
+      "paper_protocol_accuracy": 0.306,
+      "peak_mib_trainer_teacher_card_engine_card": [
+        75412,
+        62894
+      ]
+    },
+    "v3f-ref-02": {
+      "T_seconds": 741.0637791156769,
+      "excluded_seconds": 10.88804817199707,
+      "final_quality_per_repeat": [
+        35.30377668308703,
+        33.251231527093594,
+        34.523809523809526
+      ],
+      "quality_score": 11.631089217296118,
+      "score": 56.50245277435156,
+      "answer_tag_rate": 0.668856048166393,
+      "tagged_accuracy": 0.5136759997487648,
+      "paper_protocol_accuracy": 0.332,
+      "peak_mib_trainer_teacher_card_engine_card": [
+        75400,
+        62896
+      ]
+    },
+    "v3f-ref-03": {
+      "T_seconds": 729.4315357208252,
+      "excluded_seconds": 10.947345972061157,
+      "final_quality_per_repeat": [
+        35.714285714285715,
+        35.67323481116584,
+        36.00164203612479
+      ],
+      "quality_score": 13.067870826491518,
+      "score": 64.49451754081373,
+      "answer_tag_rate": 0.7156540777230432,
+      "tagged_accuracy": 0.5002245337451298,
+      "paper_protocol_accuracy": 0.39,
+      "peak_mib_trainer_teacher_card_engine_card": [
+        75408,
+        62896
+      ]
+    }
+  }
+}

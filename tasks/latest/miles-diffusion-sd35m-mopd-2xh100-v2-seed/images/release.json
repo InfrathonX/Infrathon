@@ -1,0 +1,18 @@
+{
+  "note": "Image-driving sources and local image names for scripts/infrathon/image_record.py and scripts/infrathon/pull_images.sh (this task's build_images.sh keeps no source digest of its own). The Judge holds no private data (its private root is mounted at run time), so it is published as is.",
+  "source_paths": [
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/images/**/*",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/runtime/**/*",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/tasks/**/*",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/docs/**/*",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/reference/**/*",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/scripts/build_images.sh",
+    "tasks/latest/miles-diffusion-sd35m-mopd-2xh100-v2-seed/assets/manifest.json",
+    "scripts/miles_diffusion_opd/**/*",
+    "scripts/miles_common/**/*"
+  ],
+  "local_tags": {
+    "work": "miles_diffusion_opd.work.miles_diffusion_sd35m_mopd_2xh100_v2:local",
+    "judge": "miles_diffusion_opd.judge.miles_diffusion_sd35m_mopd_2xh100_v2:local"
+  }
+}

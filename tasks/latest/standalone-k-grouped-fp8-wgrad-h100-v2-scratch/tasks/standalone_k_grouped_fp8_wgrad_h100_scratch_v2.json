@@ -1,0 +1,172 @@
+{
+  "task_id": "standalone_k_grouped_fp8_wgrad_h100_scratch_v2",
+  "name": "Standalone Upstream-Compatible K-grouped FP8 Wgrad GEMM Portable CUDA From-Zero Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:b0bb3aa6e129ef4ba7842016361187fe9cc76791d6a43b85dbf2c0436e6d7e17"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/k_grouped_wgrad_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/k_grouped_wgrad_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. From the empty Triton submission, implement the complete K-grouped FP8 weight-gradient GEMM entry point, correct and memory-safe over the whole declared support domain (any M and N from 1 to 8192 including sizes such as 1, 3 or 7, 1-128 groups, empty groups and an empty problem, K_total up to 262144, and a hint that is scheduling information only and can be stale or badly wrong), then optimize it for the four mixture-of-experts training workload families described in AGENT_TASK.md (large batch, many groups, small batch, sequence) across the whole support domain. Your score comes from many hidden test cases on the Judge, which use different shapes and wider ranges than the public tests; the public tests cover the same four families. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Check candidates with the public edge and sanitizer suites (tools/run_public_tests.sh --edge or --sanitize with --candidate-version N) before submitting, and before finishing run the full public suite, the edge suite and the sanitizer suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\ntools/run_public_tests.sh --edge --candidate-version N\ntools/run_public_tests.sh --sanitize --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; do not copy external implementations or solution material into your submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run uses part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/standalone_k_grouped_wgrad_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 4800,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/standalone_k_grouped_wgrad_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "32g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "k-grouped-fp8-wgrad-gemm-v3",
+      "definition": {
+        "operation": "k_grouped_block_scaled_fp8_weight_gradient_gemm_tn",
+        "families": {
+          "large": "many tokens per expert, deep K",
+          "many_groups": "dozens to 128 local experts, many small or empty",
+          "small_batch": "few tokens per expert",
+          "sequence": "one backward pass of consecutive calls without synchronization"
+        },
+        "operand_dtype": "fp8_e4m3fn",
+        "scale_dtype": "fp32",
+        "scale_block": 128,
+        "k_alignment": 128,
+        "output_dtype": "fp32",
+        "max_total_k": 262144
+      },
+      "interface": {
+        "entry_point": "k_grouped_fp8_gemm_tn_contiguous(a_fp8_ktotal_m,b_fp8_ktotal_n,a_scale_fp32_kb_m,b_scale_fp32_kb_n,ks_i32_g,c_fp32_g_m_n,expected_k_hint_int,out_fp32_g_m_n)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_triton_source"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "out[g] = c[g] + fp32 accumulation over group g's 128-row K blocks of a_scale*b_scale scaled partial products of A^T B",
+        "groups are concatenated along K without gaps; every 128-row block lies inside exactly one group",
+        "support domain: 1<=G<=128, any 1<=M,N<=8192, every group K is 0 or a positive multiple of 128 with sum(ks)<=262144 and G*M*N<=2^31-1, expected_k_hint is scheduling information only and can be stale or badly wrong",
+        "every element within 0.05 of its product scale of the fp64 dequantized-fp8 product; per-group normalized error against it below 2e-7; calc_diff against the bf16 source gemm below 1e-3 on slices of at least 16384 outputs",
+        "the output is fully written on the current stream, nothing outside out is written and every input is unchanged",
+        "only torch metadata/dispatch and triton source; no existing GEMM kernel, compiled extension, private stream, graph, replay, patching or seed specialisation"
+      ],
+      "resource_manifest_sha256": "sha256:0ef113715416dc14a79213b8b14830bb0319ded3ebf3d5cf6f3e0197b71bd4ba"
+    },
+    "evaluation_suites": {
+      "moe-training-kgrouped-wgrad-v3": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:c3cb788d1e6d62393cd1f85e1ecf9d9e9bcabd2196961b378f92c47222daa746",
+            "case_count": 123
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:7cafc48482f2fbc480e7bd513fbd94d474ee9b689f30319ea71c4ef8119db031",
+            "case_count": 1082
+          },
+          "final": {
+            "manifest_sha256": "sha256:1beb03a90ef34d09b4f295deceeccab62c8ff8768592522199d6eb5c539195c8",
+            "case_count": 1082
+          }
+        },
+        "oracle": {
+          "protocol_id": "fp8-exact-elementwise-and-bf16-source-normalized-error-v3",
+          "spec_sha256": "sha256:00bd823b5b93b30e665e734b677978bf13cb8496eba37b85335fd0c84ab25d53"
+        },
+        "selection": {
+          "protocol_id": "k-grouped-fp8-wgrad-shared-final-v4",
+          "spec_sha256": "sha256:f02904488a401816d784479e184ee4232f9331ddd50c1c87791fac55a95fbd8f"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm89-48g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 51539607552,
+        "min_compute_capability": "8.9",
+        "features": [
+          "cuda",
+          "fp8-e4m3",
+          "bf16",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-fp8-source-sanitizer-v2",
+          "spec_sha256": "sha256:d2000569324f91a11d621ea6b22f5cef26e557e026b1d5b49b447b626c44823e"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-decoy-v3",
+          "spec_sha256": "sha256:f29248b65349ad3bf2f29dd1f05f635e9ae6ec5b6cc4d668260b776816eb2167"
+        }
+      }
+    },
+    "metrics": {
+      "four-family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "four-family-per-model-geomean-v1",
+          "spec": {
+            "formula": "geomean over families f of geomean over models m of geomean(cases of f and m)",
+            "families": [
+              "large",
+              "many_groups",
+              "small_batch",
+              "sequence"
+            ],
+            "case_statistic": "median_trial_tflops; sequence: median_round_tflops",
+            "effective_flops": "2*sum(ks)*M*N summed over the calls of a trial or round"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "moe-training-kgrouped-wgrad-v3",
+      "execution_profile_id": "single-cuda-sm89-48g",
+      "metric_id": "four-family-geomean-effective-tflops"
+    }
+  }
+}

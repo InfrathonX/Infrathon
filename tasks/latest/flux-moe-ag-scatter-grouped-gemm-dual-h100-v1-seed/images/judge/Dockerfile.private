@@ -1,0 +1,14 @@
+# Private Judge layer: the public Judge plus the Judge-only inputs.
+# Built only on the host that runs the task, never published; the inputs come
+# from the Judge-only build context scripts/build_images.sh stages: the final
+# manifest and the routing fixtures its captured-routing cases pin.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=final_cases final_cases.json /opt/flux_moe_ag_judge/private/
+COPY --from=final_cases routing/ /opt/flux_moe_ag_judge/private/routing/
+
+RUN chown -R root:root /opt/flux_moe_ag_judge/private \
+    && chmod 0500 /opt/flux_moe_ag_judge/private /opt/flux_moe_ag_judge/private/routing \
+    && chmod 0400 /opt/flux_moe_ag_judge/private/final_cases.json \
+    && find /opt/flux_moe_ag_judge/private/routing -type f -exec chmod 0400 {} +

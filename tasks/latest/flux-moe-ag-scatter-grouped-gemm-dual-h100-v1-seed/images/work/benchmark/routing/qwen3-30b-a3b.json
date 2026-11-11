@@ -1,0 +1,176 @@
+{
+ "capture_sha256": "b4d601a022057d1d1ef86fbcded5e481fdcb5a9a1c97f4644c38a0fa873d6132",
+ "datasets": {
+  "chat": "HuggingFaceH4/ultrachat_200k test_sft",
+  "code": "codeparrot/codeparrot-clean-valid train",
+  "math": "openai/gsm8k main train",
+  "qa": "rajpurkar/squad train",
+  "wiki": "Salesforce/wikitext wikitext-103-raw-v1 train"
+ },
+ "dtype": "uint8",
+ "experts": 128,
+ "kept_layers": [
+  0,
+  7,
+  13,
+  20,
+  27,
+  34,
+  40,
+  47
+ ],
+ "layers": 8,
+ "method": "router top-k computed from the router weight (and bias) on its input hidden states; bf16 model, fp32 logits; one forward pass per sequence, no padding",
+ "model_moe_layers": 48,
+ "name": "qwen3-30b-a3b",
+ "repo": "Qwen/Qwen3-30B-A3B",
+ "revision": "ad44e777bcd18fa416d9da3bd8f70d33ebb85d39",
+ "seq_len": 2048,
+ "sequences": [
+  {
+   "source": "wiki",
+   "start": 0,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 2048,
+   "tokens": 2048
+  },
+  {
+   "source": "code",
+   "start": 4096,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 6144,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 8192,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 10240,
+   "tokens": 1314
+  },
+  {
+   "source": "code",
+   "start": 11554,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 13602,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 15650,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 17698,
+   "tokens": 1517
+  },
+  {
+   "source": "code",
+   "start": 19215,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 21263,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 23311,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 25359,
+   "tokens": 1269
+  },
+  {
+   "source": "code",
+   "start": 26628,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 28676,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 30724,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 32772,
+   "tokens": 1432
+  },
+  {
+   "source": "code",
+   "start": 34204,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 36252,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 38300,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 40348,
+   "tokens": 1877
+  },
+  {
+   "source": "code",
+   "start": 42225,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 44273,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 46321,
+   "tokens": 1977
+  },
+  {
+   "source": "chat",
+   "start": 48298,
+   "tokens": 854
+  }
+ ],
+ "sha256": "b4a475c2099fc263080885179ea41bb90ce0fd86446a9bfa7cd6d7ac10e5cba7",
+ "shape": [
+  8,
+  49152,
+  8
+ ],
+ "source_tokens": {
+  "chat": 10311,
+  "code": 12288,
+  "math": 6144,
+  "qa": 6144,
+  "wiki": 14265
+ },
+ "tokens": 49152,
+ "topk": 8
+}

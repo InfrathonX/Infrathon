@@ -1,0 +1,13 @@
+{
+  "final": {"case_ids": "all_manifest_cases", "case_count": 22, "hard_gate_case_count": 8, "hard_gate_policy": "all_must_pass", "scored_case_count": 14},
+  "fresh_process": {
+    "cache": "empty_per_case",
+    "first_run_weight_basis_points": 0,
+    "first_run_calls_per_case": 1,
+    "scored_sample": "median_of_three_warmed_iterations",
+    "warmed_repeats_per_case": 3
+  },
+  "protocol_id": "fixed-manifest-all-cases-v7",
+  "public": {"case_ids": "all_manifest_cases", "case_count": 11},
+  "schema_version": 1
+}

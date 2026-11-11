@@ -1,0 +1,4 @@
+{
+ "wall_clock_seconds": 176.47,
+ "note": "Reference implementation (reference/miles_diffusion_wan.patch plus reference/miles_diffusion_wan_h100.patch): T from the dump becoming readable to the last Judge-engine publication, median of the per-Judge medians over three H100 NVL Judges pinned to the pair's CPU slice. Context only: no score divides by these times. The Judge scores 3600 / median(T) behind its held-out quality gate (reference 3600 / 176.47 = 20.40); the public perf suite replays a smaller public dump and reports its T with no score, so no public reference time or base quality is published."
+}

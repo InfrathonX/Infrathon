@@ -1,0 +1,62 @@
+{
+  "aggregation": "geometric_mean_over_cells_of_tokens_per_second",
+  "cells": [
+    "chat_bs1",
+    "math_bs1",
+    "code_bs1",
+    "longctx_bs1",
+    "think_bs1",
+    "mixed_bs8"
+  ],
+  "final": {
+    "case_count": 6,
+    "hard_gate_case_count": 0,
+    "prompt_counts": {
+      "chat_bs1": 20,
+      "code_bs1": 20,
+      "longctx_bs1": 20,
+      "math_bs1": 20,
+      "mixed_bs8": 40,
+      "think_bs1": 20
+    },
+    "rounds": "deadline final and trusted host candidate replays; same suite as interactive",
+    "routing": "round_id prefix manual- or candidate-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "scored_case_count": 6,
+    "suite_id": "eagle3-spec-decode-final-v1"
+  },
+  "interactive": {
+    "case_count": 6,
+    "hard_gate_case_count": 0,
+    "prompt_counts": {
+      "chat_bs1": 20,
+      "code_bs1": 20,
+      "longctx_bs1": 20,
+      "math_bs1": 20,
+      "mixed_bs8": 40,
+      "think_bs1": 20
+    },
+    "rounds": "scored agent submissions; archive FINAL_VERSION only",
+    "routing": "round_id prefix auto- or agent-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "scored_case_count": 6,
+    "suite_id": "eagle3-spec-decode-final-v1"
+  },
+  "protocol_id": "six-cells-full-final-shared-v2",
+  "public": {
+    "case_count": 6,
+    "prompt_counts": {
+      "chat_bs2": 4,
+      "code_bs3": 6,
+      "longctx_bs2": 4,
+      "math_bs4": 8,
+      "mixed_bs6": 12,
+      "think_bs2": 4
+    },
+    "rounds": "candidate-only public evaluator inside Work"
+  },
+  "schema_version": 1,
+  "evaluation_policy": "full-final-shared-v2",
+  "previous_protocol_id": "six-cells-hmac-anchor-all-final-v1",
+  "same_suite_for_interactive_and_final": true
+}

@@ -1,0 +1,17 @@
+# Private Judge layer: the public Judge plus private_data/.  Built only on the
+# host that runs the task, never published; private_data/ comes from the
+# Judge-only build context scripts/build_images.sh stages.  Modes match the
+# earlier single-file Judge: private_data/ 500, its files 400; subdirectories are
+# 755 (they used to follow the build host's umask).
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=private_data . /opt/decoder_judge/private_data/
+
+RUN gzip -cd -- /opt/decoder_judge/private_data/hidden_cases.json.gz \
+        > /opt/decoder_judge/private_data/hidden_cases.json \
+    && rm -- /opt/decoder_judge/private_data/hidden_cases.json.gz \
+    && chown -R root:root /opt/decoder_judge/private_data \
+    && find /opt/decoder_judge/private_data -mindepth 1 -type d -exec chmod 755 {} + \
+    && chmod 500 /opt/decoder_judge/private_data \
+    && find /opt/decoder_judge/private_data -type f -exec chmod 400 {} +

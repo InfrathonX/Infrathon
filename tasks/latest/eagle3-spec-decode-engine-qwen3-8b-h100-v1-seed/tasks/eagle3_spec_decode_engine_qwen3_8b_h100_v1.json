@@ -1,0 +1,204 @@
+{
+  "task_id": "eagle3_spec_decode_engine_qwen3_8b_h100_v1",
+  "name": "EAGLE-3 Speculative Decode Engine Qwen3-8B Portable CUDA v1",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:37519ea1fa39d1df185c069d1eafd35e0986967b31aeb8531ce60432b3432805"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/spec_lab",
+  "submit_paths": [
+    "solutions",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "runtime/",
+    "public_prompts/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "solutions",
+    "directory_pattern": "engine_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "disable_auto_eval": true,
+  "scoring": {
+    "score_key": "score_tokens_per_s",
+    "direction": "maximize",
+    "selection": "valid_then_score"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/spec_lab",
+    "cpu_limit": 8,
+    "mem_limit": "64g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md. Optimize the complete seeded EAGLE-3 speculative-decoding engine while preserving greedy-consistency, termination, determinism, and isolation. Save every candidate-tree transition before its first score-producing public run. A passing submission receives its measured score; use sforge-submit to have the Judge grade an interactive round, and the public suite alone never produces a score. If Work and Judge share one GPU (the single-accelerator profile), wait for all public-test and compiler workers to exit before each manual submission, then run sforge-submit --details; the fail-closed root-owned .sforge/prepare_submit.sh hook runs automatically immediately before admission. The formal runner disables in-run automatic hidden evaluation, so only manual submissions run Judge while you work; the timeout-boundary archive is judged independently after Work ends and does not send feedback to you."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/eagle3_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 5400,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/eagle3_spec_decode_private.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "64g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "eagle3-spec-decode-engine-v1",
+      "definition": {
+        "operation": "lossless_greedy_speculative_decoding_engine",
+        "target": "Qwen/Qwen3-8B bf16 frozen",
+        "draft_head": "Tengyunw EAGLE-3 head frozen",
+        "cells": [
+          "chat_bs1",
+          "math_bs1",
+          "code_bs1",
+          "longctx_bs1",
+          "think_bs1",
+          "mixed_bs8"
+        ],
+        "max_new_tokens": {
+          "chat_bs1": 512,
+          "math_bs1": 512,
+          "code_bs1": 512,
+          "longctx_bs1": 256,
+          "think_bs1": 1024,
+          "mixed_bs8": 512
+        },
+        "batch_sizes": {
+          "chat_bs1": 1,
+          "math_bs1": 1,
+          "code_bs1": 1,
+          "longctx_bs1": 1,
+          "think_bs1": 1,
+          "mixed_bs8": 8
+        },
+        "enable_thinking": {
+          "chat_bs1": false,
+          "math_bs1": false,
+          "code_bs1": false,
+          "longctx_bs1": false,
+          "think_bs1": true,
+          "mixed_bs8": false
+        },
+        "prompt_plus_generation_cap": 3968,
+        "position_provisioning": 4096,
+        "seed_tree_policy": "total_token=60 depth=7 top_k=10"
+      },
+      "interface": {
+        "entry_point": "candidate.build(target, draft, tokenizer, contract) -> engine; engine.generate(prompt_ids, GenerationSpec) -> runtime.api.GenerationResult",
+        "source_path": "solutions/engine_vNNN",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "python_torch_triton_cpp_extension_source_with_static_admission",
+        "runtime_import": "runtime.api only"
+      },
+      "allowed_changes": [
+        "versioned engine implementations under solutions",
+        "FINAL_VERSION selector",
+        "notes.md"
+      ],
+      "invariants": [
+        "the frozen target and draft head, the six cells, the committed hidden prompt slices and the trusted controller are unchanged",
+        "every emitted token satisfies the teacher-forced greedy oracle (eps_hard, argmax-disagreement rate, eight margin-CDF tiers)",
+        "score = geometric mean over the six cells of total generated tokens / total synchronized wall seconds, uncapped, no baseline",
+        "wall and memory caps are multiples of the unmodified seed measured on the same device in the same evaluation; tier rates are floors relaxed only by the same-run seed disagreement rate",
+        "the eleven run-wide gates are fail-closed and the policy must be QUALIFIED for a score to be accepted"
+      ],
+      "resource_manifest_sha256": "sha256:26c3550424099316df0a4a747dba8a89cae0940a2e13fd09362514434ab06d10"
+    },
+    "evaluation_suites": {
+      "eagle3-spec-decode-v1": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:a1d38ac8e0bfa2cb45aafca9ae287deec8b827b83a81351f69923dec84d23a85",
+            "case_count": 6
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:816c5624b0c0ab1c7135ae6066e0d76e7ef2376072dd82465fea6b004daebab9",
+            "case_count": 6
+          },
+          "final": {
+            "manifest_sha256": "sha256:53ede659032cbe3ac0c39a561a9dbf3cf6783c7d301f9c8caf93080e1743ed1b",
+            "case_count": 6
+          }
+        },
+        "oracle": {
+          "protocol_id": "teacher-forced-greedy-margin-cdf-seed-relative-v1",
+          "spec_sha256": "sha256:a0ba4df063ca988f9fae091c69906ec129639bc70245a8f788d9c0995e8e0d47"
+        },
+        "selection": {
+          "protocol_id": "six-cells-full-final-shared-v2",
+          "spec_sha256": "sha256:9a0102c4707f048bbd2e9e36c986db2966dbf804b9bc49879234da217e1dcaf6"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-34g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 36507222016,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "fp32",
+          "eager-attention",
+          "nvcc",
+          "read-only-model-mount"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-transformers4531-eager-multiarch-v1",
+          "spec_sha256": "sha256:1401d5e866a4ebec87b8784568d333def034760e19486bd3277098a35e3f3d37"
+        },
+        "calibration_protocol": {
+          "protocol_id": "controller-wall-clock-seed-relative-caps-v1",
+          "spec_sha256": "sha256:e8cda10ce017408944b32fe87508ccb174eb58eb389a3ab2db1946c5de4669a3"
+        }
+      }
+    },
+    "metrics": {
+      "primary": {
+        "direction": "maximize",
+        "unit": "tokens_per_s",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "cell-geomean-tokens-per-s-v1",
+          "spec": {
+            "formula": "exp(mean_over_cells(log(sum_tokens / sum_wall_s)))",
+            "cells": [
+              "chat_bs1",
+              "math_bs1",
+              "code_bs1",
+              "longctx_bs1",
+              "think_bs1",
+              "mixed_bs8"
+            ],
+            "cell_count": 6
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "eagle3-spec-decode-v1",
+      "execution_profile_id": "single-cuda-sm80-34g",
+      "metric_id": "primary"
+    }
+  }
+}

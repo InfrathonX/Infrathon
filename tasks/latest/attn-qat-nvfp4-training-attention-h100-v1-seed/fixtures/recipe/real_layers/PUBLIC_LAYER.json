@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "recipe_id": "attn-qat-public-layer-v1",
+  "identity": "per-deployment-capture",
+  "manifest_name": "capture.source.json",
+  "chunk_rows": 512,
+  "note": "The public real layer: a different model, prompt and geometry from every Judge capture.",
+  "sanity_bands": {
+    "q": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.05,
+      "rms_max": 100.0,
+      "abs_max_min": 0.5,
+      "abs_max_max": 5000.0
+    },
+    "k": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.05,
+      "rms_max": 100.0,
+      "abs_max_min": 0.5,
+      "abs_max_max": 5000.0
+    },
+    "v": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 0.02,
+      "rms_max": 100.0,
+      "abs_max_min": 0.1,
+      "abs_max_max": 5000.0
+    },
+    "do": {
+      "finite_fraction_min": 1.0,
+      "rms_min": 1e-12,
+      "rms_max": 0.001,
+      "abs_max_min": 1e-11,
+      "abs_max_max": 1.0
+    }
+  },
+  "sources": {
+    "public": {
+      "model": {
+        "repo_id": "Wan-AI/Wan2.2-TI2V-5B-Diffusers",
+        "revision": "b8fff7315c768468a5333511427288870b2e9635"
+      },
+      "prompt": "A small wooden fishing boat drifts across a misty mountain lake at dawn while an old man in a yellow raincoat slowly pulls in a net.",
+      "negative_prompt": "Bright tones, overexposed, static, blurred details, subtitles, worst quality, low quality, still picture, cluttered background",
+      "geometry": {
+        "frames": 121,
+        "height": 704,
+        "width": 1280,
+        "latent_shape": [
+          48,
+          31,
+          44,
+          80
+        ],
+        "seq_len": 27280
+      },
+      "heads_kept": 24,
+      "blocks": [
+        15
+      ],
+      "sigma_percent": [
+        50
+      ],
+      "latent": {
+        "steps": 20,
+        "guidance_scale": 5.0,
+        "seed": 7
+      },
+      "noise_seed": 7100,
+      "layer_format": "public-video-layer"
+    }
+  }
+}

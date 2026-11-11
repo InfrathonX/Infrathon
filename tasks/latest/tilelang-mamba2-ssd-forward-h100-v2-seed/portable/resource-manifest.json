@@ -1,0 +1,28 @@
+{
+  "boundary": {
+    "excludes": "Dockerfiles, dockerignore files, cooperative handoff and launcher/build machinery; those are delivery inputs in build-resource-manifest.json",
+    "includes": "authoritative agent-facing task prompt and README, public runner and its wrappers, source admission, protected hashes, hidden verifier / worker / Judge adapter, the shared trusted runtime (ABI, geometries, workload families, edge fixtures, oracle, timing), the root-only final-holdout generator and the recipe and capture script of the real layers; the seeded kernel_v001 is part of the Work context and is bound by the delivery manifest",
+    "kind": "scientific_task_resources"
+  },
+  "resources": [
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:be71886e390c9754b9d3b1a5f3663a56154302b7a39960c079f68cada0661916"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/README_AGENT.md", "sha256": "sha256:932069b26f5a12a3599d516a0c87ad48ecb3939c92594e905feb762349057af3"},
+    {"path": "images/work/benchmark/mamba2_ssd_runtime.py", "sha256": "sha256:9d4a2d51170ebffdcc30946dd7dd94fa792701a652276aa9f8a8bf2bf341edb5"},
+    {"path": "images/work/benchmark/public_runner.py", "sha256": "sha256:e19e33eb316b84fc18e1e57c16d2cfa87b1368eb169537f4529ef58c9c1b28a5"},
+    {"path": "images/work/benchmark/run_public_tests.sh", "sha256": "sha256:7486345c54e3a6e6b858218a973be1ac4092d06886dcf227652a03e3f430c95a"},
+    {"path": "images/work/benchmark/source_admission.py", "sha256": "sha256:6890fc3e8f65b999e333a4423ba8775213ce426a4b02c0add2502477af77578c"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/tools/run_one.sh", "sha256": "sha256:30155ae5b46a80227b6df2d5185f2ae82ce6dbc52cca2b915253e4a1f51440d2"},
+    {"path": "images/work/workdir/mamba2_ssd_lab/tools/run_public_tests.sh", "sha256": "sha256:f72c44762ff78c3215b5953e05e6ebaee3b425292245a4d4ce2133cde289aed2"},
+    {"path": "images/judge/candidate_worker.py", "sha256": "sha256:144fd15136e218cb5d041fb7fe38198a55e7481a7f52ac5bfb8df748cffb92f8"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:a9c030684b95e22b62755c089f1df4d026a4cb96806c272a94d0c6936d564677"},
+    {"path": "images/judge/source_admission.py", "sha256": "sha256:6890fc3e8f65b999e333a4423ba8775213ce426a4b02c0add2502477af77578c"},
+    {"path": "images/judge/verify_ssd.py", "sha256": "sha256:60bbef3b006e69cbc181eb37bee7c7d95623bcee10c71938c5a28bd1c4051f9d"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:a318b3c02ef913bd0a7f9b7335188604ba1afb221c8986515f4ba2f856dd38b4"},
+    {"path": "judge/run_judge.py", "sha256": "sha256:a9c030684b95e22b62755c089f1df4d026a4cb96806c272a94d0c6936d564677"},
+    {"path": "runtime/mamba2_ssd_runtime.py", "sha256": "sha256:c8424a1f300e63d93d151abbca1fa07ab90395d8e2d0b8db8ce04e73d7984879"},
+    {"path": "scripts/generate_final_manifest.py", "sha256": "sha256:bad4f892f4a64c4e6a395ebd7afac0ef5c1489e8d661e11b6d9da3bd4c383ab7"},
+    {"path": "fixtures/recipe/real_layers/REAL_LAYERS.json", "sha256": "sha256:401d9d89fe75753984ce962924aec05125324830c9eec7c9a675d17e5e9eed91"},
+    {"path": "fixtures/recipe/real_layers/capture_real_layers.py", "sha256": "sha256:827dedbfcafb74a51bdd8e3d22b510adf6d8bda5902d4d0d4b6ddda7e2b5d3d8"}
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,106 @@
+[build-system]
+requires = ["setuptools>=68.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quant-videogen"
+version = "0.1.0"
+description = "Quantized KV-cache compression for video generation models"
+requires-python = ">=3.10"
+license = {text = "Apache-2.0"}
+
+dependencies = [
+    "torch==2.8.0",
+    "triton>=2.2",
+    "einops>=0.7",
+    "termcolor>=2.3",
+    "loguru>=0.7",
+    "accelerate>=0.30",
+    "av>=14.0",
+]
+
+[project.optional-dependencies]
+longcat = [
+    "numpy>=1.24",
+    "Pillow>=10.0",
+    "tqdm>=4.65",
+    "diffusers>=0.27",
+    "transformers>=4.38",
+    "safetensors>=0.4",
+    "regex>=2023.0",
+    "ftfy>=6.1",
+    "imageio>=2.31",
+    "lpips>=0.1",
+    "tabulate>=0.9",
+    "torchvision>=0.16",
+    "openai>=1.0",
+]
+
+selfforcing = [
+    "numpy>=1.24",
+    "Pillow>=10.0",
+    "tqdm>=4.65",
+    "diffusers>=0.27",
+    "transformers>=4.38",
+    "safetensors>=0.4",
+    "omegaconf>=2.3",
+    "easydict>=1.10",
+    "lmdb>=1.4",
+    "opencv-python-headless>=4.8",
+    "torchvision>=0.16",
+    "regex>=2023.0",
+    "ftfy>=6.1",
+    "imageio>=2.31",
+    "huggingface-hub>=0.20",
+    "requests>=2.31",
+    "packaging>=23.0",
+    "scipy>=1.11",
+]
+
+hyworldplay = [
+    "numpy>=1.24",
+    "Pillow>=10.0",
+    "tqdm>=4.65",
+    "diffusers>=0.27",
+    "transformers>=4.38",
+    "safetensors>=0.4",
+    "regex>=2023.0",
+    "scipy>=1.11",
+    "sageattention>=1.0",
+    "imageio>=2.31",
+    "cloudpickle>=3.0",
+    "filelock>=3.12",
+    "PyYAML>=6.0",
+    "huggingface-hub>=0.20",
+    "typing-extensions>=4.8",
+    "remote-pdb>=2.1",
+    "moviepy>=1.0,<2.0",
+    "openai>=1.0",
+    "torchvision>=0.16",
+]
+
+lingbot = [
+    "numpy>=1.23.5,<2",
+    "Pillow>=10.0",
+    "tqdm>=4.65",
+    "scipy>=1.11",
+    "diffusers>=0.31.0",
+    "transformers>=4.49.0,<=4.51.3",
+    "tokenizers>=0.20.3",
+    "torchvision>=0.16",
+    "torchaudio",
+    "opencv-python-headless>=4.9.0.80",
+    "imageio>=2.31",
+    "imageio-ffmpeg",
+    "easydict>=1.10",
+    "ftfy>=6.1",
+    "huggingface-hub>=0.20",
+    "xfuser>=0.4",
+]
+
+all = [
+    "quant-videogen[longcat,selfforcing,hyworldplay,lingbot]",
+]
+
+[tool.setuptools.packages.find]
+include = ["quant_videogen*"]

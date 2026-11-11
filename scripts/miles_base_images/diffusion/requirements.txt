@@ -1,0 +1,46 @@
+accelerate==1.12.0
+addict==2.4.0
+blobfile==3.0.0
+datasets==4.4.2
+# MiniMax H3 (PR #14355) is merged into diffusers main but ships in no release yet:
+# 0.39.0 predates the merge. Pinned to the merge commit on main; switch to the next
+# stable release once it is out.
+diffusers @ git+https://github.com/huggingface/diffusers.git@f53d552036a0d1bd5570782a39cd40cfabf112bc
+fastapi==0.128.8
+httpx[http2]==0.28.1
+ltx-core @ git+https://github.com/Lightricks/LTX-2.git@780984275fd47128b02bef9b5c085404276866ee#subdirectory=packages/ltx-core
+mcp[cli]==1.25.0
+memray==1.19.1
+nvidia-ml-py==13.595.45
+omegaconf==2.3.0
+open_clip_torch==2.24.0
+openai==2.6.1
+opencv-python-headless==4.10.0.84
+paddleocr==2.9.1
+paddlepaddle-gpu==2.6.2; platform_system == "Linux"
+peft==0.18.1
+pillow==11.3.0
+pydantic==2.12.5
+pylatexenc==2.10
+pytest>=7.0.0
+pytest-asyncio
+python-Levenshtein==0.27.3
+pyyaml==6.0.1
+qwen_vl_utils==0.0.14
+ray[default]==2.53.0
+requests==2.32.5
+ring_flash_attn==0.1.8
+safetensors==0.8.0
+sglang-router==0.3.0
+tensorboard==2.20.0
+torch==2.11.0
+torchaudio==2.11.0
+torchvision==0.26.0
+# MiniMax H3's Qwen3-VL text encoder imports transformers.vision_utils, which
+# first ships in 5.9.0; 5.12.1 is the version H3 has been run end to end on.
+transformers==5.12.1
+typer==0.23.2
+uvicorn==0.39.0
+wandb==0.28.1
+
+# ci: refresh build cache

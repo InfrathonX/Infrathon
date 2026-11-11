@@ -1,0 +1,197 @@
+{
+  "task_id": "sageattention_quantized_attention_bf16_h100_seed_v2",
+  "name": "SageAttention-derived Quantized Attention Forward BF16 Portable CUDA Seeded Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:ac80b68b8bf622849f8f2e1bde859699dea4c3bfe8242a67a516698f629b0ed6"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/quant_attention_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/quant_attention_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. Starting from the working Triton seed, optimize the exact six-argument BF16 quantized-attention ABI with self-contained Triton while passing all disclosed accuracy gates. Your score comes from hidden test cases on the Judge, which differ from the public tests and can be much larger; the public tests only exist to get the kernel working. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Before finishing, run the full public suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; do not copy external implementations or solution material into your submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run uses part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/sageattention_quant_attention_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 6000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/sageattention_quant_attention_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 8,
+    "mem_limit": "32g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "quantized-attention-bf16-v2",
+      "definition": {
+        "operation": "quantized_attention_forward_bf16",
+        "families": [
+          {
+            "family": "video",
+            "cases": {
+              "sweep": 192,
+              "recipe": 7
+            }
+          },
+          {
+            "family": "image",
+            "cases": {
+              "sweep": 41,
+              "recipe": 3
+            }
+          },
+          {
+            "family": "llm",
+            "cases": {
+              "sweep": 388,
+              "recipe": 4
+            }
+          },
+          {
+            "family": "real",
+            "cases": {
+              "real": 139
+            }
+          }
+        ],
+        "head_dims": [
+          64,
+          128
+        ],
+        "max_length": 262144,
+        "max_batch": 4,
+        "max_query_heads": 64
+      },
+      "interface": {
+        "entry_point": "quantized_attention_bf16(q_bf16_b_l_hq_d,k_bf16_b_l_hkv_d,v_bf16_b_l_hkv_d,is_causal,softmax_scale,out_bf16_b_l_hq_d)->None",
+        "source_path": "candidates/kernel_vNNN/submission.py",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "self_contained_triton_source_with_statically_checked_host_subset"
+      },
+      "allowed_changes": [
+        "versioned candidate implementations under candidates",
+        "FINAL_VERSION selector",
+        "candidate experiment notes"
+      ],
+      "invariants": [
+        "INT8 fake-quantized attention forward with GQA head mapping h -> h // (H_q // H_kv) and the given softmax scale",
+        "out is fully written on the current stream and q, k, v are byte-identical afterwards",
+        "all five accuracy statistics against the SageAttention-1 fake-quantization reference stay inside their limits",
+        "host code obeys the statically checked subset; kernels are self-contained Triton",
+        "no existing attention kernel, compiled extension, private stream, replay or seed specialisation",
+        "the 8 disclosed edge fixtures are zero-weight hard gates; the 139 captured real layers are scored and must pass the same gates"
+      ],
+      "resource_manifest_sha256": "sha256:f6d475bc2a04bb5fb1a1edc2e2416092d7edb8e341857316f45970be796afbad"
+    },
+    "evaluation_suites": {
+      "sageattention-qattn-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:59a22a23c17bd1ea064f7f31bcdc7808679e8c57796550841a39c3d1f68afc7c",
+            "case_count": 29
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:0b549c82e3ef0b9e9d6651301bb61d11e7ff16314efc9a6b106329ed3e10d319",
+            "case_count": 782
+          },
+          "final": {
+            "manifest_sha256": "sha256:ecd82933ffab90bb9e6d46c41c34e86eaabf17d200bd32475c59c26f6d969b11",
+            "case_count": 782
+          }
+        },
+        "oracle": {
+          "protocol_id": "sageattention1-fake-quant-reference-v1",
+          "spec_sha256": "sha256:60871cdf69599abef3c943797819dbe750b0b6d0ebe3eaf6868e0574583d6342"
+        },
+        "selection": {
+          "protocol_id": "sageattention-v3-shared-final-v1",
+          "spec_sha256": "sha256:042ad0059cfe8d56eac97951e92bf838efa7f9f0fe76b4a3137b914e6c2dc998"
+        }
+      }
+    },
+    "execution_profiles": {
+      "single-cuda-sm80-64g": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 68719476736,
+        "min_compute_capability": "8.0",
+        "features": [
+          "cuda",
+          "bf16",
+          "int8",
+          "fp32",
+          "triton"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-triton340-source-v1",
+          "spec_sha256": "sha256:8fa97cfa5871f2bea1332f61ac516ce992d43e318b2ef81fcc06d75293cb593d"
+        },
+        "calibration_protocol": {
+          "protocol_id": "cuda-event-host-wall-max-median-v1",
+          "spec_sha256": "sha256:566447902434c848fbbc492aa0d90daaffdd4a57df6482e77fb231a01082ca10"
+        }
+      }
+    },
+    "metrics": {
+      "family-geomean-effective-tflops": {
+        "direction": "maximize",
+        "unit": "effective_tflops",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "family-tier-source-geomean-v1",
+          "spec": {
+            "formula": "geomean over video, image, llm, real; synthetic family = sqrt(geomean(recipe) * geomean(sweep)); real = geomean over sources of geomean over layers",
+            "families": [
+              "video",
+              "image",
+              "llm",
+              "real"
+            ],
+            "case_statistic": "median_trial_tflops",
+            "effective_flops": "4*B*H_q*D*pairs",
+            "pairs": "L^2 noncausal or L*(L+1)/2 causal"
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "sageattention-qattn-v2",
+      "execution_profile_id": "single-cuda-sm80-64g",
+      "metric_id": "family-geomean-effective-tflops"
+    }
+  }
+}

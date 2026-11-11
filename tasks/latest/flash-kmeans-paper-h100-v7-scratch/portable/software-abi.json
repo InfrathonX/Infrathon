@@ -1,0 +1,7 @@
+{
+  "accelerator_runtime": "cuda-12.8-compatible",
+  "language": "python3",
+  "protocol_id": "pytorch271-cu128-triton-source-v1",
+  "schema_version": 1,
+  "source_runtime": ["pytorch-2.7.1", "triton-bundled-with-pytorch"]
+}

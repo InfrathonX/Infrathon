@@ -1,0 +1,17 @@
+{
+  "hardware": {
+    "h100-80gb-700w": {
+      "judge_public": "sha256:cdc89986c61b9af05626ec8dc39593d2d0d49d166696e81e9bb260b016e87fa0",
+      "judge_public_tag": "h100-80gb-700w-lmcache-paged-kv-block-transfer-h100-v1-seed-judge",
+      "work": "sha256:e148fc05b0a5cdeb803d991994f183c11b5de663c6dbd253c2095203f300e30e",
+      "work_tag": "h100-80gb-700w-lmcache-paged-kv-block-transfer-h100-v1-seed-work"
+    },
+    "h100-94gb-400w": {
+      "judge_public": "sha256:cdc89986c61b9af05626ec8dc39593d2d0d49d166696e81e9bb260b016e87fa0",
+      "judge_public_tag": "h100-94gb-400w-lmcache-paged-kv-block-transfer-h100-v1-seed-judge",
+      "work": "sha256:e148fc05b0a5cdeb803d991994f183c11b5de663c6dbd253c2095203f300e30e",
+      "work_tag": "h100-94gb-400w-lmcache-paged-kv-block-transfer-h100-v1-seed-work"
+    }
+  },
+  "source_digest": "913faa7ade60bebf44b18dd39f42326afbb3f0b4af6bcf047bc611eac20f9acf"
+}

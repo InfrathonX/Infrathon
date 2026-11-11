@@ -1,0 +1,4 @@
+name: pyromind-demo
+base_images:
+  python311:
+    image: python:3.11-slim-bookworm

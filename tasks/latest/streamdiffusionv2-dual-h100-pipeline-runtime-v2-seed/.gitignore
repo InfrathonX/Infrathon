@@ -1,0 +1,15 @@
+artifacts/
+build/
+private/
+.pytest_cache/
+__pycache__/
+*.pyc
+*.pt
+*.npy
+*.mp4
+
+# In-tree evaluation inputs (P1 in-tree class); everything else matching the
+# patterns above stays generated.
+!assets/embeddings/public/*.pt
+!judge/private/
+!judge/private/embeddings/hidden/*.pt

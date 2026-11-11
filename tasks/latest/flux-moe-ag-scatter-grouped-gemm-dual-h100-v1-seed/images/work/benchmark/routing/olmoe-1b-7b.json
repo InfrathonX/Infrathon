@@ -1,0 +1,176 @@
+{
+ "capture_sha256": "dbd344632f6440c924e22074312d17843eb89b24b2fe4d012d943a8fbce302db",
+ "datasets": {
+  "chat": "HuggingFaceH4/ultrachat_200k test_sft",
+  "code": "codeparrot/codeparrot-clean-valid train",
+  "math": "openai/gsm8k main train",
+  "qa": "rajpurkar/squad train",
+  "wiki": "Salesforce/wikitext wikitext-103-raw-v1 train"
+ },
+ "dtype": "uint8",
+ "experts": 64,
+ "kept_layers": [
+  0,
+  2,
+  4,
+  6,
+  9,
+  11,
+  13,
+  15
+ ],
+ "layers": 8,
+ "method": "router top-k computed from the router weight (and bias) on its input hidden states; bf16 model, fp32 logits; one forward pass per sequence, no padding",
+ "model_moe_layers": 16,
+ "name": "olmoe-1b-7b",
+ "repo": "allenai/OLMoE-1B-7B-0924",
+ "revision": "6d84c48581ece794365f2b8e9cfb043c68ade9c5",
+ "seq_len": 2048,
+ "sequences": [
+  {
+   "source": "wiki",
+   "start": 0,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 2048,
+   "tokens": 2048
+  },
+  {
+   "source": "code",
+   "start": 4096,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 6144,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 8192,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 10240,
+   "tokens": 1299
+  },
+  {
+   "source": "code",
+   "start": 11539,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 13587,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 15635,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 17683,
+   "tokens": 1697
+  },
+  {
+   "source": "code",
+   "start": 19380,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 21428,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 23476,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 25524,
+   "tokens": 1326
+  },
+  {
+   "source": "code",
+   "start": 26850,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 28898,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 30946,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 32994,
+   "tokens": 1529
+  },
+  {
+   "source": "code",
+   "start": 34523,
+   "tokens": 2048
+  },
+  {
+   "source": "math",
+   "start": 36571,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 38619,
+   "tokens": 2048
+  },
+  {
+   "source": "chat",
+   "start": 40667,
+   "tokens": 1984
+  },
+  {
+   "source": "code",
+   "start": 42651,
+   "tokens": 2048
+  },
+  {
+   "source": "qa",
+   "start": 44699,
+   "tokens": 2048
+  },
+  {
+   "source": "wiki",
+   "start": 46747,
+   "tokens": 1850
+  },
+  {
+   "source": "chat",
+   "start": 48597,
+   "tokens": 555
+  }
+ ],
+ "sha256": "1596bb80f82f0080a8cb7ff771e7515bc73f9753dc0169eb8e34f7f595008b5e",
+ "shape": [
+  8,
+  49152,
+  8
+ ],
+ "source_tokens": {
+  "chat": 10438,
+  "code": 12288,
+  "math": 6144,
+  "qa": 6144,
+  "wiki": 14138
+ },
+ "tokens": 49152,
+ "topk": 8
+}

@@ -1,0 +1,19 @@
+{
+  "task_id": "addition",
+  "name": "PyroMind public addition smoke task",
+  "base_image": "python311",
+  "platform": "linux/amd64",
+  "cwd": "/workspace/project",
+  "submit_paths": ["solution.py"],
+  "submit_exclude": ["__pycache__"],
+  "work": {"image_tag": "demo", "agent_query": "Implement addition."},
+  "judge": {
+    "image_tag": "demo",
+    "eval_cmd": "python /opt/sforge-demo/judge.py",
+    "eval_timeout": 30,
+    "parser": "structured_json",
+    "selection": "valid_then_score",
+    "cpu_limit": 4,
+    "mem_limit": "8Gi"
+  }
+}

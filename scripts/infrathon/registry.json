@@ -1,0 +1,4 @@
+{
+  "note": "Default image repository for scripts/infrathon/images.sh (pulls), publish_images.sh and release/hub_tags.py; INFRATHON_REGISTRY_REPOSITORY overrides it. Tasks' images/published.json record manifest digests only, so a copy of the images in another repository (crane copy, docker buildx imagetools create) is pulled with the same records.",
+  "repository": "infrathon/infrathon"
+}

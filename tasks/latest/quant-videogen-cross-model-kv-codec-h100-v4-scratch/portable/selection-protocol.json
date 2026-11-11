@@ -1,0 +1,35 @@
+{
+  "aggregation": "sqrt(longcat_ratio * hy_worldplay_8b_ratio); workload_ratio = sum over the workload's cases of bf16_kv_bytes / sum of stored_kv_bytes",
+  "cases_per_workload": {
+    "hy_worldplay_8b": 11,
+    "longcat": 6
+  },
+  "final": {
+    "case_count": 17,
+    "hard_gate_case_count": 0,
+    "rounds": "host-side standalone final, trusted oracle and control replays through scripts/eval_archive.sh",
+    "run_gate_policy": "calibrated release; per-workload mean gates and every per-case floor and wall gate pass",
+    "scored_case_count": 17,
+    "suite_id": "quant-videogen-hidden-v4"
+  },
+  "interactive": {
+    "case_count": 17,
+    "rounds": "agent-initiated manual submissions only (cooldown 300 s); the same hidden suite as the final",
+    "suite_id": "quant-videogen-hidden-v4"
+  },
+  "protocol_id": "public-diagnostics-hidden-17-cases-sharded-v4",
+  "public": {
+    "case_count": 3,
+    "runners": ["public_tests/run_public_tests.py", "public_tests/run_self_forcing_paper.py --prefixes 350 700 [--vbench]"],
+    "scored": false
+  },
+  "same_suite_for_interactive_and_final": true,
+  "schema_version": 1,
+  "sharding": {
+    "devices": "1-8 identical devices visible to the Judge; every device stays visible and each case binds its own by index",
+    "partition": "longest-processing-time by per-case budget, deterministic (judge/judge_shards.plan_shards)",
+    "per_device": "one candidate UID and one CPU slice per device; cases run one after another: isolated generation, then fidelity and VBench on the same device",
+    "score_dependence": "none: the device count changes only the wall time"
+  },
+  "workloads": ["longcat", "hy_worldplay_8b"]
+}

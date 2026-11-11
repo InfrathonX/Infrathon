@@ -1,0 +1,35 @@
+services:
+  main:
+    environment:
+      BACKEND_URL: http://127.0.0.1:8100/v1
+      PORT: "9000"
+    volumes:
+      - type: bind
+        source: "${KV_AUTHOR_REFERENCE_GATEWAY_DIR:?set by calibration-stack.sh}"
+        target: /opt/reference-gateway
+        read_only: true
+        bind:
+          create_host_path: false
+    command:
+      - setpriv
+      - --reuid
+      - candidate
+      - --regid
+      - candidate
+      - --init-groups
+      - --no-new-privs
+      - /opt/reference-gateway/launch.sh
+
+  bench-controller:
+    environment:
+      # Author-only live A+B is what creates the immutable release anchor.
+      RELEASE_PUBLIC_DIRECT_ANCHOR_REQUIRED: "0"
+    volumes:
+      - sandbox-workspaces:/run/kvbench-workspaces
+
+  sandbox-worker:
+    volumes:
+      - sandbox-workspaces:/run/kvbench-workspaces
+
+volumes:
+  sandbox-workspaces: {}

@@ -1,0 +1,19 @@
+# Private Judge layer: the public Judge plus private/ (final cases, hidden
+# embeddings, clips, goldens), root-only with the modes of the single-file Judge
+# (the clip arrays 0400: it copied the host's read-only 0444 files), and the hash manifest that
+# binds them (images/judge/protected_hashes/<hardware>.txt: the goldens are
+# measured on the card).  Built only on the host that runs the task, never
+# published; scripts/build_images.sh passes the contexts.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+COPY --from=protected_hashes protected_hashes.txt /opt/sdv2_judge/protected_hashes.txt
+COPY --from=final_cases final_cases.json /opt/sdv2_judge/private/final_cases.json
+COPY --from=assets embeddings/hidden/ /opt/sdv2_judge/private/embeddings/hidden/
+COPY --from=assets clips/ /opt/sdv2_judge/private/clips/
+COPY --from=goldens_judge . /opt/sdv2_judge/private/goldens/
+RUN chown root:root /opt/sdv2_judge/protected_hashes.txt \
+    && chmod 0400 /opt/sdv2_judge/protected_hashes.txt \
+    && chown -R root:root /opt/sdv2_judge/private \
+    && chmod 0500 /opt/sdv2_judge/private \
+    && chmod -R go-rwx /opt/sdv2_judge/private \
+    && chmod 0400 /opt/sdv2_judge/private/clips/*.npy

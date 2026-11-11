@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "task_directory": "sageattention-quantized-attention-bf16-h100-v2-seed",
+  "note": "No model or dataset download is needed to build or run: the activation captures are assets. The Judge-only final suite enters only the host-built Judge layer (images/judge/Dockerfile.private); the 139 scored real layers (judge/real_layers/, about 58 GB) are never part of an image: scripts/sforge_judge_entry.py mounts them read-only into every Judge container. The two public real layers enter only the host-built Work layer (images/work/Dockerfile.local); the published Work and public Judge images carry the e8 capture and no real-layer capture. Licenses of the captures (derived activations of the named models and data) are listed per asset; public/licenses/ holds the NOTICE and model licenses. The recipe scripts under fixtures/recipe/ can re-capture any of them.",
+  "assets": [
+    {
+      "path": "judge/final_cases.json",
+      "sha256": "fbb864de30750f3c11aa2504a74050e0819c9c38ded973fa2c8821480d8c7fc7",
+      "size": 214536,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/real_layers/cogvideox2b-p0-s00/",
+      "sha256": "77bfcf998fec73338461b2a1a93afbfce2b26b8e9e083347fc790da50c14dfda",
+      "files": 31,
+      "size": 12286841869,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_cogvideox2b.json (build_real_layers.sh) on an H100 NVL, the capture the task was qualified with",
+      "license": "Apache-2.0 (CogVideoX-2B)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/llama31-8b-wikitext2-16k/",
+      "sha256": "2ccfad469eb88b849a67a11e102eec3e78dc9771da1a982d5d0b64f905b0e617",
+      "files": 33,
+      "size": 6442526334,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_llama31_8b.json (build_real_layers.sh) on an H100 NVL, the capture the task was qualified with",
+      "license": "Llama 3.1 Community License (Built with Llama); text: WikiText-2, CC BY-SA 3.0",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/cogvideox2b-p1-s10/",
+      "sha256": "60b55960942d0612db70246bb7284480a12bc1bb50215d9158911b457b1142b2",
+      "files": 11,
+      "size": 4095614286,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_cogvideox2b_s10.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Apache-2.0 (CogVideoX-2B)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/cogvideox2b-p1-s40/",
+      "sha256": "9a30e944352aad89b477e219995aa872b6e86199b2e2df1f534b6150475b8c4b",
+      "files": 11,
+      "size": 4095614286,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_cogvideox2b_s40.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Apache-2.0 (CogVideoX-2B)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/wan13b-480p/",
+      "sha256": "31a41d970d52d09e99bc05d133e1a1d7dc6c312e5913fdf1138892594ae5a535",
+      "files": 16,
+      "size": 4528777978,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_wan13b_480p.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Apache-2.0 (Wan2.1-T2V-1.3B)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/wan14b-720p/",
+      "sha256": "1356f6526968d52f34da9dbfd8ee797ee10b40195d1d8234f4d39b1b8d683759",
+      "files": 9,
+      "size": 18579475717,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_wan14b_720p.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Apache-2.0 (Wan2.1-T2V-14B)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/sd35m-1024/",
+      "sha256": "c8e4bd459978103da717fb3cacd1a193fb11455ac7afb82fcf14dbd3af214cc3",
+      "files": 25,
+      "size": 1959304485,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_sd35m_1024.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Stability AI Community License (Stable Diffusion 3.5 Medium)",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/llama31-8b-wikitext103-64k/",
+      "sha256": "e096cb18320e465af971295ef4cf8f7ebd016d61cd57c04ef0759c42d8971316",
+      "files": 5,
+      "size": 3221235355,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_llama31_64k.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Llama 3.1 Community License (Built with Llama); text: WikiText-103, CC BY-SA 3.0",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/llama31-8b-wikitext103-128k/",
+      "sha256": "a9562e8675eaa66a2aae0aed7b14455a5f1c000d576bea4dc33113b6d4554ebe",
+      "files": 5,
+      "size": 6442460833,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_llama31_128k.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Llama 3.1 Community License (Built with Llama); text: WikiText-103, CC BY-SA 3.0",
+      "readable": true
+    },
+    {
+      "path": "judge/real_layers/llama3-8b-262k-wikitext103-262k/",
+      "sha256": "2d8ee0dac46f0f23e3cd282a283988585217a87e4f20bddcb420f7d4f1156ca2",
+      "files": 3,
+      "size": 6442456159,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/real_layers/RECIPE_llama3_262k.json (capture_scored_layers.sh) on an H100 SXM; mounted read-only into the Judge at run time",
+      "license": "Meta Llama 3 Community License (Built with Meta Llama 3); text: WikiText-103, CC BY-SA 3.0",
+      "readable": true
+    },
+    {
+      "path": "public/public_layers/",
+      "sha256": "83f1a9de687e39661261eda28843c3be474388b14940c6281e415adf7e04b92b",
+      "files": 4,
+      "size": 603493043,
+      "consumer": "work",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "public-wan22 (Wan2.2-TI2V-5B) and public-lm (Qwen3-8B) with their capture manifests, captured by fixtures/recipe/public_layers/build_public_layers.sh; not copies of any Judge layer",
+      "license": "public-wan22: Apache-2.0 (Wan2.2-TI2V-5B); public-lm: Apache-2.0 (Qwen3-8B), text WikiText-2 CC BY-SA 3.0"
+    },
+    {
+      "path": "public/e8_wan13b_p0_b15_s00_cond_8192.pt",
+      "sha256": "63c8148262c2b1f6a8f8fa1da7782ecd61bf0f5a411185949a98485abf26f564",
+      "size": 75501296,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "the reference capture of fixtures/recipe/RECIPE.json (build_fixture.sh)",
+      "license": "Apache-2.0 (Wan2.1-T2V-1.3B)"
+    },
+    {
+      "path": "public/e8_wan13b_p0_b15_s00_cond_8192.manifest.json",
+      "sha256": "12455bbfed24294016581b1a9dd11b7aa59548a7cdfe8d470f784b8fae79c2f0",
+      "size": 711,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/licenses/",
+      "sha256": "c542bac5f495ceeaadace2a7789c097d43e88d5da6a7279866111791760c2540",
+      "files": 4,
+      "size": 31650,
+      "consumer": "none (dataset notices)",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "origin": "NOTICE for the captures; LLAMA_3.1_COMMUNITY_LICENSE, CogVideoX-2b.LICENSE and Wan2.1-T2V-1.3B.LICENSE are the LICENSE files of the pinned model snapshots (SHA-256 as pinned in the recipes)"
+    }
+  ]
+}

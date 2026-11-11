@@ -1,0 +1,69 @@
+{
+  "aggregation": "geomean inside each tier, geomean across a family's tiers, geomean across a domain's families, geomean across the two domains (video, LLM)",
+  "case_statistic": "median_trial_tflops",
+  "edge_fixtures": {
+    "case_count": 15,
+    "external_fixtures": [
+      {
+        "identity": "per-deployment-capture",
+        "name": "e7_wan13b_grad_b29_t1_s8192.pt",
+        "recipe": "fixtures/recipe/RECIPE.json",
+        "recipe_sha256": "sha256:d53bcf147bf4d9ac6dd98f18db5a50934fbde81576f53f2b13086f951bb04ec8",
+        "role": "edge_fixture_input",
+        "source": "captured at build time by fixtures/recipe/build_fixture.sh (docs/SOURCE_PROVENANCE.md); the bytes are per-deployment and are not pinned by digest"
+      }
+    ],
+    "policy": "all_must_pass_before_any_scored_case",
+    "scored": false
+  },
+  "evaluation_policy": "full-final-shared-v2",
+  "final": {
+    "case_count": 287,
+    "golden": "recipe and real cases always; the frozen hidden half of each family's sweep cases; one hidden trial per gated case",
+    "hard_gate_case_count": 15,
+    "hard_gate_policy": "all_must_pass",
+    "real_layer_trials": 1,
+    "rounds": "host manual-/candidate- replays, including sealed deadline re-evaluation; version override allowed only here",
+    "scored_case_count": 287,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "historical_protocol": "v1 and v2 scored four cases and final-holdout-v2 scored 103 video cases; their reports are not comparable with this suite.",
+  "interactive": {
+    "case_count": 287,
+    "golden": "recipe and real cases always; the frozen hidden half of each family's sweep cases; one hidden trial per gated case",
+    "hard_gate_case_count": 15,
+    "hard_gate_policy": "all_must_pass",
+    "real_layer_trials": 1,
+    "rounds": "agent-/auto- identities retained; candidate-version override forbidden; complete frozen final suite",
+    "scored_case_count": 287,
+    "suite_id": "final-holdout-v3",
+    "trials": 3,
+    "warmups": 1
+  },
+  "protocol_id": "attn-qat-shared-final-v3",
+  "public": {
+    "full": {
+      "case_count": 29,
+      "case_ids": "all_public_cases",
+      "real_layer_trials": 1,
+      "trials": 3
+    },
+    "quick": {
+      "case_count": 4,
+      "case_ids": [
+        "public-p2",
+        "public-p4",
+        "public-p24",
+        "public-p10"
+      ],
+      "perf_only_case_ids": [
+        "public-p10"
+      ],
+      "trials": 1
+    },
+    "warmups": 1
+  },
+  "schema_version": 1
+}

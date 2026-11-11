@@ -1,0 +1,17 @@
+# Private Judge layer: the public Judge plus the Judge-only inputs.
+# Built only on the host that runs the task, never published; the inputs come
+# from the Judge-only build context scripts/build_images.sh stages.
+ARG JUDGE_PUBLIC_IMAGE
+FROM ${JUDGE_PUBLIC_IMAGE}
+
+COPY --from=final_cases final_cases.json /opt/tilelang_mamba2_ssd_judge/private/
+# Captured layers of the real cases (fixtures/recipe/real_layers/, target `judge`).
+# The unprivileged worker reads them, so they sit next to the runtime, readable
+# but not writable; the runtime checks each against the capture manifest.
+COPY --from=real_layers . /opt/tilelang_mamba2_ssd_worker/real_layers/
+
+RUN chown -R root:root /opt/tilelang_mamba2_ssd_judge/private /opt/tilelang_mamba2_ssd_worker/real_layers \
+    && chmod 0500 /opt/tilelang_mamba2_ssd_judge/private \
+    && chmod 0400 /opt/tilelang_mamba2_ssd_judge/private/final_cases.json \
+    && chmod 0555 /opt/tilelang_mamba2_ssd_worker/real_layers \
+    && chmod 0444 /opt/tilelang_mamba2_ssd_worker/real_layers/*

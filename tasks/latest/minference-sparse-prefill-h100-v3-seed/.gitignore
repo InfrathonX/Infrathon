@@ -1,0 +1,8 @@
+artifacts/
+build/
+private/
+final_manifest.json
+.pytest_cache/
+__pycache__/
+*.pyc
+.validation/

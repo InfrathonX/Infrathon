@@ -1,0 +1,50 @@
+{
+  "acceptance": "every run-wide gate passes; otherwise the score is 0 and the result is a trusted gate failure",
+  "fidelity": {
+    "family": "arithmetic mean over the family's items",
+    "per_item_ratio": "exp(-mean_token KL(full || compressed))",
+    "primary": "100 x mean over 500, 750, 875 per mille eviction",
+    "ratio": "geometric mean over retrieval, aggregation, qa, generation"
+  },
+  "gates": {
+    "latency_denominator": "trusted plain prefill of the same context, same GPU, Phase B",
+    "latency_item_cap_percent": 60,
+    "latency_suite_fraction_percent": 30,
+    "memory_limit_bytes": 8589934592,
+    "min_keep": 64,
+    "n_sink_floor_advisory": 4,
+    "names": [
+      "profile_ok",
+      "suite_ok",
+      "source_ok",
+      "hardware_ok",
+      "indices_ok",
+      "budgets_ok",
+      "immutable_ok",
+      "rng_ok",
+      "latency_ok",
+      "memory_ok",
+      "fidelity_ok"
+    ]
+  },
+  "integrity": [
+    "source_admission",
+    "fresh_policy_per_item_and_ratio",
+    "fresh_input_copies_per_select_slowest_ratio_charged",
+    "context_only_phase_a",
+    "immutable_inputs",
+    "rng_unchanged",
+    "llm_integrity_review"
+  ],
+  "protocol_id": "trusted-replay-fidelity-kl-v2",
+  "reference": {
+    "eos_suppressed_for_first_tokens": 16,
+    "golden": "full-cache distribution recomputed every run",
+    "model": "Qwen/Qwen3-8B",
+    "phase_a": "unprivileged worker: context-only prefill, candidate select, validated selections stored as per-(layer, head) bitmasks",
+    "phase_b": "trusted replay: plain prefill, reference continuation, bitmask re-validation, teacher-forced full and compressed replay with kept pairs in position order",
+    "reference_tokens_max": 48,
+    "reference_tokens_min": 16
+  },
+  "schema_version": 1
+}

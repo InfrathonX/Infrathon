@@ -1,0 +1,83 @@
+{
+  "case_statistic": "median_trial_tflops",
+  "evaluation_policy": "full-final-shared-v4",
+  "final": {
+    "case_count": 1114,
+    "edge_case_count": 168,
+    "edge_suite_id": "edge-holdout-v4",
+    "hard_gate_case_count": 168,
+    "hard_gate_policy": "every edge case and every scored case is a correctness and memory-safety gate; the sanitize subset of the edge cases runs first under compute-sanitizer memcheck",
+    "rounds": "manual-* and candidate-* host rounds; retained candidate_version override allowed",
+    "sanitize_case_count": 12,
+    "scored_case_count": 1114,
+    "stream_time_limit_seconds": 120,
+    "stream_warmups": 16,
+    "suite_id": "final-holdout-v4",
+    "trials": 3,
+    "warmups": 1
+  },
+  "historical_interactive_policy": "v1 (final-holdout-v1) and v2 (final-holdout-v2, full-final-shared-v3, a ten-case grid with uniform lengths up to 32768) measured narrower workloads; their scores are not comparable with v4",
+  "interactive": {
+    "candidate_version_override": "forbidden; evaluate the submitted FINAL_VERSION",
+    "case_count": 1114,
+    "edge_case_count": 168,
+    "edge_suite_id": "edge-holdout-v4",
+    "hard_gate_case_count": 168,
+    "hard_gate_policy": "identical to final",
+    "rounds": "auto-* and agent-* rounds; submitted FINAL_VERSION only",
+    "sanitize_case_count": 12,
+    "scored_case_count": 1114,
+    "stream_time_limit_seconds": 120,
+    "stream_warmups": 16,
+    "suite_id": "final-holdout-v4",
+    "trials": 3,
+    "warmups": 1
+  },
+  "protocol_id": "paged-gqa-shared-final-v4",
+  "public": {
+    "edge": {
+      "case_count": 44,
+      "suite_id": "edge-public-v4"
+    },
+    "family": {
+      "case_counts": {
+        "decode": 39,
+        "long": 32,
+        "spec": 44,
+        "stream": 12
+      },
+      "trials": 3,
+      "warmups": 1
+    },
+    "full": {
+      "case_count": 127,
+      "case_ids": "all_public_cases",
+      "trials": 3,
+      "warmups": 1
+    },
+    "one": {
+      "case_count": 1,
+      "case_ids": [
+        "public-0012-decode"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "quick": {
+      "case_count": 3,
+      "case_ids": [
+        "public-0012-decode",
+        "public-0044-spec",
+        "public-0084-long"
+      ],
+      "trials": 1,
+      "warmups": 1
+    },
+    "sanitize": {
+      "case_count": 4,
+      "suite_id": "edge-public-v4"
+    }
+  },
+  "schema_version": 1,
+  "workload": "four families (decode, spec, long, stream) of frozen serving-engine decode calls; see final-suite-manifest.json workload"
+}

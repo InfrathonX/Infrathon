@@ -1,0 +1,8 @@
+# Development-only stand-in for Harbor's generated main-service base file.
+# Harbor supplies its own build/image/command overlay during real runs.
+services:
+  main:
+    build:
+      context: .
+    image: harbor-kv/main:qwen36-27b-swe192-v2-1-gpu45-v1
+    command: ["sh", "-c", "sleep infinity"]

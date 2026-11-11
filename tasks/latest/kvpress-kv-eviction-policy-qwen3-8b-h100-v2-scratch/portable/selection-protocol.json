@@ -1,0 +1,51 @@
+{
+  "evaluation_policy": "full-final-shared-v2",
+  "families": [
+    "retrieval",
+    "aggregation",
+    "qa",
+    "generation"
+  ],
+  "final": {
+    "case_count": 5000,
+    "rounds": "deadline final and trusted host replays",
+    "routing": "round_id prefix manual- or candidate-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "suite_id": "final-holdout-v2"
+  },
+  "interactive": {
+    "case_count": 5000,
+    "rounds": "scored agent submissions; archive FINAL_VERSION only",
+    "routing": "round_id prefix auto- or agent-",
+    "run_gate_policy": "all_11_run_wide_gates_must_pass",
+    "suite_id": "final-holdout-v2"
+  },
+  "protocol_id": "kv-eviction-full-final-shared-v2-sharded",
+  "public": {
+    "full": {
+      "case_count": 85
+    },
+    "one": {
+      "case_count": 1,
+      "rule": "first public item"
+    },
+    "quick": {
+      "case_count": 46,
+      "rule": "first item of every (family, task)"
+    },
+    "suite_id": "kv-eviction-public-v2"
+  },
+  "ratios_per_mille": [
+    500,
+    750,
+    875
+  ],
+  "same_suite_for_interactive_and_final": true,
+  "schema_version": 1,
+  "sharding": {
+    "gpus": "1-8 identical devices visible to the Judge",
+    "partition": "longest-processing-time by estimated cost, deterministic",
+    "per_shard": "Phase A then Phase B on one GPU, NUMA-local whole-core CPU slice",
+    "score_dependence": "none"
+  }
+}

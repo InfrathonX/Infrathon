@@ -1,0 +1,203 @@
+{
+  "task_id": "kvpress_kv_eviction_policy_qwen3_8b_h100_scratch_v2",
+  "name": "KV Eviction Policy Qwen3-8B Portable CUDA Scratch Lab v2",
+  "delivery": {
+    "schema_version": 1,
+    "build_resource_manifest_sha256": "sha256:505c1707e8516a7791768667d36993f09638fc886090a7147b5b43bf4d162ff0"
+  },
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/kv_eviction_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "policy_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/kv_eviction_lab",
+    "cpu_limit": 8,
+    "mem_limit": "32g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md first. Starting from the supplied position-only baseline, design a KV eviction policy for frozen Qwen3-8B at 50%, 75%, and 87.5% eviction that preserves the full-cache next-token behaviour on long-context retrieval, aggregation, question-answering and generation items. Keep versioned policy_vNNN candidates, preserve every fail-closed gate, and leave FINAL_VERSION on the strongest clean candidate. Policies must not use token identity in any form (see AGENT_TASK.md). Use the one, quick, and full public commands for iteration. Every sforge-submit --details evaluates the complete frozen private suite on separate Judge GPUs and waits for the result, which takes on the order of an hour; the archive at the deadline is evaluated again on the same suite after Work ends."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/kvpress_kv_eviction_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 11000,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/kvpress_kv_eviction_v2_private.json.gz",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 64,
+    "mem_limit": "96g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "task_core": {
+      "contract_id": "kvpress-kv-eviction-policy-v2",
+      "definition": {
+        "operation": "kv_cache_eviction_policy_for_frozen_decoder",
+        "model_id": "Qwen/Qwen3-8B",
+        "n_layers": 36,
+        "n_heads": 32,
+        "n_kv_heads": 8,
+        "head_dim": 128,
+        "hidden_size": 4096,
+        "families": [
+          "retrieval",
+          "aggregation",
+          "qa",
+          "generation"
+        ],
+        "min_keep": 64,
+        "sink_floor": 4,
+        "reference_tokens": {
+          "min": 16,
+          "max": 48
+        },
+        "context_tokens": {
+          "min": 1024,
+          "max": 28672,
+          "final_min": 6144
+        },
+        "item_sources": [
+          "simonjegou/ruler",
+          "Xnhyacinth/LongBench",
+          "simonjegou/loogle",
+          "simonjegou/zero_scrolls"
+        ],
+        "ratios_per_mille": [
+          500,
+          750,
+          875
+        ]
+      },
+      "interface": {
+        "entry_point": "EvictionPolicy(spec, compression_ratio, assets).select(layer_idx, hidden_states, queries, keys, values, position_embeddings, weights, n_kept) -> int64[1,8,n_kept]",
+        "optional": "layer_budgets(seq_len, n_kept_total) -> list[int] | None",
+        "source_path": "candidates/policy_vNNN/submission.py",
+        "assets_path": "candidates/policy_vNNN/assets.pt",
+        "version_selector": "FINAL_VERSION",
+        "implementation_surface": "python_torch_source_with_static_admission"
+      },
+      "allowed_changes": [
+        "versioned policy implementations under candidates",
+        "optional assets.pt tensors (weights_only, at most 64 MiB)",
+        "FINAL_VERSION selector",
+        "notes.md"
+      ],
+      "invariants": [
+        "the model, context-only capture, compression ratios and trusted replay are frozen",
+        "Phase A (unprivileged worker, context only) emits validated indices only; Phase B (trusted) replays them with question + answer prefix without candidate code",
+        "a fresh policy instance per item and ratio; every select call receives freshly copied inputs",
+        "fidelity = exp(-mean token KL(full || compressed)); family mean, ratio geomean over four families, primary = 100 x mean over ratios",
+        "every run-wide gate is fail-closed: admitted source, valid unique indices, conserved layer budgets, immutable inputs and RNG, suite latency <= 30% and item latency <= 60% of trusted plain prefill, policy memory <= 8 GiB, finite fidelity with >= 16 reference tokens",
+        "every scored round evaluates the frozen 5,000-item final suite (full-final-shared-v2); its manifest is Judge-only and its items are rebuilt from pinned public datasets at image build",
+        "the Judge shards items across 1-8 identical GPUs; per-item computation and the score do not depend on the shard count"
+      ],
+      "resource_manifest_sha256": "sha256:dc0512a677fa9de17460cf8c8cf775d9eb3621c68c22a3cac2a89d48a0098004"
+    },
+    "evaluation_suites": {
+      "kv-eviction-v2": {
+        "roles": {
+          "public": {
+            "manifest_sha256": "sha256:4dd9e6c6cfc5f32b2cb27b1362f37f8ae39cb09fd38456c9d30f0975ea4c7bcc",
+            "case_count": 85
+          },
+          "interactive": {
+            "manifest_sha256": "sha256:bbd7870cfaf417d8a6ca283e8c400e2e3ce54dfd3caeac1d18f755c58ee5ebb5",
+            "case_count": 5000
+          },
+          "final": {
+            "manifest_sha256": "sha256:2c72a42ac2cc25e798365f37ac4efbeddad525415b068c84263529f6ed33f98b",
+            "case_count": 5000
+          }
+        },
+        "oracle": {
+          "protocol_id": "trusted-replay-fidelity-kl-v2",
+          "spec_sha256": "sha256:dd47ab185e749d5fb81fc6e86aaeadc392a2421fe2a08523ab233057d2e5436a"
+        },
+        "selection": {
+          "protocol_id": "kv-eviction-full-final-shared-v2-sharded",
+          "spec_sha256": "sha256:407ff6bfa23b874b4fdda6ee36264b507e5f6aae84c8e651f3f6ab4c867c6121"
+        }
+      }
+    },
+    "execution_profiles": {
+      "cuda-sm80-56g-sharded-judge": {
+        "vendor": "nvidia",
+        "count": 1,
+        "min_memory_bytes": 60129542144,
+        "min_compute_capability": "8.0",
+        "features": [
+          "bf16",
+          "cuda",
+          "fp32",
+          "read-only-model-mount",
+          "sdpa",
+          "sharded-judge-1-to-8-gpus"
+        ],
+        "software_abi": {
+          "protocol_id": "pytorch280-cu129-transformers4571-sdpa-v1",
+          "spec_sha256": "sha256:9088cd98d33cd307115854d00c496305bc851e302d7b19a47312aaace4f91c41"
+        },
+        "calibration_protocol": {
+          "protocol_id": "host-wall-cuda-event-max-sum-layers-v1",
+          "spec_sha256": "sha256:36a21606866488a7552a690408f133f4ccaf3ccb7871573cd5c0e6164da28109"
+        }
+      }
+    },
+    "metrics": {
+      "fidelity-auc-points": {
+        "direction": "maximize",
+        "unit": "fidelity_points",
+        "comparability": "same_measurement_profile",
+        "aggregation": {
+          "protocol_id": "ratio-mean-family-geomean-v2",
+          "spec": {
+            "formula": "100 * mean_over_ratios(geomean_over_families(mean_over_items(exp(-mean_token_kl))))",
+            "families": [
+              "retrieval",
+              "aggregation",
+              "qa",
+              "generation"
+            ],
+            "lossless_upper_bound": 100,
+            "ratios_per_mille": [
+              500,
+              750,
+              875
+            ]
+          }
+        },
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "evaluation_suite_id": "kv-eviction-v2",
+      "execution_profile_id": "cuda-sm80-56g-sharded-judge",
+      "metric_id": "fidelity-auc-points"
+    }
+  }
+}

@@ -1,0 +1,208 @@
+services:
+  main:
+    init: true
+    depends_on:
+      model-api:
+        # The host launcher supplies the backend origin before Harbor starts.
+        # Readiness remains transitively enforced by model-api's healthcheck.
+        condition: service_started
+      bench-controller:
+        condition: service_started
+    environment:
+      MODEL_API_BASE: http://127.0.0.1:8100/v1
+      ADMIN_TOKEN_FILE: /run/kvbench-admin/token
+      BRIDGE_CREDENTIAL_FILE: /run/kvbench-bridge/transport.credential
+      PUBLIC_BENCH_URL: http://bench-controller:7000
+      SUBMISSION_DIR: /app/submission
+      # Candidate-facing handles keep the task instruction independent of the
+      # release's concrete workload names and sizes.
+      KVBENCH_DEBUG_PROFILE: public-12
+      # Use a non-release alias so the copied task's continuation checkpoint
+      # path does not require the canonical six-issue release anchor.
+      KVBENCH_PUBLIC_PROFILE: public-swe192-distinct
+    volumes:
+      - verifier-control:/run/kvbench-admin:ro
+      # The shared root verifier uses this 0600 Unix socket to ask the trusted
+      # no-network worker to detach main from every external Docker network
+      # before the controller releases any held-out workload. UID 1000 cannot
+      # traverse or connect to the root-owned socket directory.
+      - sandbox-control:/run/kvbench-sandbox:ro
+      # Raw reports are written only by the trusted controller and remain
+      # root-readable backing evidence. Candidate code receives the explicit
+      # public CLI response and continuation handoff, not this volume's files.
+      - public-feedback:/app/feedback:ro
+    networks:
+      - front
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      # Used only by the root entrypoint to launch the UID 900 loopback bridge
+      # and by the shared root verifier to terminate leftover UID 1000 agent
+      # processes, take ownership of the frozen submission, and scrub mutable
+      # candidate state even if an agent created mode-000 entries. Harbor runs
+      # the agent as UID 1000; that UID has empty effective/permitted sets and
+      # NoNewPrivs=1, so it cannot acquire these root-only capabilities.
+      - CHOWN
+      - DAC_OVERRIDE
+      - KILL
+      - SETGID
+      - SETUID
+
+  model-api:
+    build:
+      context: .
+      dockerfile: model-api/Dockerfile
+    image: harbor-kv/model-api:qwen36-swe192-v24-url-v1
+    init: true
+    environment:
+      # The raw operator-supplied origin crosses exactly one trust boundary:
+      # only this narrow proxy receives it. Candidate and controllers use the
+      # internal model-api service name.
+      UPSTREAM_BASE_URL: "${KVBENCH_VLLM_BASE_URL:?set a container-reachable vLLM HTTP(S) origin}"
+      ADMIN_TOKEN_FILE: /run/kvbench-admin/token
+      AUDIT_FILE: /run/kvbench-audit/requests.jsonl
+    volumes:
+      - verifier-control:/run/kvbench-admin
+      - model-api-audit:/run/kvbench-audit
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    expose:
+      - "8100"
+    networks:
+      - front
+      - backend-egress
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test:
+        - CMD
+        - python3
+        - -c
+        - "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8100/health', timeout=2).read()"
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      # The external launcher waits for vLLM before Harbor starts. A missing or
+      # unhealthy upstream is therefore a prompt, visible environment failure.
+      start_period: 5s
+
+  bench-controller:
+    build:
+      context: ./bench-controller
+    image: harbor-kv/bench-controller:qwen36-swe192-v24-url-v1
+    init: true
+    depends_on:
+      model-api:
+        condition: service_started
+      sandbox-worker:
+        condition: service_started
+    environment:
+      BASELINE_URL: http://model-api:8100/v1
+      # runner/model.py injects the private transport credential only when the
+      # selected endpoint exactly matches this direct trusted baseline URL.
+      TRUSTED_MODEL_API_DATA_URL: http://model-api:8100/v1
+      CANDIDATE_URL: http://main:9000/v1
+      MODEL_API_URL: http://model-api:8100
+      ADMIN_TOKEN_FILE: /run/kvbench-admin/token
+      FEEDBACK_ROOT: /run/public-feedback
+      SANDBOX_SOCKET: /run/kvbench-sandbox/control.sock
+      SANDBOX_WORKSPACE_ROOT: /run/kvbench-workspaces
+      SWEBENCH_CORPUS_ROOT: /opt/kvbench-corpus
+      TRUSTED_RESULTS_ROOT: /run/kvbench-results
+      # This copied task deliberately changes the corpus contract, so the
+      # original release's Direct anchor is invalid.  The agent establishes a
+      # fresh live Direct baseline before its first pressure Candidate run.
+      RELEASE_PUBLIC_DIRECT_ANCHOR_REQUIRED: "0"
+    volumes:
+      - verifier-control:/run/kvbench-admin:ro
+      - public-feedback:/run/public-feedback
+      - sandbox-control:/run/kvbench-sandbox:ro
+      - type: bind
+        source: "${HARBOR_KVBENCH_STATE_ROOT:?run through an author wrapper}/workspaces"
+        target: /run/kvbench-workspaces
+        bind:
+          create_host_path: false
+      - trusted-benchmark-results:/run/kvbench-results
+      - type: bind
+        source: "${HARBOR_SWEBENCH_CORPUS_SOURCE:-./bench-controller/corpus-empty}"
+        target: /opt/kvbench-corpus
+        read_only: true
+        bind:
+          create_host_path: false
+    expose:
+      - "7000"
+    networks:
+      - front
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:7000/health"]
+      interval: 5s
+      timeout: 5s
+      retries: 30
+      # Controller readiness is transitively gated on the live backend
+      # contract exposed by model-api.
+      start_period: 5s
+
+  sandbox-worker:
+    build:
+      context: ./sandbox-worker
+    image: harbor-kv/sandbox-worker:qwen36-27b-tp2-public30-r2
+    init: true
+    # A fixed-window leg may own up to 192 sibling SWE containers.  Give the
+    # worker enough time to run its SIGTERM cleanup sweep; Docker's 10-second
+    # default can SIGKILL it mid-sweep and leave multi-gigabyte sandboxes alive.
+    stop_grace_period: 5m
+    network_mode: none
+    read_only: true
+    mem_limit: 8g
+    pids_limit: 1024
+    environment:
+      # Read only at verifier-time to HMAC the Docker topology attestation.
+      # Candidate/main never receives this value through the RPC protocol.
+      ADMIN_TOKEN_FILE: /run/kvbench-admin/token
+    tmpfs:
+      - /tmp:rw,nosuid,nodev,noexec,size=256m
+    volumes:
+      - sandbox-control:/run/kvbench-sandbox
+      - verifier-control:/run/kvbench-admin:ro
+      # The trusted worker is the only task service allowed to reach the host
+      # daemon. Candidate/main and bench-controller never receive this mount.
+      - /var/run/docker.sock:/var/run/docker.sock
+      - type: bind
+        source: "${HARBOR_KVBENCH_STATE_ROOT:?run through an author wrapper}/workspaces"
+        target: /run/kvbench-workspaces
+        bind:
+          create_host_path: false
+    cap_add:
+      - ALL
+    security_opt:
+      - seccomp=unconfined
+      - apparmor=unconfined
+    healthcheck:
+      test: ["CMD", "test", "-S", "/run/kvbench-sandbox/control.sock"]
+      interval: 2s
+      timeout: 2s
+      retries: 15
+
+networks:
+  # All benchmark HTTP flows are service-local.  Prevent this shared network
+  # from gaining an external default route while retaining Compose DNS.
+  front:
+    internal: true
+  # Only model-api joins this non-internal network and can reach the configured
+  # HTTP(S) serving origin. No other task service receives backend egress.
+  backend-egress: {}
+
+volumes:
+  verifier-control: {}
+  model-api-audit: {}
+  public-feedback: {}
+  sandbox-control: {}
+  trusted-benchmark-results: {}

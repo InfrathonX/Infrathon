@@ -1,0 +1,658 @@
+{
+  "schema_version": 1,
+  "contract_protocol": "minference-kernel-only-prefill-v3",
+  "suite_id": "minference-prefill-final-v3",
+  "role": "final",
+  "cases": [
+    {
+      "case_id": "final-niah_single_2-n32768-L1",
+      "task": "niah_single_2",
+      "context_budget": 32768,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L4",
+      "task": "niah_single_2",
+      "context_budget": 32768,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L15",
+      "task": "niah_single_2",
+      "context_budget": 32768,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n32768-L27",
+      "task": "niah_single_2",
+      "context_budget": 32768,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L1",
+      "task": "niah_single_2",
+      "context_budget": 65536,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L4",
+      "task": "niah_single_2",
+      "context_budget": 65536,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L15",
+      "task": "niah_single_2",
+      "context_budget": 65536,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n65536-L27",
+      "task": "niah_single_2",
+      "context_budget": 65536,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L1",
+      "task": "niah_single_2",
+      "context_budget": 131072,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L4",
+      "task": "niah_single_2",
+      "context_budget": 131072,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L15",
+      "task": "niah_single_2",
+      "context_budget": 131072,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_single_2-n131072-L27",
+      "task": "niah_single_2",
+      "context_budget": 131072,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L1",
+      "task": "niah_multikey_1",
+      "context_budget": 32768,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L4",
+      "task": "niah_multikey_1",
+      "context_budget": 32768,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L15",
+      "task": "niah_multikey_1",
+      "context_budget": 32768,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n32768-L27",
+      "task": "niah_multikey_1",
+      "context_budget": 32768,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L1",
+      "task": "niah_multikey_1",
+      "context_budget": 65536,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L4",
+      "task": "niah_multikey_1",
+      "context_budget": 65536,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L15",
+      "task": "niah_multikey_1",
+      "context_budget": 65536,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n65536-L27",
+      "task": "niah_multikey_1",
+      "context_budget": 65536,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L1",
+      "task": "niah_multikey_1",
+      "context_budget": 131072,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L4",
+      "task": "niah_multikey_1",
+      "context_budget": 131072,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L15",
+      "task": "niah_multikey_1",
+      "context_budget": 131072,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-niah_multikey_1-n131072-L27",
+      "task": "niah_multikey_1",
+      "context_budget": 131072,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n32768-L1",
+      "task": "vt",
+      "context_budget": 32768,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n32768-L4",
+      "task": "vt",
+      "context_budget": 32768,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n32768-L15",
+      "task": "vt",
+      "context_budget": 32768,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n32768-L27",
+      "task": "vt",
+      "context_budget": 32768,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n65536-L1",
+      "task": "vt",
+      "context_budget": 65536,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n65536-L4",
+      "task": "vt",
+      "context_budget": 65536,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n65536-L15",
+      "task": "vt",
+      "context_budget": 65536,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n65536-L27",
+      "task": "vt",
+      "context_budget": 65536,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n131072-L1",
+      "task": "vt",
+      "context_budget": 131072,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n131072-L4",
+      "task": "vt",
+      "context_budget": 131072,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n131072-L15",
+      "task": "vt",
+      "context_budget": 131072,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-vt-n131072-L27",
+      "task": "vt",
+      "context_budget": 131072,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n32768-L1",
+      "task": "fwe",
+      "context_budget": 32768,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n32768-L4",
+      "task": "fwe",
+      "context_budget": 32768,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n32768-L15",
+      "task": "fwe",
+      "context_budget": 32768,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n32768-L27",
+      "task": "fwe",
+      "context_budget": 32768,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n65536-L1",
+      "task": "fwe",
+      "context_budget": 65536,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n65536-L4",
+      "task": "fwe",
+      "context_budget": 65536,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n65536-L15",
+      "task": "fwe",
+      "context_budget": 65536,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n65536-L27",
+      "task": "fwe",
+      "context_budget": 65536,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n131072-L1",
+      "task": "fwe",
+      "context_budget": 131072,
+      "layer": 1,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n131072-L4",
+      "task": "fwe",
+      "context_budget": 131072,
+      "layer": 4,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n131072-L15",
+      "task": "fwe",
+      "context_budget": 131072,
+      "layer": 15,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    },
+    {
+      "case_id": "final-fwe-n131072-L27",
+      "task": "fwe",
+      "context_budget": 131072,
+      "layer": 27,
+      "trials": 3,
+      "actual_n": "per-trial real input length, 2048 <= N < context_budget",
+      "warmup_layer": 2,
+      "weight": {
+        "numerator": 1,
+        "denominator": 48
+      }
+    }
+  ],
+  "case_counts": {
+    "scored_performance": 48,
+    "total": 48,
+    "trials": 144,
+    "unique_fixtures": 0,
+    "on_demand_captures": 180
+  },
+  "input_identity": "fixed text/native token digests bound through scientific-artifacts.json; root generates and authenticates five FA2 layer captures per prompt at runtime",
+  "warmup": "one independent real layer-2 activation of same prompt and N per timed trial; input-dependent pattern/output reuse is forbidden",
+  "selection_semantics": "numerical fidelity/integrity then single-GPU throughput; identical submit/final",
+  "external_inputs": [
+    {
+      "id": "final-performance-manifest",
+      "binding": "scientific-artifacts.json#final_performance_manifest",
+      "recipe": "activations/recipe/RULER_V3_RECIPE.json",
+      "recipe_sha256": "sha256:e7b51951af71c2aeaa65bb1291e1f36efc1273bb9d6fe597548381cacfaa1062"
+    }
+  ],
+  "trials_per_group": 3,
+  "score": "equal-weight geomean over group median paired actual-N dense-equivalent TFLOPS",
+  "qualification": "requires measured v3 evidence; no v2 qualification is inherited",
+  "quality_scope": null,
+  "persistent_qkv_assets": false,
+  "implementation_status": "production migration pending",
+  "evaluation_kind": "kernel-only-v3",
+  "gpu_count": 1
+}

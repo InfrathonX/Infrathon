@@ -1,0 +1,27 @@
+{
+  "note": "Image-driving sources and local image names for scripts/infrathon/image_record.py and scripts/infrathon/pull_images.sh. The thin Judge carries no private prompt text (external assets mounted at run time), so it is published as is. The local launcher (scripts/run_local_v3.sh and its helpers) does not drive the images.",
+  "source_paths": [
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/images/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/runtime/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/judge/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/activations/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/qualification/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/references/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/tasks/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/oracle/candidates/kernel_v001/**/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/llm_judge/**/*"
+  ],
+  "exclude": [
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/run_local_v3.sh",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/local_run_lib.sh",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/sforge_local_entry_v3.py",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/restricted_proxy.py",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/scripts/bootstrap/*",
+    "tasks/latest/minference-sparse-prefill-h100-v3-seed/tasks/minference_sparse_prefill_h100_seed_v3.json"
+  ],
+  "local_tags": {
+    "work": "mlsysforge/minference-prefill-work:v3-kernel-only-thin",
+    "judge": "mlsysforge/minference-prefill-judge:v3-kernel-only-thin"
+  }
+}

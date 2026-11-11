@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "task_directory": "kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch",
+  "note": "Qwen/Qwen3-8B and the pinned Hugging Face datasets the final items are materialized from at build time (scripts/prepare_items.py) are added here in a later step, as are the Fast-KVzip checkpoints the released-weights fingerprint is computed from. The materialized items are third-party text and are not redistributed: every host rebuilds them and checks each item against the frozen manifest.",
+  "assets": [
+    {
+      "path": "judge/final_manifest.json",
+      "sha256": "d3e69ab7a4aa17fc30fc089439e6ea8be4ab473e386d9e636e793caa8aca38b9",
+      "size": 514472,
+      "consumer": "judge (build)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/needle_private.json",
+      "sha256": "51b496d2477e7c1ac7c4f4a4e607a6a9ae6c6425143a3cd4b326f1ae6b7b472e",
+      "size": 709,
+      "consumer": "judge (build)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-8B/",
+      "sha256": "e47b9aca03bbdb25886318a0f1bea76e13303f2971c21ecb8e0ffe69029172bb",
+      "size": 16397461266,
+      "files": 15,
+      "consumer": "work+judge",
+      "description": "frozen target model (KV_SCORING_MODEL_REPO, the cache repository folder)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-8B",
+        "repo_type": "model",
+        "revision": "b968826d9c46dd6066d109eabc6255188de91218"
+      }
+    },
+    {
+      "path": "public/hf/datasets--simonjegou--ruler/",
+      "sha256": "75b07fed748689ac15f438700041b793411c66cb97bae8dcb5afb51dcb820cf4",
+      "size": 281427456,
+      "files": 5,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_SCORING_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "simonjegou/ruler",
+        "repo_type": "dataset",
+        "revision": "24adceac8a0e6532936e8d721cd9e9084d2e4686"
+      }
+    },
+    {
+      "path": "public/hf/datasets--Jang-Hyun--SCBench-preprocessed/",
+      "sha256": "27106490d431fbef36e710479409759e76f3c7014b45b59bef7f84541d9680eb",
+      "size": 131877659,
+      "files": 29,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_SCORING_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Jang-Hyun/SCBench-preprocessed",
+        "repo_type": "dataset",
+        "revision": "a079be919d3131822c202180ffd4dc322968de45"
+      }
+    },
+    {
+      "path": "public/hf/datasets--rajpurkar--squad/",
+      "sha256": "cfe3832408b0cd7dc3b006602bf648fa32866a7a9a583453a6257e6eb6640e31",
+      "size": 16286997,
+      "files": 4,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_SCORING_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "rajpurkar/squad",
+        "repo_type": "dataset",
+        "revision": "7b6d24c440a36b6815f21b70d25016731768db1f"
+      }
+    },
+    {
+      "path": "public/hf/datasets--openai--gsm8k/",
+      "sha256": "83ad227893fe65ce916582ef3ebf85af9a4b468b8f77233c7949775f1007f0ea",
+      "size": 5900352,
+      "files": 7,
+      "consumer": "build",
+      "description": "source of the Judge-only final items (KV_SCORING_HF_HUB)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "openai/gsm8k",
+        "repo_type": "dataset",
+        "revision": "740312add88f781978c0658806c59bc2815b9866"
+      }
+    },
+    {
+      "path": "public/hf/models--Jang-Hyun--Fast-KVzip/",
+      "sha256": "1aebb67e9535a04893f5221e0c2d7b5bf1adf94339141820261e736c721c4f60",
+      "size": 1317465045,
+      "files": 9,
+      "consumer": "build",
+      "description": "released KV-importance weights, fingerprinted into the Judge layer (scripts/prepare_released_weights_fingerprint.py)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Jang-Hyun/Fast-KVzip",
+        "repo_type": "model",
+        "revision": "67ce1265f510a946bf22486a30269f99066b3cbb"
+      }
+    }
+  ]
+}

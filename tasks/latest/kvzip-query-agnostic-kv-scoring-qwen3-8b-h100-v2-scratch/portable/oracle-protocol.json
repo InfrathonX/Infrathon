@@ -1,0 +1,48 @@
+{
+  "acceptance": "every run-wide gate passes; otherwise the score is 0 and the result is a trusted gate failure",
+  "gates": {
+    "memory_limit_bytes": 8589934592,
+    "names": [
+      "profile_ok",
+      "suite_ok",
+      "source_ok",
+      "assets_ok",
+      "hardware_ok",
+      "scores_ok",
+      "immutable_ok",
+      "rng_ok",
+      "overhead_ok",
+      "memory_ok",
+      "metric_ok",
+      "reference_ok"
+    ],
+    "overhead_item_cap_percent": 50,
+    "overhead_item_floor": "10 x the shortest trusted prefill in the suite",
+    "overhead_suite_fraction_percent": 25
+  },
+  "integrity": [
+    "source_admission",
+    "released_weights_fingerprint",
+    "fresh_scorer_per_row",
+    "three_pass_scoring_only_the_row_pass_timed",
+    "context_only_phase_a",
+    "immutable_inputs",
+    "rng_unchanged",
+    "llm_integrity_review"
+  ],
+  "metric": {
+    "group": "mean over tasks",
+    "primary": "100 x mean over 100, 200, 300 per mille retention",
+    "ratio": "mean over retrieval, contextual_qa, redundancy",
+    "relative": "acc(task, r) / acc(task, full)",
+    "task": "mean over rows of the mean over questions of the task metric"
+  },
+  "protocol_id": "trusted-masked-decode-relative-accuracy-v2",
+  "reference": {
+    "attention": "per-layer per-KV-head context masks, system and appended positions visible",
+    "decode": "greedy, (condition, question) pairs in chunks of min(16, 40 GiB / per-sequence KV bytes)",
+    "golden": "full-cache answers recomputed every run",
+    "model": "Qwen/Qwen3-8B"
+  },
+  "schema_version": 1
+}

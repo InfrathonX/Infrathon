@@ -1,0 +1,4 @@
+7fab9eca93eb73d672ee77061d1485580acf0897ab059f6d4c0b8318b43a8930  ckpts/wan_causal_dmd_v2v/model.pt
+ab37994c43740513f94b3ba6233a784035a67b43c8cde83c8f31aa90468c67ce  wan_models/Wan2.1-T2V-1.3B/config.json
+96b6b242ca1c2f24e9d02cd6596066fab6d310e2d7538f33ae267cb18d957e8f  wan_models/Wan2.1-T2V-1.3B/diffusion_pytorch_model.safetensors
+38071ab59bd94681c686fa51d75a1968f64e470262043be31f7a094e442fd981  wan_models/Wan2.1-T2V-1.3B/Wan2.1_VAE.pth

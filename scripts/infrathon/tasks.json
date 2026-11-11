@@ -1,0 +1,203 @@
+{
+  "schema_version": 1,
+  "statuses": {
+    "qualified": "reference/oracle Judges valid on this hardware with the current task version",
+    "untested": "nothing known to prevent it (capability floors fit), but not yet qualified here",
+    "pending": "qualified before a later Judge or settings change; needs re-qualification",
+    "unsupported": "cannot run here (a capability floor above the card); no image is published"
+  },
+  "tasks": {
+    "attn-qat-nvfp4-training-attention-h100-v1-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "16 GiB floor"
+    },
+    "concurrent-agent-serving-optimizer-qwen36-swe192-v24": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "also needs the 192 public SWE-bench Lite images (scripts/stage_swebench_corpus.py, about 230 GB); the nested benchmark images are built locally"
+    },
+    "eagle3-spec-decode-engine-qwen3-8b-h100-v1-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "flash-kmeans-paper-h100-v7-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "79 GiB floor; Judge peak about 53 GiB on H100 SXM 80 GB"
+    },
+    "flux-moe-ag-scatter-grouped-gemm-dual-h100-v1-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "eight GPUs with peer access between every pair, shared by Work and the Judge; H100 NVL bridges pairs by NVLink and uses PCIe between them"
+    },
+    "kvpress-kv-eviction-policy-qwen3-8b-h100-v2-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "kvzip-query-agnostic-kv-scoring-qwen3-8b-h100-v2-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "one code path for both cards (79 GiB floor, expandable_segments on)"
+    },
+    "llada-h100-decoder-optimization-v2-vanilla-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "the Judge carries a quality reference per GPU model and selects it on-device"
+    },
+    "lmcache-paged-kv-block-transfer-h100-v1-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "miles-diffusion-sd35m-mopd-2xh100-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs; a qualification profile per card"
+    },
+    "miles-diffusion-wan22-dancegrpo-2xh100-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs; a qualification profile and private-root qualification.json per card"
+    },
+    "miles-qwen3-alfworld-agentic-rl-2xh100-v1-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs; a qualification profile per card"
+    },
+    "miles-qwen3-opcd-2xh100-v3-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs; a qualification profile per card"
+    },
+    "miles-qwen3-opd-scratch-2xh100-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs; a qualification profile per card"
+    },
+    "minference-sparse-prefill-h100-v3-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "two GPUs (launch/minference-v3)"
+    },
+    "quant-videogen-cross-model-kv-codec-h100-v4-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "79 GiB floor; on 80 GB cards LongCat leaves about 9.4 GiB above the official codec"
+    },
+    "qwen3-1p7b-orpo-training-optimizer-dual-h100-v4-cross-matrix-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "79 GiB floor; reference peak about 75,454 MiB reserved on H100 SXM 80 GB, candidate ceiling 76,985 MiB"
+    },
+    "sageattention-quantized-attention-bf16-h100-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "real-layer captures (Llama-3.1-8B, CogVideoX-2B) are dataset assets and enter only the host-built Work and Judge layers"
+    },
+    "standalone-dynamic-grouped-fp8-h100-v3-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "standalone-k-grouped-fp8-wgrad-h100-v2-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "standalone-paged-gqa-decode-bf16-h100-v2-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "standalone-sparse-mla-prefill-h100-v2-scratch": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      }
+    },
+    "streamdiffusionv2-dual-h100-pipeline-runtime-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "Judge goldens per card: the locally built holdout layer differs, the published images do not"
+    },
+    "tilelang-mamba2-ssd-forward-h100-v2-seed": {
+      "release": "r1",
+      "hardware": {
+        "h100-94gb-400w": "qualified",
+        "h100-80gb-700w": "qualified"
+      },
+      "note": "73 GiB floor; peak 72.6 GiB"
+    }
+  }
+}

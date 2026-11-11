@@ -1,0 +1,11 @@
+{
+  "aggregation": "per layer the slowest of the item's three ratio calls, summed over layers",
+  "clock": "max_of_synchronized_host_wall_and_cuda_event_per_layer_select",
+  "comparability": "same_measurement_profile",
+  "fresh_process": "per shard: Phase A and Phase B are separate processes on the same GPU",
+  "inputs": "fresh copies of the per-item tensors for every timed select call, after one untimed select pass per ratio on random tensors with the item's shapes; fresh policy instance per item and ratio",
+  "latency_reference": "trusted plain prefill of the same context re-measured in Phase B on the same device",
+  "protocol_id": "host-wall-cuda-event-slowest-ratio-v2",
+  "schema_version": 1,
+  "warmup": "one untimed fully gated select pass over all layers per ratio on a 2048-token random decoy"
+}

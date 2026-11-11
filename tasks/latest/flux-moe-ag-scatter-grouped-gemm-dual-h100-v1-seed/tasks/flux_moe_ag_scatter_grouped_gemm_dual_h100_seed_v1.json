@@ -1,0 +1,79 @@
+{
+  "task_id": "flux_moe_ag_scatter_grouped_gemm_dual_h100_seed_v1",
+  "name": "Flux-derived MoE AG Scatter Grouped GEMM on Eight H100s Seeded Lab v2",
+  "category": "GPU / Machine Learning Systems",
+  "base_image": "pytorch280_cu129",
+  "platform": "linux/amd64",
+  "internet": true,
+  "cwd": "/app/workdir/moe_ag_lab",
+  "submit_paths": [
+    "candidates",
+    "FINAL_VERSION",
+    "notes.md"
+  ],
+  "submit_exclude": [
+    ".git/",
+    ".codex/",
+    "auth.json",
+    "*.auth.json",
+    "build/",
+    "tools/",
+    "tests/",
+    "judge/",
+    "__pycache__/"
+  ],
+  "candidate_identity_exclude": [
+    "notes.md"
+  ],
+  "version_enumeration": {
+    "root": "candidates",
+    "directory_pattern": "kernel_v([0-9]{3})",
+    "selector_file": "FINAL_VERSION"
+  },
+  "work": {
+    "image_tag": "local",
+    "specs_dir": "/app/workdir/moe_ag_lab",
+    "cpu_limit": 32,
+    "mem_limit": "128g",
+    "agent_query": "Read AGENT_TASK.md and README_AGENT.md before changing code. Starting from the correct seed in candidates/kernel_v001, optimize the exact fourteen-argument MoE all-gather, scatter and grouped GEMM ABI, which runs on 2 to 8 GPUs at once, with self-contained Triton, correct across the whole support domain and passing all accuracy gates. Your score comes from a larger hidden test suite on the Judge, which differs from the public tests; the public tests are for development and profiling. Your final result is the best valid score you reach within the time budget, so keep versioned candidates and leave FINAL_VERSION on your strongest clean candidate. Before finishing, run the full public suite once on the selected version:\n\n```bash\ntools/run_public_tests.sh --candidate-version N\n```\n\nEvaluate candidates only by the feedback from the public tests and your submissions; upstream implementations may not be copied into the submission, and Judge internals are unavailable. Before each manual submission, wait for all public-test and compiler workers to exit, then run sforge-submit --details; each Judge run pauses your container and uses part of your budget."
+  },
+  "judge": {
+    "image_tag": "local",
+    "eval_cmd": "python3 /opt/flux_moe_ag_judge/run_judge.py --app-dir /app --log-dir /logs/verifier",
+    "eval_timeout": 7200,
+    "parser": "structured_json",
+    "private_artifact_path": "/logs/verifier/flux_moe_ag_v2_results.json",
+    "score_direction": "maximize",
+    "selection": "valid_then_score",
+    "cpu_limit": 32,
+    "mem_limit": "128g"
+  },
+  "portable": {
+    "schema_version": 1,
+    "execution_profiles": {
+      "octo-cuda-sm80-64g-p2p": {
+        "vendor": "nvidia",
+        "count": 8,
+        "min_memory_bytes": 68719476736,
+        "min_compute_capability": "8.0",
+        "notes": "Capability envelope enforced by the trusted runtime and Judge verifier; GPU model, UUID and clocks are recorded as measurement provenance only. Work and the Judge share the eight GPUs and Work is paused while the Judge measures.",
+        "interconnect": "CUDA peer access between every GPU pair; qualified both with NVLink between all pairs (NVSwitch, NV18) and with NVLink-bridged pairs (NV12) reached over PCIe from the other pairs",
+        "features": [
+          "cuda",
+          "bf16",
+          "triton",
+          "torch.distributed._symmetric_memory"
+        ]
+      }
+    },
+    "metrics": {
+      "primary": {
+        "comparability": "same_measurement_profile",
+        "baseline_policy": "none"
+      }
+    },
+    "defaults": {
+      "execution_profile_id": "octo-cuda-sm80-64g-p2p"
+    }
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "task_directory": "qwen3-4b-to-1p7b-gkd-distillation-optimizer-dual-h100-v1-official-trl-seed",
+  "note": "The models (Hugging Face Qwen3 at pinned revisions) and the TL;DR preference data are mounted read-only at run time and are added here in a later step. private_data/hidden_cases.json is Judge-only and goes into the host-built Judge holdout layer.",
+  "assets": [
+    {
+      "path": "judge/private_data/hidden_cases.json",
+      "sha256": "f497f6365e241fd0c5015571529b730baf44d5a98492a79776a932bcb7d4003d",
+      "size": 13459,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-1.7B/",
+      "sha256": "a3ae656ec42b2fd03262c7e3bd0b4ca0c12cc0443bfe2499c55e33152a814a48",
+      "size": 4079450110,
+      "files": 12,
+      "consumer": "work+judge",
+      "description": "student (GKD_STUDENT_MODEL_HOST_PATH)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-1.7B",
+        "repo_type": "model",
+        "revision": "70d244cc86ccca08cf5af4e1e306ecf908b1ad5e"
+      }
+    },
+    {
+      "path": "public/hf/models--Qwen--Qwen3-4B/",
+      "sha256": "3d1c26944d87b4f8429cb66ca40fa5fd190fc9adf8bd58e07f625b3471891101",
+      "size": 8060926626,
+      "files": 13,
+      "consumer": "work+judge",
+      "description": "teacher (GKD_TEACHER_MODEL_HOST_PATH)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen3-4B",
+        "repo_type": "model",
+        "revision": "1cfa9a7208912126459214e8b04321603b3df60c"
+      }
+    },
+    {
+      "path": "judge/tldr_gkd_v1/",
+      "sha256": "56fdff1b8ed109a5d2c8ed904e4c9a22d64c497bf23220932e72f2256b1d5196",
+      "size": 8858231,
+      "files": 14,
+      "consumer": "work+judge",
+      "description": "TL;DR GKD data (scripts/prepare_tldr_gkd_data.py): Work mounts public/, the Judge the private partitions (GKD_DATA_HOST_ROOT, GKD_PRIVATE_DATA_HOST_ROOT)",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "readable": true
+    }
+  ]
+}

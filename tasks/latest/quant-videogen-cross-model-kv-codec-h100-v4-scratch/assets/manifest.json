@@ -1,0 +1,361 @@
+{
+  "schema_version": 1,
+  "task_directory": "quant-videogen-cross-model-kv-codec-h100-v4-scratch",
+  "note": "Everything QVG_ARTIFACT_ROOT holds. Models come from their Hugging Face repositories at pinned revisions (hf, layout local-dir, so each tree keeps the revision records scripts/verify_models.py reads), the four git checkouts from their repositories at pinned commits (.git kept), the eight VBench/LPIPS weights from their URLs; the public and hidden evaluation inputs are dataset assets. assets/fetch.sh then assembles the artifact root from these (scripts/assemble_artifact_root.py). assets/public_prompts.txt in this directory is a Work image input, not part of this manifest.",
+  "assets": [
+    {
+      "path": "judge/h100_scratch_v4_release.json",
+      "sha256": "b7449b06180ea03aaaa02e02325fad19b4dd0933815f8a7f790d43e3b9048103",
+      "size": 29595,
+      "consumer": "judge",
+      "source": {
+        "kind": "infrathon-dataset"
+      },
+      "description": "the frozen release shared by every device class: case table, BF16 readings, gates, budgets and the Judge slot plan"
+    },
+    {
+      "path": "public/staging/self-forcing/Wan2.1-T2V-1.3B/",
+      "sha256": "2caeb8fa86551d3a23cc7fd6a2aee714d851df2e2fad0cbbd93ee52fd8234066",
+      "size": 17573837064,
+      "files": 22,
+      "consumer": "work",
+      "description": "Wan2.1 T2V 1.3B DiT, VAE and umT5-XXL (Apache-2.0); Work /opt/qvg-src/ckpts/Self-Forcing",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Wan-AI/Wan2.1-T2V-1.3B",
+        "repo_type": "model",
+        "revision": "37ec512624d61f7aa208f7ea8140a131f93afc9a",
+        "layout": "local-dir"
+      }
+    },
+    {
+      "path": "public/staging/self-forcing/Self-Forcing/",
+      "sha256": "50995849a9efbd4b27218b60b464969de41a0cb6df1794274758cd3d3e7a62fb",
+      "size": 5676252553,
+      "files": 1,
+      "consumer": "work",
+      "description": "Self-Forcing DMD checkpoint (Apache-2.0)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "gdhe17/Self-Forcing",
+        "repo_type": "model",
+        "revision": "2f8b779212da279d212c22a509b66ad6552f350e",
+        "layout": "local-dir",
+        "allow_patterns": [
+          "checkpoints/self_forcing_dmd.pt"
+        ]
+      }
+    },
+    {
+      "path": "public/staging/longcat/LongCat-Video/",
+      "sha256": "d699487d9fc63763493bc761a6dcb248f55ae5b5a321735b676a69391d308599",
+      "size": 83309801928,
+      "files": 30,
+      "consumer": "judge",
+      "description": "LongCat-Video 13B (MIT); Judge /models/hidden/longcat",
+      "source": {
+        "kind": "hf",
+        "repo_id": "meituan-longcat/LongCat-Video",
+        "repo_type": "model",
+        "revision": "03b55529b1d1d4045f5fbe14d65c8c6e8116b278",
+        "layout": "local-dir"
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/HY-WorldPlay/",
+      "sha256": "f6b648fdf49570e0b656a84f4f8042e007d289f5009c885cda2f35124128056b",
+      "size": 34231948208,
+      "files": 1,
+      "consumer": "judge",
+      "description": "HY-WorldPlay AR distilled action model (Tencent HY-WorldPlay Community License)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "tencent/HY-WorldPlay",
+        "repo_type": "model",
+        "revision": "f4c29235647707b571479a69b569e4166f9f5bf8",
+        "layout": "local-dir",
+        "allow_patterns": [
+          "ar_distilled_action_model/model.safetensors"
+        ]
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/HunyuanVideo-1.5/",
+      "sha256": "b7cdc4f0281614965eae3b29aeced3db5975186d7a321c8aaa9cf3e6f8ba667a",
+      "size": 38349194956,
+      "files": 5,
+      "consumer": "judge",
+      "description": "HunyuanVideo-1.5 backbone subset (Tencent Hunyuan Community License)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "tencent/HunyuanVideo-1.5",
+        "repo_type": "model",
+        "revision": "9b49404b3f5df2a8f0b31df27a0c7ab872e7b038",
+        "layout": "local-dir",
+        "allow_patterns": [
+          "vae/*",
+          "scheduler/*",
+          "transformer/480p_i2v/*"
+        ]
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/Qwen2.5-VL-7B-Instruct/",
+      "sha256": "46f05ffcc6127a4caa9a3e8c11ddf298b9a5263c8680afe6b5d017ea91702c8b",
+      "size": 16595981281,
+      "files": 16,
+      "consumer": "judge",
+      "description": "HY-WorldPlay text encoder (Apache-2.0)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "Qwen/Qwen2.5-VL-7B-Instruct",
+        "repo_type": "model",
+        "revision": "cc594898137f460bfe9f0759e9844b3ce807cfb5",
+        "layout": "local-dir"
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/byt5-small/",
+      "sha256": "0f49eced30a21aff40050ae40c4ebbbc0d8766ea32b776f406d3d8407e73c0f4",
+      "size": 1198633721,
+      "files": 4,
+      "consumer": "judge",
+      "description": "ByT5 glyph text encoder (Apache-2.0)",
+      "source": {
+        "kind": "hf",
+        "repo_id": "google/byt5-small",
+        "repo_type": "model",
+        "revision": "68377bdc18a2ffec8a0533fef03b1c513a4dd49d",
+        "layout": "local-dir",
+        "allow_patterns": [
+          "config.json",
+          "pytorch_model.bin",
+          "special_tokens_map.json",
+          "tokenizer_config.json"
+        ]
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/FLUX.1-Redux-dev/",
+      "sha256": "720253b1187fd3b34c51c4c650cdc72da799cd90138c9f394bdf580f36b1fd0b",
+      "size": 1115068289,
+      "files": 11,
+      "consumer": "judge",
+      "description": "SigLIP vision encoder (FLUX.1 [dev] Non-Commercial License); gated: accept the licence and `hf auth login` first",
+      "source": {
+        "kind": "hf",
+        "repo_id": "black-forest-labs/FLUX.1-Redux-dev",
+        "repo_type": "model",
+        "revision": "c95859fbf7703ca4d6824b4da4407d7cd0434f81",
+        "layout": "local-dir"
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-8b/Glyph-SDXL-v2/",
+      "sha256": "678cc32b76ac6544581160c60e3ba3ee6d90aa1cdd1e4a1990d60122a7f05ba3",
+      "size": 1923231763,
+      "files": 43,
+      "consumer": "judge",
+      "description": "Glyph-ByT5 mapper, byt5 model and UNet LoRA from ModelScope (Git LFS: needs git-lfs)",
+      "source": {
+        "kind": "git",
+        "url": "https://www.modelscope.cn/AI-ModelScope/Glyph-SDXL-v2.git",
+        "commit": "b51a8604c03c9a4e71a389f4c7deeb526320f2e6",
+        "lfs": true
+      }
+    },
+    {
+      "path": "public/staging/hy-worldplay-official/",
+      "sha256": "4703d68e68dbcf7205f07cba8877752d6c822858a32a11ce7fbbdf38dcfb5fb9",
+      "size": 34183724,
+      "files": 531,
+      "consumer": "maintainers",
+      "description": "official HY-WorldPlay repository: the HY case images and captions scripts/stage_eval_inputs.py reads (Tencent HY-WorldPlay Community License); not mounted",
+      "source": {
+        "kind": "git",
+        "url": "https://github.com/Tencent-Hunyuan/HY-WorldPlay.git",
+        "commit": "1588e1336e842b03b0a7860c654ebd7c46bb065e"
+      }
+    },
+    {
+      "path": "public/staging/vbench/",
+      "sha256": "828a125aa78695576496f8f7161aa183af95b559bd2ec313cb27484e02217249",
+      "size": 261150279,
+      "files": 3315,
+      "consumer": "work+judge",
+      "description": "VBench evaluator source (Apache-2.0); /opt/vbench",
+      "source": {
+        "kind": "git",
+        "url": "https://github.com/Vchitect/VBench.git",
+        "commit": "45e79ec14e69a2187202c675d2dbce1a71843d53"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/dino_model/facebookresearch_dino_main/",
+      "sha256": "8be2f81ff85a730562d063056bb6fe84749c5244c35a597ae7841c88eec80611",
+      "size": 25915592,
+      "files": 18,
+      "consumer": "work+judge",
+      "description": "DINO model definition VBench loads with source='local' (Apache-2.0)",
+      "source": {
+        "kind": "git",
+        "url": "https://github.com/facebookresearch/dino.git",
+        "commit": "7c446df5b9f45747937fb0d72314eb9f7b66930a"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/clip_model/ViT-B-32.pt",
+      "sha256": "40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af",
+      "size": 353976522,
+      "consumer": "work+judge",
+      "description": "CLIP ViT-B/32 (MIT)",
+      "source": {
+        "kind": "url",
+        "url": "https://openaipublic.azureedge.net/clip/models/40d365715913c9da98579312b702a82c18be219cc2a73407c4526f58eba950af/ViT-B-32.pt"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/clip_model/ViT-L-14.pt",
+      "sha256": "b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836",
+      "size": 932768134,
+      "consumer": "work+judge",
+      "description": "CLIP ViT-L/14 (MIT)",
+      "source": {
+        "kind": "url",
+        "url": "https://openaipublic.azureedge.net/clip/models/b8cca3fd41ae0c99ba7e8951adf17d267cdb84cd88be6f7c2e0eca1737a03836/ViT-L-14.pt"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/dino_model/dino_vitbase16_pretrain.pth",
+      "sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+      "size": 343242485,
+      "consumer": "work+judge",
+      "description": "DINO ViT-B/16 for VBench's local DINO path (Apache-2.0)",
+      "source": {
+        "kind": "url",
+        "url": "https://dl.fbaipublicfiles.com/dino/dino_vitbase16_pretrain/dino_vitbase16_pretrain.pth"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/torch/hub/checkpoints/dino_vitbase16_pretrain.pth",
+      "sha256": "bf34ad0f424b9029b593e8dc3ed553bf26e88bcba0d32bf3e62a6209cb64c85e",
+      "size": 343242485,
+      "consumer": "work+judge",
+      "description": "the same DINO ViT-B/16 for the torch.hub path",
+      "source": {
+        "kind": "url",
+        "url": "https://dl.fbaipublicfiles.com/dino/dino_vitbase16_pretrain/dino_vitbase16_pretrain.pth"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/aesthetic_model/emb_reader/sa_0_4_vit_l_14_linear.pth",
+      "sha256": "2cd4e60f4f24ae3bcd57b847b13c1f3ba27edc28cc1a7f9ce74ee9f421243cba",
+      "size": 4071,
+      "consumer": "work+judge",
+      "description": "LAION aesthetic head (MIT); the URL follows a branch, the sha256 pins it",
+      "source": {
+        "kind": "url",
+        "url": "https://raw.githubusercontent.com/LAION-AI/aesthetic-predictor/main/sa_0_4_vit_l_14_linear.pth"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/pyiqa_model/musiq_spaq_ckpt-358bb6af.pth",
+      "sha256": "358bb6af275e28ea56821d44fb55c6cb83645db11f394d3ad65b2d149965ab50",
+      "size": 108610983,
+      "consumer": "work+judge",
+      "description": "MUSIQ-SPAQ for VBench imaging quality",
+      "source": {
+        "kind": "url",
+        "url": "https://github.com/chaofengc/IQA-PyTorch/releases/download/v0.1-weights/musiq_spaq_ckpt-358bb6af.pth"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/torch/hub/checkpoints/alexnet-owt-7be5be79.pth",
+      "sha256": "7be5be791159472b1fbf3c69796f7cb30dca7ad8466c2df70058c37116cdee02",
+      "size": 244408911,
+      "consumer": "work+judge",
+      "description": "AlexNet for LPIPS (BSD-3-Clause)",
+      "source": {
+        "kind": "url",
+        "url": "https://download.pytorch.org/models/alexnet-owt-7be5be79.pth"
+      }
+    },
+    {
+      "path": "public/staging/vbench-cache/torch/hub/checkpoints/vgg16-397923af.pth",
+      "sha256": "397923af8e79cdbb6a7127f12361acd7a2f83e06b05044ddf496e83de57a5bf0",
+      "size": 553433881,
+      "consumer": "work+judge",
+      "description": "VGG16 for the QVG LPIPS (BSD-3-Clause)",
+      "source": {
+        "kind": "url",
+        "url": "https://download.pytorch.org/models/vgg16-397923af.pth"
+      }
+    },
+    {
+      "path": "hw/h100-94gb-400w/public-eval/",
+      "sha256": "81de1dbda8608bfaefc99c82b447aefbd4416c1d5a4476aa571c4b912248b3e1",
+      "size": 3928210179,
+      "files": 33,
+      "consumer": "work",
+      "description": "public Self-Forcing reference outputs for the public diagnostics (/eval/public); generated on H100 NVL by scripts/stage_eval_inputs.py --only public-eval",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-94gb-400w/judge/hidden/",
+      "sha256": "002d9b3daf23a89ecaeb8e68726d32f2ce020ea500bf707b78aa3d8915c93293",
+      "size": 5741600903,
+      "files": 36,
+      "consumer": "judge",
+      "readable": true,
+      "description": "hidden case inputs and BF16 goldens (/eval/hidden, mounted read-only into the Judge): the prompt suite, the 6 release-bound LongCat init videos, the 11 HY case images and the 17 goldens, every file pinned in the release config",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-94gb-400w/judge/h100_scratch_v4_quality.json",
+      "sha256": "593c70d6116ee25ad4b990040cd4dc49d8ad3fe9f49aa8dc6152eff620f33a9f",
+      "size": 2423,
+      "consumer": "judge",
+      "description": "quality reference (the official Quant-VideoGen codec's case means, the zero point of q) and the oracle's score band, measured on H100 NVL (two full Judge runs); staged beside the release into the host-built Judge holdout layer",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-80gb-700w/public-eval/",
+      "sha256": "81de1dbda8608bfaefc99c82b447aefbd4416c1d5a4476aa571c4b912248b3e1",
+      "size": 3928210179,
+      "files": 33,
+      "consumer": "work",
+      "description": "public Self-Forcing reference outputs for the public diagnostics (/eval/public); generated on H100 NVL by scripts/stage_eval_inputs.py --only public-eval; the same files as hw/h100-94gb-400w (generated on H100 NVL): the BF16 goldens are frozen data, and the official codec's fidelity on H100 SXM matched them (HY bit-identical, LongCat within 0.03 dB)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-80gb-700w/judge/hidden/",
+      "sha256": "002d9b3daf23a89ecaeb8e68726d32f2ce020ea500bf707b78aa3d8915c93293",
+      "size": 5741600903,
+      "files": 36,
+      "consumer": "judge",
+      "readable": true,
+      "description": "hidden case inputs and BF16 goldens (/eval/hidden, mounted read-only into the Judge): the prompt suite, the 6 release-bound LongCat init videos, the 11 HY case images and the 17 goldens, every file pinned in the release config; the same files as hw/h100-94gb-400w (generated on H100 NVL): the BF16 goldens are frozen data, and the official codec's fidelity on H100 SXM matched them (HY bit-identical, LongCat within 0.03 dB)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "hw/h100-80gb-700w/judge/h100_scratch_v4_quality.json",
+      "sha256": "48e8f6b61aaf2a86c348d85c115dea5fe2b56eeb1215a90a4f6624533fb9e637",
+      "size": 2615,
+      "consumer": "judge",
+      "description": "quality reference (the official Quant-VideoGen codec's case means, the zero point of q) and the oracle's score band, measured on H100 SXM 80 GB (two full Judge runs); staged beside the release into the host-built Judge holdout layer",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "public_base_accuracy_per_repeat": [
+    0.328125,
+    0.296875,
+    0.203125
+  ],
+  "note": "The original Qwen3-1.7B under the Judge's quality protocol on the 64 public test questions (21 / 19 / 13 correct), for comparing the perf suite's accuracy. 64 questions are noisy, and a perf run has too few optimizer steps to show learning: neither predicts the score."
+}

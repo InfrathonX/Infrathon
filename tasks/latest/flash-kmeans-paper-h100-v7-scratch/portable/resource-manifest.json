@@ -1,0 +1,24 @@
+{
+  "boundary": {
+    "excludes": "Dockerfiles, dockerignore files, cooperative handoff and launcher/build machinery; those are delivery inputs in build-resource-manifest.json",
+    "includes": "authoritative agent-facing task prompt, public suite implementation and runner, protected hashes, hidden case/verifier/Judge adapter, and benchmark/metric modules",
+    "kind": "scientific_task_resources"
+  },
+  "resources": [
+    {"path": "images/work/AGENT_TASK.md", "sha256": "sha256:f112759688837f7fc0c4b501a0ba2fe0402f2f285a2f9efe7f1889e04f6c7e4f"},
+    {"path": "images/work/workdir/flash_kmeans_lab/README_AGENT.md", "sha256": "sha256:3b83842dfa10fcdd7bf6cd3145308e3f884e47cedeb061a560a39a2173647783"},
+    {"path": "images/work/public_tests/run_public_tests.sh", "sha256": "sha256:c940467486469f03710c9d45b769032daa58e6515bd6824f1be77cac02729f51"},
+    {"path": "images/judge/benchmark/benchmark_cases.py", "sha256": "sha256:2a7673517dd89c658542635a8c09d8bc407f9bd434bc56e5bf24faef5da9f936"},
+    {"path": "images/judge/benchmark/deployment_bench.py", "sha256": "sha256:8ce265f052d0842a975b6e3e885d63327d25325b8e46a765ff23036a31659e52"},
+    {"path": "images/judge/benchmark/kernel_bench.py", "sha256": "sha256:2feea89cbac192eae4b4bb1320e9b3242b87e1fc2ad1b7a89ea6be6b6a253477"},
+    {"path": "images/judge/benchmark/source_admission.py", "sha256": "sha256:358e51d756b6811e32c3ff1d76e6349d80d64cf8eab6db5e9883826bb1f62fa1"},
+    {"path": "images/judge/hidden_cases.py", "sha256": "sha256:a8a56b4e8375e431553cf0dfb118b017fb8ea93961d1d9b097a5f06a53502d97"},
+    {"path": "images/judge/protected_hashes.txt", "sha256": "sha256:96582b520ead945aeb5ae3dbbd8e1bb236a01a2510b48aca2d226f35ff728242"},
+    {"path": "images/judge/run_judge.py", "sha256": "sha256:f339ba8b866365612b1b2d698661307b587aa0d6db34ca541e945069248af97d"},
+    {"path": "judge/run_judge.py", "sha256": "sha256:f339ba8b866365612b1b2d698661307b587aa0d6db34ca541e945069248af97d"},
+    {"path": "images/judge/verify_flash_kmeans.py", "sha256": "sha256:786a9975d85c010b64120b6dd26d22f19a78d0f9f2ac46602b1e0bd37db6d029"},
+    {"path": "images/work/public_tests/public_fresh_worker.py", "sha256": "sha256:1ca23441ae5f40a36ef88852af9d2db651d830322beed827fbaedc902e46deba"},
+    {"path": "images/work/public_tests/public_test.py", "sha256": "sha256:73e13b70f193a89d0f1c37a232d441f57fcb542b8e88bde92b63f46b573440af"}
+  ],
+  "schema_version": 1
+}
