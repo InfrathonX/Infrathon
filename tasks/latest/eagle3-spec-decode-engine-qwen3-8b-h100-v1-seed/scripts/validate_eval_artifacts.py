@@ -15,8 +15,11 @@ from typing import Any
 
 MAX_JSON_BYTES = 32 * 1024 * 1024
 MAX_ARCHIVE_BYTES = 64 * 1024 * 1024
-MAX_ARCHIVE_MEMBERS = 1024
+# The harness's own cap (SUBMISSION_ARCHIVE_MAX_MEMBERS, sforge/harness/run_evaluation.py):
+# a run keeps every version, so archives that the Judge scored can hold thousands of files.
+MAX_ARCHIVE_MEMBERS = 20_000
 MAX_MEMBER_BYTES = 1024 * 1024
+# Per selected version, as the Judge's source admission counts it (images/judge/verifier).
 MAX_LOGICAL_BYTES = 16 * 1024 * 1024
 ALLOWED_TOP_LEVEL = {"solutions", "FINAL_VERSION", "notes.md"}
 ALLOWED_SOURCE_SUFFIXES = {
@@ -137,6 +140,7 @@ def validate_archive(path: Path, expected_sha256: str) -> dict[str, Any]:
     versions: set[str] = set()
     names: set[str] = set()
     logical_bytes = 0
+    version_bytes: dict[str, int] = {}
     selector: bytes | None = None
     with tarfile.open(path, mode="r:gz") as archive:
         members = archive.getmembers()
@@ -167,8 +171,6 @@ def validate_archive(path: Path, expected_sha256: str) -> dict[str, Any]:
                     f"archive member exceeds its size limit: {canonical_name!r}"
                 )
             logical_bytes += member.size
-            if logical_bytes > MAX_LOGICAL_BYTES:
-                raise ValueError("submission archive exceeds its logical-size limit")
             allowed_root_file = canonical_name in {"FINAL_VERSION", "notes.md"}
             allowed_source = (
                 len(canonical.parts) >= 3
@@ -184,6 +186,10 @@ def validate_archive(path: Path, expected_sha256: str) -> dict[str, Any]:
                 files.add(canonical_name)
             if len(canonical.parts) >= 2 and canonical.parts[0] == "solutions":
                 versions.add(canonical.parts[1])
+                if member.isfile():
+                    version_bytes[canonical.parts[1]] = (
+                        version_bytes.get(canonical.parts[1], 0) + member.size
+                    )
             if canonical_name == "FINAL_VERSION":
                 stream = archive.extractfile(member)
                 if stream is None:
@@ -197,6 +203,8 @@ def validate_archive(path: Path, expected_sha256: str) -> dict[str, Any]:
     selected_candidate = f"solutions/{selected_version}/candidate.py"
     if selected_version not in versions or selected_candidate not in files:
         raise ValueError("FINAL_VERSION selects a missing candidate.py")
+    if version_bytes.get(selected_version, 0) > MAX_LOGICAL_BYTES:
+        raise ValueError("the selected version exceeds its logical-size limit")
     return {
         "path": str(path.resolve()),
         "sha256": observed,

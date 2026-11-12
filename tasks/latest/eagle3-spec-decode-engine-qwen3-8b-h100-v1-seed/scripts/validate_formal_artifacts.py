@@ -35,6 +35,23 @@ SINGLE_GPU_MAX_JUDGE_DRAIN_SECONDS = 7200.0
 _FINAL_HANDOFF_SUBMISSION_ID = __import__("re").compile(r"^final-[0-9a-f]{12}$")
 
 
+def _frozen_before_capture(snapshot: dict[str, Any], elapsed: float, runtime: float) -> bool:
+    """A whole-container snapshot is taken from the stopped container: every Work
+    process stopped at the freeze, and the recorded runtime runs on to the start
+    of the capture.  Accept the gap between freeze and capture, but only when the
+    record proves nothing ran in it (the same rule as the LMCache task)."""
+    freeze = snapshot.get("freeze")
+    capture = snapshot.get("capture")
+    if (snapshot.get("snapshot_boundary") != "whole_container_frozen"
+            or not isinstance(freeze, dict) or not isinstance(capture, dict)
+            or freeze.get("all_work_processes_stopped") is not True
+            or capture.get("work_container_running_during_capture") is not False):
+        return False
+    frozen = finite_number(freeze.get("frozen_elapsed_seconds"), "freeze.frozen_elapsed_seconds")
+    started = finite_number(capture.get("started_elapsed_seconds"), "capture.started_elapsed_seconds")
+    return abs(frozen - elapsed) <= 1.0 and frozen <= started and started + 1.0 >= runtime
+
+
 def _single_gpu_seal_boundary(snapshot, runtime, budget_seconds, tolerance, finite, error):
     """Validate the seal/snapshot/runtime ordering of a single-GPU run.
 
@@ -292,7 +309,9 @@ def validate_pre_final(args: argparse.Namespace) -> dict[str, Any]:
     if getattr(args, "evaluation_mode", EVALUATION_MODE) == SINGLE_GPU_EVALUATION_MODE:
         _single_gpu_seal_boundary(snapshot, runtime, args.budget_seconds, 60.0, lambda v: finite_number(v, "single-GPU boundary"), ValueError)
     else:
-        if abs(elapsed - args.budget_seconds) > 60 or elapsed + 1.0 < runtime:
+        if abs(elapsed - args.budget_seconds) > 60 or (
+            elapsed + 1.0 < runtime and not _frozen_before_capture(snapshot, elapsed, runtime)
+        ):
             raise ValueError("final snapshot is outside the fixed-budget boundary")
     recorded_archive_digest = snapshot.get("archive_sha256")
     if (
