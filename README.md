@@ -1,13 +1,48 @@
 <h1 align="center">Infrathon</h1>
 
-<p align="center"><b>Benchmarking language agents for real-world, long-horizon AI infra optimization</b></p>
+<p align="center"><b>Benchmarking Language Agents for Real-World, Long-Horizon AI Infra Optimization</b></p>
+
+<p align="center">
+  <a href="https://huzhengyu477.github.io/">Zhengyu&nbsp;Hu</a><sup>1</sup>,
+  <a href="https://zxia545.github.io/">Zheyuan&nbsp;Xiao</a><sup>1</sup>,
+  <a href="https://yikee.github.io/">Yike&nbsp;Wang</a><sup>1,2</sup>,
+  <a href="https://ivison.id.au/">Hamish&nbsp;Ivison</a><sup>1</sup>,
+  <a href="https://why2011btv.github.io/">Haoyu&nbsp;Wang</a><sup>3</sup>,
+  <a href="https://yuanyige.github.io/">Yige&nbsp;Yuan</a><sup>1</sup>,
+  <a href="https://rulinshao.github.io/">Rulin&nbsp;Shao</a><sup>1</sup>,
+  <a href="https://yuetl9.github.io/">Yuetai&nbsp;Li</a><sup>1</sup>,
+  <a href="https://pyromind.ai/">Niqi&nbsp;Lyu</a><sup>4</sup>,
+  <a href="https://pyromind.ai/">Yicheng&nbsp;Ding</a><sup>4*</sup>,
+  <a href="https://shuyhere.github.io/">Shu&nbsp;Yang</a><sup>5</sup>,
+  <a href="https://zhichenzzz.github.io/">Zhichen&nbsp;Zeng</a><sup>1,6</sup>,
+  <a href="https://banghua.me/">Banghua&nbsp;Zhu</a><sup>1,6</sup>,
+  <a href="https://jiaxin-pei.github.io/">Jiaxin&nbsp;Pei</a><sup>5,7</sup>,
+  <a href="https://kaize0409.github.io/">Kaize&nbsp;Ding</a><sup>8</sup>,
+  <a href="https://pdasigi.github.io/">Pradeep&nbsp;Dasigi</a><sup>2</sup>,
+  <a href="https://www.cis.upenn.edu/~danroth/">Dan&nbsp;Roth</a><sup>3</sup>,
+  <a href="https://hannaneh.ai/">Hannaneh&nbsp;Hajishirzi</a><sup>1</sup>,
+  <a href="https://nasmith.github.io/">Noah&nbsp;A.&nbsp;Smith</a><sup>1,2</sup>,
+  <a href="https://tengxiao1.github.io/">Teng&nbsp;Xiao</a><sup>1,2*†</sup>,
+  <a href="https://people.ece.uw.edu/radha/">Radha&nbsp;Poovendran</a><sup>1*</sup>
+</p>
+
+<p align="center">
+  <sup>1</sup>University of Washington &nbsp;
+  <sup>2</sup>Allen Institute for AI &nbsp;
+  <sup>3</sup>University of Pennsylvania &nbsp;
+  <sup>4</sup>Pyromind Dynamics &nbsp;
+  <sup>5</sup>Stanford University &nbsp;
+  <sup>6</sup>RadixArk &nbsp;
+  <sup>7</sup>The University of Texas at Austin &nbsp;
+  <sup>8</sup>Northwestern University
+  <br><sup>†</sup>Project leader &nbsp; <sup>*</sup>Corresponding authors
+</p>
 
 <p align="center">
   <a href="https://arxiv.org/abs/2611.11995"><img src="https://img.shields.io/badge/arXiv-2611.11995-b31b1b?logo=arxiv&logoColor=white" alt="arXiv paper"></a>
-  <a href="https://infrathonx.github.io"><img src="https://img.shields.io/badge/Website-infrathonx.github.io-0969da?logo=googlechrome&logoColor=white" alt="Website"></a>
-  <a href="https://huggingface.co/datasets/Infrathon/Infrathon"><img src="https://img.shields.io/badge/Dataset-Infrathon%2FInfrathon-ffcc4d?logo=huggingface&logoColor=black" alt="Hugging Face dataset"></a>
-  <a href="https://hub.docker.com/r/infrathon/infrathon"><img src="https://img.shields.io/badge/Docker%20Hub-infrathon%2Finfrathon-2496ED?logo=docker&logoColor=white" alt="Docker Hub images"></a>
-  <a href="https://github.com/InfrathonX/Infrathon-build"><img src="https://img.shields.io/badge/Build%20tasks-Infrathon--build-24292f?logo=github&logoColor=white" alt="Infrathon-build"></a>
+  <a href="https://infrathonx.github.io"><img src="https://img.shields.io/badge/Homepage-0969da?logo=googlechrome&logoColor=white" alt="Homepage"></a>
+  <a href="https://huggingface.co/datasets/Infrathon/Infrathon"><img src="https://img.shields.io/badge/Dataset-ffcc4d?logo=huggingface&logoColor=black" alt="Hugging Face dataset"></a>
+  <a href="https://hub.docker.com/r/infrathon/infrathon"><img src="https://img.shields.io/badge/Docker%20Hub-2496ED?logo=docker&logoColor=white" alt="Docker Hub images"></a>
 </p>
 
 <p align="center"><b>25 tasks</b> · <b>12–24 hours</b> per run · <b>6 frontier agents</b> · <b>150 runs, 10,000+ H100 GPU-hours</b></p>

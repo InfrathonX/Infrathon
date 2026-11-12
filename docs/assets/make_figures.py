@@ -474,11 +474,7 @@ def overview() -> str:
     out.append(drawn_path(tl, step, ax0, ax1, p0, p1, "fill: none; stroke: var(--judge); stroke-width: 2.4; "
                                                     "stroke-linejoin: round"))
     out.append(f'<path d="M{ax0} {by1} H{ax1}" class="line"/>')
-    for t, y, good in ((result[0], lv1, True), (result[1], by1 - 10, False), (result[2], lv3, True)):
-        cls = tl.anim(hold_from(tl, t, "opacity: 1; transform: scale(1)", "opacity: 0; transform: scale(0.3)", 0.2),
-                      "transform-box: fill-box; transform-origin: center;")
-        mark = check_mark(at(t), y, "--ok", 8) if good else cross_mark(at(t), y, "--bad", 8)
-        out.append(f'<g class="{cls}">{mark}</g>')
+    # No ✓/✗ marks here: the Controller and the Judge above already show each result.
     out.append(playhead(tl, ax0, ax1, by0 - 6, by1, p0, p1, 0.55))
     best = tl.anim(hold_from(tl, 13.6, "opacity: 1", "opacity: 0.0", 0.3))
     out.append(f'<g class="{best}"><text x="{ax1 - 14}" y="{lv3 - 12:.1f}" text-anchor="end" style="font-size: 12.5px; '

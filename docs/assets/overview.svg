@@ -141,16 +141,10 @@
   .o56 { animation: o56k 15.0s linear infinite;  }
   @keyframes o57k { 0.000% { opacity: 0 } 13.327% { opacity: 0 } 13.667% { opacity: 1 } 99.667% { opacity: 1 } 100.000% { opacity: 0 } }
   .o57 { animation: o57k 15.0s linear infinite;  }
-  @keyframes o58k { 0.000% { opacity: 0; transform: scale(0.3) } 46.660% { opacity: 0; transform: scale(0.3) } 48.000% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
-  .o58 { animation: o58k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
-  @keyframes o59k { 0.000% { opacity: 0; transform: scale(0.3) } 65.327% { opacity: 0; transform: scale(0.3) } 66.667% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
-  .o59 { animation: o59k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
-  @keyframes o60k { 0.000% { opacity: 0; transform: scale(0.3) } 89.327% { opacity: 0; transform: scale(0.3) } 90.667% { opacity: 1; transform: scale(1) } 97.667% { opacity: 1; transform: scale(1) } 100.000% { opacity: 0; transform: scale(0.3) } }
-  .o60 { animation: o60k 15.0s linear infinite; transform-box: fill-box; transform-origin: center; }
-  @keyframes o61k { 0.000% { transform: translateX(0px) } 13.333% { transform: translateX(0px) } 93.333% { transform: translateX(716.0px) } 100.000% { transform: translateX(716.0px) } }
-  .o61 { animation: o61k 15.0s linear infinite;  }
-  @keyframes o62k { 0.000% { opacity: 0.0 } 90.660% { opacity: 0.0 } 92.667% { opacity: 1 } 97.667% { opacity: 1 } 100.000% { opacity: 0.0 } }
-  .o62 { animation: o62k 15.0s linear infinite;  }
+  @keyframes o58k { 0.000% { transform: translateX(0px) } 13.333% { transform: translateX(0px) } 93.333% { transform: translateX(716.0px) } 100.000% { transform: translateX(716.0px) } }
+  .o58 { animation: o58k 15.0s linear infinite;  }
+  @keyframes o59k { 0.000% { opacity: 0.0 } 90.660% { opacity: 0.0 } 92.667% { opacity: 1 } 97.667% { opacity: 1 } 100.000% { opacity: 0.0 } }
+  .o59 { animation: o59k 15.0s linear infinite;  }
 </style>
 <rect x="0.5" y="0.5" width="999" height="547" rx="16" style="fill: var(--bg); stroke: var(--line)"/>
 <g class="o42"><circle r="6.5" class="o43" style="fill: var(--work); stroke: var(--bg); stroke-width: 2"/></g>
@@ -288,9 +282,6 @@
 <rect x="916.2" y="435.2" width="35.8" height="82.8" class="o55" style="fill: var(--judge); opacity: 0; fill-opacity: 0.12"/>
 <g class="o57"><path d="M236.0 518.0 L534.3 518.0 L534.3 479.4 L916.2 479.4 L916.2 435.2 L952.0 435.2" class="o56" style="fill: none; stroke: var(--judge); stroke-width: 2.4; stroke-linejoin: round; stroke-dasharray: 800.8 800.8"/></g>
 <path d="M236 518 H952" class="line"/>
-<g class="o58"><circle cx="534.3333333333334" cy="479.36" r="8" style="fill: var(--ok)"/><path d="M530.7333333333333 479.36 l2.64 2.64 l4.4 -5.2" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
-<g class="o59"><circle cx="701.4000000000001" cy="508" r="8" style="fill: var(--bad)"/><path d="M698.3600000000001 504.96 L704.44 511.04 M704.44 504.96 L698.3600000000001 511.04" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round"/></g>
-<g class="o60"><circle cx="916.2" cy="435.2" r="8" style="fill: var(--ok)"/><path d="M912.6 435.2 l2.64 2.64 l4.4 -5.2" style="fill: none; stroke: var(--bg); stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round"/></g>
-<line x1="236" y1="408" x2="236" y2="518" class="o61" style="stroke: var(--text); stroke-width: 1.3; opacity: 0.55"/>
-<g class="o62"><text x="938" y="423.2" text-anchor="end" style="font-size: 12.5px; font-weight: 650; fill: var(--judge)">the run's result: its best valid score</text></g>
+<line x1="236" y1="408" x2="236" y2="518" class="o58" style="stroke: var(--text); stroke-width: 1.3; opacity: 0.55"/>
+<g class="o59"><text x="938" y="423.2" text-anchor="end" style="font-size: 12.5px; font-weight: 650; fill: var(--judge)">the run's result: its best valid score</text></g>
 </svg>
