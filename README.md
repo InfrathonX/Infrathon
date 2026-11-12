@@ -41,6 +41,7 @@
 <p align="center">
   <a href="https://arxiv.org/abs/2611.11995"><img src="https://img.shields.io/badge/arXiv-2611.11995-b31b1b?logo=arxiv&logoColor=white" alt="arXiv paper"></a>
   <a href="https://infrathonx.github.io"><img src="https://img.shields.io/badge/Homepage-0969da?logo=googlechrome&logoColor=white" alt="Homepage"></a>
+  <a href="https://infrathonx.github.io/blog.html"><img src="https://img.shields.io/badge/Blog-8250df?logo=data:image/svg%2Bxml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJ3aGl0ZSIgc3Ryb2tlLXdpZHRoPSIyIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2UtbGluZWNhcD0icm91bmQiPjxwYXRoIGQ9Ik01IDNoMTBsNCA0djE0SDV6IE0xNSAzdjVoNCBNOCAxMmg4IE04IDE2aDgiLz48L3N2Zz4=" alt="Blog"></a>
   <a href="https://huggingface.co/datasets/Infrathon/Infrathon"><img src="https://img.shields.io/badge/Dataset-ffcc4d?logo=huggingface&logoColor=black" alt="Hugging Face dataset"></a>
   <a href="https://hub.docker.com/r/infrathon/infrathon"><img src="https://img.shields.io/badge/Docker%20Hub-2496ED?logo=docker&logoColor=white" alt="Docker Hub images"></a>
 </p>
