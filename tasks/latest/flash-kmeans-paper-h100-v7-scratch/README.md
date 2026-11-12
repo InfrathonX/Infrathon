@@ -164,7 +164,7 @@ comparable only within one hardware type.
 
    ```bash
    launch/flash-kmeans/run.sh --model <model-id> [--work-gpu N --judge-gpu M] \
-     [--auth ~/.codex/auth.json] [--tmux]
+     [--auth ~/.codex/auth.json] [--agent claude-code --claude-token FILE] [--dry-run] [--tmux]
    ```
 
    Defaults: Work on GPU 0, Judge on GPU 1, 12 hours, effort `max`, Judge port
@@ -173,6 +173,7 @@ comparable only within one hardware type.
    `--gpu N` (default 0) or `--device-uuid UUID` (full UUID from `nvidia-smi -L`);
    either flag alone also selects shared mode.
    `--judge-port` must be unique among concurrent runs on a host.
+   `--dry-run` resolves and checks the plan without starting anything.
    `run.sh --help` lists all options.
 
    Replay saved candidates of a finished run:
@@ -182,10 +183,11 @@ comparable only within one hardware type.
    (`JUDGE_GPU` defaults to 2).
 
 Prerequisites the launcher checks: an SForge checkout, Docker access, an agent
-runtime (Codex CLI, built with `launch/build-agent-runtime.sh`), and model
-credentials: a mode-0600 Codex `auth.json` (`CODEX_AUTH_JSON_PATH` or `--auth`),
-or an OpenAI-compatible endpoint (`MODEL_API_BASE_URL` with
-`MODEL_API_KEY_FILE`). The required LLM integrity review is configured with
+runtime (Codex CLI, or Claude Code with `--agent claude-code`, built with
+`launch/build-agent-runtime.sh`), and model credentials: a mode-0600 Codex
+`auth.json` (`CODEX_AUTH_JSON_PATH` or `--auth`), a mode-0600 Claude Code OAuth
+token file (`--claude-token`, with `--agent claude-code`), or an
+OpenAI-compatible endpoint (`MODEL_API_BASE_URL` with `MODEL_API_KEY_FILE`). The required LLM integrity review is configured with
 `SFORGE_LLM_JUDGE_*` settings (see `launch/mlsysforge.env.example`). The Work
 container reaches the network only through a restricted proxy.
 

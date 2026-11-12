@@ -175,7 +175,9 @@ TFLOPS scores can only be compared within one hardware type.
      `--lease-id` are optional scheduler IDs for shared mode, derived when they are omitted.
    - Other options: `--run-id`, `--cpuset`, and `--config FILE` for a launch config (see
      `launch/mlsysforge.env.example`).
-   - `--model` takes any Codex model ID, or any model that `MODEL_API_BASE_URL` serves.
+   - `--agent claude-code` with `--claude-token FILE` runs Claude Code instead of Codex.
+   - `--model` takes any Codex or Claude model ID, or any model that `MODEL_API_BASE_URL`
+     serves.
    - `--dry-run` checks the model, runtime, images, integrity review, GPU and port, prints the
      plan and exits. It takes no lock and starts no container.
    - **Eval only:** `PHYSICAL_GPU=<index> tasks/latest/standalone-paged-gqa-decode-bf16-h100-v2-scratch/scripts/eval_archive.sh ARCHIVE.tar.gz [RUN_ID]`
@@ -190,10 +192,10 @@ TFLOPS scores can only be compared within one hardware type.
 
 - the SForge harness;
 - a version store (`SFORGE_VERSION_STORE_ROOT`, with this task registered);
-- an agent runtime directory (`SFORGE_AGENT_RUNTIME_DIR`, the Codex CLI built by
+- an agent runtime directory (`SFORGE_AGENT_RUNTIME_DIR`, the Codex or Claude Code CLI built by
   `launch/build-agent-runtime.sh`, at the version pinned in `launch/common.sh`);
-- model credentials: a Codex `auth.json` (mode 0600), or an OpenAI-compatible endpoint
-  through `MODEL_API_BASE_URL`/`MODEL_API_KEY_FILE`;
+- model credentials: a Codex `auth.json` (mode 0600), a Claude Code token file, or an
+  OpenAI-compatible endpoint through `MODEL_API_BASE_URL`/`MODEL_API_KEY_FILE`;
 - a ready LLM integrity review: `SFORGE_LLM_JUDGE_MODE=enforce` and the other
   `SFORGE_LLM_JUDGE_*` reviewer settings. The launcher refuses to start
   without them;

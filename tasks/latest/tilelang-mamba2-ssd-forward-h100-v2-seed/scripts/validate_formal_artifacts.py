@@ -395,6 +395,7 @@ def validate_pre_final(
     evaluation_mode: str = EVALUATION_MODE,
     expected_manifest_sha256: str,
     expected_case_count: int,
+    agent: str = "codex",
 ) -> dict[str, Any]:
     root = _directory(task_root, "task root")
     if evaluation_mode not in EVALUATION_MODES:
@@ -420,7 +421,7 @@ def validate_pre_final(
     )
 
     expected = {
-        "agent": "codex",
+        "agent": agent,
         "task": task_id,
         "run_id": run_id,
         "model": model,
@@ -821,6 +822,7 @@ def _parser() -> argparse.ArgumentParser:
     pre.add_argument("--run-id", required=True)
     pre.add_argument("--task-id", required=True)
     pre.add_argument("--model", required=True)
+    pre.add_argument("--agent", choices=("codex", "claude-code"), default="codex")
     pre.add_argument("--budget-seconds", required=True, type=int)
     pre.add_argument("--interval-seconds", required=True, type=int)
     pre.add_argument("--expected-manifest-sha256", required=True)
@@ -897,6 +899,7 @@ def main(argv: list[str] | None = None) -> int:
                 evaluation_mode=args.evaluation_mode,
                 expected_manifest_sha256=args.expected_manifest_sha256,
                 expected_case_count=args.expected_case_count,
+                agent=args.agent,
             )
         else:
             try:

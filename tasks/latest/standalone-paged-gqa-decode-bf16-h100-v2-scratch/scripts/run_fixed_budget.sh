@@ -15,6 +15,12 @@ require_command sha256sum
 require_command ss
 
 AUTH_JSON="${CODEX_AUTH_JSON_PATH:-}"
+# MLSYSFORGE_AGENT=claude-code (launch/standalone-paged-gqa-v2/run.sh --agent
+# claude-code) drives the pinned Claude Code runtime with a 0600 file holding
+# one `claude setup-token` OAuth token (CLAUDE_OAUTH_TOKEN_FILE); the isolated
+# entry binds it through sforge/harness/agent/claude_local.py.
+AGENT_NAME="${MLSYSFORGE_AGENT:-codex}"
+CLAUDE_TOKEN_FILE="${CLAUDE_OAUTH_TOKEN_FILE:-}"
 # Optional OpenAI-compatible model API (e.g. a self-hosted DeepSeek behind
 # sglang/vLLM).  With MODEL_API_BASE_URL set, Codex authenticates with the key
 # in MODEL_API_KEY_FILE against that endpoint instead of the ChatGPT auth.json
@@ -73,6 +79,14 @@ case "${REASONING_EFFORT}" in
   high|max|xhigh|ultra) ;;
   *) die "unsupported reasoning effort: ${REASONING_EFFORT}" ;;
 esac
+case "${AGENT_NAME}" in
+  codex) ;;
+  claude-code)
+    [[ -z "${MODEL_API_BASE_URL}" ]] || die "Claude Code uses its OAuth token; unset MODEL_API_BASE_URL"
+    [[ "${REASONING_EFFORT}" != ultra ]] || die "Claude Code efforts are high|xhigh|max"
+    ;;
+  *) die "MLSYSFORGE_AGENT must be codex or claude-code" ;;
+esac
 for numeric_name in TASK_TIMEOUT EVAL_INTERVAL FINAL_EVAL_TIMEOUT; do
   numeric_value="${!numeric_name}"
   [[ "${numeric_value}" =~ ^[0-9]+$ && "$((10#${numeric_value}))" -gt 0 ]] \
@@ -102,6 +116,9 @@ if [[ -n "${MODEL_API_BASE_URL}" ]]; then
   assert_private_auth_file "${MODEL_API_KEY_FILE}"
   MODEL_API_KEY="$(tr -d '[:space:]' < "${MODEL_API_KEY_FILE}")"
   [[ -n "${MODEL_API_KEY}" ]] || die "MODEL_API_KEY_FILE is empty"
+elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+  [[ -n "${CLAUDE_TOKEN_FILE}" ]] || die "set CLAUDE_OAUTH_TOKEN_FILE"
+  assert_private_auth_file "${CLAUDE_TOKEN_FILE}"
 else
   [[ -n "${AUTH_JSON}" ]] || die "set CODEX_AUTH_JSON_PATH"
   assert_private_auth_file "${AUTH_JSON}"
@@ -182,10 +199,15 @@ runtime_version="$(jq -er '.version' "${runtime_marker}")"
 runtime_tree_sha256="$(jq -er '.tree_sha256' "${runtime_marker}")"
 [[ "${runtime_kind}" == "sforge-agent-runtime" ]] \
   || die "invalid agent runtime marker: ${runtime_marker}"
-[[ "${runtime_agent}" == "codex" ]] \
-  || die "formal run requires a codex runtime, found: ${runtime_agent}"
-[[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
-  || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+[[ "${runtime_agent}" == "${AGENT_NAME}" ]] \
+  || die "formal ${AGENT_NAME} run requires a ${AGENT_NAME} runtime, found: ${runtime_agent}"
+if [[ "${AGENT_NAME}" == "codex" ]]; then
+  [[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
+    || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+else
+  # No Codex CLI in a Claude Code run; the runtime marker pins Claude Code.
+  CODEX_CLI_VERSION=""
+fi
 export SFORGE_AGENT_RUNTIME_DIR="${AGENT_RUNTIME_DIR}"
 
 assert_built_images_current
@@ -216,6 +238,8 @@ if [[ "${SFORGE_LAUNCH_DRY_RUN:-0}" == "1" ]]; then
   fi
   if [[ -n "${MODEL_API_BASE_URL}" ]]; then
     dry_credential="model API ${MODEL_API_BASE_URL} (key file ${MODEL_API_KEY_FILE})"
+  elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+    dry_credential="Claude OAuth token file ${CLAUDE_TOKEN_FILE}"
   else
     dry_credential="Codex auth ${AUTH_JSON}"
   fi
@@ -227,7 +251,7 @@ if [[ "${SFORGE_LAUNCH_DRY_RUN:-0}" == "1" ]]; then
     dry_gpu+=" [index,used: ${dry_used:-?}]"
   fi
   echo "Dry run (no lock, container or GPU work): ${RUN_ID}"
-  echo "  agent:        codex ${MODEL} effort=${REASONING_EFFORT} runtime ${AGENT_RUNTIME_DIR} (${runtime_version})"
+  echo "  agent:        ${AGENT_NAME} ${MODEL} effort=${REASONING_EFFORT} runtime ${AGENT_RUNTIME_DIR} (${runtime_version})"
   echo "  credential:   ${dry_credential}"
   echo "  budget:       ${TASK_TIMEOUT}s; auto-eval off; manual submit cooldown ${EVAL_INTERVAL}s; final Judge timeout ${FINAL_EVAL_TIMEOUT}s"
   echo "  GPU:          ${dry_gpu}"
@@ -557,9 +581,16 @@ unset \
 if [[ -n "${MODEL_API_BASE_URL}" ]]; then
   export SFORGE_AGENT_API_BASE_URL="http://${restricted_proxy_ip}:${MODEL_FORWARD_PORT}${model_api_path}"
   export SFORGE_AGENT_API_KEY="${MODEL_API_KEY}"
+elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+  unset SFORGE_CODEX_AUTH_JSON_PATH
+  export MLSYSFORGE_CLAUDE_OAUTH_TOKEN_FILE="${CLAUDE_TOKEN_FILE}"
 else
   export SFORGE_CODEX_AUTH_JSON_PATH="${AUTH_JSON}"
 fi
+# Read by sforge_isolated_entry.py (claude_local.install_from_environment).
+export MLSYSFORGE_AGENT="${AGENT_NAME}" MLSYSFORGE_AGENT_MODEL="${MODEL}"
+export MLSYSFORGE_AGENT_EFFORT="${REASONING_EFFORT}" MLSYSFORGE_AGENT_BUDGET_SECONDS="${TASK_TIMEOUT}"
+export MLSYSFORGE_RUN_LOG_ROOT="${RUN_LOG_ROOT}"
 # The isolated entry refuses any Work network that is not this internal one;
 # the Work container receives only the restricted sidecar as its proxy.
 export SFORGE_ISOLATED_DOCKER_NETWORK="${isolated_network}"
@@ -685,6 +716,7 @@ jq -n \
   --arg run_id "${RUN_ID}" \
   --arg started_at "$(date -u +%FT%TZ)" \
   --arg task_id "${TASK_ID}" \
+  --arg agent "${AGENT_NAME}" \
   --arg model "${MODEL}" \
   --arg effort "${REASONING_EFFORT}" \
   --arg cli_version "${CODEX_CLI_VERSION}" \
@@ -730,6 +762,7 @@ jq -n \
     run_id: $run_id,
     task_id: $task_id,
     started_at: $started_at,
+    agent: $agent,
     model: $model,
     reasoning_effort: $effort,
     codex_cli_version: $cli_version,
@@ -805,7 +838,7 @@ experiment_manifest_sha256="sha256:$(
 )"
 
 echo "Starting ${RUN_ID}"
-echo "  model: ${MODEL} (${REASONING_EFFORT})"
+echo "  agent: ${AGENT_NAME}; model: ${MODEL} (${REASONING_EFFORT})"
 echo "  Work budget: ${TASK_TIMEOUT}s; autojudge disabled; manual Judge cooldown ${EVAL_INTERVAL}s"
 echo "  scheduling: ${scheduling_mode}"
 echo "  Work GPU: ${WORK_GPU} (${work_gpu_uuid})"
@@ -825,7 +858,7 @@ run_logged_command "${RUN_LOG_ROOT}/sforge-run.log" \
   "${PYTHON_BIN}" "${ISOLATED_ENTRY}" run \
   --backend docker \
   --task "${TASK_ID}" \
-  --agent codex \
+  --agent "${AGENT_NAME}" \
   --model "${MODEL}" \
   --timeout "${TASK_TIMEOUT}" \
   --eval-interval "${EVAL_INTERVAL}" \
@@ -893,6 +926,7 @@ write_command_json_atomically \
   --task-root "${TASK_RUN_ROOT}" \
   --run-id "${RUN_ID}" \
   --task-id "${TASK_ID}" \
+  --agent "${AGENT_NAME}" \
   --model "${MODEL}" \
   --budget-seconds "${TASK_TIMEOUT}" \
   --interval-seconds "${EVAL_INTERVAL}" \

@@ -814,6 +814,7 @@ def validate_pre_final(
     budget_seconds: int,
     interval_seconds: int,
     evaluation_mode: str = EVALUATION_MODE,
+    agent: str = "codex",
 ) -> dict[str, Any]:
     """Validate all main-run artifacts and return their integrity evidence."""
     task_root = _require_directory(task_root, "task root")
@@ -845,7 +846,7 @@ def validate_pre_final(
     )
 
     expected_identity = {
-        "agent": "codex",
+        "agent": agent,
         "task": task_id,
         "run_id": run_id,
         "model": model,
@@ -1268,6 +1269,7 @@ def _build_parser() -> argparse.ArgumentParser:
     pre.add_argument("--task-root", required=True, type=Path)
     pre.add_argument("--run-id", required=True)
     pre.add_argument("--task-id", required=True)
+    pre.add_argument("--agent", choices=("codex", "claude-code"), default="codex")
     pre.add_argument("--model", required=True)
     pre.add_argument("--budget-seconds", required=True, type=int)
     pre.add_argument("--interval-seconds", required=True, type=int)
@@ -1340,6 +1342,7 @@ def main(argv: list[str] | None = None) -> int:
                 budget_seconds=args.budget_seconds,
                 interval_seconds=args.interval_seconds,
                 evaluation_mode=args.evaluation_mode,
+                agent=args.agent,
             )
         else:
             try:

@@ -3,7 +3,8 @@
 # every Judge (the agent's submissions and the independent final) on JUDGE_GPU.
 # launch/minference-v3/run.sh is the user entry; this script is the task side.
 #
-#   agent run:  Codex in the Work container for TASK_TIMEOUT, manual submissions
+#   agent run:  Codex (or Claude Code, MLSYSFORGE_AGENT=claude-code) in the Work
+#               container for TASK_TIMEOUT, manual submissions
 #               to a host Judge server (cooldown EVAL_INTERVAL), then the final
 #               Judge of the final archive
 #   EVAL_ARCHIVE=FILE: no agent; FILE goes through the final Judge path only
@@ -33,6 +34,12 @@ RESTRICTED_PROXY_SOURCE="${SCRIPT_DIR}/restricted_proxy.py"
 EVAL_ARCHIVE="${EVAL_ARCHIVE:-}"
 SKIP_INTEGRITY_REVIEW="${SKIP_INTEGRITY_REVIEW:-0}"
 AUTH_JSON="${CODEX_AUTH_JSON_PATH:-}"
+# MLSYSFORGE_AGENT=claude-code (launch/minference-v3/run.sh --agent claude-code)
+# drives the pinned Claude Code runtime with a 0600 file holding one
+# `claude setup-token` OAuth token (CLAUDE_OAUTH_TOKEN_FILE); the local entry
+# binds it through sforge/harness/agent/claude_local.py.
+AGENT_NAME="${MLSYSFORGE_AGENT:-codex}"
+CLAUDE_TOKEN_FILE="${CLAUDE_OAUTH_TOKEN_FILE:-}"
 # Optional OpenAI-compatible model API, relayed as raw TCP by the sidecar (see
 # the kernel launchers); the key travels as a file path, never on a command line.
 MODEL_API_BASE_URL="${MODEL_API_BASE_URL:-}"
@@ -80,6 +87,14 @@ else
     high|max|xhigh|ultra) ;;
     *) die "unsupported reasoning effort: ${REASONING_EFFORT}" ;;
   esac
+  case "${AGENT_NAME}" in
+    codex) ;;
+    claude-code)
+      [[ -z "${MODEL_API_BASE_URL}" ]] || die "Claude Code uses its OAuth token; unset MODEL_API_BASE_URL"
+      [[ "${REASONING_EFFORT}" != ultra ]] || die "Claude Code efforts are high|xhigh|max"
+      ;;
+    *) die "MLSYSFORGE_AGENT must be codex or claude-code" ;;
+  esac
   (( TASK_TIMEOUT >= 90 && TASK_TIMEOUT > EVAL_INTERVAL && TASK_TIMEOUT % 60 == 0 && EVAL_INTERVAL % 60 == 0 )) \
     || die "timeout and evaluation interval must be minute-aligned, the timeout at least 90 s and longer than the interval"
   RUN_ID="${RUN_ID:-minference-v3-h100-${model_slug}-${REASONING_EFFORT}-$(((TASK_TIMEOUT + 59) / 60))m-${RUN_STAMP}}"
@@ -103,6 +118,9 @@ if [[ -z "${EVAL_ARCHIVE}" ]]; then
     assert_private_auth_file "${MODEL_API_KEY_FILE}"
     MODEL_API_KEY="$(tr -d '[:space:]' < "${MODEL_API_KEY_FILE}")"
     [[ -n "${MODEL_API_KEY}" ]] || die "MODEL_API_KEY_FILE is empty"
+  elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+    [[ -n "${CLAUDE_TOKEN_FILE}" ]] || die "set CLAUDE_OAUTH_TOKEN_FILE"
+    assert_private_auth_file "${CLAUDE_TOKEN_FILE}"
   else
     [[ -n "${AUTH_JSON}" ]] || die "set CODEX_AUTH_JSON_PATH"
     assert_private_auth_file "${AUTH_JSON}"
@@ -114,11 +132,16 @@ if [[ -z "${EVAL_ARCHIVE}" ]]; then
   [[ -d "${AGENT_RUNTIME_DIR}" && ! -L "${AGENT_RUNTIME_DIR}" && -f "${runtime_marker}" ]] \
     || die "agent runtime directory is missing or unmarked: ${AGENT_RUNTIME_DIR}"
   [[ "$(jq -er '.kind' "${runtime_marker}")" == sforge-agent-runtime \
-     && "$(jq -er '.agent' "${runtime_marker}")" == codex ]] \
-    || die "SFORGE_AGENT_RUNTIME_DIR must be a codex runtime: ${AGENT_RUNTIME_DIR}"
+     && "$(jq -er '.agent' "${runtime_marker}")" == "${AGENT_NAME}" ]] \
+    || die "SFORGE_AGENT_RUNTIME_DIR must be a ${AGENT_NAME} runtime: ${AGENT_RUNTIME_DIR}"
   runtime_version="$(jq -er '.version' "${runtime_marker}")"
-  [[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
-    || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+  if [[ "${AGENT_NAME}" == "codex" ]]; then
+    [[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
+      || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+  else
+    # No Codex CLI in a Claude Code run; the runtime marker pins Claude Code.
+    CODEX_CLI_VERSION=""
+  fi
   export SFORGE_AGENT_RUNTIME_DIR="${AGENT_RUNTIME_DIR}"
   task_internet="$(jq -r '.internet' "${TASKS_DIR}/${TASK_ID}.json")"
   case "${task_internet}" in
@@ -139,7 +162,8 @@ if (( ! SKIP_INTEGRITY_REVIEW )); then
 from sforge.harness.llm_judge.config import load_llm_judge_config
 config = load_llm_judge_config()
 config.check_ready()
-print(f"{config.mode} {config.engine} {config.agent} {config.model} effort={config.reasoning_effort}")
+print(f"{config.mode} {config.engine} {config.agent} {config.model} effort={config.reasoning_effort} "
+      f"runtime={config.agent_runtime_dir}")
 PY
   )" || die "integrity review is not ready: ${review_summary##*$'\n'}"
   echo "Integrity review: ${review_summary}"
@@ -165,7 +189,14 @@ if [[ "${SFORGE_LAUNCH_DRY_RUN:-0}" == "1" ]]; then
   if [[ -n "${EVAL_ARCHIVE}" ]]; then
     echo "  mode:     final Judge of ${EVAL_ARCHIVE} (integrity review $([[ ${SKIP_INTEGRITY_REVIEW} == 1 ]] && echo skipped || echo on))"
   else
-    echo "  agent:    codex ${MODEL} effort=${REASONING_EFFORT} runtime ${AGENT_RUNTIME_DIR} (${runtime_version})"
+    echo "  agent:    ${AGENT_NAME} ${MODEL} effort=${REASONING_EFFORT} runtime ${AGENT_RUNTIME_DIR} (${runtime_version})"
+    if [[ -n "${MODEL_API_BASE_URL}" ]]; then
+      echo "  credential: model API ${MODEL_API_BASE_URL} (key file ${MODEL_API_KEY_FILE})"
+    elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+      echo "  credential: Claude OAuth token file ${CLAUDE_TOKEN_FILE}"
+    else
+      echo "  credential: Codex auth ${AUTH_JSON}"
+    fi
     echo "  budget:   ${TASK_TIMEOUT}s; manual submissions, cooldown ${EVAL_INTERVAL}s; final Judge timeout ${FINAL_EVAL_TIMEOUT}s"
     echo "  Work GPU: ${WORK_GPU} (${work_gpu_uuid}); judge port ${JUDGE_PORT}; internet=${task_internet}"
   fi
@@ -407,9 +438,16 @@ unset SFORGE_AGENT_API_KEY SFORGE_AGENT_API_BASE_URL SFORGE_AGENT_MODEL SFORGE_A
 if [[ -n "${MODEL_API_BASE_URL}" ]]; then
   export SFORGE_AGENT_API_BASE_URL="http://${restricted_proxy_ip}:${MODEL_FORWARD_PORT}${model_api_path}"
   export SFORGE_AGENT_API_KEY="${MODEL_API_KEY}"
+elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+  unset SFORGE_CODEX_AUTH_JSON_PATH
+  export MLSYSFORGE_CLAUDE_OAUTH_TOKEN_FILE="${CLAUDE_TOKEN_FILE}"
 else
   export SFORGE_CODEX_AUTH_JSON_PATH="${AUTH_JSON}"
 fi
+# Read by sforge_local_entry_v3.py (claude_local.install_from_environment).
+export MLSYSFORGE_AGENT="${AGENT_NAME}" MLSYSFORGE_AGENT_MODEL="${MODEL}"
+export MLSYSFORGE_AGENT_EFFORT="${REASONING_EFFORT}" MLSYSFORGE_AGENT_BUDGET_SECONDS="${TASK_TIMEOUT}"
+export MLSYSFORGE_RUN_LOG_ROOT="${RUN_LOG_ROOT}"
 export SFORGE_ISOLATED_DOCKER_NETWORK="${isolated_network}"
 export SFORGE_HTTP_PROXY="http://${restricted_proxy_ip}:3128"
 export SFORGE_HTTPS_PROXY="http://${restricted_proxy_ip}:3128"
@@ -420,6 +458,7 @@ export SFORGE_AGENT_EXTRA_ENV="NVIDIA_VISIBLE_DEVICES=${work_gpu_uuid},CUDA_VISI
 
 jq -n \
   --arg run_id "${RUN_ID}" --arg started_at "$(date -u +%FT%TZ)" --arg task_id "${TASK_ID}" \
+  --arg agent "${AGENT_NAME}" \
   --arg model "${MODEL}" --arg effort "${REASONING_EFFORT}" --arg cli_version "${CODEX_CLI_VERSION}" \
   --arg work_gpu_uuid "${work_gpu_uuid}" --arg judge_gpu_uuid "${judge_gpu_uuid}" \
   --arg work_image_id "${work_image_id}" --arg judge_image_id "${judge_image_id}" \
@@ -428,7 +467,7 @@ jq -n \
   --arg model_asset "${MODEL_ASSET}" \
   --argjson timeout "${TASK_TIMEOUT}" --argjson eval_interval "${EVAL_INTERVAL}" --argjson internet "${task_internet}" \
   '{schema_version: 1, run_id: $run_id, task_id: $task_id, started_at: $started_at,
-    model: $model, reasoning_effort: $effort, codex_cli_version: $cli_version,
+    agent: $agent, model: $model, reasoning_effort: $effort, codex_cli_version: $cli_version,
     timeout_seconds: $timeout, scheduled_auto_evaluation: false, agent_submission_cooldown_seconds: $eval_interval,
     final_evaluation: "independent final Judge of the final archive (phase final, round final-1)",
     work_gpu_uuid: $work_gpu_uuid, judge_gpu_uuid: $judge_gpu_uuid,
@@ -447,7 +486,7 @@ run_logged_command "${RUN_LOG_ROOT}/sforge-run.log" \
   "${PYTHON_BIN}" "${ENTRY}" run \
   --backend docker \
   --task "${TASK_ID}" \
-  --agent codex \
+  --agent "${AGENT_NAME}" \
   --model "${MODEL}" \
   --timeout "${TASK_TIMEOUT}" \
   --eval-interval "${EVAL_INTERVAL}" \

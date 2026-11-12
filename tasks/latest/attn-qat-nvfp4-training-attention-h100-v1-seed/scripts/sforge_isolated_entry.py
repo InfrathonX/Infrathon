@@ -190,4 +190,11 @@ from sforge.cli import main
 
 
 if __name__ == "__main__":
+    # The launcher picks the Agent (MLSYSFORGE_AGENT=codex|claude-code); Claude
+    # Code bindings: sforge/harness/agent/claude_local.py.  Codex is untouched.
+    import sys
+
+    from sforge.harness.agent.claude_local import install_from_environment
+
+    install_from_environment(_task_internet, sys.argv)
     main()

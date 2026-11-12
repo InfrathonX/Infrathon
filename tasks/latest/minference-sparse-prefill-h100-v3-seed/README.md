@@ -155,9 +155,11 @@ requires, per container, one NVIDIA GPU with at least 80 GB of memory and comput
    without starting anything. `--skip-integrity-review` is only for reference or replay
    archives. Results go to `outputs/<task>/runs/<run>/completion.json`.
 
-Agent runs need a Codex agent runtime (`launch/build-agent-runtime.sh`), a version store
+Agent runs need an agent runtime (`launch/build-agent-runtime.sh`; Codex, or Claude Code with
+`--agent claude-code`), a version store
 (`SFORGE_VERSION_STORE_ROOT`, see `launch/mlsysforge.env.example`), model credentials
-(`--auth` for a Codex `auth.json`, or a `MODEL_API_BASE_URL` endpoint), and the LLM integrity
+(`--auth` for a Codex `auth.json`, `--claude-token` for a Claude Code OAuth token file, or a
+`MODEL_API_BASE_URL` endpoint), and the LLM integrity
 review configured (`SFORGE_LLM_JUDGE_MODE=enforce` and the `SFORGE_LLM_JUDGE_*` settings; see
 `launch/mlsysforge.env.example`). The Work container has only an internal Docker network and
 reaches the outside through a restricted CONNECT proxy (`scripts/restricted_proxy.py`).

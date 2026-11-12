@@ -187,8 +187,13 @@ TFLOPS scores can only be compared within one hardware type.
      `--shared-gpu` runs Work and Judge on one GPU, chosen with `--gpu N` (default 0) or
      `--device-uuid UUID`; either flag alone also selects shared mode. `--allocation-key` and
      `--lease-id` are optional scheduler IDs for shared mode, derived when they are omitted.
+   - `--agent claude-code` with `--claude-token FILE` runs Claude Code instead of Codex.
+   - `--model` takes any Codex or Claude model ID, or any model that `MODEL_API_BASE_URL`
+     serves.
    - Other options: `--run-id`, `--cpuset`, and `--config FILE` for a launch config (see
      `launch/mlsysforge.env.example`).
+   - `--dry-run` checks the model, runtime, images, integrity review, GPU and port, prints the
+     plan and exits. It takes no lock and starts no container.
    - **Eval only:** `PHYSICAL_GPU=<index> tasks/latest/<task>/scripts/eval_archive.sh ARCHIVE.tar.gz [RUN_ID]`
      evaluates a submission archive in the Judge.
    - **Replay:** `launch/attn-qat-train/replay.sh --origin-run RUN_ID --measurement-set NAME`
@@ -199,10 +204,10 @@ TFLOPS scores can only be compared within one hardware type.
 
 - the SForge harness;
 - a version store (`SFORGE_VERSION_STORE_ROOT`, with this task registered);
-- an agent runtime directory (`SFORGE_AGENT_RUNTIME_DIR`, the Codex CLI built by
+- an agent runtime directory (`SFORGE_AGENT_RUNTIME_DIR`, the Codex or Claude Code CLI built by
   `launch/build-agent-runtime.sh`);
-- model credentials: a Codex `auth.json` (mode 0600), or an OpenAI-compatible endpoint
-  through `MODEL_API_BASE_URL`/`MODEL_API_KEY_FILE`;
+- model credentials: a Codex `auth.json` (mode 0600), a Claude Code token file, or an
+  OpenAI-compatible endpoint through `MODEL_API_BASE_URL`/`MODEL_API_KEY_FILE`;
 - if the host reaches the internet through a proxy, a proxy address that containers can reach.
 
 The LLM integrity review is configured with the `SFORGE_LLM_JUDGE_*` keys. It runs in `enforce`

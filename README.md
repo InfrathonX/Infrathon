@@ -176,10 +176,11 @@ agent run.
   page, then log in with `hf auth login` (the `hf` CLI is listed in
   [docs/HOST_PREREQUISITES.md](docs/HOST_PREREQUISITES.md)).
 - An agent: Codex (a ChatGPT login `auth.json`, or any model behind `MODEL_API_BASE_URL`) or
-  Claude Code (on the launchers that list `--agent`; see `run.sh --help`). Agent CLIs are mounted
+  Claude Code (`--agent claude-code`, or `AGENT=claude-code` in a Miles config). Agent CLIs are mounted
   into the Work container from a host runtime directory (`launch/build-agent-runtime.sh`).
 - A model for the integrity review: set `SFORGE_LLM_JUDGE_MODE=enforce` and
-  `SFORGE_LLM_JUDGE_MODEL`. The reviewer uses the run's Codex runtime and `auth.json` unless other
+  `SFORGE_LLM_JUDGE_MODEL`. The reviewer uses the run's Codex runtime (on a Claude Code run,
+  `../agent_runtimes/codex-<pin>`) and the `--auth` `auth.json` unless other
   `SFORGE_LLM_JUDGE_*` settings say otherwise; a Claude Code reviewer needs an API key file (see
   [docs/LLM_JUDGE.md](docs/LLM_JUDGE.md)).
 

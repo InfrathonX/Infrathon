@@ -402,14 +402,35 @@ export_agent_runtime_dir() {
     "build one with launch/build-agent-runtime.sh" >&2
 }
 
-# The Claude Code counterpart of export_agent_runtime_dir.
+# The Claude Code counterpart of export_agent_runtime_dir. A preset
+# SFORGE_AGENT_RUNTIME_DIR is kept only when it is a Claude Code runtime; a preset
+# Codex runtime (a config written for Codex runs) becomes the reviewer's below.
+_runtime_agent() {
+  sed -nE 's/^[[:space:]]*"agent":[[:space:]]*"([^"]*)".*/\1/p' "$1/.sforge-agent-runtime.json" 2>/dev/null | head -n 1
+}
+
 export_claude_runtime_dir() {
-  [[ -z "${SFORGE_AGENT_RUNTIME_DIR:-}" ]] || return 0
-  local candidate
-  candidate="$(cd -- "$(launch_repo_root)/.." && pwd)/agent_runtimes/claude-code-${CLAUDE_CODE_VERSION_PIN}"
-  [[ -f "${candidate}/.sforge-agent-runtime.json" ]] \
-    || launch_die "no Claude Code runtime at ${candidate}; build one with launch/build-agent-runtime.sh --agent claude-code --version ${CLAUDE_CODE_VERSION_PIN}"
+  local preset="${SFORGE_AGENT_RUNTIME_DIR:-}" candidate parent reviewer=""
+  parent="$(cd -- "$(launch_repo_root)/.." && pwd)"
+  if [[ -n "${preset}" && "$(_runtime_agent "${preset}")" == claude-code ]]; then
+    candidate="${preset}"
+  else
+    [[ -z "${preset}" || "$(_runtime_agent "${preset}")" != codex ]] || reviewer="${preset}"
+    candidate="${parent}/agent_runtimes/claude-code-${CLAUDE_CODE_VERSION_PIN}"
+    [[ -f "${candidate}/.sforge-agent-runtime.json" ]] \
+      || launch_die "no Claude Code runtime at ${candidate}; build one with launch/build-agent-runtime.sh --agent claude-code --version ${CLAUDE_CODE_VERSION_PIN}"
+  fi
   export SFORGE_AGENT_RUNTIME_DIR="${candidate}"
+  # The integrity reviewer is Codex unless SFORGE_LLM_JUDGE_AGENT says otherwise, and
+  # without its own runtime dir it falls back to SFORGE_AGENT_RUNTIME_DIR (the Claude Code
+  # runtime set above; sforge/harness/llm_judge/config.py), where Codex cannot start.
+  if [[ "${SFORGE_LLM_JUDGE_MODE:-enforce}" != off && "${SFORGE_LLM_JUDGE_AGENT:-codex}" == codex \
+        && -z "${SFORGE_LLM_JUDGE_AGENT_RUNTIME_DIR:-}" ]]; then
+    reviewer="${reviewer:-${parent}/agent_runtimes/codex-${CODEX_CLI_VERSION_PIN}}"
+    [[ "$(_runtime_agent "${reviewer}")" == codex ]] \
+      || launch_die "the Codex integrity reviewer needs a Codex runtime at ${reviewer}; build one with launch/build-agent-runtime.sh, or set SFORGE_LLM_JUDGE_AGENT_RUNTIME_DIR"
+    export SFORGE_LLM_JUDGE_AGENT_RUNTIME_DIR="${reviewer}"
+  fi
 }
 
 # Opt-in CPU pinning of the Work and Judge containers (docs/CPU_AFFINITY.md).

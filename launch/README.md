@@ -73,7 +73,7 @@ exceptions in the next table (`run.sh --help` lists exactly what each one accept
 
 | Flag | Meaning |
 | --- | --- |
-| `--agent codex\|claude-code` | the agent CLI (default `codex`); on the launchers that list it |
+| `--agent codex\|claude-code` | the agent CLI (default `codex`); every launcher but Miles, whose config sets `AGENT` |
 | `--model NAME` | a full model ID (`gpt-*`, `claude-*`), or any ID the `MODEL_API_BASE_URL` endpoint serves |
 | `--effort LEVEL` | `max` (default), `ultra`, `xhigh`, `high`, `medium` or `low` |
 | `--hours N` / `--timeout SECONDS` | agent budget (`TASK_TIMEOUT`; default 12 h or 24 h, table above) |
@@ -89,8 +89,7 @@ exceptions in the next table (`run.sh --help` lists exactly what each one accept
 
 | launchers | `--run-id` | `--judge-port` | `--dry-run` | `--tmux` | GPUs | run directory |
 | --- | --- | --- | --- | --- | --- | --- |
-| `eagle3-spec-decode`, `llada-h100`, `lmcache-kv-transfer`, `sageattention-qattn`, `standalone-paged-gqa-v2`, `standalone-sparse-mla-v2`, `tilelang-mamba2-ssd-v2` | yes | yes | yes | yes | `--work-gpu`, `--judge-gpu`; `--shared-gpu` with `--gpu` or `--device-uuid` | `outputs/<task>/runs/<run id>/` |
-| `attn-qat-train`, `flash-kmeans`, `standalone-fp8`, `standalone-kgrouped-wgrad` | yes | yes | no | yes | `--work-gpu`, `--judge-gpu`; `--shared-gpu` with `--gpu` or `--device-uuid` | `outputs/<task>/runs/<run id>/` |
+| `attn-qat-train`, `eagle3-spec-decode`, `flash-kmeans`, `llada-h100`, `lmcache-kv-transfer`, `sageattention-qattn`, `standalone-fp8`, `standalone-kgrouped-wgrad`, `standalone-paged-gqa-v2`, `standalone-sparse-mla-v2`, `tilelang-mamba2-ssd-v2` | yes | yes | yes | yes | `--work-gpu`, `--judge-gpu`; `--shared-gpu` with `--gpu` or `--device-uuid` | `outputs/<task>/runs/<run id>/` |
 | `minference-v3` | yes | yes | yes | yes | `--work-gpu`, `--judge-gpu` | `outputs/<task>/runs/<run id>/` |
 | `kvpress-kv-eviction-scratch` | yes | yes | yes | yes | `--work-gpu`, `--judge-gpus` | `outputs/<task>/runs/<run id>/` |
 | `kvzip-kv-scoring`, `quant-videogen` | `RUN_ID` | yes | yes | yes | `--work-gpu`, `--judge-gpus` | `outputs/<task>/runs/<run id>/` |
@@ -401,7 +400,8 @@ Work 0, Judge 1). Before
 the first run, build or pull the images (`scripts/build_images.sh` or
 `scripts/infrathon/pull_images.sh <task>`) and fetch the assets
 (`tasks/latest/<task>/assets/fetch.sh`) into `INFRATHON_ASSETS_ROOT`. Agent runs need
-the integrity review configured and a Codex agent runtime. Submissions have an
+the integrity review configured and a Codex (or, with `--agent claude-code`, Claude
+Code) agent runtime. Submissions have an
 `EVAL_INTERVAL` cooldown (default 300 s). `--eval-archive` runs no agent and
 sends FILE through the final Judge path; `--skip-integrity-review` is for
 oracle and qualification archives.
@@ -515,7 +515,8 @@ measures, and the final evaluation runs there too), or `shared` for the shared
 mode, in which the Judge measures on the Work pair and pauses Work.
 `--judge-gpus C,D` and `--shared-gpus` override it; with neither in the config
 or on the command line the launcher refuses to start. The run holds the GPU
-locks of every GPU it uses for its whole duration.
+locks of every GPU it uses for its whole duration. `AGENT=claude-code` with
+`CLAUDE_OAUTH_TOKEN_FILE` in the config runs Claude Code instead of Codex.
 
 Each Miles directory ships `*.env.example` configs to start from. They use
 their own fixed-budget supervisors (`scripts/run_task.py` in the task

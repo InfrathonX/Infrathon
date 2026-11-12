@@ -20,7 +20,8 @@ Usage:
   run.sh --judge-gpu J --eval-archive FILE [--skip-integrity-review] [options]
 
 Options:
-  --model NAME         A full gpt-* model ID,
+  --agent NAME         codex (default) or claude-code
+  --model NAME         A full gpt-*/claude-* model ID,
                        or any ID the MODEL_API_BASE_URL endpoint serves
   --effort LEVEL       Reasoning effort (max|ultra|xhigh|high); default max
   --work-gpu G         The Work GPU (physical index; sets WORK_GPU; default 0)
@@ -31,6 +32,7 @@ Options:
   --judge-port PORT    Run-unique host port of the Judge server (default 18497)
   --run-id ID          Explicit RUN_ID
   --auth FILE          Codex auth.json path (sets CODEX_AUTH_JSON_PATH)
+  --claude-token FILE  0600 file with one `claude setup-token` OAuth token (claude-code)
   --eval-archive FILE  Run no agent: FILE goes through the final Judge path (same
                        GPU checks, phase final); a qualification or a replay
   --skip-integrity-review
@@ -46,18 +48,21 @@ build_images.sh, or scripts/infrathon/pull_images.sh <task>) and fetch the asset
 (tasks/latest/<task>/assets/fetch.sh: the model from Hugging Face, the prompt
 sets from the Infrathon dataset) into INFRATHON_ASSETS_ROOT.  Agent runs need
 the integrity review configured (SFORGE_LLM_JUDGE_MODE=enforce and the
-SFORGE_LLM_JUDGE_* settings) and a Codex agent runtime
-(launch/build-agent-runtime.sh).  Submissions have an EVAL_INTERVAL cooldown
+SFORGE_LLM_JUDGE_* settings) and a Codex (or, with --agent claude-code, a
+Claude Code) agent runtime (launch/build-agent-runtime.sh).  Submissions have an EVAL_INTERVAL cooldown
 (default 300 s); a Judge takes about 28 minutes (README).
 USAGE
 }
 
+agent="codex"; claude_token=""
 model=""; effort=""; work_gpu=""; judge_gpu=""; hours=""; timeout_seconds=""
 judge_port=""; run_id=""; auth=""; eval_archive=""; skip_review=0
 config_file=""; dry_run=0; use_tmux=0
 
 while (( $# )); do
   case "$1" in
+    --agent)   [[ $# -ge 2 ]] || launch_die "--agent requires a value"; agent="$2"; shift 2 ;;
+    --claude-token) [[ $# -ge 2 ]] || launch_die "--claude-token requires a value"; claude_token="$2"; shift 2 ;;
     --model)   [[ $# -ge 2 ]] || launch_die "--model requires a value"; model="$2"; shift 2 ;;
     --effort)  [[ $# -ge 2 ]] || launch_die "--effort requires a value"; effort="$2"; shift 2 ;;
     --work-gpu) [[ $# -ge 2 ]] || launch_die "--work-gpu requires a value"; work_gpu="$2"; shift 2 ;;
@@ -124,10 +129,25 @@ if [[ -n "${auth}" ]]; then
   export CODEX_AUTH_JSON_PATH="${auth}"
 fi
 if [[ -z "${eval_archive}" ]]; then
-  export CODEX_CLI_VERSION="${CODEX_CLI_VERSION:-${CODEX_CLI_VERSION_PIN}}"
+  case "${agent}" in
+    codex)
+      export MLSYSFORGE_AGENT=codex
+      export CODEX_CLI_VERSION="${CODEX_CLI_VERSION:-${CODEX_CLI_VERSION_PIN}}"
+      ;;
+    claude-code)
+      export MLSYSFORGE_AGENT=claude-code
+      if [[ -n "${claude_token}" ]]; then
+        [[ -f "${claude_token}" ]] || launch_die "Claude token file does not exist: ${claude_token}"
+        export CLAUDE_OAUTH_TOKEN_FILE="${claude_token}"
+      fi
+      [[ -n "${CLAUDE_OAUTH_TOKEN_FILE:-}" ]] \
+        || launch_die "claude-code needs --claude-token FILE (or CLAUDE_OAUTH_TOKEN_FILE)"
+      ;;
+    *) launch_die "--agent takes codex or claude-code" ;;
+  esac
   assert_container_reachable_proxy --entry "${ENTRY}"
   export_version_store_root --task-root "${TASK_ROOT}"
-  export_agent_runtime_dir
+  if [[ "${agent}" == claude-code ]]; then export_claude_runtime_dir; else export_agent_runtime_dir; fi
 fi
 (( ! dry_run )) || export SFORGE_LAUNCH_DRY_RUN=1
 

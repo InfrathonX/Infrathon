@@ -20,12 +20,15 @@ Usage:
   run.sh --model MODEL_ID [options] [-- extra]
 
 Options:
-  --model NAME       Full gpt-* model ID
+  --agent NAME       codex (default) or claude-code
+  --model NAME       A full gpt-*/claude-* model ID,
+                     or any ID the MODEL_API_BASE_URL endpoint serves
   --effort LEVEL     Reasoning effort (max|ultra|xhigh|high|medium|low); default max
   --hours N          Agent budget in hours (sets TASK_TIMEOUT=N*3600; default 12 h)
   --timeout SECONDS  Agent budget in seconds (overrides --hours)
   --run-id ID        Explicit run ID (default: task-derived)
   --auth FILE        Codex auth.json path (sets CODEX_AUTH_JSON_PATH)
+  --claude-token FILE  0600 file with one `claude setup-token` OAuth token (claude-code)
   --work-gpu INDEX   GPU of the Work container (default 0)
   --judge-gpu INDEX  GPU of the Judge (default 1)
   --shared-gpu       Run Work and the Judge on one GPU; the host pauses Work
@@ -40,6 +43,8 @@ Options:
   --cpuset VALUE     Pin Work/Judge to GPU-local CPUs: auto|off|CPULIST[@NODES]
                      (default off; sets SFORGE_CPUSET; docs/CPU_AFFINITY.md)
   --legacy-dual-gpu  Older name for the default separate-GPU mode
+  --dry-run          Resolve and check the plan (model, runtime, images, integrity
+                     review, GPU, port), print it and exit; no lock, container or GPU work
   --tmux             Run detached in a new tmux session
   --config FILE      Launch config (.env or .json); see launch/mlsysforge.env.example
   -- ...             Everything after -- is passed to the task script
@@ -53,6 +58,8 @@ Codex CLI pin comes from launch/common.sh unless CODEX_CLI_VERSION is already se
 USAGE
 }
 
+agent="codex"
+claude_token=""
 model=""
 effort=""
 timeout_seconds=""
@@ -72,10 +79,13 @@ cpuset=""
 legacy_dual_gpu=0
 config_file=""
 use_tmux=0
+dry_run=0
 passthrough=()
 
 while (( $# )); do
   case "$1" in
+    --agent)   [[ $# -ge 2 ]] || launch_die "--agent requires a value"; agent="$2"; shift 2 ;;
+    --claude-token) [[ $# -ge 2 ]] || launch_die "--claude-token requires a value"; claude_token="$2"; shift 2 ;;
     --model)   [[ $# -ge 2 ]] || launch_die "--model requires a value"; model="$2"; shift 2 ;;
     --effort)  [[ $# -ge 2 ]] || launch_die "--effort requires a value"; effort="$2"; shift 2 ;;
     --hours)   [[ $# -ge 2 ]] || launch_die "--hours requires a value"; hours="$2"; shift 2 ;;
@@ -94,6 +104,7 @@ while (( $# )); do
     --cpuset)  [[ $# -ge 2 ]] || launch_die "--cpuset requires a value"; cpuset="$2"; shift 2 ;;
     --legacy-dual-gpu) legacy_dual_gpu=1; shift ;;
     --config)  [[ $# -ge 2 ]] || launch_die "--config requires a value"; config_file="$2"; shift 2 ;;
+    --dry-run) dry_run=1; shift ;;
     --tmux)    use_tmux=1; shift ;;
     -h|--help) usage; exit 0 ;;
     --)        shift; passthrough=("$@"); break ;;
@@ -175,7 +186,22 @@ if [[ -n "${auth}" ]]; then
   [[ -f "${auth}" ]] || launch_die "auth file does not exist: ${auth}"
   export CODEX_AUTH_JSON_PATH="${auth}"
 fi
-export CODEX_CLI_VERSION="${CODEX_CLI_VERSION:-${CODEX_CLI_VERSION_PIN}}"
+case "${agent}" in
+  codex)
+    export MLSYSFORGE_AGENT=codex
+    export CODEX_CLI_VERSION="${CODEX_CLI_VERSION:-${CODEX_CLI_VERSION_PIN}}"
+    ;;
+  claude-code)
+    export MLSYSFORGE_AGENT=claude-code
+    if [[ -n "${claude_token}" ]]; then
+      [[ -f "${claude_token}" ]] || launch_die "Claude token file does not exist: ${claude_token}"
+      export CLAUDE_OAUTH_TOKEN_FILE="${claude_token}"
+    fi
+    [[ -n "${CLAUDE_OAUTH_TOKEN_FILE:-}" ]] \
+      || launch_die "claude-code needs --claude-token FILE (or CLAUDE_OAUTH_TOKEN_FILE)"
+    ;;
+  *) launch_die "--agent takes codex or claude-code" ;;
+esac
 # A shared run without --device-uuid (or SFORGE_ACCELERATOR_DEVICE_UUID) takes
 # the GPU named by --gpu, by default GPU 0.
 if (( shared_gpu )) && [[ -z "${device_uuid}" ]] \
@@ -186,11 +212,12 @@ fi
 export JUDGE_PORT="${JUDGE_PORT:-18601}"
 assert_container_reachable_proxy --entry "${ENTRY}"
 export_version_store_root --task-root "${TASK_ROOT}"
-export_agent_runtime_dir
+if [[ "${agent}" == claude-code ]]; then export_claude_runtime_dir; else export_agent_runtime_dir; fi
+(( ! dry_run )) || export SFORGE_LAUNCH_DRY_RUN=1
 
 # run_in_tmux forwards this shell's complete environment, so the detached
 # path is equivalent to the direct exec below.
-if (( use_tmux )); then
+if (( use_tmux && ! dry_run )); then
   stamp="$(date -u +%Y%m%d-%H%M%S)"
   session="attn-qat-train-${stamp}"
   run_in_tmux "${session}" \

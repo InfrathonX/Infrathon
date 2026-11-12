@@ -171,6 +171,8 @@ Work and Judge containers are limited to 8 CPUs and 48 GB of host memory each.
    flag alone also selects shared mode. `--dry-run` resolves and checks the plan
    (model, agent runtime, images, integrity review, GPU, port) without starting anything. Host
    settings can come from `--config FILE` (see `launch/mlsysforge.env.example`).
+   `--agent claude-code` with `--claude-token FILE` (a 0600 file holding one
+   `claude setup-token` token) and a Claude `--model` runs Claude Code instead of Codex.
 
    Replay saved candidates of a finished run through the Judge:
 
@@ -182,9 +184,10 @@ Work and Judge containers are limited to 8 CPUs and 48 GB of host memory each.
    `tasks/latest/tilelang-mamba2-ssd-forward-h100-v2-seed/scripts/eval_archive.sh ARCHIVE.tar.gz [RUN_ID]`
    (GPU chosen with `PHYSICAL_GPU`, default 0).
 
-Prerequisites the launcher checks: a Codex agent runtime directory
+Prerequisites the launcher checks: a Codex or Claude Code agent runtime directory
 (`SFORGE_AGENT_RUNTIME_DIR`, mounted read-only into the agent-free Work image),
-Codex credentials (`--auth`), a proxy reachable from the containers, and a
+Codex credentials (`--auth`) or a Claude Code token file (`--claude-token`), a
+proxy reachable from the containers, and a
 version store (`SFORGE_VERSION_STORE_ROOT`) that registers this task so
 submitted candidates can be replayed. The LLM integrity review is configured
 with the `SFORGE_LLM_JUDGE_*` settings (see `launch/mlsysforge.env.example`).

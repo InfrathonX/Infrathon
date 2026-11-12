@@ -269,4 +269,9 @@ run_agent.generate_evolve_prompt = task_internet_generate_prompt
 
 
 if __name__ == "__main__":
+    # The launcher picks the Agent (MLSYSFORGE_AGENT=codex|claude-code); Claude
+    # Code bindings: sforge/harness/agent/claude_local.py.  Codex is untouched.
+    from sforge.harness.agent.claude_local import install_from_environment
+
+    install_from_environment(_task_internet, sys.argv)
     sforge_cli.main()

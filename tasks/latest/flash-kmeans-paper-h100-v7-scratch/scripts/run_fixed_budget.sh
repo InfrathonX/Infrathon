@@ -17,6 +17,12 @@ require_command sha256sum
 require_command ss
 
 AUTH_JSON="${CODEX_AUTH_JSON_PATH:-}"
+# MLSYSFORGE_AGENT=claude-code (launch/flash-kmeans/run.sh --agent
+# claude-code) drives the pinned Claude Code runtime with a 0600 file holding
+# one `claude setup-token` OAuth token (CLAUDE_OAUTH_TOKEN_FILE); the isolated
+# entry binds it through sforge/harness/agent/claude_local.py.
+AGENT_NAME="${MLSYSFORGE_AGENT:-codex}"
+CLAUDE_TOKEN_FILE="${CLAUDE_OAUTH_TOKEN_FILE:-}"
 # Optional OpenAI-compatible model API (e.g. a self-hosted DeepSeek).  With
 # MODEL_API_BASE_URL set, the restricted sidecar gains one raw TCP relay to
 # that endpoint, Codex talks to it in API-key mode (key from the mode-0600
@@ -79,6 +85,13 @@ case "${REASONING_EFFORT}" in
   high|max|xhigh) ;;
   *) die "fixed run requires REASONING_EFFORT=high, max, or xhigh" ;;
 esac
+case "${AGENT_NAME}" in
+  codex) ;;
+  claude-code)
+    [[ -z "${MODEL_API_BASE_URL}" ]] || die "Claude Code uses its OAuth token; unset MODEL_API_BASE_URL"
+    ;;
+  *) die "MLSYSFORGE_AGENT must be codex or claude-code" ;;
+esac
 # The Codex version is chosen by the launcher (launch/common.sh pin or an
 # explicit CODEX_CLI_VERSION) and must match the mounted runtime below; the
 # agent-free Work image does not constrain it.
@@ -96,10 +109,15 @@ runtime_version="$(jq -er '.version' "${runtime_marker}")"
 runtime_tree_sha256="$(jq -er '.tree_sha256' "${runtime_marker}")"
 [[ "${runtime_kind}" == "sforge-agent-runtime" ]] \
   || die "invalid agent runtime marker: ${runtime_marker}"
-[[ "${runtime_agent}" == "codex" ]] \
-  || die "formal run requires a codex runtime, found: ${runtime_agent}"
-[[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
-  || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+[[ "${runtime_agent}" == "${AGENT_NAME}" ]] \
+  || die "formal run requires a ${AGENT_NAME} runtime, found: ${runtime_agent}"
+if [[ "${AGENT_NAME}" == "codex" ]]; then
+  [[ "${runtime_version}" == "${CODEX_CLI_VERSION}" ]] \
+    || die "agent runtime version ${runtime_version} differs from the pinned ${CODEX_CLI_VERSION}"
+else
+  # No Codex CLI in a Claude Code run; the runtime marker pins Claude Code.
+  CODEX_CLI_VERSION=""
+fi
 export SFORGE_AGENT_RUNTIME_DIR="${AGENT_RUNTIME_DIR}"
 
 [[ "${TASK_TIMEOUT}" =~ ^[0-9]+$ \
@@ -127,6 +145,9 @@ if [[ -n "${MODEL_API_BASE_URL}" ]]; then
   assert_private_auth_file "${MODEL_API_KEY_FILE}"
   MODEL_API_KEY="$(tr -d '[:space:]' < "${MODEL_API_KEY_FILE}")"
   [[ -n "${MODEL_API_KEY}" ]] || die "MODEL_API_KEY_FILE is empty"
+elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+  [[ -n "${CLAUDE_TOKEN_FILE}" ]] || die "set CLAUDE_OAUTH_TOKEN_FILE"
+  assert_private_auth_file "${CLAUDE_TOKEN_FILE}"
 else
   [[ -n "${AUTH_JSON}" ]] \
     || die "set CODEX_AUTH_JSON_PATH to the host-only Codex auth file"
@@ -184,6 +205,52 @@ TASK_RUN_ROOT="${RUN_LOG_ROOT}/${TASK_ID}"
 [[ -f "${JUDGE_SERVER_SOURCE}" && ! -L "${JUDGE_SERVER_SOURCE}" ]] \
   || die "missing persistent Judge server source: ${JUDGE_SERVER_SOURCE}"
 assert_built_images_current
+
+# SFORGE_LAUNCH_DRY_RUN=1 (launch/flash-kmeans/run.sh --dry-run): print the
+# resolved plan and stop here -- no GPU lock, container, network or Judge server.
+if [[ "${SFORGE_LAUNCH_DRY_RUN:-0}" == "1" ]]; then
+  dry_failures=()
+  [[ "${RUN_ID}" =~ ^[A-Za-z0-9][A-Za-z0-9_.-]*$ ]] || dry_failures+=("unsafe RUN_ID: ${RUN_ID}")
+  [[ ! -e "${RUN_LOG_ROOT}" ]] || dry_failures+=("run directory already exists: ${RUN_LOG_ROOT}")
+  if ss -ltn 2>/dev/null | awk '{print $4}' | grep -Eq ":${JUDGE_PORT}$"; then
+    dry_failures+=("judge port ${JUDGE_PORT} is already in use")
+  fi
+  # The Judge server runs the LLM integrity review from SFORGE_LLM_JUDGE_*.
+  dry_review="$(
+    cd -- "${REPOSITORY_ROOT}" && "${SFORGE_PYTHON}" -B - <<'PY' 2>&1
+from sforge.harness.llm_judge.config import load_llm_judge_config
+config = load_llm_judge_config()
+config.check_ready()
+print(f"{config.mode} {config.engine} {config.agent} {config.model} "
+      f"effort={config.reasoning_effort} runtime={config.agent_runtime_dir}")
+PY
+  )" || dry_failures+=("integrity review is not ready: ${dry_review##*$'\n'}")
+  if [[ -n "${MODEL_API_BASE_URL}" ]]; then
+    dry_credential="model API ${MODEL_API_BASE_URL} (key file ${MODEL_API_KEY_FILE})"
+  elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+    dry_credential="Claude OAuth token file ${CLAUDE_TOKEN_FILE}"
+  else
+    dry_credential="Codex auth ${AUTH_JSON}"
+  fi
+  dry_gpu="${WORK_GPU}/${JUDGE_GPU}"
+  [[ "${SINGLE_GPU_HANDOFF}" != "1" ]] || dry_gpu="${work_gpu_uuid} (Work and Judge, one lease)"
+  echo "Dry run (no lock, container or GPU work): ${RUN_ID}"
+  echo "  agent:        ${AGENT_NAME} ${MODEL} effort=${REASONING_EFFORT} runtime ${AGENT_RUNTIME_DIR} (${runtime_version})"
+  echo "  credential:   ${dry_credential}"
+  echo "  review:       ${dry_review##*$'\n'}"
+  echo "  budget:       ${TASK_TIMEOUT}s; auto-eval off; unlimited manual submits, cooldown ${SUBMISSION_COOLDOWN}s"
+  echo "  GPU:          ${dry_gpu}"
+  echo "  judge port:   ${JUDGE_PORT}"
+  echo "  network:      internet=${task_internet} web_search=${codex_web_search}"
+  echo "  version store: ${SFORGE_VERSION_STORE_ROOT:-<unset>}"
+  echo "  logs:         ${RUN_LOG_ROOT}"
+  if (( ${#dry_failures[@]} )); then
+    printf '  CHECK FAILED: %s\n' "${dry_failures[@]}"
+    exit 1
+  fi
+  echo "  checks:       PASS"
+  exit 0
+fi
 
 if [[ "${SINGLE_GPU_HANDOFF}" == "1" ]]; then
   [[ "${work_gpu_uuid}" =~ ^GPU-[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$ ]] \
@@ -455,9 +522,16 @@ unset \
 if [[ -n "${MODEL_API_BASE_URL}" ]]; then
   export SFORGE_AGENT_API_BASE_URL="http://${restricted_proxy_ip}:${MODEL_FORWARD_PORT}${model_api_path}"
   export SFORGE_AGENT_API_KEY="${MODEL_API_KEY}"
+elif [[ "${AGENT_NAME}" == "claude-code" ]]; then
+  unset SFORGE_CODEX_AUTH_JSON_PATH
+  export MLSYSFORGE_CLAUDE_OAUTH_TOKEN_FILE="${CLAUDE_TOKEN_FILE}"
 else
   export SFORGE_CODEX_AUTH_JSON_PATH="${AUTH_JSON}"
 fi
+# Read by sforge_isolated_entry.py (claude_local.install_from_environment).
+export MLSYSFORGE_AGENT="${AGENT_NAME}" MLSYSFORGE_AGENT_MODEL="${MODEL}"
+export MLSYSFORGE_AGENT_EFFORT="${REASONING_EFFORT}" MLSYSFORGE_AGENT_BUDGET_SECONDS="${TASK_TIMEOUT}"
+export MLSYSFORGE_RUN_LOG_ROOT="${RUN_LOG_ROOT}"
 export SFORGE_CODEX_REASONING_EFFORT="${REASONING_EFFORT}"
 export SFORGE_CODEX_CLI_VERSION="${CODEX_CLI_VERSION}"
 if [[ "${SINGLE_GPU_HANDOFF}" == "1" ]]; then
@@ -682,7 +756,7 @@ run_logged_command "${RUN_LOG_ROOT}/sforge-run.log" \
   run \
   --backend docker \
   --task "${TASK_ID}" \
-  --agent codex \
+  --agent "${AGENT_NAME}" \
   --model "${MODEL}" \
   --timeout "${TASK_TIMEOUT}" \
   --eval-interval "${EVAL_INTERVAL}" \
@@ -723,6 +797,7 @@ write_command_json_atomically \
   --task-root "${TASK_RUN_ROOT}" \
   --run-id "${RUN_ID}" \
   --task-id "${TASK_ID}" \
+  --agent "${AGENT_NAME}" \
   --model "${MODEL}" \
   --budget-seconds "${TASK_TIMEOUT}" \
   --interval-seconds "${EVAL_INTERVAL}" \
