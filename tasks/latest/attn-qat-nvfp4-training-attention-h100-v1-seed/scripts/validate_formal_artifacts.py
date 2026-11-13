@@ -697,11 +697,13 @@ def _validate_private_artifact(
             raise ArtifactValidationError("every family TFLOPS value must be positive")
         return math.exp(math.fsum(math.log(value) for value in values) / len(values))
 
-    domain_geomean = math.sqrt(_geomean(VIDEO_FAMILY_KEYS) * _geomean(LLM_FAMILY_KEYS))
-    if not math.isclose(private_score, domain_geomean, rel_tol=1e-9, abs_tol=1e-9):
-        raise ArtifactValidationError(
-            "private score_tflops must equal the geometric mean of the two domain scores"
-        )
+    # A round that failed a required gate scores 0 and has no aggregate to check.
+    if private_score > 0.0:
+        domain_geomean = math.sqrt(_geomean(VIDEO_FAMILY_KEYS) * _geomean(LLM_FAMILY_KEYS))
+        if not math.isclose(private_score, domain_geomean, rel_tol=1e-9, abs_tol=1e-9):
+            raise ArtifactValidationError(
+                "private score_tflops must equal the geometric mean of the two domain scores"
+            )
     suite_id = detail.get("suite_id")
     if suite_id != expected_suite_id:
         raise ArtifactValidationError(
