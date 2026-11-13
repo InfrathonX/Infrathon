@@ -248,14 +248,11 @@ repository with a report for the expert.
 ## Citation
 
 ```bibtex
-@article{hu2026infrathon,
-  title   = {Infrathon: Benchmarking Language Agents for Real-World, Long-Horizon AI Infra Optimization},
-  author  = {Hu, Zhengyu and Xiao, Zheyuan and Wang, Yike and Ivison, Hamish and Wang, Haoyu and
-             Yuan, Yige and Shao, Rulin and Li, Yuetai and Lyu, Niqi and Ding, Yicheng and Yang, Shu and
-             Zeng, Zhichen and Zhu, Banghua and Pei, Jiaxin and Ding, Kaize and Dasigi, Pradeep and
-             Roth, Dan and Hajishirzi, Hannaneh and Smith, Noah A. and Xiao, Teng and Poovendran, Radha},
-  journal = {arXiv preprint arXiv:2611.11995},
-  year    = {2026}
+@inproceedings{Hu2026InfrathonBL,
+  title={Infrathon: Benchmarking Language Agents for Real-World, Long-Horizon AI Infra Optimization},
+  author={Zhengyu Hu and Zhe-Yuan Xiao and Yike Wang and Hamish Ivison and Hao-Yu Wang and Yi-Ge Yuan and Ru-Lin Shao and Yue-Tai Li and Niqi Lyu and Yi-Cheng Ding and Shu Yang and Zhi-Chen Zeng and Bang-Hua Zhu and Jia-Xin Pei and Kai-Ze Ding and Pradeep Dasigi and Dan Roth and Hanna Hajishirzi and Noah A. Smith and Teng Xiao and Radha Poovendran},
+  year={2026},
+  url={https://api.semanticscholar.org/CorpusID:295731967}
 }
 ```
 
