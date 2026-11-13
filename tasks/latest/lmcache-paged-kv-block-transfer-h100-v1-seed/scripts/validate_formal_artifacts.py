@@ -398,6 +398,23 @@ def _validate_archive(
     }
 
 
+def _integrity_rejected(entry: dict[str, Any], report: dict[str, Any]) -> bool:
+    """A round the integrity review blocked before benchmarking: never run, so no score."""
+    review = entry.get("integrity_review")
+    metrics = report.get("metrics")
+    return (
+        isinstance(review, dict)
+        and review.get("status") == "violation"
+        and review.get("blocking") is True
+        and entry.get("valid") is False
+        and entry.get("score") is None
+        and report.get("valid") is False
+        and report.get("score") is None
+        and isinstance(metrics, dict)
+        and metrics.get("evaluation_status") == "integrity_rejected"
+    )
+
+
 def validate_pre_final(
     task_root: Path,
     *,
@@ -555,6 +572,31 @@ def validate_pre_final(
             report.get("timed_out"), bool
         ):
             raise ArtifactValidationError(f"{round_id} report status is malformed")
+        if _integrity_rejected(entry, report):
+            round_archive_path, round_archive_bytes, round_archive_digest = _read_file(
+                round_root / "submission.tar.gz",
+                f"{round_id} submission archive",
+                root=root,
+                max_bytes=MAX_ARCHIVE_BYTES,
+            )
+            agent_reports.append(
+                {
+                    "round_id": round_id,
+                    "submission_id": submission_id,
+                    "valid": False,
+                    "score": None,
+                    "integrity_rejected": True,
+                    "report_path": str(report_path),
+                    "report_sha256": report_digest,
+                    "archive": {
+                        "path": str(round_archive_path),
+                        "sha256": round_archive_digest,
+                        "size_bytes": len(round_archive_bytes),
+                    },
+                    "private_judge_artifact": None,
+                }
+            )
+            continue
         score = _finite(report.get("score"), f"{round_id}.score")
         pass_rate = _finite(report.get("pass_rate"), f"{round_id}.pass_rate")
         if score < 0 or not 0 <= pass_rate <= 1:
