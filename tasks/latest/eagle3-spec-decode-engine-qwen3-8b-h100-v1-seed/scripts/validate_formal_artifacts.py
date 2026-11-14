@@ -249,6 +249,18 @@ def final_version_from_archive(path: Path) -> int:
     return value
 
 
+def _infrastructure_failed(report: dict[str, Any]) -> bool:
+    """A round whose evaluation broke before grading: no score, so nothing to validate."""
+    metrics = report.get("metrics")
+    return (
+        report.get("valid") is False
+        and report.get("score") is None
+        and report.get("total_tests") == 0
+        and isinstance(metrics, dict)
+        and metrics.get("evaluation_status") == "infrastructure_error"
+    )
+
+
 def validate_pre_final(args: argparse.Namespace) -> dict[str, Any]:
     """Validate the Work-session freeze barrier before private final scoring."""
     root = real_directory(args.task_root, "task run root")
@@ -382,17 +394,34 @@ def validate_pre_final(args: argparse.Namespace) -> dict[str, Any]:
                 MAX_ARCHIVE_BYTES,
             )
         )
-        evaluation = validate(
-            submission,
-            submission_archive,
-            archive_digest,
-        )
         round_report = json_object(
             submission / "report.json",
             f"{round_id} report",
         )
         if round_report.get("submission_id") != submission_id:
             raise ValueError(f"history {round_id} report identity differs")
+        if _infrastructure_failed(round_report):
+            manual_rounds.append(
+                {
+                    "round_id": round_id,
+                    "submission_id": submission_id,
+                    "valid": False,
+                    "score": None,
+                    "infrastructure_failed": True,
+                    "report_sha256": sha256(submission / "report.json"),
+                    "submission_archive": {
+                        "path": str(submission_archive),
+                        "sha256": archive_digest,
+                    },
+                    "private_judge_artifact": None,
+                }
+            )
+            continue
+        evaluation = validate(
+            submission,
+            submission_archive,
+            archive_digest,
+        )
         manual_rounds.append(
             {
                 "round_id": round_id,
