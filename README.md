@@ -63,7 +63,8 @@ score it reaches within its budget.
 
 On the Quant-VideoGen KV codec task, Claude Opus 5.5 starts from a stub and keeps redesigning the
 codec for the whole day. It raises KV-cache compression from the human codec's **6.82× to 19.62×**,
-with higher PSNR and SSIM and lower LPIPS.
+with higher PSNR and SSIM and lower LPIPS. Its final codec and the human codec are in
+[`examples/quant-videogen-kv-codec`](examples/quant-videogen-kv-codec).
 
 <p align="center"><img src="docs/assets/results.svg" width="100%" alt="Best valid score over the budget for six agents on SageAttention, Qwen3 ORPO, Miles Qwen3 OPCD and LLaDA decoding, and the rank score over all 25 tasks: Claude Opus 5.5 91.2 (17 wins), GPT-6 Astra 75.2 (6), GPT-6.1 Sol 54.4 (1), Qwen 3.8 Flash 40.8 (1), DeepSeek V4.1 Flash 30.4 (0), GLM 5.3 Flash 8.0 (0)."></p>
 
