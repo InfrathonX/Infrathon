@@ -214,7 +214,7 @@ def test_common_dispatch_selects_pinned_claude_and_keeps_secret_out_of_settings(
     (runtime / "env.sh").write_text("export PATH=/opt/agent-runtime/bin:$PATH\n")
     (runtime / ".sforge-agent-runtime.json").write_text(json.dumps({
         "schema_version": 1, "kind": "sforge-agent-runtime", "agent": "claude-code",
-        "cli": "claude", "version": "2.1.287", "node_version": "v20.18.0",
+        "cli": "claude", "version": "2.1.325", "node_version": "v20.18.0",
         "tree_sha256": "a" * 64}))
     key = tmp_path / "private.key"
     key.write_text("fake-test-provider-key")
@@ -225,7 +225,7 @@ def test_common_dispatch_selects_pinned_claude_and_keeps_secret_out_of_settings(
         + "\nSFORGE_AGENT_RUNTIME_DIR=" + str(runtime) + "\nREASONING_EFFORT=max\n")
     model = agent_config.load_model_config(configuration)
     credentials = agent_config.load_credentials(model)
-    assert model["AGENT"] == "claude-code" and model["runtime_version"] == "2.1.287"
+    assert model["AGENT"] == "claude-code" and model["runtime_version"] == "2.1.325"
     assert credentials.mode == "anthropic-api-key"
     assert credentials.payload == b"fake-test-provider-key"
     assert "fake-test-provider-key" not in repr(credentials)

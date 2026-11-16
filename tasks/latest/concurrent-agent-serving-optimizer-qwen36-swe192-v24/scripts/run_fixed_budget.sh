@@ -30,7 +30,7 @@ CLAUDE_OAUTH_TOKEN_FILE="${CLAUDE_OAUTH_TOKEN_FILE:-}"
 # The Claude Code runtime a claude-code run mounts: the version
 # sforge/harness/agent/claude_local.py binds (CLAUDE_RUNTIME_VERSION) and the
 # launch/common.sh CLAUDE_CODE_VERSION_PIN.
-CLAUDE_CODE_VERSION="2.1.287"
+CLAUDE_CODE_VERSION="2.1.325"
 # The nonce source is a Judge-only input (judge/private/nonce_source.txt, else the
 # asset-root copy from assets/fetch.sh: default_nonce_source in lib.sh);
 # SFORGE_KVBENCH_NONCE_SOURCE only overrides it.

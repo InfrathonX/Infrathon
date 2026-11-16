@@ -635,7 +635,7 @@ CodexAgent.install_cmds = [
 # npm.  The launcher always mounts the pinned runtime, so the offline probe
 # below (with the same budget injection) is what actually runs.
 ClaudeCodeAgent.install_cmds = [
-    "claude --version | grep -F 2.1.287",
+    "claude --version | grep -F 2.1.325",
     run_budget_install_command(),
 ]
 

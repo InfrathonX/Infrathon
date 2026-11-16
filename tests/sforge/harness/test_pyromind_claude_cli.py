@@ -25,10 +25,10 @@ from sforge.harness import submit_wait
 
 # the sibling agent-runtime store of this checkout (launch/build-agent-runtime.sh), unless named
 RUNTIME = Path(os.environ.get("SFORGE_TEST_CLAUDE_RUNTIME",
-    Path(__file__).resolve().parents[3].parent / "agent_runtimes/claude-code-2.1.287"))
+    Path(__file__).resolve().parents[3].parent / "agent_runtimes/claude-code-2.1.325"))
 
 
-@pytest.mark.skipif(not (RUNTIME / "bin/claude").exists(), reason="Pinned Claude 2.1.287 runtime unavailable")
+@pytest.mark.skipif(not (RUNTIME / "bin/claude").exists(), reason="Pinned Claude 2.1.325 runtime unavailable")
 def test_real_probe_stream_is_parsed_by_worker_preflight_with_exact_model(tmp_path, monkeypatch):
     """Exercise probe=True, which differs from a normal CLI tool round trip.
 
@@ -133,7 +133,7 @@ def test_real_probe_stream_is_parsed_by_worker_preflight_with_exact_model(tmp_pa
                 stdout=json.dumps({**final, **change}))})
 
 
-@pytest.mark.skipif(not (RUNTIME / "bin/claude").exists(), reason="Pinned Claude 2.1.287 runtime unavailable")
+@pytest.mark.skipif(not (RUNTIME / "bin/claude").exists(), reason="Pinned Claude 2.1.325 runtime unavailable")
 def test_real_cli_failed_tool_then_synchronous_submit(tmp_path, monkeypatch):
     engine, adapter = tmp_path / "engine.py", tmp_path / "claude-hook.py"
     engine.write_text(submit_wait.generate_submit_wait_hook_script())

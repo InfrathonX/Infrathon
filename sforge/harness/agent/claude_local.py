@@ -39,7 +39,7 @@ from sforge.harness.submit_wait import (
 )
 
 
-CLAUDE_RUNTIME_VERSION = "2.1.287"
+CLAUDE_RUNTIME_VERSION = "2.1.325"
 TOKEN_MODE = "claude-oauth-token"
 TOKEN_PATH = "/home/agent/.config/sforge/claude-oauth.token"
 CLI_WRAPPER = "/opt/sforge/local-claude.py"

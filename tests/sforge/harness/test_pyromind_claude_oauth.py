@@ -27,7 +27,7 @@ def cache(access="oauth-access-original", refresh="oauth-refresh-original", expi
 @pytest.fixture
 def fixture(tmp_path, monkeypatch):
     import sforge.harness.agent_runtime as runtime_module
-    runtime = SimpleNamespace(agent="claude-code", cli="claude", version="2.1.287",
+    runtime = SimpleNamespace(agent="claude-code", cli="claude", version="2.1.325",
                               root=tmp_path / "runtime")
     monkeypatch.setattr(runtime_module, "load_agent_runtime", lambda _: runtime)
     native = tmp_path / "credentials.json"
@@ -50,7 +50,7 @@ def test_common_loader_keeps_native_cache_and_uses_official_oauth(fixture):
     model = AUTH.load_model_config(fixture.config(CLAUDE_AUTH_JSON_PATH=fixture.native))
     credentials = AUTH.load_credentials(model)
     assert model["AUTH_MODE"] == credentials.mode == "claude-oauth"
-    assert model["runtime_version"] == "2.1.287" and model["REASONING_EFFORT"] == "max"
+    assert model["runtime_version"] == "2.1.325" and model["REASONING_EFFORT"] == "max"
     assert credentials.payload == before == fixture.native.read_bytes()
     assert credentials.secrets == {"oauth-access-original", "oauth-refresh-original"}
     assert all(secret not in repr(credentials) for secret in credentials.secrets)

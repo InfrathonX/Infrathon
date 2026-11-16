@@ -14,7 +14,7 @@ import pytest
 
 ROOT = Path(__file__).resolve().parents[1]
 LAUNCHER = ROOT / "scripts" / "run_fixed_budget.sh"
-CLAUDE_VERSION = "2.1.287"
+CLAUDE_VERSION = "2.1.325"
 
 
 def _executable(path: Path, body: str) -> None:
@@ -76,7 +76,7 @@ def launch(tmp_path: Path):
         'printf "%s" "${CURL_CODE:-000}"\nexit "${CURL_RC:-7}"\n',
     )
     _executable(bin_dir / "sg", 'printf "sg %s\\n" "$*" >> "$EVENT_LOG"\nexit 97\n')
-    codex_runtime = _runtime(tmp_path / "codex-runtime", "codex", "0.159.3")
+    codex_runtime = _runtime(tmp_path / "codex-runtime", "codex", "0.169.0")
     claude_runtime = _runtime(tmp_path / "claude-runtime", "claude-code", CLAUDE_VERSION)
     codex_auth = _private(tmp_path / "auth.json", "{}\n")
     claude_token = _private(tmp_path / "claude-token")
@@ -105,7 +105,7 @@ def launch(tmp_path: Path):
             env.update(CLAUDE_OAUTH_TOKEN_FILE=str(claude_token),
                        SFORGE_AGENT_RUNTIME_DIR=str(claude_runtime))
         else:
-            env.update(CODEX_AUTH_JSON_PATH=str(codex_auth), CODEX_CLI_VERSION="0.159.3",
+            env.update(CODEX_AUTH_JSON_PATH=str(codex_auth), CODEX_CLI_VERSION="0.169.0",
                        SFORGE_AGENT_RUNTIME_DIR=str(codex_runtime))
         env.update(overrides)
         env = {key: value for key, value in env.items() if value != "<unset>"}
@@ -215,7 +215,7 @@ def test_codex_path_is_unchanged(launch) -> None:
         (launch.paths["tmp"] / "logs/runs/kvbench-qwen36-swe192-v24-example-model-max-6h-codex"
          / "completion.json").read_text(encoding="utf-8")
     )
-    assert completion["provenance"]["codex_cli_version"] == "0.159.3"
+    assert completion["provenance"]["codex_cli_version"] == "0.169.0"
 
     source = LAUNCHER.read_text(encoding="utf-8")
     for fragment in (

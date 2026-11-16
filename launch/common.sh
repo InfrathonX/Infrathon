@@ -9,10 +9,10 @@
 # /opt/agent-runtime, so bumping this needs no image rebuild and no task edit
 # (launch/bump-codex-version.sh). A config file or the environment may pick a
 # different CODEX_CLI_VERSION + SFORGE_AGENT_RUNTIME_DIR pair per run.
-CODEX_CLI_VERSION_PIN="0.159.3"
+CODEX_CLI_VERSION_PIN="0.169.0"
 # Claude Code runtime for launchers that accept --agent claude-code
 # (../agent_runtimes/claude-code-<pin>, launch/build-agent-runtime.sh).
-CLAUDE_CODE_VERSION_PIN="2.1.287"
+CLAUDE_CODE_VERSION_PIN="2.1.325"
 
 launch_die() {
   echo "ERROR: $*" >&2
