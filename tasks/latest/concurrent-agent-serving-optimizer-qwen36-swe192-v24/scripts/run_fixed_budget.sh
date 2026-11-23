@@ -27,6 +27,13 @@ CODEX_WEB_SEARCH_MODE="${CODEX_WEB_SEARCH_MODE:-live}"
 JUDGE_PORT="${JUDGE_PORT:-18188}"
 CODEX_AUTH_JSON_PATH="${CODEX_AUTH_JSON_PATH:-}"
 CLAUDE_OAUTH_TOKEN_FILE="${CLAUDE_OAUTH_TOKEN_FILE:-}"
+# Codex may instead use an operator-hosted OpenAI-compatible endpoint: set
+# MODEL_API_BASE_URL (http://HOST:PORT[/path]) and a mode-0600 MODEL_API_KEY_FILE.
+# The sidecar relays raw TCP from MODEL_FORWARD_PORT to that one endpoint.
+MODEL_API_BASE_URL="${MODEL_API_BASE_URL:-}"
+MODEL_API_KEY_FILE="${MODEL_API_KEY_FILE:-}"
+MODEL_FORWARD_PORT=3131
+model_api_host=""; model_api_port=""; model_api_path=""
 # The Claude Code runtime a claude-code run mounts: the version
 # sforge/harness/agent/claude_local.py binds (CLAUDE_RUNTIME_VERSION) and the
 # launch/common.sh CLAUDE_CODE_VERSION_PIN.
@@ -40,8 +47,16 @@ HIDDEN_BASELINE_PATH="${KVBENCH_HIDDEN_BASELINE_PATH:-}"
 PUBLIC_BASELINE_PATH="${KVBENCH_PUBLIC_BASELINE_PATH:-}"
 case "${AGENT}" in
   codex)
-    [[ -n "${CODEX_AUTH_JSON_PATH}" ]] \
-      || die "CODEX_AUTH_JSON_PATH must point to a host-only auth.json file"
+    if [[ -n "${MODEL_API_BASE_URL}" ]]; then
+      [[ "${MODEL_API_BASE_URL}" =~ ^http://([^/:[:space:]]+):([0-9]+)(/.*)?$ ]] \
+        || die "MODEL_API_BASE_URL must be http://HOST:PORT[/path] (the sidecar relays raw TCP)"
+      model_api_host="${BASH_REMATCH[1]}"; model_api_port="${BASH_REMATCH[2]}"
+      model_api_path="${BASH_REMATCH[3]:-}"
+      [[ -n "${MODEL_API_KEY_FILE}" ]] || die "set MODEL_API_KEY_FILE with MODEL_API_BASE_URL"
+    else
+      [[ -n "${CODEX_AUTH_JSON_PATH}" ]] \
+        || die "CODEX_AUTH_JSON_PATH must point to a host-only auth.json file"
+    fi
     ;;
   claude-code)
     [[ -n "${CLAUDE_OAUTH_TOKEN_FILE}" ]] \
@@ -503,6 +518,8 @@ if [[ "${AGENT}" == claude-code ]]; then
     || die "Claude OAuth token file must have mode 600"
   [[ "$(stat -c '%u' "${CLAUDE_OAUTH_TOKEN_FILE}")" == "$(id -u)" ]] \
     || die "Claude OAuth token file must be owned by the launching user"
+elif [[ -n "${MODEL_API_BASE_URL}" ]]; then
+  assert_private_auth_file "${MODEL_API_KEY_FILE}"
 else
   assert_private_auth_file "${CODEX_AUTH_JSON_PATH}"
 fi
@@ -668,6 +685,7 @@ docker run --detach --rm \
   --judge-forward-port "${JUDGE_PORT}" \
   --upstream-proxy-host "${docker_bridge_gateway}" \
   --upstream-proxy-port "${DOCKER_PROXY_PORT}" \
+  ${model_api_host:+--model-forward "${MODEL_FORWARD_PORT}:${model_api_host}:${model_api_port}"} \
   ${proxy_egress_args[@]+"${proxy_egress_args[@]}"} >/dev/null
 proxy_bridge_ip="$(
   docker inspect "${proxy_name}" \
@@ -722,6 +740,13 @@ if docker run --rm --network "${isolated_network}" \
     --connect-timeout 2 --max-time 4 -fsS https://example.com >/dev/null 2>&1; then
   die "Work network unexpectedly has direct public egress"
 fi
+if [[ -n "${model_api_host}" ]]; then
+  docker run --rm --network "${isolated_network}" \
+    --env NVIDIA_VISIBLE_DEVICES=void --entrypoint curl "${WORK_IMAGE}" \
+    --noproxy '*' --connect-timeout 5 --max-time 10 -sS -o /dev/null \
+    "http://${proxy_ip}:${MODEL_FORWARD_PORT}${model_api_path}/models" \
+    || die "the model API relay ${MODEL_API_BASE_URL} is unreachable through the sidecar"
+fi
 # CONNECT policy: AUTHORITY EXPECTED-STATUS pairs. Public egress mode must
 # tunnel a public host and still refuse non-public destinations (the sidecar's
 # own loopback, the Docker bridge gateway and its host proxy bridge port, the
@@ -763,7 +788,7 @@ sidecar_api_code="$(
 )" || die "restricted Work proxy cannot reach the model API"
 [[ "${sidecar_api_code}" =~ ^[234][0-9][0-9]$ ]] \
   || die "restricted Work proxy model API preflight returned ${sidecar_api_code:-000}"
-if [[ "${AGENT}" == codex ]]; then
+if [[ "${AGENT}" == codex && -z "${model_api_host}" ]]; then
   sidecar_chatgpt_code="$(
     docker run --rm --network "${isolated_network}" \
       --env NVIDIA_VISIBLE_DEVICES=void --entrypoint curl "${WORK_IMAGE}" \
@@ -807,7 +832,17 @@ if [[ "${AGENT}" == claude-code ]]; then
   export MLSYSFORGE_AGENT_MODEL="${MODEL}" MLSYSFORGE_AGENT_EFFORT="${REASONING_EFFORT}"
   export MLSYSFORGE_AGENT_BUDGET_SECONDS="${TASK_TIMEOUT}" MLSYSFORGE_RUN_LOG_ROOT="${RUN_LOG_ROOT}"
 else
-  export SFORGE_CODEX_AUTH_JSON_PATH="${CODEX_AUTH_JSON_PATH}"
+  if [[ -n "${model_api_host}" ]]; then
+    # Endpoint mode: Codex talks to the sidecar relay with an API key; no
+    # ChatGPT auth.json is installed into Work.
+    unset SFORGE_CODEX_AUTH_JSON_PATH
+    SFORGE_AGENT_API_KEY="$(tr -d '[:space:]' <"${MODEL_API_KEY_FILE}")"
+    [[ -n "${SFORGE_AGENT_API_KEY}" ]] || die "MODEL_API_KEY_FILE is empty"
+    export SFORGE_AGENT_API_KEY
+    export SFORGE_AGENT_API_BASE_URL="http://${proxy_ip}:${MODEL_FORWARD_PORT}${model_api_path}"
+  else
+    export SFORGE_CODEX_AUTH_JSON_PATH="${CODEX_AUTH_JSON_PATH}"
+  fi
   export SFORGE_CODEX_REASONING_EFFORT="${REASONING_EFFORT}"
   export SFORGE_CODEX_CLI_VERSION="${CODEX_CLI_VERSION}"
 fi

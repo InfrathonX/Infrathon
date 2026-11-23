@@ -253,8 +253,9 @@ def test_sforge_run_and_manifest_carry_the_selected_agent() -> None:
         'export MLSYSFORGE_AGENT="${AGENT}"',
     ):
         assert fragment in exports
-    # The Codex-only sidecar check runs only for Codex; Claude Code needs public egress.
-    assert 'if [[ "${AGENT}" == codex ]]; then\n  sidecar_chatgpt_code="$(' in source
+    # The ChatGPT sidecar check runs only for Codex with a ChatGPT login; Claude Code
+    # needs public egress, and a Codex endpoint run reaches its model through the relay.
+    assert 'if [[ "${AGENT}" == codex && -z "${model_api_host}" ]]; then\n  sidecar_chatgpt_code="$(' in source
     assert "claude-code needs the task JSON internet: true" in source
 
 

@@ -439,8 +439,24 @@ async def serve(args: argparse.Namespace) -> None:
     loop = asyncio.get_running_loop()
     for signal_number in (signal.SIGINT, signal.SIGTERM):
         loop.add_signal_handler(signal_number, stop.set)
+    if args.model_forward:
+        listen_port, model_host, model_port = parse_model_forward(args.model_forward)
+        # Same raw relay as the Judge route, pointed at the operator's model
+        # API; it is not a general egress and accepts no other destination.
+        await asyncio.start_server(
+            lambda reader, writer: handle_judge_forward(
+                reader, writer, model_host, model_port
+            ),
+            args.listen_host,
+            listen_port,
+        )
     async with connect_server, judge_server:
         await stop.wait()
+
+
+def parse_model_forward(value: str) -> tuple[int, str, int]:
+    listen_port, host, port = value.rsplit(":", 2)
+    return int(listen_port), host, int(port)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -458,6 +474,14 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         help=(
             "also tunnel to any public host on ports 80/443 after vetting every "
             "resolved address (default: model-host allowlist only)"
+        ),
+    )
+    parser.add_argument(
+        "--model-forward",
+        default="",
+        help=(
+            "LISTEN_PORT:HOST:PORT - raw TCP relay from LISTEN_PORT on this proxy "
+            "to one fixed OpenAI-compatible model API the operator hosts"
         ),
     )
     args = parser.parse_args(argv)

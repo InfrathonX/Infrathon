@@ -129,6 +129,8 @@ ensure_docker_group() {
   local name
   for name in \
     CODEX_AUTH_JSON_PATH \
+    MODEL_API_BASE_URL \
+    MODEL_API_KEY_FILE \
     MODEL \
     REASONING_EFFORT \
     CODEX_CLI_VERSION \
