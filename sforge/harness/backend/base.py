@@ -319,6 +319,23 @@ class ContainerBackend(abc.ABC):
             f"{self.backend_name} does not support transient container handoff"
         )
 
+    def reclaim_accelerator_from_paused_handoff(
+        self,
+        handle: ContainerHandle,
+        host_pids: tuple[int, ...],
+    ) -> dict[str, object]:
+        """Kill exactly the given host PIDs if all belong to the paused container.
+
+        A paused (frozen) Work process can keep a CUDA context, so pausing
+        alone does not free the accelerator.  Implementations must first prove
+        that every PID belongs to this exact, strictly paused container and
+        refuse the whole request otherwise.  Nothing outside the container is
+        ever signalled.
+        """
+        raise NotImplementedError(
+            f"{self.backend_name} does not support accelerator reclaim"
+        )
+
     def destroy_container_for_handoff(
         self,
         handle: ContainerHandle,

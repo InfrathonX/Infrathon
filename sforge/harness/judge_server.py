@@ -2655,8 +2655,9 @@ class JudgeState:
                         "Judge worker did not find active or deadline-paused Work"
                     )
             try:
-                idle = self.accelerator_observer.attest_idle(
-                    session.allocation,
+                idle = self._attest_idle_reclaiming_paused_work(
+                    session,
+                    backend,
                     phase="after_work_pause_before_judge",
                 )
             except AcceleratorBusyError as exc:
@@ -2682,8 +2683,9 @@ class JudgeState:
             # Strict Judge destruction is performed by judge_submission's
             # lifecycle-aware finally block before this second observation.
             try:
-                post_idle = self.accelerator_observer.attest_idle(
-                    session.allocation,
+                post_idle = self._attest_idle_reclaiming_paused_work(
+                    session,
+                    backend,
                     phase="after_judge_destroy_before_work_resume",
                 )
             except AcceleratorBusyError as exc:
@@ -2722,6 +2724,57 @@ class JudgeState:
             except Exception:
                 logger.exception("Failed to persist handoff failure fence")
             raise
+
+    def _attest_idle_reclaiming_paused_work(
+        self,
+        session: HandoffSession,
+        backend: ContainerBackend,
+        *,
+        phase: str,
+    ):
+        """Attest idle; on busy, reclaim GPU processes owned by paused Work.
+
+        Pausing Work freezes its processes but does not release their CUDA
+        contexts, so a test or server the agent left running would otherwise
+        fence the whole run.  When every busy PID provably belongs to the
+        paused Work container, those processes are killed and the device is
+        observed again.  Any PID outside that container, a backend without
+        reclaim support, or a second busy observation keeps the original
+        fail-closed behaviour.
+        """
+        try:
+            return self.accelerator_observer.attest_idle(
+                session.allocation,
+                phase=phase,
+            )
+        except AcceleratorBusyError as busy:
+            if not getattr(self.config, "accelerator_reclaim_paused_work", True) or not busy.pids:
+                raise
+            try:
+                evidence = backend.reclaim_accelerator_from_paused_handoff(
+                    session.work_handle,
+                    busy.pids,
+                )
+            except NotImplementedError:
+                raise busy
+            except Exception as exc:
+                logger.warning(
+                    "accelerator reclaim refused during %s for run %s: %s",
+                    phase,
+                    session.lease.binding.identity.run_id,
+                    exc,
+                )
+                raise busy from exc
+            logger.warning(
+                "killed paused Work GPU processes during %s for run %s: %s",
+                phase,
+                session.lease.binding.identity.run_id,
+                evidence,
+            )
+            return self.accelerator_observer.attest_idle(
+                session.allocation,
+                phase=phase + "_after_reclaim",
+            )
 
     def _recover_attributed_busy(
         self,

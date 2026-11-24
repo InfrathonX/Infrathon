@@ -154,6 +154,11 @@ class SForgeConfig:
     accelerator_allocation_key: str | None = None
     accelerator_observer: str | None = None
     accelerator_idle_grace_seconds: float = 5.0
+    # When the GPU stays busy after Work is paused for a Judge handoff, kill
+    # the remaining GPU processes if (and only if) every one of them belongs
+    # to the paused Work container, then re-attest.  Disable with
+    # SFORGE_ACCELERATOR_RECLAIM_PAUSED_WORK=0 to fence instead.
+    accelerator_reclaim_paused_work: bool = True
     trusted_lease_id: str | None = None
 
     # Git credentials (for private repos in setup_cmds)
@@ -295,6 +300,12 @@ def load_config(cli_overrides: dict | None = None) -> SForgeConfig:
     # SFORGE_CLAUDE_CACHE_OPT: truthy value enables cache optimization
     if os.environ.get("SFORGE_CLAUDE_CACHE_OPT", "").strip() not in ("", "0", "false", "no"):
         config.claude_cache_opt = True
+
+    reclaim_value = os.environ.get("SFORGE_ACCELERATOR_RECLAIM_PAUSED_WORK")
+    if reclaim_value is not None:
+        config.accelerator_reclaim_paused_work = _env_bool(
+            "SFORGE_ACCELERATOR_RECLAIM_PAUSED_WORK", reclaim_value
+        )
 
     handoff_value = os.environ.get("SFORGE_SINGLE_GPU_HANDOFF")
     if handoff_value is not None:

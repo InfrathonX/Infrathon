@@ -990,6 +990,132 @@ class DockerBackend(ContainerBackend):
         self._require_same_handle_pause_evidence(docker_handle, container_id)
         return self._verify_handoff_paused_state(container, container_id)
 
+    # Host procfs root; tests point this at a fake tree.
+    _PROC_ROOT = Path("/proc")
+    _RECLAIM_EXIT_TIMEOUT_SECONDS = 10.0
+
+    def _paused_container_pid_mapping(
+        self,
+        container_id: str,
+        host_pids: tuple[int, ...],
+    ) -> dict[int, int]:
+        """Map host PIDs to PIDs inside the container, or refuse.
+
+        Every PID must live in this container's cgroup and inside a nested PID
+        namespace; a single unattributed PID refuses the whole request.
+        """
+        mapping: dict[int, int] = {}
+        owner = re.compile(
+            r"(?:^|[/:-])docker[-/]" + re.escape(container_id) + r"(?:\.scope)?(?:/|$)"
+        )
+        for host_pid in host_pids:
+            if isinstance(host_pid, bool) or not isinstance(host_pid, int) or host_pid <= 1:
+                raise RuntimeError(f"refusing to reclaim invalid host PID {host_pid!r}")
+            proc = self._PROC_ROOT / str(host_pid)
+            try:
+                cgroup_lines = (proc / "cgroup").read_text().splitlines()
+                status_lines = (proc / "status").read_text().splitlines()
+            except OSError as exc:
+                raise RuntimeError(
+                    f"cannot attribute host PID {host_pid} to Work container "
+                    f"{container_id}: {exc}"
+                ) from exc
+            paths = [line.split(":", 2)[2] for line in cgroup_lines if line.count(":") >= 2]
+            if not paths or not all(owner.search(path) for path in paths):
+                raise RuntimeError(
+                    f"host PID {host_pid} does not belong to paused Work "
+                    f"container {container_id}"
+                )
+            nspid = [line for line in status_lines if line.startswith("NSpid:")]
+            values = nspid[0].split()[1:] if nspid else []
+            if len(values) < 2 or values[0] != str(host_pid):
+                raise RuntimeError(
+                    f"host PID {host_pid} is not inside a container PID namespace"
+                )
+            container_pid = int(values[-1])
+            if container_pid <= 1:
+                # The namespace init ignores SIGKILL sent from inside its own
+                # namespace, and killing it would tear down Work anyway.
+                raise RuntimeError(
+                    f"host PID {host_pid} is the Work container's init process"
+                )
+            mapping[host_pid] = container_pid
+        return mapping
+
+    def _host_pid_has_exited(self, host_pid: int) -> bool:
+        try:
+            stat_text = (self._PROC_ROOT / str(host_pid) / "stat").read_text()
+        except OSError:
+            return True
+        # Field 3 follows the parenthesised command name, which may itself
+        # contain spaces or parentheses.
+        state = stat_text.rsplit(")", 1)[-1].split()[:1]
+        return state in (["Z"], ["X"])
+
+    def reclaim_accelerator_from_paused_handoff(
+        self,
+        handle: ContainerHandle,
+        host_pids: tuple[int, ...],
+    ) -> dict[str, object]:
+        """SIGKILL leftover GPU processes of the strictly paused Work container.
+
+        Frozen tasks still receive SIGKILL under the cgroup freezer, and a
+        killed process drops its CUDA context even while its parent stays
+        frozen.  The signal is sent from a short-lived helper that joins only
+        this container's PID namespace, so it cannot reach any other process.
+        """
+        container = self._raw(handle)
+        docker_handle = handle
+        assert isinstance(docker_handle, DockerContainerHandle)
+        self._ensure_transient_handoff_allowed(docker_handle)
+        container_id = self._handoff_container_id(container)
+        self._require_same_handle_pause_evidence(docker_handle, container_id)
+        self._verify_handoff_paused_state(container, container_id)
+        pids = tuple(sorted({int(pid) for pid in host_pids}))
+        if not pids:
+            raise RuntimeError("no host PIDs to reclaim")
+        mapping = self._paused_container_pid_mapping(container_id, pids)
+        image_id = (container.attrs or {}).get("Image")
+        if not isinstance(image_id, str) or not image_id:
+            raise RuntimeError(f"Work container {container_id} has no image id")
+        try:
+            self._client.containers.run(
+                image_id,
+                entrypoint=["/bin/sh", "-c", 'kill -9 "$@" 2>/dev/null; exit 0', "sforge-reclaim"],
+                command=[str(mapping[pid]) for pid in pids],
+                pid_mode=f"container:{container_id}",
+                network_mode="none",
+                user="0:0",
+                cap_drop=["ALL"],
+                cap_add=["KILL"],
+                security_opt=["no-new-privileges"],
+                environment={"NVIDIA_VISIBLE_DEVICES": "void"},
+                labels={"io.sforge.role": "accelerator-reclaim", "io.sforge.target": container_id},
+                remove=True,
+                detach=False,
+            )
+        except docker.errors.DockerException as exc:
+            raise RuntimeError(
+                f"accelerator reclaim helper failed for Work container {container_id}"
+            ) from exc
+        deadline = time.monotonic() + self._RECLAIM_EXIT_TIMEOUT_SECONDS
+        remaining = [pid for pid in pids if not self._host_pid_has_exited(pid)]
+        while remaining and time.monotonic() < deadline:
+            time.sleep(0.1)
+            remaining = [pid for pid in remaining if not self._host_pid_has_exited(pid)]
+        if remaining:
+            raise RuntimeError(
+                f"reclaimed Work PIDs did not exit: {remaining}"
+            )
+        # The container itself must still be the same paused container.
+        self._verify_handoff_paused_state(container, container_id)
+        return {
+            "container_id": container_id,
+            "killed_host_pids": list(pids),
+            "killed_container_pids": [mapping[pid] for pid in pids],
+            "mechanism": "docker_pid_namespace_sigkill",
+        }
+
     def unpause_container_after_handoff(
         self,
         handle: ContainerHandle,

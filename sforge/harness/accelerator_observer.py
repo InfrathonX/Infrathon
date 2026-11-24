@@ -29,9 +29,19 @@ class AcceleratorBusyError(AcceleratorAttestationError):
     always reports unknown ownership (false).
     """
 
-    def __init__(self, message: str, *, recoverable: bool = False) -> None:
+    def __init__(
+        self,
+        message: str,
+        *,
+        recoverable: bool = False,
+        pids: tuple[int, ...] = (),
+    ) -> None:
         super().__init__(message)
         self.recoverable = recoverable
+        # Host PIDs that held a context on any allocated device in the final
+        # busy sample.  Ownership is unknown here; a caller may hand them to a
+        # backend that can prove they belong to the paused Work container.
+        self.pids = tuple(sorted({int(pid) for pid in pids}))
 
 
 @dataclass(frozen=True)
@@ -139,11 +149,14 @@ class NvmlAcceleratorObserver:
             consecutive_empty = 0
             while consecutive_empty < self._sample_count:
                 busy_observation: tuple[str, tuple[int, ...], tuple[int, ...]] | None = None
+                busy_pids: set[int] = set()
                 for device_id in allocation.device_ids:
                     compute, graphics = self._sample_device(library, device_id)
                     if compute or graphics:
-                        busy_observation = (device_id, compute, graphics)
-                        break
+                        if busy_observation is None:
+                            busy_observation = (device_id, compute, graphics)
+                        busy_pids.update(compute)
+                        busy_pids.update(graphics)
                 if busy_observation is None:
                     consecutive_empty += 1
                 else:
@@ -157,6 +170,7 @@ class NvmlAcceleratorObserver:
                             f"compute_pids={compute}, graphics_pids={graphics}); "
                             "Docker pause does not release CUDA contexts",
                             recoverable=False,
+                            pids=tuple(busy_pids),
                         )
                 if consecutive_empty < self._sample_count:
                     remaining = deadline - time.monotonic()
