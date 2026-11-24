@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "task_directory": "concurrent-agent-serving-optimizer-qwen36-swe192-v24",
-  "note": "The Judge-only nonce source (two lines: hidden, public workload nonce; never enters an image) is read by the host launcher and baseline runner (SFORGE_KVBENCH_NONCE_SOURCE). Qwen/Qwen3.6-27B@6a9e13bd (Hugging Face) is loaded by the external vLLM backend (KVBENCH_MODEL_PATH). The 192 public swebench/sweb.eval.x86_64.* images are not assets: scripts/stage_swebench_corpus.py pulls them by digest.",
+  "note": "The Judge-only nonce source (two lines: hidden, public workload nonce; never enters an image) is read by the host launcher and baseline runner (SFORGE_KVBENCH_NONCE_SOURCE). The hidden controller profile is Judge-only too and is added to the nested controller image at build time. Qwen/Qwen3.6-27B@6a9e13bd (Hugging Face) is loaded by the external vLLM backend (KVBENCH_MODEL_PATH). The 192 public swebench/sweb.eval.x86_64.* images are not assets: scripts/stage_swebench_corpus.py pulls them by digest.",
   "assets": [
     {
       "path": "judge/nonce_source.txt",
@@ -9,6 +9,16 @@
       "size": 130,
       "consumer": "judge",
       "description": "hidden and public workload nonces (commitments in scripts/preflight.py)",
+      "source": {
+        "kind": "infrathon-dataset"
+      }
+    },
+    {
+      "path": "judge/bench_controller_hidden_profiles.json",
+      "sha256": "3bcf8c176a817d9adea59b0f289ad2258ef755371f2ad38af36aa3b1f8b7de65",
+      "size": 1024,
+      "consumer": "judge",
+      "description": "hidden workload profile of the bench controller (scripts/build_images.sh copies it into the nested controller image as profiles/hidden.json)",
       "source": {
         "kind": "infrathon-dataset"
       }

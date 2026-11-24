@@ -53,12 +53,21 @@ docker build \
   "${NESTED_ENVIRONMENT_ROOT}" \
   2>&1 | tee "${LOGS_DIR}/build/model-api-image.log"
 
+# The hidden profile is Judge-only (assets/manifest.json): it joins the
+# controller build context here and is never part of the repository.
+hidden_profiles="$(default_hidden_profiles)"
+[[ -f "${hidden_profiles}" && ! -L "${hidden_profiles}" ]] \
+  || die "missing hidden controller profile ${hidden_profiles}; run assets/fetch.sh"
+controller_context="$(mktemp -d)"
+cp -a "${NESTED_ENVIRONMENT_ROOT}/bench-controller" "${controller_context}/bench-controller"
+install -m 0644 "${hidden_profiles}" "${controller_context}/bench-controller/profiles/hidden.json"
 echo "Building ${CONTROLLER_IMAGE}"
 docker build \
   --tag "${CONTROLLER_IMAGE}" \
-  --file "${CONTROLLER_DOCKERFILE}" \
-  "${NESTED_ENVIRONMENT_ROOT}/bench-controller" \
+  --file "${controller_context}/bench-controller/Dockerfile" \
+  "${controller_context}/bench-controller" \
   2>&1 | tee "${LOGS_DIR}/build/public-controller-image.log"
+rm -rf -- "${controller_context}"
 
 echo "Building ${MAIN_IMAGE}"
 docker build \

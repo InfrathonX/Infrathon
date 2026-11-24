@@ -99,7 +99,7 @@ Direct evidence selected for this run:
 - `paired_valid_step_ratio`: valid-step ratio at least
   max(0.90, Direct's ratio - 0.06);
 - `candidate_p99_gateway_wait`: p99 gateway wait at most 0.4 times the scored
-  window (720 s for the 1800-second hidden window);
+  window;
 - `paired_backend_work`: backend tokens per valid step at least 0.90 times
   Direct's.
 
@@ -111,9 +111,9 @@ GPU utilization, raw requests per second, progress by only a favored subset of
 workflows, and code or architecture complexity are not the objective.
 
 Judge runs a private fixed-window Candidate workload against the same fixed
-model-serving system for every submission. The hidden workload has 192 distinct
-SWE-bench Lite workflows, concurrency 192, a concealed committed order, 300
-seconds of warmup, and an exact 1800-second scored window. Candidate is compared
+model-serving system for every submission. Its workflows, order and timing
+(including any unscored warm-up and the length of the scored window) are not
+disclosed and need not match the public profile. Candidate is compared
 diagnostically with the Direct evidence selected for this run under the same
 stable serving contract and committed hidden workload. Its observed rate is
 reported by Judge; do not assume a cross-run number or model-server boot. This
@@ -323,10 +323,10 @@ kvbench doctor
 ```
 
 The public profile `public-swe192-distinct` runs 192 distinct SWE-Bench Lite
-MiniSWE workflows at concurrency 192, at most 100 agent steps each. The first
-300 seconds are an unscored steady-state warmup; only the following exact
-600-second scored window is measured. Infrastructure/protocol setup is outside those
-two intervals.
+MiniSWE workflows at concurrency 192, at most 100 agent steps each. An unscored
+warm-up is followed by a fixed scored window, and only that window is measured.
+The public timing is a local development setting, not the hidden one.
+Infrastructure/protocol setup is outside both intervals.
 
 Record the frozen public Direct anchor, then evaluate the current snapshot:
 

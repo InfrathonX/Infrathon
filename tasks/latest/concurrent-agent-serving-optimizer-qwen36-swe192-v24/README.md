@@ -61,10 +61,10 @@ aggregated over all workflows inside a fixed scored window. Higher is better. Se
 `valid_then_score`: any valid submission beats any invalid one, and valid submissions rank
 by raw rate.
 
-The hidden evaluation runs 192 distinct SWE-bench Lite workflows at concurrency 192, at
-most 100 steps each, in a concealed nonce-derived order, with 300 s of unscored warm-up
-followed by an exact 1800 s scored window. One hidden evaluation takes about 35-45
-minutes. Steps completed during warm-up or after the window do not count.
+The hidden evaluation runs a private SWE-bench Lite workload in a concealed nonce-derived
+order, with an unscored warm-up followed by a fixed scored window. Its size and timing are
+not published and need not match the public profile. One hidden evaluation takes about
+35-45 minutes. Steps completed during warm-up or after the window do not count.
 
 An evaluation can end as `infrastructure_error` within its first minutes: in the unscored
 warm-up the benchmark needs three well-formed agent steps from the model within six
@@ -80,7 +80,7 @@ A submission is valid only if every hard gate passes:
 | `backend_one_to_one_audit` | strict one-to-one request audit, reconciled at the window cutoff |
 | `paired_request_success` | request success rate >= max(0.98, Direct - 0.02) |
 | `paired_valid_step_ratio` | valid-step ratio >= max(0.90, Direct - 0.06) |
-| `candidate_p99_gateway_wait` | p99 time a request waits in the gateway <= 0.4 x scored window (720 s for hidden) |
+| `candidate_p99_gateway_wait` | p99 time a request waits in the gateway <= 0.4 x scored window |
 | `paired_backend_work` | backend tokens per valid step >= 0.90 x Direct |
 | `throughput_accounting` | the reported rate is consistent and positive |
 
@@ -95,7 +95,7 @@ order.
 Submissions:
 
 - Public: `kvbench run --mode candidate --profile public-swe192-distinct` runs the same
-  192-workflow, concurrency-192 workload with 300 s warm-up and a 600 s scored window.
+  192-workflow, concurrency-192 workload with its own public warm-up and scored window.
   Public runs are unlimited, one at a time, advisory, and never count toward selection.
 - Hidden: `sforge-submit --details`. Manual submissions are unlimited, with a 300 s
   cooldown between successful ones; evaluations are serialized. Automatic background
@@ -191,9 +191,9 @@ layers) plus the model (55.6 GB) and the vLLM image (about 30 GB).
    `--baseline-only` and `--candidate-dir oracle/reference_gateway` (its tree digest
    must match the one pinned in the runner):
    - hidden: `--suite hidden --profile hidden-pressure-192 --request-timeout-sec 6000`,
-     with `--workload-nonce` set to line 1 of the nonce file (300 s warm-up, 1800 s scored);
+     with `--workload-nonce` set to line 1 of the nonce file;
    - public: `--suite public --profile public-swe192-distinct --request-timeout-sec 3600`,
-     with line 2 of the nonce file (300 s warm-up, 600 s scored).
+     with line 2 of the nonce file.
 
    Each leg writes a new `--output` JSON (existing files are refused); export the two paths
    as `KVBENCH_HIDDEN_BASELINE_PATH` and `KVBENCH_PUBLIC_BASELINE_PATH`. The runner checks

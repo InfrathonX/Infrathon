@@ -40,6 +40,13 @@ default_nonce_source() {
   printf '%s\n' "${assets_root}/$(basename "${MIGRATION_ROOT}")/judge/nonce_source.txt"
 }
 
+# The Judge-only hidden controller profile, from the asset root like the nonce
+# source; KVBENCH_HIDDEN_PROFILES overrides it.
+default_hidden_profiles() {
+  local assets_root="${INFRATHON_ASSETS_ROOT:-${XDG_CACHE_HOME:-${HOME}/.cache}/infrathon/assets}"
+  printf '%s\n' "${KVBENCH_HIDDEN_PROFILES:-${assets_root}/$(basename "${MIGRATION_ROOT}")/judge/bench_controller_hidden_profiles.json}"
+}
+
 TASK_ID="concurrent_agent_serving_optimizer_qwen36_swe192_v24"
 BENCHMARK_NAME="kvbench_qwen36"
 WORK_IMAGE="${BENCHMARK_NAME}.work.${TASK_ID}:local"

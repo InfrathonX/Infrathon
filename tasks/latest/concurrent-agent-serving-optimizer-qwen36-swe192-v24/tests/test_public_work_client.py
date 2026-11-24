@@ -95,7 +95,7 @@ def test_agent_instructions_expose_real_public_workflow() -> None:
         "192 distinct SWE-Bench Lite",
         "concurrency 192",
         "100 agent steps",
-        "600-second scored window",
+        "fixed scored window",
         "KVBENCH_PUBLIC_DIRECT_RATE",
     ):
         assert required in instructions

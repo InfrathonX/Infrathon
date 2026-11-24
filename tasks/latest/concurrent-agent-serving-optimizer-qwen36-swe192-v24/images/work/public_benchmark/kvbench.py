@@ -501,8 +501,8 @@ def frozen_baseline_result() -> dict[str, Any]:
             "Frozen Direct public anchor: "
             f"{direct_rate:.3f} valid steps/min "
             f"({PUBLIC_WORKFLOWS} workflows, concurrency {PUBLIC_CONCURRENCY}, "
-            f"{PUBLIC_MEASUREMENT_WARMUP_SEC}s unscored warmup followed by a "
-            f"{PUBLIC_MEASUREMENT_WINDOW_SEC}s scored window)."
+            f"public unscored warmup followed by the public scored window; "
+            f"the hidden timing is not disclosed)."
         ),
     }
 
@@ -669,8 +669,8 @@ def doctor(config: ClientConfig) -> dict[str, Any]:
         "text": (
             "Public evaluation is ready: "
             f"{PUBLIC_WORKFLOWS} workflows at concurrency {PUBLIC_CONCURRENCY}, "
-            f"max {PUBLIC_MAX_STEPS} steps, fixed {PUBLIC_MEASUREMENT_WARMUP_SEC}s "
-            f"unscored warmup + {PUBLIC_MEASUREMENT_WINDOW_SEC}s scored window."
+            f"max {PUBLIC_MAX_STEPS} steps, public unscored warmup + public scored window "
+            f"(the hidden timing differs and is not disclosed)."
         ),
     }
 
